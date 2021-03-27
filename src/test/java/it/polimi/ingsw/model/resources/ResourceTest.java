@@ -27,7 +27,7 @@ public class ResourceTest {
     public void testEqualsOverride() {
         Resource r3 = new Stones(4);
 
-        assertTrue(r1.equals(r3));
-        assertFalse(r1.equals(r2));
+        assertEquals(r1, r3);
+        assertNotEquals(r1, r2);
     }
 }
