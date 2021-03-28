@@ -18,7 +18,6 @@ public class ResourceBox {
 
         }
         box.add(resource);
-        return;
     }
 
     public void removeResource(Resource resource) {
