@@ -2,8 +2,7 @@ package it.polimi.ingsw.model.resources;
 
 import java.util.Objects;
 
-public abstract class Resource
-{
+public abstract class Resource implements Cloneable {
     private int quantity;
     private final String name;
 
@@ -45,4 +44,8 @@ public abstract class Resource
                 '}';
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
