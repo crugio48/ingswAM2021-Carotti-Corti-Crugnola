@@ -3,19 +3,8 @@ import it.polimi.ingsw.model.resources.ResourceBox;
 
 
 public class IncreaseProductionEffect extends LeaderEffect{
-    private String productionInput;
 
-    public IncreaseProductionEffect(String productionInput) {
-        super("increaseProductionEffect");
-        this.productionInput = productionInput;
-
+    public IncreaseProductionEffect(String targetResource) {
+        super("increaseProductionEffect", targetResource);
     }
-
-    public String getProductionInput(){
-        final String productionInput = this.productionInput;
-        return productionInput;
-    }
-
-
-
 }

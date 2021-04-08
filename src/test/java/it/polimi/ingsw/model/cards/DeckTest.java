@@ -19,7 +19,7 @@ public class DeckTest {
         r.addResource(r1);
         r.addResource(r2);
         LeaderEffect le = new IncreaseProductionEffect("shields");
-        LeaderCard l = new LeaderCard(0, r, dcr, le, 6);
+        LeaderCard l = new LeaderCard(0, dcr, le, 6);
 
         deck.addCard(l);
         System.out.println(deck.toString());
@@ -32,7 +32,7 @@ public class DeckTest {
         r.addResource(r1);
         r.addResource(r2);
         LeaderEffect le = new IncreaseProductionEffect("shields");
-        LeaderCard l = new LeaderCard(0, r, dcr, le, 6);
+        LeaderCard l = new LeaderCard(0, dcr, le, 6);
 
         deck.addCard(l);
         assertFalse (deck.randomizeDeck()); //randomize deck with 1 card in it
@@ -50,7 +50,7 @@ public class DeckTest {
         r.addResource(r1);
         r.addResource(r2);
         LeaderEffect le = new IncreaseProductionEffect("shields");
-        LeaderCard l = new LeaderCard(0, r, dcr, le, 6);
+        LeaderCard l = new LeaderCard(0, dcr, le, 6);
 
         deck.addCard(l);
         deck.addCard(l);

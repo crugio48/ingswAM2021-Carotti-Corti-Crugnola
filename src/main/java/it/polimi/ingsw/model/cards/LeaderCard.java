@@ -9,9 +9,9 @@ public class LeaderCard extends Card {
     private LeaderEffect effect;
     private int victoryPoints;
 
-    public LeaderCard(int code, ResourceBox resourceRequirement, DevCardsRequirement cardsRequirement, LeaderEffect effect, int victoryPoints) {
+    public LeaderCard(int code, DevCardsRequirement cardsRequirement, LeaderEffect effect, int victoryPoints) {
         this.code = code;
-        this.resourceRequirement = resourceRequirement;
+        //this.resourceRequirement = resourceRequirement;
         this.cardsRequirement = cardsRequirement;
         this.effect = effect;
         this.victoryPoints = victoryPoints;
@@ -60,7 +60,7 @@ public class LeaderCard extends Card {
                     this.cardsRequirement.getGreenCardsRequired()  + ", " +
                     this.cardsRequirement.getYellowCardsRequired()  + ", " +
                     this.cardsRequirement.getPurpleCardsRequired()  +
-                ", effect=" + this.effect.getEffectType() +
+                ", effect=" + this.effect.getEffectName() +
                 ", victory Points = " + this.victoryPoints +
                 '}';
     }

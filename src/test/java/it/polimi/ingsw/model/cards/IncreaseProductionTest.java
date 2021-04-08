@@ -13,14 +13,14 @@ public class IncreaseProductionTest {
     public void testGetEffectType(){
         l = new IncreaseProductionEffect("shields");
 
-        assertSame("increaseProductionEffect", l.getEffectType() );
+        assertSame("increaseProductionEffect", l.getEffectName() );
 
     }
 
     @Test
     public void testGetResourceType(){
         l = new IncreaseProductionEffect("shields");
-        assertEquals("shields" , l.getProductionInput() );
+        assertEquals("shields" , l.getTargetResource() );
 
     }
 

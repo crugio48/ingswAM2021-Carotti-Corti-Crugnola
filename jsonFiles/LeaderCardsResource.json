@@ -1,0 +1,36 @@
+{
+  "cards" : [
+    {
+      "id": "1",
+      "effect": "increaseStorageEffect",
+      "target": "stones",
+      "required" : "coins",
+      "quantity": "5",
+      "victoryPoints": 3
+    },
+    {
+      "id": "2",
+      "effect": "increaseStorageEffect",
+      "target": "coins",
+      "required" : "shields",
+      "quantity": "5",
+      "victoryPoints": 3
+    },
+    {
+      "id": "3",
+      "effect": "increaseStorageEffect",
+      "target": "shields",
+      "required" : "servants",
+      "quantity": "5",
+      "victoryPoints": 3
+    },
+    {
+      "id": "4",
+      "effect": "increaseStorageEffect",
+      "target": "servants",
+      "required" : "stones",
+      "quantity": "5",
+      "victoryPoints": 3
+    }
+  ]
+}

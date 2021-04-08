@@ -9,15 +9,14 @@ import org.junit.jupiter.api.Test;
 public class ConvertWhiteMarbleMarketEffectTest {
     ResourceBox rb = new ResourceBox();
     Resource r = new Shields(1);
-    private LeaderEffect l;
 
 
     @Test
     public void testGetEffectType(){
         rb.addResource(r);
-        l = new ConvertWhiteMarbleMarketEffect("shields");
+        LeaderEffect l = new ConvertWhiteMarbleMarketEffect("shields");
 
-        assertSame("convertWhiteMarbleMarketEffect", l.getEffectType() );
+        assertSame("convertWhiteMarbleMarketEffect", l.getEffectName() );
 
     }
 
@@ -25,7 +24,7 @@ public class ConvertWhiteMarbleMarketEffectTest {
     public void testGetResourceType(){
         rb.addResource(r);
         ConvertWhiteMarbleMarketEffect c = new ConvertWhiteMarbleMarketEffect("shields");
-        assertEquals("shields" , c.getResourceType());
+        assertEquals("shields" , c.getTargetResource());
 
     }
 

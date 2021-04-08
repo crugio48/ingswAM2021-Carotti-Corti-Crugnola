@@ -1,0 +1,143 @@
+{
+  "cards" : [
+    {
+      "id": 5,
+      "effect": "discountDevelopmentCardEffect",
+      "target": "stones",
+      "greenCardsRequired" : 1,
+      "purpleCardsRequired": 0,
+      "yellowCardsRequired": 0,
+      "blueCardsRequired": 1,
+      "levelTwoRequired": false,
+      "victoryPoints": 2
+    },
+    {
+      "id": 6,
+      "effect": "discountDevelopmentCardEffect",
+      "target": "shields",
+      "greenCardsRequired" : 0,
+      "purpleCardsRequired": 1,
+      "yellowCardsRequired": 0,
+      "blueCardsRequired": 1,
+      "levelTwoRequired": false,
+      "victoryPoints": 2
+    },
+    {
+      "id": 7,
+      "effect": "discountDevelopmentCardEffect",
+      "target": "servants",
+      "greenCardsRequired" : 1,
+      "purpleCardsRequired": 0,
+      "yellowCardsRequired": 1,
+      "blueCardsRequired": 0,
+      "levelTwoRequired": false,
+      "victoryPoints": 2
+    },
+    {
+      "id": 8,
+      "effect": "discountDevelopmentCardEffect",
+      "target": "coins",
+      "greenCardsRequired" : 0,
+      "purpleCardsRequired": 1,
+      "yellowCardsRequired": 1,
+      "blueCardsRequired": 0,
+      "levelTwoRequired": false,
+      "victoryPoints": 2
+    },
+    {
+      "id": 9,
+      "effect": "convertWhiteMarbleEffect",
+      "target": "coins",
+      "greenCardsRequired" : 1,
+      "purpleCardsRequired": 2,
+      "yellowCardsRequired": 0,
+      "blueCardsRequired": 0,
+      "levelTwoRequired": false,
+      "victoryPoints": 5
+    },
+    {
+      "id": 10,
+      "effect": "convertWhiteMarbleEffect",
+      "target": "servants",
+      "greenCardsRequired" : 0,
+      "purpleCardsRequired": 0,
+      "yellowCardsRequired": 2,
+      "blueCardsRequired": 1,
+      "levelTwoRequired": false,
+      "victoryPoints": 5
+
+    },
+    {
+      "id": 11,
+      "effect": "convertWhiteMarbleEffect",
+      "target": "stones",
+      "greenCardsRequired" : 0,
+      "purpleCardsRequired": 0,
+      "yellowCardsRequired": 1,
+      "blueCardsRequired": 2,
+      "levelTwoRequired": false,
+      "victoryPoints": 5
+
+    },
+    {
+      "id": 12,
+      "effect": "convertWhiteMarbleEffect",
+      "target": "shields",
+      "greenCardsRequired" : 2,
+      "purpleCardsRequired": 1,
+      "yellowCardsRequired": 0,
+      "blueCardsRequired": 0,
+      "levelTwoRequired": false,
+      "victoryPoints": 5
+
+    },
+    {
+      "id": 13,
+      "effect": "increaseProductionEffect",
+      "target": "servants",
+      "greenCardsRequired" : 0,
+      "purpleCardsRequired": 0,
+      "yellowCardsRequired": 0,
+      "blueCardsRequired": 1,
+      "levelTwoRequired": true,
+      "victoryPoints": 4
+
+    },
+    {
+      "id": 14,
+      "effect": "increaseStorageEffect",
+      "target": "shields",
+      "greenCardsRequired" : 0,
+      "purpleCardsRequired": 0,
+      "yellowCardsRequired": 1,
+      "blueCardsRequired": 0,
+      "levelTwoRequired": true,
+      "victoryPoints": 4
+
+    },
+    {
+      "id": 15,
+      "effect": "increaseStorageEffect",
+      "target": "coins",
+      "greenCardsRequired" : 1,
+      "purpleCardsRequired": 0,
+      "yellowCardsRequired": 0,
+      "blueCardsRequired": 1,
+      "levelTwoRequired": true,
+      "victoryPoints": 4
+
+    },
+    {
+      "id": 16,
+      "effect": "increaseStorageEffect",
+      "target": "stones",
+      "greenCardsRequired" : 0,
+      "purpleCardsRequired": 1,
+      "yellowCardsRequired": 0,
+      "blueCardsRequired": 0,
+      "levelTwoRequired": true,
+      "victoryPoints": 4
+
+    }
+  ]
+}

@@ -14,9 +14,7 @@ public class LeaderCardTest {
     DevCardsRequirement dcr = new DevCardsRequirement(1,1,1,1,false);
     ResourceBox r = new ResourceBox();
 
-
-
-           //these variables do not chang between tests even if a test modifies their value
+    //these variables do not chang between tests even if a test modifies their value
 
         @Test
         public void testCreation() {
@@ -26,7 +24,7 @@ public class LeaderCardTest {
             r.addResource(r2);
             LeaderEffect le = new IncreaseProductionEffect("shields");
 
-            LeaderCard l = new LeaderCard(0, r, dcr, le, 6);
+            LeaderCard l = new LeaderCard(0, dcr, le, 6);
 
             System.out.println(l.toString());
         }
