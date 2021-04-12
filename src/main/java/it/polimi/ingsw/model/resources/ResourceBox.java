@@ -3,8 +3,11 @@ package it.polimi.ingsw.model.resources;
 import java.util.HashSet;
 
 public class ResourceBox {
-    private HashSet<Resource> box = new HashSet<Resource>();
+    private HashSet<Resource> box;
 
+    public ResourceBox(){
+        this.box = new HashSet<Resource>();
+    }
 
     public void addResource(Resource resource) {
         if (resource == null) return;  //if null do nothing

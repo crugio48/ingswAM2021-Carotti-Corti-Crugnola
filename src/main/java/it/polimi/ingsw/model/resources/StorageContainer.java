@@ -1,15 +1,25 @@
 package it.polimi.ingsw.model.resources;
 
 public class StorageContainer {
-    private Resource slot1 = null;
-    private Resource slot2 = null;
-    private Resource slot3 = null;
+    private Resource slot1;
+    private Resource slot2;
+    private Resource slot3;
     private final int max1 = 1;
     private final int max2 = 2;
     private final int max3 = 3;
-    private Resource slot4Leader = null;
-    private Resource slot5Leader = null;
+    private Resource slot4Leader;
+    private Resource slot5Leader;
     private final int maxLeader = 2;
+
+
+    public StorageContainer() {
+        this.slot1 = null;
+        this.slot2 = null;
+        this.slot3 = null;
+        this.slot4Leader = null;
+        this.slot5Leader = null;
+    }
+
 
     /**
      * this method tries to insert a given amount of a resource in a specific slot
