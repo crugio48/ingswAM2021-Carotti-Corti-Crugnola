@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.market;
 
+import it.polimi.ingsw.model.resources.ResourceBox;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,36 +18,28 @@ public class MarbleContainerTest {
     public void marketOperationTest(){
         //assertTrue(marbleContainer.createMarbleContainer());
 
-        Marble m1 = marbleContainer.getMarbleFromMatrix(1,1);
-        Marble m2 = marbleContainer.insertMarbleSlideAndGetMarble(1);
-        assertEquals(m1, m2);
+        System.out.println("before operation: " + marbleContainer.toString());
 
-        Marble m3 = marbleContainer.getMarbleFromMatrix(2,1);
-        Marble m4 = marbleContainer.insertMarbleSlideAndGetMarble(2);
-        assertEquals(m3, m4);
+        ResourceBox bought = marbleContainer.insertMarbleSlideAndGetResourceBox(1); // change this pos from 1 to 7 to check every position
 
-        Marble m5 = marbleContainer.getMarbleFromMatrix(1,1);
-        Marble m6 = marbleContainer.insertMarbleSlideAndGetMarble(7);
-        assertEquals(m5, m6);
+        System.out.println("bought resources: " + bought.toString());
+
+        System.out.println("after operation: " + marbleContainer.toString());
 
     }
 
     @Test
     public void marketOperationTestWithWrongPos(){
         //assertTrue(marbleContainer.createMarbleContainer());
-        System.out.println(marbleContainer.toString());
-        Marble m = marbleContainer.insertMarbleSlideAndGetMarble(20);
-        System.out.println(marbleContainer.toString());
-        assertNull(m);
+
+        System.out.println("before operation: " + marbleContainer.toString());
+
+
+        ResourceBox bought = marbleContainer.insertMarbleSlideAndGetResourceBox(20);
+
+        System.out.println("after operation: " + marbleContainer.toString());
+
+        assertNull(bought);
     }
-
-    @Test
-    public void marketOperationWithoutMatrixInitialized(){
-
-        Marble m = marbleContainer.insertMarbleSlideAndGetMarble(20);
-        System.out.println(marbleContainer.toString());
-        assertNull(m);
-    }
-
 
 }

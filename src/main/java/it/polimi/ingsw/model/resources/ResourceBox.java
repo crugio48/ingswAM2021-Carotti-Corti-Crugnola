@@ -6,11 +6,10 @@ public class ResourceBox {
     private HashSet<Resource> box = new HashSet<Resource>();
 
 
-
     public void addResource(Resource resource) {
         if (resource == null) return;  //if null do nothing
 
-        for (Resource resourceIterator: box) {
+        for (Resource resourceIterator : box) {
             if (resourceIterator.getName().equals(resource.getName())) {   //if resource already present, update the resource quantity
                 resourceIterator.setQuantity(resourceIterator.getQuantity() + resource.getQuantity());
                 return;
@@ -43,7 +42,7 @@ public class ResourceBox {
      * @return returns the contained quantity of the specified resource, returns 0 if resource is not contained
      */
     public int getResourceQuantity(String resourceName) {
-        for (Resource resourceIterator: box) {
+        for (Resource resourceIterator : box) {
             if (resourceIterator.getName().equals(resourceName)) {
                 return resourceIterator.getQuantity();
             }
@@ -51,4 +50,25 @@ public class ResourceBox {
         return 0;
     }
 
+    @Override
+    public String toString() {
+        int coins = this.getResourceQuantity("coins");
+        int servants = this.getResourceQuantity("servants");
+        int shields = this.getResourceQuantity("shields");
+        int stones = this.getResourceQuantity("stones");
+        int faith = this.getResourceQuantity("faith");
+        int jolly = this.getResourceQuantity("jolly");
+
+        return "ResourceBox: {" +
+                "coins = " + coins +
+                ", servants = " + servants +
+                ", shields = " + shields +
+                ", stones = " + stones +
+                ", faith = " + faith +
+                ", jolly = " + jolly +
+                "}";
+    }
+
+
 }
+
