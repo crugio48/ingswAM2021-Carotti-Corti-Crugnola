@@ -3,16 +3,28 @@ import it.polimi.ingsw.model.resources.*;
 
 public class LeaderCard extends Card {
     private int code;
-    private boolean active = false;
+    private boolean active;
     private ResourceBox resourceRequirement;
     private DevCardsRequirement cardsRequirement;
     private LeaderEffect effect;
     private int victoryPoints;
 
+
     public LeaderCard(int code, DevCardsRequirement cardsRequirement, LeaderEffect effect, int victoryPoints) {
         this.code = code;
-        //this.resourceRequirement = resourceRequirement;
+        this.active = false;
+        this.resourceRequirement = null;
         this.cardsRequirement = cardsRequirement;
+        this.effect = effect;
+        this.victoryPoints = victoryPoints;
+    }
+
+
+    public LeaderCard(int code, ResourceBox resourceRequirement, LeaderEffect effect, int victoryPoints) {
+        this.code = code;
+        this.active = false;
+        this.resourceRequirement = resourceRequirement;
+        this.cardsRequirement = null;
         this.effect = effect;
         this.victoryPoints = victoryPoints;
     }
@@ -55,12 +67,14 @@ public class LeaderCard extends Card {
         return "LeaderCard{" +
                 "code = " + this.code +
                 ", is now active ='" + this.isActive() + '\'' +
-                "resourceRequirement= " + this.cardsRequirement.getPurpleCardsRequired()  + ", " +
-                    this.cardsRequirement.getBlueCardsRequired()  + ", " +
-                    this.cardsRequirement.getGreenCardsRequired()  + ", " +
-                    this.cardsRequirement.getYellowCardsRequired()  + ", " +
-                    this.cardsRequirement.getPurpleCardsRequired()  +
-                ", effect=" + this.effect.getEffectName() +
+                ", resourceRequirement= " + this.resourceRequirement.toString() +
+                ", cardsRequirement= {" +
+                    "blue= " + this.cardsRequirement.getBlueCardsRequired()  +
+                    ", green= " + this.cardsRequirement.getGreenCardsRequired()  +
+                    ", yellow= " + this.cardsRequirement.getYellowCardsRequired()  +
+                    ", purple= " + this.cardsRequirement.getPurpleCardsRequired()  +
+                    ", levelTwoRequired= " + this.cardsRequirement.isRequiredLevelTwo() +
+                "}, effect=" + this.effect.getEffectName() +
                 ", victory Points = " + this.victoryPoints +
                 '}';
     }
