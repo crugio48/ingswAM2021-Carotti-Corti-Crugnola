@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.cards;
 import it.polimi.ingsw.model.resources.*;
 
 public class DevCard extends Card {
+    private int code;
     private int level;
     private char colour;   //'b' or 'y' or 'p' or 'g'
     private int victoryPoint;
@@ -9,7 +10,8 @@ public class DevCard extends Card {
     private ResourceBox productionInput;
     private ResourceBox productionOutput;
 
-    public DevCard(int level, char colour, int victoryPoint, ResourceBox cost, ResourceBox productionInput, ResourceBox productionOutput) {
+    public DevCard(int code, int level, char colour, int victoryPoint, ResourceBox cost, ResourceBox productionInput, ResourceBox productionOutput) {
+        this.code = code;
         this.level = level;
         this.colour = colour;
         this.victoryPoint = victoryPoint;
@@ -18,6 +20,9 @@ public class DevCard extends Card {
         this.productionOutput = productionOutput;
     }
 
+    public int getCode() {
+        return code;
+    }
     public int getLevel() {
         return level;
     }
@@ -52,11 +57,11 @@ public class DevCard extends Card {
     public String toString() {
         return "Development Card{" +
                 "Level=" + this.getLevel() +
-                "Colour=" + this.colourname(this.getColour()) +
-                "Cost =" + this.getCost() +
-                "Production Input=" + this.getProductionInput() +
-                "Production Output=" + this.getProductionOutput() +
-                "Victory Point=" + this.getVictoryPoint() +
+                ", Colour=" + this.colourname(this.getColour()) +
+                ", Cost =" + this.cost.toString() +
+                ", Production Input=" + this.productionInput.toString() +
+                ", Production Output=" + this.productionOutput.toString() +
+                ", Victory Point=" + this.getVictoryPoint() +
                 "}";
     }
 }

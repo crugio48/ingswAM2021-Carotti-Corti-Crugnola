@@ -1,8 +1,24 @@
 package it.polimi.ingsw.model.cards;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.resources.ResourceBox;
 
+
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.resources.*;
+
+
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Stack;
+
+
 
 public class DevCardSpace {
 
@@ -20,7 +36,119 @@ public class DevCardSpace {
     private Stack<DevCard> Lv3purple;
 
     public DevCardSpace(){
-        //codice che inizializza le stack con le carte
+        this.Lv1blue = new Stack<>();
+        this.Lv2blue = new Stack<>();
+        this.Lv3blue = new Stack<>();
+        this.Lv1green = new Stack<>();
+        this.Lv2green = new Stack<>();
+        this.Lv3green = new Stack<>();
+        this.Lv1yellow = new Stack<>();
+        this.Lv2yellow = new Stack<>();
+        this.Lv3yellow = new Stack<>();
+        this.Lv1purple = new Stack<>();
+        this.Lv2purple = new Stack<>();
+        this.Lv3purple = new Stack<>();
+
+
+        JSONParser parser = new JSONParser();
+
+        try {
+            Object obj = parser.parse(new FileReader("jsonFiles/DevCards.json"));
+            JSONObject jsonObject = (JSONObject) obj;
+            JSONArray cards = (JSONArray) jsonObject.get("cards");
+            Iterator<JSONObject> cardsIterator = cards.iterator();
+
+            JSONObject tempCard;
+
+            while (cardsIterator.hasNext()) {
+                tempCard = cardsIterator.next();
+
+                int code = ((Long)tempCard.get("code")).intValue();
+                int level = ((Long)tempCard.get("level")).intValue();
+                char colour = ((String)tempCard.get("colour")).charAt(0);
+                ResourceBox cost = new ResourceBox();
+                cost.addResource(new Stones(((Long)tempCard.get("costStones")).intValue()));
+                cost.addResource(new Servants(((Long)tempCard.get("costServants")).intValue()));
+                cost.addResource(new Shields(((Long)tempCard.get("costShields")).intValue()));
+                cost.addResource(new Coins(((Long)tempCard.get("costCoins")).intValue()));
+                ResourceBox input = new ResourceBox();
+                input.addResource(new Stones(((Long)tempCard.get("inputStones")).intValue()));
+                input.addResource(new Servants(((Long)tempCard.get("inputServants")).intValue()));
+                input.addResource(new Shields(((Long)tempCard.get("inputShields")).intValue()));
+                input.addResource(new Coins(((Long)tempCard.get("inputCoins")).intValue()));
+                ResourceBox output = new ResourceBox();
+                output.addResource(new Stones(((Long)tempCard.get("outputStones")).intValue()));
+                output.addResource(new Servants(((Long)tempCard.get("outputServants")).intValue()));
+                output.addResource(new Shields(((Long)tempCard.get("outputShields")).intValue()));
+                output.addResource(new Coins(((Long)tempCard.get("outputCoins")).intValue()));
+                output.addResource(new Faith(((Long)tempCard.get("outputFaith")).intValue()));
+                int victoryPoints = ((Long)tempCard.get("victoryPoints")).intValue();
+
+                DevCard newCard = new DevCard(code,level,colour,victoryPoints,cost,input,output);
+
+                Stack<DevCard> tempStack = selectstack(level,colour);
+
+                tempStack.push(newCard);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //finally we need to mix all stack
+        this.mixAllStacks();
+
+    }
+
+    private void mixAllStacks(){
+        ArrayList<DevCard> mixer = new ArrayList<>();
+        Stack<DevCard> tempStack;
+
+        for(int i = 1; i <= 3; i++){
+            //mix purple
+            tempStack = selectstack(i,'p');
+            while(!tempStack.isEmpty()) {
+                mixer.add(tempStack.pop());
+            }
+            Collections.shuffle(mixer);
+            while(!mixer.isEmpty()){
+                tempStack.push(mixer.remove(0));
+            }
+
+            //mix green
+            tempStack = selectstack(i,'g');
+            while(!tempStack.isEmpty()) {
+                mixer.add(tempStack.pop());
+            }
+            Collections.shuffle(mixer);
+            while(!mixer.isEmpty()){
+                tempStack.push(mixer.remove(0));
+            }
+
+            //mix blue
+            tempStack = selectstack(i,'b');
+            while(!tempStack.isEmpty()) {
+                mixer.add(tempStack.pop());
+            }
+            Collections.shuffle(mixer);
+            while(!mixer.isEmpty()){
+                tempStack.push(mixer.remove(0));
+            }
+
+            //mix yellow
+            tempStack = selectstack(i,'y');
+            while(!tempStack.isEmpty()) {
+                mixer.add(tempStack.pop());
+            }
+            Collections.shuffle(mixer);
+            while(!mixer.isEmpty()){
+                tempStack.push(mixer.remove(0));
+            }
+        }
     }
 
     private Stack<DevCard> selectstack(int level, char colour){
