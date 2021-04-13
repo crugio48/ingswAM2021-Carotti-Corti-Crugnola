@@ -34,4 +34,13 @@ class PersonalDevCardSlotTest {
         assertFalse(a.isLeaderDevCardRequirementsMet(req3));
 
     }
+
+    @Test
+    void victoryPointsTest() {
+        a.placeCard(card1,2);
+        a.placeCard(card2,2);
+        a.placeCard(card3,2);
+
+        assertSame(9,a.getTotalVictoryPoints());
+    }
 }

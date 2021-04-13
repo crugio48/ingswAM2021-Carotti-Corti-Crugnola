@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class PersonalDevCardSlot {
 
-    public int totalCardsPlaced;
+    private int totalCardsPlaced;
     private Stack<DevCard> cardSlot1;
     private Stack<DevCard> cardSlot2;
     private Stack<DevCard> cardSlot3;
@@ -13,6 +13,11 @@ public class PersonalDevCardSlot {
         this.cardSlot1 = new Stack<>();
         this.cardSlot2 = new Stack<>();
         this.cardSlot3 = new Stack<>();
+        this.totalCardsPlaced = 0;
+    }
+
+    public int getTotalCardsPlaced() {
+        return totalCardsPlaced;
     }
 
     private Stack<DevCard> selectslot(int number){
@@ -21,9 +26,14 @@ public class PersonalDevCardSlot {
         else{return cardSlot3;}
     }
 
-    public void placeCard(DevCard card, int stackNum){
+    public boolean placeCard(DevCard card, int stackNum){
 
-        selectslot(stackNum).push(card);
+        if(isCardPlaceable(card, stackNum)){
+            selectslot(stackNum).push(card);
+            totalCardsPlaced++;
+            return true;
+        }
+        else return false;
 
     }
 
@@ -183,9 +193,47 @@ public class PersonalDevCardSlot {
             }
 
         }
-        System.out.println( "yellow = "+ conty + "exp:" + requirement.getYellowCardsRequired() +
-                "purple=" + contp + "EXP:" + requirement.getPurpleCardsRequired() );
+
         if(conty>=requirement.getYellowCardsRequired()&&contg>=requirement.getGreenCardsRequired()&&contb>=requirement.getBlueCardsRequired()&&contp>=requirement.getPurpleCardsRequired()){ return true;}
         return false;
+    }
+
+
+    public int getTotalVictoryPoints() {
+        DevCard tempCard;
+        Stack<DevCard> tempSlot = new Stack<DevCard>();
+        int toReturn = 0;
+        //start checking slot1
+        while (!cardSlot1.isEmpty()) {
+            tempCard = cardSlot1.pop();
+            toReturn += tempCard.getVictoryPoint();
+            tempSlot.push(tempCard);
+        }
+        while (!tempSlot.isEmpty()) {
+            tempCard = tempSlot.pop();
+            cardSlot1.push(tempCard);
+        }
+        //start checking slot2
+        while (!cardSlot2.isEmpty()) {
+            tempCard = cardSlot2.pop();
+            toReturn += tempCard.getVictoryPoint();
+            tempSlot.push(tempCard);
+        }
+        while (!tempSlot.isEmpty()) {
+            tempCard = tempSlot.pop();
+            cardSlot2.push(tempCard);
+        }
+        //start checking slot3
+        while (!cardSlot3.isEmpty()) {
+            tempCard = cardSlot3.pop();
+            toReturn += tempCard.getVictoryPoint();
+            tempSlot.push(tempCard);
+        }
+        while (!tempSlot.isEmpty()) {
+            tempCard = tempSlot.pop();
+            cardSlot3.push(tempCard);
+        }
+
+        return toReturn;
     }
 }
