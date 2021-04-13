@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.cards;
+package it.polimi.ingsw.model.cards.leaderEffects;
 
 public abstract class LeaderEffect {
     private final String effectName;

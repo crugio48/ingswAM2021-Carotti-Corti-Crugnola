@@ -1,4 +1,5 @@
 package it.polimi.ingsw.model.cards;
+import it.polimi.ingsw.model.cards.leaderEffects.LeaderEffect;
 import it.polimi.ingsw.model.resources.*;
 
 public class LeaderCard extends Card {

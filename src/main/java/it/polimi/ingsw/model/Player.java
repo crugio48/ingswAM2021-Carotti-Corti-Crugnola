@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.PersonalDevCardSlot;
 import it.polimi.ingsw.model.resources.ResourceBox;
 import it.polimi.ingsw.model.resources.StorageContainer;
 
@@ -10,16 +11,19 @@ public class Player {
     public LeaderCard[] leaderCard;
     public ResourceBox chest;
     public StorageContainer storage;
-    //public PersonalDevelopmentCardSlots personalDevelopmentCardSlots;
+    public PersonalDevCardSlot personalDevelopmentCardSlots;
 
 
-    public Player(String username, int turnOrder) {
+    public Player(String username) {
         this.username = username;
-        this.turnOrder = turnOrder;
         this.leaderCard = new LeaderCard[2];
         this.chest = new ResourceBox();
         this.storage = new StorageContainer();
-        //this.personalDevelopmentCardSlots = new PersonalDevelopmentCardSlots();
+        this.personalDevelopmentCardSlots = new PersonalDevCardSlot();
+    }
+
+    public void setTurnOrder(int turnOrder) {
+        this.turnOrder = turnOrder;
     }
 
     public String getUsername() {

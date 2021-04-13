@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.cards;
-import it.polimi.ingsw.model.resources.*;
-import it.polimi.ingsw.model.resources.ResourceBox;
+import it.polimi.ingsw.model.cards.leaderEffects.IncreaseProductionEffect;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;

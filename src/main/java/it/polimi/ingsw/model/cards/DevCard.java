@@ -3,7 +3,7 @@ import it.polimi.ingsw.model.resources.*;
 
 public class DevCard extends Card {
     private int level;
-    private char colour;
+    private char colour;   //'b' or 'y' or 'p' or 'g'
     private int victoryPoint;
     private ResourceBox cost;
     private ResourceBox productionInput;

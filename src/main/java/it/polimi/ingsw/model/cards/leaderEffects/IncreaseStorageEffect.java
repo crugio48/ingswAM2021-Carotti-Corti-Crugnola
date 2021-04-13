@@ -1,4 +1,5 @@
-package it.polimi.ingsw.model.cards;
+package it.polimi.ingsw.model.cards.leaderEffects;
+
 
 public class IncreaseStorageEffect extends LeaderEffect {
     private String resourceType;

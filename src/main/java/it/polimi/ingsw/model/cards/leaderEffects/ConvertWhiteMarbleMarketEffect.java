@@ -1,4 +1,5 @@
-package it.polimi.ingsw.model.cards;
+package it.polimi.ingsw.model.cards.leaderEffects;
+
 
 public class ConvertWhiteMarbleMarketEffect extends LeaderEffect {
 

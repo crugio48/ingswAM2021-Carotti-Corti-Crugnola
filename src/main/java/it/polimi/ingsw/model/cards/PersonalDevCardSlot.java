@@ -5,10 +5,15 @@ import java.util.Stack;
 public class PersonalDevCardSlot {
 
     public int totalCardsPlaced;
-    private Stack<DevCard> cardSlot1 = new Stack<DevCard>();
-    private Stack<DevCard> cardSlot2 = new Stack<DevCard>();
-    private Stack<DevCard> cardSlot3 = new Stack<DevCard>();
+    private Stack<DevCard> cardSlot1;
+    private Stack<DevCard> cardSlot2;
+    private Stack<DevCard> cardSlot3;
 
+    public PersonalDevCardSlot() {
+        this.cardSlot1 = new Stack<>();
+        this.cardSlot2 = new Stack<>();
+        this.cardSlot3 = new Stack<>();
+    }
 
     private Stack<DevCard> selectslot(int number){
         if(number==1){ return cardSlot1;}
