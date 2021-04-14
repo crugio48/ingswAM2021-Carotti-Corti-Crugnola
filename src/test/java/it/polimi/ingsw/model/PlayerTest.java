@@ -14,8 +14,8 @@ public class PlayerTest {
         p1.setTurnOrder(1);
         assertEquals("cru",p1.getUsername());
         assertSame(1,p1.getTurnOrder());
-        assertSame(0,p1.chest.getResourceQuantity("stones"));
-        assertNull(p1.leaderCard[0]);
+        assertSame(0,p1.getStorage().getResourceQuantity("stones"));
+        assertNull(p1.getLeaderCard(1));
     }
 
     @Test
@@ -23,11 +23,11 @@ public class PlayerTest {
         ResourceBox req = new ResourceBox();
         req.addResource(new Stones(5));
 
-        p1.chest.addResource(new Stones(4));
+        p1.getChest().addResource(new Stones(4));
 
         assertFalse(p1.checkIfLeaderResourceRequirementIsMet(req));
 
-        p1.storage.addResource(new Stones(1),2);
+        p1.getStorage().addResource(new Stones(1),2);
 
         assertTrue(p1.checkIfLeaderResourceRequirementIsMet(req));
 

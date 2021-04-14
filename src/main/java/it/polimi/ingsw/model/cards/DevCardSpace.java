@@ -191,9 +191,9 @@ public class DevCardSpace {
 
         ResourceBox cost = topCard.getCost();
 
-        boolean condition1 = p.personalDevelopmentCardSlots.isCardPlaceable(topCard,1);
-        boolean condition2 = p.personalDevelopmentCardSlots.isCardPlaceable(topCard,2);
-        boolean condition3 = p.personalDevelopmentCardSlots.isCardPlaceable(topCard,3);
+        boolean condition1 = p.getPersonalDevelopmentCardSlots().isCardPlaceable(topCard,1);
+        boolean condition2 = p.getPersonalDevelopmentCardSlots().isCardPlaceable(topCard,2);
+        boolean condition3 = p.getPersonalDevelopmentCardSlots().isCardPlaceable(topCard,3);
 
         if (p.checkIfLeaderResourceRequirementIsMet(cost) && (condition1 || condition2 || condition3)) return true;
         else return false;

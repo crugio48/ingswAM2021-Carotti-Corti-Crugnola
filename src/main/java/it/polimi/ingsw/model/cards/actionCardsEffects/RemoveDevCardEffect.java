@@ -13,6 +13,6 @@ public class RemoveDevCardEffect extends ActionEffect{
 
     @Override
     public void doAction(Game game) {
-        game.devCardSpace.removeTwoCardsOfColour(cardColourToRemove);
+        game.getDevCardSpace().removeTwoCardsOfColour(cardColourToRemove);
     }
 }

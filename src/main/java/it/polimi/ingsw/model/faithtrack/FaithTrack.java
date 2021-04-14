@@ -170,6 +170,17 @@ public class FaithTrack {
         return totalVictoryPoints;
     }
 
+    public int getBlackCrossPosition() {
+        return blackCrossPosition;
+    }
+
+    public int[] getPlayerPositions() {
+        return playerPositions;
+    }
+
+    public PapalFavourCard[] getPapalFavourCards() {
+        return papalFavourCards;
+    }
 
     @Override
     public String toString() {

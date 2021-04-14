@@ -17,7 +17,7 @@ public class FaithEffect extends ActionEffect{
         int i = this.positionIncrement;
 
         while (i > 0) {
-            game.faithTrack.moveBlackCrossForward();
+            game.getFaithTrack().moveBlackCrossForward();
             i--;
         }
 

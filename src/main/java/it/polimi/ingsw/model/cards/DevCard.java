@@ -56,7 +56,8 @@ public class DevCard extends Card {
     @Override
     public String toString() {
         return "Development Card{" +
-                "Level=" + this.getLevel() +
+                "Code= " + this.getCode() +
+                ", Level=" + this.getLevel() +
                 ", Colour=" + this.colourname(this.getColour()) +
                 ", Cost =" + this.cost.toString() +
                 ", Production Input=" + this.productionInput.toString() +

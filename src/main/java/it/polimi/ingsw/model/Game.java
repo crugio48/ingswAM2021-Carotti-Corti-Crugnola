@@ -25,9 +25,9 @@ public class Game {
     private HashMap<Integer,LeaderCard> leaderCards;
     private Deck actionCardDeck;
     private Stack<ActionCard> usedActionCards;
-    public FaithTrack faithTrack;
-    public DevCardSpace devCardSpace;
-    public MarbleContainer market;
+    private FaithTrack faithTrack;
+    private DevCardSpace devCardSpace;
+    private MarbleContainer market;
 
     public Game(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
@@ -190,6 +190,18 @@ public class Game {
         return numOfPlayers;
     }
 
+    public FaithTrack getFaithTrack() {
+        return faithTrack;
+    }
+
+    public MarbleContainer getMarket() {
+        return market;
+    }
+
+    public DevCardSpace getDevCardSpace() {
+        return devCardSpace;
+    }
+
     /**
      *
      * @param code1 code of first leader card (value between 1 and 16)
@@ -201,11 +213,11 @@ public class Game {
         if (code1<1 || code1>16 || code2<1 || code2>16 || code1 == code2) return false;
         Player p = this.getPlayerByNickname(playerNickname);
         if (p == null) return false;
-        if (p.leaderCard[0] != null || p.leaderCard[1] != null) return false;
+        if (p.getLeaderCard(1) != null || p.getLeaderCard(2) != null) return false;
         if (!leaderCards.containsKey(code1) || !leaderCards.containsKey(code2)) return false;
 
-        p.leaderCard[0] = leaderCards.remove(code1);
-        p.leaderCard[1] = leaderCards.remove(code2);
+        p.setLeaderCard(leaderCards.remove(code1),1);
+        p.setLeaderCard(leaderCards.remove(code2),2);
         return true;
     }
 }
