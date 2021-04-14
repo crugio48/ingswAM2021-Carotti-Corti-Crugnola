@@ -16,7 +16,7 @@ public class Player {
 
     public Player(String username) {
         this.username = username;
-        this.leaderCard = new LeaderCard[2];
+        this.leaderCard = new LeaderCard[]{null,null};
         this.chest = new ResourceBox();
         this.storage = new StorageContainer();
         this.personalDevelopmentCardSlots = new PersonalDevCardSlot();
