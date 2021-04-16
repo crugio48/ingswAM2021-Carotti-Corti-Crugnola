@@ -146,64 +146,56 @@ public class MarbleContainer {
         Marble temp;
         int i = 0;
 
-        if (pos == 1){
-            for(; i < 4 ; i++){
+        switch(pos) {
+            case 1:
+                for(; i < 4 ; i++){
                 temp = marbleMatrix[0][i];
                 addResourceToResourceBox(toReturn, temp);
-            }
-            moveLeftAndSubstitute(pos);
+                }
+                moveLeftAndSubstitute(pos);
+                break;
+            case 2:
+                for(; i < 4 ; i++){
+                    temp = marbleMatrix[1][i];
+                    addResourceToResourceBox(toReturn, temp);
+                }
+                moveLeftAndSubstitute(pos);
+                break;
+            case 3:
+                for(; i < 4 ; i++){
+                    temp = marbleMatrix[2][i];
+                    addResourceToResourceBox(toReturn, temp);
+                }
+                moveLeftAndSubstitute(pos);
+                break;
+            case 4:
+                for(; i < 3 ; i++){
+                    temp = marbleMatrix[i][3];
+                    addResourceToResourceBox(toReturn, temp);
+                }
+                moveUpAndSubstitute(pos);
+            case 5:
+                for(; i < 3 ; i++){
+                    temp = marbleMatrix[i][2];
+                    addResourceToResourceBox(toReturn, temp);
+                }
+                moveUpAndSubstitute(pos);
+            case 6:
+                for(; i < 3 ; i++){
+                    temp = marbleMatrix[i][1];
+                    addResourceToResourceBox(toReturn, temp);
+                }
+                moveUpAndSubstitute(pos);
+            case 7:
+                for(; i < 3 ; i++){
+                    temp = marbleMatrix[i][0];
+                    addResourceToResourceBox(toReturn, temp);
+                }
+                moveUpAndSubstitute(pos);
+            default:
+                break;
         }
-
-        if (pos == 2){
-            for(; i < 4 ; i++){
-                temp = marbleMatrix[1][i];
-                addResourceToResourceBox(toReturn, temp);
-            }
-            moveLeftAndSubstitute(pos);
-        }
-
-        if (pos == 3){
-            for(; i < 4 ; i++){
-                temp = marbleMatrix[2][i];
-                addResourceToResourceBox(toReturn, temp);
-            }
-            moveLeftAndSubstitute(pos);
-        }
-
-        if (pos == 4){
-            for(; i < 3 ; i++){
-                temp = marbleMatrix[i][3];
-                addResourceToResourceBox(toReturn, temp);
-            }
-            moveUpAndSubstitute(pos);
-        }
-
-        if (pos == 5){
-            for(; i < 3 ; i++){
-                temp = marbleMatrix[i][2];
-                addResourceToResourceBox(toReturn, temp);
-            }
-            moveUpAndSubstitute(pos);
-        }
-
-        if (pos == 6){
-            for(; i < 3 ; i++){
-                temp = marbleMatrix[i][1];
-                addResourceToResourceBox(toReturn, temp);
-            }
-            moveUpAndSubstitute(pos);
-        }
-
-        if (pos == 7){
-            for(; i < 3 ; i++){
-                temp = marbleMatrix[i][0];
-                addResourceToResourceBox(toReturn, temp);
-            }
-            moveUpAndSubstitute(pos);
-        }
-
         return toReturn;
-
     }
 
     /**

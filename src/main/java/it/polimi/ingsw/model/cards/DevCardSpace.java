@@ -53,7 +53,7 @@ public class DevCardSpace {
         JSONParser parser = new JSONParser();
 
         try {
-            Object obj = parser.parse(new FileReader("jsonFiles/DevCards.json"));
+            Object obj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray cards = (JSONArray) jsonObject.get("cards");
             Iterator<JSONObject> cardsIterator = cards.iterator();

@@ -57,7 +57,7 @@ public class Game {
         JSONObject tempCard;
 
         try {
-            Object leaderResourceObj = parser.parse(new FileReader("jsonFiles/LeaderCardsResource.json"));
+            Object leaderResourceObj = parser.parse(new FileReader("src/main/resources/LeaderCardsResource.json"));
             JSONObject leaderResourceJsonObj = (JSONObject) leaderResourceObj;
             //creating the json Array that we will iterate in order to get the Leader Card
             JSONArray leaderResourceArrayCards = (JSONArray) leaderResourceJsonObj.get("cards");
@@ -104,7 +104,7 @@ public class Game {
         }
 
         try {
-            Object leaderDevObj = parser.parse(new FileReader("jsonFiles/LeaderCardsDevelopment.json"));
+            Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
             JSONObject leaderDevJsonObj = (JSONObject) leaderDevObj;
             JSONArray leaderDevArrayCards = (JSONArray) leaderDevJsonObj.get("cards");
             Iterator<JSONObject> leaderDevIterator = leaderDevArrayCards.iterator();
