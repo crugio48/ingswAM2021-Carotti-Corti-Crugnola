@@ -17,4 +17,12 @@ public abstract class LeaderEffect {
     public String getTargetResource() {
         return targetResource;
     }
+
+    @Override
+    public String toString() {
+        return "LeaderEffect{" +
+                "effectName='" + effectName + '\'' +
+                ", targetResource='" + targetResource + '\'' +
+                '}';
+    }
 }
