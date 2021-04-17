@@ -35,4 +35,15 @@ public class DevCardsRequirement {
     public boolean isRequiredLevelTwo() {
         return requiredLevelTwo;
     }
+
+    @Override
+    public String toString() {
+        return "DevCardsRequirement{" +
+                "purpleCardsRequired=" + purpleCardsRequired +
+                ", blueCardsRequired=" + blueCardsRequired +
+                ", yellowCardsRequired=" + yellowCardsRequired +
+                ", greenCardsRequired=" + greenCardsRequired +
+                ", requiredLevelTwo=" + requiredLevelTwo +
+                '}';
+    }
 }

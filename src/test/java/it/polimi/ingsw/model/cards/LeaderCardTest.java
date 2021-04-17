@@ -26,7 +26,10 @@ public class LeaderCardTest {
 
             LeaderCard l = new LeaderCard(0, dcr, le, 6);
 
+            LeaderCard lr = new LeaderCard(3, r, le, 4);
+
             System.out.println(l.toString());
+            System.out.println(lr.toString());
         }
 
 }
