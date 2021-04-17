@@ -247,7 +247,7 @@ public class Game {
      * @param code1 code of first leader card (value between 1 and 16)
      * @param code2 code of second leader card (value between 1 and 16)
      * @param playerNickname nickname of player
-     * @return true if the operation was successfull, false if for whatever reason it wasnt possible due to bad call
+     * @return true if the operation was successful, false if for whatever reason it wasnt possible due to bad call
      */
     public boolean giveInitialLeaderCardsToPlayer(int code1, int code2, String playerNickname) {
         if (code1<1 || code1>16 || code2<1 || code2>16 || code1 == code2) return false;

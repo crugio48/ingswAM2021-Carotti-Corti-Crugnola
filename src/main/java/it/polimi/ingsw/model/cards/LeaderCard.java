@@ -67,15 +67,10 @@ public class LeaderCard extends Card {
     public String toString() {
         return "LeaderCard{" +
                 "code = " + this.code +
-                ", is now active ='" + this.isActive() + '\'' +
-                ", resourceRequirement= " + this.resourceRequirement.toString() +
-                ", cardsRequirement= {" +
-                    "blue= " + this.cardsRequirement.getBlueCardsRequired()  +
-                    ", green= " + this.cardsRequirement.getGreenCardsRequired()  +
-                    ", yellow= " + this.cardsRequirement.getYellowCardsRequired()  +
-                    ", purple= " + this.cardsRequirement.getPurpleCardsRequired()  +
-                    ", levelTwoRequired= " + this.cardsRequirement.isRequiredLevelTwo() +
-                "}, effect=" + this.effect.getEffectName() +
+                ", is now active ='" + this.active + '\'' +
+                ", resourceRequirement= " + this.resourceRequirement +
+                ", cardsRequirement= {" + this.cardsRequirement +
+                "}, effect=" + this.effect +
                 ", victory Points = " + this.victoryPoints +
                 '}';
     }
