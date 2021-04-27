@@ -45,6 +45,17 @@ public class Player {
     }
 
     /**
+     *
+     * @param code is the unique code of the leader cards
+     * @return null if the specified code isn't present
+     */
+    public LeaderCard getLeaderCardByCardCode(int code) {
+        if (leaderCard[0].getCode() == code) return leaderCard[0];
+        else if (leaderCard[1].getCode() == code) return leaderCard[1];
+        else return null;
+    }
+
+    /**
      * sets the leader card passed
      * @param newCard is the card to set
      * @param slotNum is 1 or 2 (every player has only two leader cards)
@@ -82,4 +93,150 @@ public class Player {
     }
 
 
+    /**
+     * this is the method called when a player requests to do the production action on his turn
+     * all the params are pretty much the ones that arrive with the json message of the production request
+     * @param slot1Act
+     * @param slot2Act
+     * @param slot3Act
+     * @param baseProdAct
+     * @param baseInputRes1
+     * @param baseInputRes2
+     * @param leader1Act
+     * @param leader1Code
+     * @param leader2Act
+     * @param leader2Code
+     * @return true if the production is viable, false if the player hasn't enough resources
+     */
+    public boolean checkIfProductionRequestedIsViable(boolean slot1Act, boolean slot2Act, boolean slot3Act, boolean baseProdAct,
+                                                      String baseInputRes1, String baseInputRes2,
+                                                      boolean leader1Act, int leader1Code,
+                                                      boolean leader2Act, int leader2Code) {
+
+        //first we get the total amount of resources the player has
+        int myCoins = chest.getResourceQuantity("coins") + storage.getResourceQuantity("coins");
+        int myStones = chest.getResourceQuantity("stones") + storage.getResourceQuantity("stones");
+        int myServants = chest.getResourceQuantity("servants") + storage.getResourceQuantity("servants");
+        int myShields = chest.getResourceQuantity("shields") + storage.getResourceQuantity("shields");
+
+        //then we calculate the cost of all the production requested
+        int costCoins = 0;
+        int costStones = 0;
+        int costServants = 0;
+        int costShields = 0;
+        ResourceBox tempBox;
+        LeaderCard tempLeader;
+
+        if (slot1Act) {
+            tempBox = personalDevelopmentCardSlots.peekTopCard(1).getProductionInput();
+            costCoins += tempBox.getResourceQuantity("coins");
+            costStones += tempBox.getResourceQuantity("stones");
+            costServants += tempBox.getResourceQuantity("servants");
+            costShields += tempBox.getResourceQuantity("shields");
+        }
+
+        if (slot2Act) {
+            tempBox = personalDevelopmentCardSlots.peekTopCard(2).getProductionInput();
+            costCoins += tempBox.getResourceQuantity("coins");
+            costStones += tempBox.getResourceQuantity("stones");
+            costServants += tempBox.getResourceQuantity("servants");
+            costShields += tempBox.getResourceQuantity("shields");
+        }
+
+        if (slot3Act) {
+            tempBox = personalDevelopmentCardSlots.peekTopCard(3).getProductionInput();
+            costCoins += tempBox.getResourceQuantity("coins");
+            costStones += tempBox.getResourceQuantity("stones");
+            costServants += tempBox.getResourceQuantity("servants");
+            costShields += tempBox.getResourceQuantity("shields");
+        }
+
+        if (baseProdAct) {
+            switch (baseInputRes1) {
+                case"coin":
+                    costCoins++;
+                    break;
+                case"stone":
+                    costStones++;
+                    break;
+                case"servant":
+                    costServants++;
+                    break;
+                case"shield":
+                    costShields++;
+                    break;
+                default:
+                    //we can put an input exception here
+                    break;
+            }
+            switch (baseInputRes2) {
+                case"coin":
+                    costCoins++;
+                    break;
+                case"stone":
+                    costStones++;
+                    break;
+                case"servant":
+                    costServants++;
+                    break;
+                case"shield":
+                    costShields++;
+                    break;
+                default:
+                    //we can put an input exception here
+                    break;
+            }
+        }
+
+        if(leader1Act) {
+            tempLeader = this.getLeaderCardByCardCode(leader1Code);
+            if (tempLeader == null || !tempLeader.getEffect().getEffectName().equals("increaseProductionEffect")) {
+                //we can put an input exception here
+            }
+            switch (tempLeader.getEffect().getTargetResource()) {
+                case"coins":
+                    costCoins++;
+                    break;
+                case"stones":
+                    costStones++;
+                    break;
+                case"servants":
+                    costServants++;
+                    break;
+                case"shields":
+                    costShields++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if(leader2Act) {
+            tempLeader = this.getLeaderCardByCardCode(leader2Code);
+            if (tempLeader == null || !tempLeader.getEffect().getEffectName().equals("increaseProductionEffect")) {
+                //we can put an input exception here
+            }
+            switch (tempLeader.getEffect().getTargetResource()) {
+                case"coins":
+                    costCoins++;
+                    break;
+                case"stones":
+                    costStones++;
+                    break;
+                case"servants":
+                    costServants++;
+                    break;
+                case"shields":
+                    costShields++;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        //at last we check if the player has enough resources
+
+        if (myCoins < costCoins || myStones < costStones || myServants < costServants || myShields < costShields) return false;
+        else return true;
+    }
 }
