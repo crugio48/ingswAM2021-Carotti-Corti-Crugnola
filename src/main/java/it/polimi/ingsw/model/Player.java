@@ -190,7 +190,8 @@ public class Player {
 
         if(leader1Act) {
             tempLeader = this.getLeaderCardByCardCode(leader1Code);
-            if (tempLeader == null || !tempLeader.getEffect().getEffectName().equals("increaseProductionEffect")) {
+            if (tempLeader == null || !tempLeader.getEffect().getEffectName().equals("increaseProductionEffect") ||
+                    !tempLeader.isActive()) {
                 //we can put an input exception here
             }
             switch (tempLeader.getEffect().getTargetResource()) {
@@ -213,7 +214,8 @@ public class Player {
 
         if(leader2Act) {
             tempLeader = this.getLeaderCardByCardCode(leader2Code);
-            if (tempLeader == null || !tempLeader.getEffect().getEffectName().equals("increaseProductionEffect")) {
+            if (tempLeader == null || !tempLeader.getEffect().getEffectName().equals("increaseProductionEffect") ||
+                    !tempLeader.isActive()) {
                 //we can put an input exception here
             }
             switch (tempLeader.getEffect().getTargetResource()) {
