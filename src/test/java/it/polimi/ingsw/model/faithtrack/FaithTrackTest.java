@@ -112,7 +112,7 @@ public class FaithTrackTest {
     public void updateStringJsonFormatTest() {
         Gson gson = new Gson();
 
-        String updateMessage = f.getUpdateMessageOfCurrentState();
+        String updateMessage = f.getUpdateMessageOfFaithTrackCurrentState();
         System.out.println(updateMessage);
 
         Response response = (Response) gson.fromJson(updateMessage, Response.class);
@@ -137,7 +137,7 @@ public class FaithTrackTest {
         f.moveForwardMultiplePLayers(true,false,true,false);
         f.moveForwardMultiplePLayers(true,false,true,false);//player1 position = 15 and player 3 position = 10
 
-        String updateMessage2 = f.getUpdateMessageOfCurrentState();
+        String updateMessage2 = f.getUpdateMessageOfFaithTrackCurrentState();
         System.out.println(updateMessage2);
 
         Response response2 = (Response) gson.fromJson(updateMessage2, Response.class);

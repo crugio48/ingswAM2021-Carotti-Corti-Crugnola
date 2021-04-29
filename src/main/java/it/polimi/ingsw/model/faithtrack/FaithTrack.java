@@ -186,7 +186,7 @@ public class FaithTrack {
      * this method already returns the full update string in json format to send to all clients when a faithTrackUpdate is needed
      * @return
      */
-    public String getUpdateMessageOfCurrentState() {
+    public String getUpdateMessageOfFaithTrackCurrentState() {
         boolean[] papalFavour1 = papalFavourCards[0].getActiveForPlayer();
         boolean[] papalFavour2 = papalFavourCards[1].getActiveForPlayer();
         boolean[] papalFavour3 = papalFavourCards[2].getActiveForPlayer();

@@ -12,4 +12,10 @@ public class DevCardSpaceTest {
         System.out.println(d.peekTopCard(1,'b').toString());
     }
 
+
+    @Test
+    void updateMessageInJsonFormatTest() {
+        //can't really do any assertions because the grid gets mixed when created
+        System.out.println(d.getUpdateMessageOfDevCardSpaceCurrentState());
+    }
 }
