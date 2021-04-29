@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.resources.StorageContainer;
 
 public class Player {
     private String username;
-    private int turnOrder;
+    private int turnOrder; //order in which the selected player will play [1,2,3 or 4]
     private LeaderCard[] leaderCard;
     private ResourceBox chest;
     private StorageContainer storage;
@@ -37,7 +37,7 @@ public class Player {
     /**
      * gets the leader card specified
      * @param slotNum is 1 or 2 (every player has only two leader cards)
-     * @return the leader card requested if present, null il not initialized or of card was discarded
+     * @return the leader card requested if present, null il not initialized or if card was discarded
      */
     public LeaderCard getLeaderCard(int slotNum) {
         if (slotNum != 1 && slotNum != 2) return null;
@@ -66,6 +66,13 @@ public class Player {
         return personalDevelopmentCardSlots;
     }
 
+    /**
+     * This method is used in parallel with isLeaderDevCardRequirementsMet and is used to check if a player can
+     * activate the effect of a leaderCard
+     * @param requirement is the resourceBox that is needed to the LeaderCard to be activated
+     * @return false if the requirement is not satisfied
+     * @return true if there are enough resources in the storage and the chest for the leaderCard to be activated
+     */
     public boolean checkIfLeaderResourceRequirementIsMet(ResourceBox requirement) {
         int coinsReq = requirement.getResourceQuantity("coins");
         int stonesReq = requirement.getResourceQuantity("stones");

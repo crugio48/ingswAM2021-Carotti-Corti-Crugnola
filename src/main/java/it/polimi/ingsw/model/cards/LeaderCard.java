@@ -63,6 +63,8 @@ public class LeaderCard extends Card {
         this.active = true;
     }
 
+    public void deactivateCard() { this.active = false; }
+
     @Override
     public String toString() {
         return "LeaderCard{" +

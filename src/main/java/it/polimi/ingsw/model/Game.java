@@ -253,9 +253,12 @@ public class Game {
         if (code1<1 || code1>16 || code2<1 || code2>16 || code1 == code2) return false;
         Player p = this.getPlayerByNickname(playerNickname);
         if (p == null) return false;
+        //check if the player has already received the leaderCards
         if (p.getLeaderCard(1) != null || p.getLeaderCard(2) != null) return false;
+
         //checking if in the leaderCards HashSet there is the code1, if not it means there is
-        //no card with that code and so we return false
+        //no card with that code and so we return false because what we want to do is picking from the
+        //hashset the card and putting that in the leaderCards array
         if (!leaderCards.containsKey(code1) || !leaderCards.containsKey(code2)) return false;
 
         //removing from the hashset of leaderCards the card associated with the code1 and code2 and
