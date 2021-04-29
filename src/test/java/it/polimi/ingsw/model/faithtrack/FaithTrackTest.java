@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.faithtrack;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+import com.google.gson.Gson;
+import it.polimi.ingsw.beans.Response;
 import org.junit.jupiter.api.Test;
 
 
@@ -103,5 +106,45 @@ public class FaithTrackTest {
         System.out.println("next line should be player 1: position = 24, total points = 29; player2: position = 0, total points = 0; player3: position = 22, total points = 23; player4: position = 0, total points = 0");
         System.out.println(f.positionsAndPoints());
         System.out.println("\n\n" + f.toString());
+    }
+
+    @Test
+    public void updateStringJsonFormatTest() {
+        Gson gson = new Gson();
+
+        String updateMessage = f.getUpdateMessageOfFaithTrackCurrentState();
+        System.out.println(updateMessage);
+
+        Response response = (Response) gson.fromJson(updateMessage, Response.class);
+
+        assertEquals("faithTrackUpdate", response.getCmd());
+        assertSame(0, response.getNewPlayersPositions()[2]);
+        assertSame(false, response.getNewActiveThirdPapalFavourCard()[0]);
+
+        f.moveForward(1);
+        f.moveForward(1);
+        f.moveForward(1);
+        f.moveForward(1);
+        f.moveForward(1);
+        f.moveForwardMultiplePLayers(true,false,true,false);
+        f.moveForwardMultiplePLayers(true,false,true,false);
+        f.moveForwardMultiplePLayers(true,false,true,false); //player1 position = 8 and player 3 position = 3
+        f.moveForwardMultiplePLayers(true,false,true,false);
+        f.moveForwardMultiplePLayers(true,false,true,false);  //player1 position = 10 and player 3 position = 5
+        f.moveForwardMultiplePLayers(true,false,true,false);
+        f.moveForwardMultiplePLayers(true,false,true,false);
+        f.moveForwardMultiplePLayers(true,false,true,false);
+        f.moveForwardMultiplePLayers(true,false,true,false);
+        f.moveForwardMultiplePLayers(true,false,true,false);//player1 position = 15 and player 3 position = 10
+
+        String updateMessage2 = f.getUpdateMessageOfFaithTrackCurrentState();
+        System.out.println(updateMessage2);
+
+        Response response2 = (Response) gson.fromJson(updateMessage2, Response.class);
+
+        assertEquals("faithTrackUpdate", response2.getCmd());
+        assertSame(15, response2.getNewPlayersPositions()[0]);
+        assertSame(10, response2.getNewPlayersPositions()[2]);
+        assertSame(true, response2.getNewActiveFirstPapalFavourCard()[0]);
     }
 }
