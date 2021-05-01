@@ -120,9 +120,7 @@ public class CardDecoder {
                         default:
                             break;
                     }
-
                     return result;
-
                 }
 
 
@@ -188,6 +186,6 @@ public class CardDecoder {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        return "the card id is not valid";
     }
 }
