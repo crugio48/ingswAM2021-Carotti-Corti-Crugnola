@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.cards.PersonalDevCardSlot;
 import it.polimi.ingsw.model.resources.ResourceBox;
 import it.polimi.ingsw.model.resources.StorageContainer;
 
+import java.util.ArrayList;
+
 public class Player {
     private String username;
     private int turnOrder; //order in which the selected player will play [1,2,3 or 4]
@@ -248,4 +250,56 @@ public class Player {
         if (myCoins < costCoins || myStones < costStones || myServants < costServants || myShields < costShields) return false;
         else return true;
     }
+
+    public String getUpdateMessageOfStorageCurrentState() throws CloneNotSupportedException {
+        String playerName = this.getUsername();
+        ArrayList<String> resourceTypeOfSlot = new ArrayList<String>();
+        ArrayList<Integer> resourceQuantityOfSlot = new ArrayList<Integer>();
+
+
+        for (int i = 1; i <= 5; i++){
+            if (storage.getResourceOfSlot(i) != null){
+                resourceTypeOfSlot.add(storage.getResourceOfSlot(i).getName());
+                resourceQuantityOfSlot.add(storage.getResourceOfSlot(i).getQuantity());
+            }
+            else {
+                resourceTypeOfSlot.add(null);
+                resourceQuantityOfSlot.add(0);
+            }
+        }
+        return "{\"cmd\" : \"storageUpdate\", \"playerUsername\" : " +
+                playerName + "," +
+                "\"newResourceTypeOfSLot1\" : " +
+                resourceTypeOfSlot.get(0) + "," +
+                "\"newResourceTypeOfSLot2\" : " +
+                resourceTypeOfSlot.get(1)+ "," +
+                "\"newResourceTypeOfSLot3\" : " +
+                resourceTypeOfSlot.get(2) + "," +
+                "\"newQuantityOfSlot1\" : " +
+                resourceQuantityOfSlot.get(0) + "," +
+                "\"newQuantityOfSlot2\" : " +
+                resourceQuantityOfSlot.get(1) + "," +
+                "\"newQuantityOfSlot3\" : " +
+                resourceQuantityOfSlot.get(2) + "," +
+                "\"newResourceTypeOfLeaderSlot1\" : " +
+                resourceTypeOfSlot.get(3) + "," +
+                "\"newResourceTypeOfLeaderSlot2\" : " +
+                resourceTypeOfSlot.get(4) + "," +
+                "\"newQuantityOfLeaderSlot1\" : " +
+                resourceQuantityOfSlot.get(3) + "," +
+                "\"newQuantityOfLeaderSlot2\" : " +
+                resourceQuantityOfSlot.get(4) + "}";
+    }
+
+    public String getUpdateMessageOfChestCurrentState() {
+        return "{\"cmd\" : \"chestUpdate\", \"newCoinsQuantity\" : " +
+                chest.getResourceQuantity("coins") + "," +
+                "\"newShieldsQuantity\" : " + chest.getResourceQuantity("shields") + "," +
+                "\"newStonesQuantity\" : " + chest.getResourceQuantity("stones") + "," +
+                "\"newServantsQuantity\" : " + chest.getResourceQuantity("servants") + "}";
+    }
+
+
+
+
 }
