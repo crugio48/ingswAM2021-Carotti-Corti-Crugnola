@@ -267,4 +267,13 @@ public class Game {
         p.setLeaderCard(leaderCards.remove(code2),2);
         return true;
     }
+
+
+    public String getUpdateMessageOfNewCurrentPlayer(){
+        return "{\"cmd\" : \"endTurnUpdate\", \"newCurrentPlayer\" : " +
+                this.currentPlayer + "}";
+    }
+
+
+
 }

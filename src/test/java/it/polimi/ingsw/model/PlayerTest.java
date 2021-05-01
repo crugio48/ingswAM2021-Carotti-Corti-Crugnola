@@ -55,6 +55,9 @@ public class PlayerTest {
         Response response2 = (Response) gson.fromJson(updateMessage2, Response.class);
         System.out.println(updateMessage2);
 
+        assertEquals("cru", response2.getPlayerUsername());
+
+
     }
 
     @Test
@@ -73,6 +76,8 @@ public class PlayerTest {
         String updateMessage2 = p1.getUpdateMessageOfChestCurrentState();
         Response response2 = (Response) gson.fromJson(updateMessage2, Response.class);
         System.out.println(updateMessage2);
+
+        assertEquals(12, response2.getNewShieldsQuantity() );
 
 
     }

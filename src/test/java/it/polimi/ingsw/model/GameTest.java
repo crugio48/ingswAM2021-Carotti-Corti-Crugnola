@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.Gson;
+import it.polimi.ingsw.beans.Response;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -65,6 +67,41 @@ public class GameTest {
         System.out.println(game.getDevCardSpace().peekTopCard(1,'g'));
         System.out.println(game.getDevCardSpace().peekTopCard(1,'y'));
         System.out.println(game.getDevCardSpace().peekTopCard(1,'p'));
+    }
+
+
+    @Test
+    public void updateStringJsonFormatNewCurrentPlayerTest(){
+        Gson gson = new Gson();
+        String updateMessage = game.getUpdateMessageOfNewCurrentPlayer();
+        System.out.println(updateMessage);
+        Response response = (Response) gson.fromJson(updateMessage, Response.class);
+        assertEquals("endTurnUpdate", response.getCmd());
+        assertEquals(1, response.getNewCurrentPlayer());
+
+        Player p1 = new Player("a");
+        Player p2 = new Player("b");
+        Player p3 = new Player("c");
+        Player p4 = new Player("d");
+
+        game.addPlayerToGame(p1);
+        game.addPlayerToGame(p2);
+        game.addPlayerToGame(p3);
+        game.addPlayerToGame(p4);
+
+        game.endTurn(); //adding positions to current player
+        game.endTurn();
+        game.endTurn();
+        game.endTurn();
+
+        String updateMessage2 = game.getUpdateMessageOfNewCurrentPlayer();
+        System.out.println(updateMessage2);
+        Response response2 = (Response) gson.fromJson(updateMessage2, Response.class);
+        assertEquals(1, response2.getNewCurrentPlayer());
+
+
+
+
     }
 
 }
