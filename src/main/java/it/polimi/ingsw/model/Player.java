@@ -251,8 +251,7 @@ public class Player {
         else return true;
     }
 
-    public String getUpdateMessageOfStorageCurrentState() throws CloneNotSupportedException {
-        String playerName = this.getUsername();
+    public String getUpdateMessageOfStorageCurrentState()  {
         ArrayList<String> resourceTypeOfSlot = new ArrayList<String>();
         ArrayList<Integer> resourceQuantityOfSlot = new ArrayList<Integer>();
 
@@ -267,36 +266,45 @@ public class Player {
                 resourceQuantityOfSlot.add(0);
             }
         }
-        return "{\"cmd\" : \"storageUpdate\", \"playerUsername\" : " +
-                playerName + "," +
-                "\"newResourceTypeOfSLot1\" : " +
-                resourceTypeOfSlot.get(0) + "," +
-                "\"newResourceTypeOfSLot2\" : " +
-                resourceTypeOfSlot.get(1)+ "," +
-                "\"newResourceTypeOfSLot3\" : " +
-                resourceTypeOfSlot.get(2) + "," +
-                "\"newQuantityOfSlot1\" : " +
-                resourceQuantityOfSlot.get(0) + "," +
-                "\"newQuantityOfSlot2\" : " +
-                resourceQuantityOfSlot.get(1) + "," +
-                "\"newQuantityOfSlot3\" : " +
-                resourceQuantityOfSlot.get(2) + "," +
-                "\"newResourceTypeOfLeaderSlot1\" : " +
-                resourceTypeOfSlot.get(3) + "," +
-                "\"newResourceTypeOfLeaderSlot2\" : " +
-                resourceTypeOfSlot.get(4) + "," +
-                "\"newQuantityOfLeaderSlot1\" : " +
-                resourceQuantityOfSlot.get(3) + "," +
-                "\"newQuantityOfLeaderSlot2\" : " +
-                resourceQuantityOfSlot.get(4) + "}";
+        return "{\"cmd\" : \"storageUpdate\", " +
+                "\"playerUsername\" : \"" + username + "\"," +
+                "\"newResourceTypeOfSLot1\" : \"" + resourceTypeOfSlot.get(0) + "\"," +
+                "\"newResourceTypeOfSLot2\" : \"" + resourceTypeOfSlot.get(1)+ "\"," +
+                "\"newResourceTypeOfSLot3\" : \"" + resourceTypeOfSlot.get(2) + "\"," +
+                "\"newQuantityOfSlot1\" : " + resourceQuantityOfSlot.get(0) + "," +
+                "\"newQuantityOfSlot2\" : " + resourceQuantityOfSlot.get(1) + "," +
+                "\"newQuantityOfSlot3\" : " + resourceQuantityOfSlot.get(2) + "," +
+                "\"newResourceTypeOfLeaderSlot1\" : \"" + resourceTypeOfSlot.get(3) + "\"," +
+                "\"newResourceTypeOfLeaderSlot2\" : \"" + resourceTypeOfSlot.get(4) + "\"," +
+                "\"newQuantityOfLeaderSlot1\" : " + resourceQuantityOfSlot.get(3) + "," +
+                "\"newQuantityOfLeaderSlot2\" : " + resourceQuantityOfSlot.get(4) + "}";
     }
 
     public String getUpdateMessageOfChestCurrentState() {
-        return "{\"cmd\" : \"chestUpdate\", \"newCoinsQuantity\" : " +
-                chest.getResourceQuantity("coins") + "," +
+        return "{\"cmd\" : \"chestUpdate\", " +
+                "\"playerUsername\" : \"" + username + "\"," +
+                "\"newCoinsQuantity\" : " + chest.getResourceQuantity("coins") + "," +
                 "\"newShieldsQuantity\" : " + chest.getResourceQuantity("shields") + "," +
                 "\"newStonesQuantity\" : " + chest.getResourceQuantity("stones") + "," +
                 "\"newServantsQuantity\" : " + chest.getResourceQuantity("servants") + "}";
+    }
+
+    public String getLeaderCardsMessageOfCurrentState() {
+        int leaderCode1 = 0;
+        int leaderCode2 = 0;
+        if (!leaderCard[0].isDiscarded()){
+            leaderCode1 = leaderCard[0].getCode();
+        }
+        if (!leaderCard[1].isDiscarded()) {
+            leaderCode2 = leaderCard[1].getCode();
+        }
+
+        return "{\"cmd\" : \"leaderCardsUpdate\", " +
+                "\"playerUsername\" : \"" + username + "\", " +
+                "\"leader1Code\" : " + leaderCode1 + ", " +
+                "\"leader1Active\" : " + leaderCard[0].isActive() + ", " +
+                "\"leader2Code\" : " + leaderCode2 + ", " +
+                "\"leader2Active\" : " + leaderCard[1].isActive() + "}";
     }
 
 

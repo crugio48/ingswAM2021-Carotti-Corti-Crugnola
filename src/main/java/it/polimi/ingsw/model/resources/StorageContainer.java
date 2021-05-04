@@ -370,23 +370,18 @@ public class StorageContainer {
      * @param slotNumber is the slot that is going to be observed
      * @return is the clone of the resource present, is null if no resource is present
      */
-    public Resource getResourceOfSlot(int slotNumber) throws CloneNotSupportedException {
+    public Resource getResourceOfSlot(int slotNumber){
         switch(slotNumber) {
             case(1):
-                if (slot1 != null) return (Resource)slot1.clone();
-                else return null;
+                return slot1;
             case(2):
-                if (slot2 != null) return (Resource)slot2.clone();
-                else return null;
+                return slot2;
             case(3):
-                if (slot3 != null) return (Resource)slot3.clone();
-                else return null;
+                return slot3;
             case(4):
-                if (slot4Leader != null) return (Resource)slot4Leader.clone();
-                else return null;
+                return slot4Leader;
             case(5):
-                if (slot5Leader != null) return (Resource)slot5Leader.clone();
-                else return null;
+                return slot5Leader;
             default:
                 return null;
         }

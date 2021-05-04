@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.resources.*;
 public class LeaderCard extends Card {
     private int code;
     private boolean active;
+    private boolean discarded;
     private ResourceBox resourceRequirement;
     private DevCardsRequirement cardsRequirement;
     private LeaderEffect effect;
@@ -14,6 +15,7 @@ public class LeaderCard extends Card {
     public LeaderCard(int code, DevCardsRequirement cardsRequirement, LeaderEffect effect, int victoryPoints) {
         this.code = code;
         this.active = false;
+        this.discarded = false;
         this.resourceRequirement = null;
         this.cardsRequirement = cardsRequirement;
         this.effect = effect;
@@ -24,6 +26,7 @@ public class LeaderCard extends Card {
     public LeaderCard(int code, ResourceBox resourceRequirement, LeaderEffect effect, int victoryPoints) {
         this.code = code;
         this.active = false;
+        this.discarded = false;
         this.resourceRequirement = resourceRequirement;
         this.cardsRequirement = null;
         this.effect = effect;
@@ -57,13 +60,29 @@ public class LeaderCard extends Card {
         return this.active;
     }
 
-
-
-    public void activateCard(){
-        this.active = true;
+    public boolean isDiscarded() {
+        return discarded;
     }
 
-    public void deactivateCard() { this.active = false; }
+    public boolean activateCard(){
+        if (this.isDiscarded()) {
+            return false;
+        }
+        else {
+            this.active = true;
+            return true;
+        }
+    }
+
+    public boolean discardCard() {
+        if (this.isActive()) {
+            return false;
+        }
+        else {
+            this.discarded = true;
+            return true;
+        }
+    }
 
     @Override
     public String toString() {
