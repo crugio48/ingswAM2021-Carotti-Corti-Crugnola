@@ -28,19 +28,20 @@ public class CardDecoder {
                 tempCard = leaderResourceIterator.next();
                 int readCode = ((Long)tempCard.get("id")).intValue();
                 if (readCode == providedCode){
+                    result = "Card Code: " + String.valueOf(providedCode) + ", ";
 
                     switch((String)tempCard.get("required")) {
                         case("shields"):
-                            result = "Resource Required: shields, ";
+                            result = result + "Resource Required: shields, ";
                             break;
                         case("stones"):
-                            result = "Resource Required: stones, ";
+                            result = result + "Resource Required: stones, ";
                             break;
                         case("servants"):
-                            result = "Resource Required: servants, ";
+                            result = result + "Resource Required: servants, ";
                             break;
                         case("coins"):
-                            result = "Resource Required: coins, ";
+                            result = result + "Resource Required: coins, ";
                             break;
                         default:
                             break;
@@ -78,8 +79,6 @@ public class CardDecoder {
             e.printStackTrace();
         }
 
-
-
         try {
             Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
             JSONObject leaderDevJsonObj = (JSONObject) leaderDevObj;
@@ -92,6 +91,7 @@ public class CardDecoder {
 
                 if (readCode == providedCode){
                     String result;
+                    result = "Card Code: " + String.valueOf(providedCode) + ", ";
 
                     int greenReq = ((Long)tempCard.get("greenCardsRequired")).intValue();
                     int purpleReq = ((Long)tempCard.get("purpleCardsRequired")).intValue();
@@ -99,7 +99,7 @@ public class CardDecoder {
                     int yellowReq = ((Long)tempCard.get("yellowCardsRequired")).intValue();
                     boolean lvlTwoReq = (Boolean)tempCard.get("levelTwoRequired");
                     int vicPoints = ((Long)tempCard.get("victoryPoints")).intValue();
-                    result =    "green Cards Required: " + greenReq + ", " +
+                    result = result +    "green Cards Required: " + greenReq + ", " +
                                 "purple Cards Required: " + purpleReq + ", " +
                                 "blue Cards Required: " + blueReq + ", " +
                                 "yellow Cards Required: " + yellowReq + ", " +
@@ -123,7 +123,6 @@ public class CardDecoder {
                     return result;
                 }
 
-
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -132,8 +131,6 @@ public class CardDecoder {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
 
         try {
             Object devObj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
@@ -146,6 +143,7 @@ public class CardDecoder {
                 int readCode = ((Long)tempCard.get("code")).intValue();
 
                 if (readCode == providedCode){
+
                     int level = ((Long)tempCard.get("level")).intValue();
                     String colour = ((String) tempCard.get("colour"));
                     int costStones = ((Long)tempCard.get("costStones")).intValue();
@@ -161,7 +159,7 @@ public class CardDecoder {
                     int outputFaith = ((Long)tempCard.get("outputFaith")).intValue();
                     int victoryPoints = ((Long)tempCard.get("victoryPoints")).intValue();
 
-                    return "level: " + level + ", " +
+                    return "Card Code: " + String.valueOf(providedCode) + ", level: " + level + ", " +
                             "colour: " + colour + ", " +
                             "costStones: " + costStones + ", " +
                             "costServants: " + costServants + ", " +
