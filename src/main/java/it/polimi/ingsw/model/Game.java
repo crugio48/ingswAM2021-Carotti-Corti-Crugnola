@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.actionCardsEffects.FaithEffect;
 import it.polimi.ingsw.model.cards.actionCardsEffects.RemoveDevCardEffect;
@@ -20,7 +21,6 @@ import java.util.*;
 
 public class Game {
     private int numOfPlayers;
-    private int currentPlayer;
     private ArrayList<Player> players;
     private HashMap<Integer,LeaderCard> leaderCards;
     private Deck actionCardDeck;
@@ -33,7 +33,6 @@ public class Game {
     //hardcoding of the action Cards instead of using json since there are just 7 cards
     public Game(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
-        this.currentPlayer = 1;
         this.players = new ArrayList<>();
         this.usedActionCards = new Stack<>();
         this.faithTrack = new FaithTrack();
@@ -159,8 +158,11 @@ public class Game {
      * @return false ff the player already exists
      * @return false and if the limit of player is already reached
      */
-    public boolean addPlayerToGame(Player p) {
-        if (players.size() >= this.numOfPlayers) return false;
+    public boolean addPlayerToGame(Player p) throws GameAlreadyFullException {
+        if (players.size() >= this.numOfPlayers) {
+            throw new GameAlreadyFullException("we are sorry but the game is already full," +
+                    " disconnecting from server");
+        }
         if(this.getPlayerByNickname(p.getUsername()) != null) return false;
 
         p.setTurnOrder(players.size() + 1);
@@ -180,7 +182,14 @@ public class Game {
         for(Player p: players) {
             if (p.getUsername().equals(nickname)) return p;
         }
-        return null;   //return nullif player with that nickname doesn't exist in the game
+        return null;   //return null if player with that nickname doesn't exist in the game
+    }
+
+    public Player getPlayerByTurnOrder(int turnOrder) {
+        for(Player p: players) {
+            if (p.getTurnOrder() == turnOrder) return p;
+        }
+        return null; //return null if player with that nickname doesn't exist in the game
     }
 
     /**
@@ -212,19 +221,6 @@ public class Game {
         actionCardDeck.randomizeDeck();
     }
 
-
-    /**
-     * if the currentPlayer (that can be either 1, 2, 3 or 4 if the players in the game are 4)
-     * is 1, 2 or 3 we increment the value, if it's 4, becomes 1
-     */
-    public void endTurn(){
-        if (currentPlayer < numOfPlayers) currentPlayer++;
-        else currentPlayer = 1;
-    }
-
-    public int getCurrentPlayer() {
-        return currentPlayer;
-    }
 
     public int getNumOfPlayers() {
         return numOfPlayers;
@@ -267,13 +263,6 @@ public class Game {
         p.setLeaderCard(leaderCards.remove(code2),2);
         return true;
     }
-
-
-    public String getUpdateMessageOfNewCurrentPlayer(){
-        return "{\"cmd\" : \"endTurnUpdate\", \"newCurrentPlayer\" : " +
-                this.currentPlayer + "}";
-    }
-
 
 
 }

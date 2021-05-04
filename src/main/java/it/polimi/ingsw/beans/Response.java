@@ -55,6 +55,7 @@ public class Response {
     int newShieldsQuantity;
     int newServantsQuantity;
     int newCurrentPlayer;
+    int[] leaderCardsDrawn = new int[4];
     //updated all getters and setters up to this variable
 
 
@@ -276,6 +277,9 @@ public class Response {
         return newCurrentPlayer;
     }
 
+    public int[] getLeaderCardsDrawn() {
+        return leaderCardsDrawn;
+    }
 
     // start of all setters /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -494,5 +498,9 @@ public class Response {
 
     public void setNewCurrentPlayer(int newCurrentPlayer) {
         this.newCurrentPlayer = newCurrentPlayer;
+    }
+
+    public void setLeaderCardsDrawn(int[] leaderCardsDrawn) {
+        this.leaderCardsDrawn = leaderCardsDrawn;
     }
 }

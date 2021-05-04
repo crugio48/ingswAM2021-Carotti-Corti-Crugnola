@@ -31,16 +31,4 @@ public class ResourceTest {
         assertNotEquals(r1, r2);
     }
 
-    @Test
-    public void cloneTest() throws CloneNotSupportedException {
-        Resource rClone = (Resource)r1.clone();
-
-        assertSame(rClone.getQuantity(), r1.getQuantity());
-        System.out.println("clone: " + rClone.toString() + " Original: " + r1.toString());
-
-        rClone.setQuantity(100);
-
-        assertNotSame(rClone.getQuantity(), r1.getQuantity());
-        System.out.println("clone: " + rClone.toString() + " Original: " + r1.toString());
-    }
 }
