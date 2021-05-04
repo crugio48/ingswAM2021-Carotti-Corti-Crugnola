@@ -11,6 +11,8 @@ import java.util.Iterator;
 
 
 public class CardDecoder {
+
+
     public String printOnCliCard(int providedCode){
         JSONParser parser = new JSONParser();
         JSONObject tempCard;
