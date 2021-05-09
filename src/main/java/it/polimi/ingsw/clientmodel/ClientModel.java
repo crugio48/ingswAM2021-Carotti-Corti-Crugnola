@@ -1,7 +1,7 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.clientmodel;
 
 
-public class View {
+public class ClientModel {
 
 
 
@@ -9,21 +9,21 @@ public class View {
     private int numberOfPlayer;
     private int lastUsedActionCardCode;
     private int selectplayer;
-    private ViewMarket market;
-    private ViewFaithTrack faithTrack;
-    private ViewDevCardSpace devCardSpace;
-    private ViewPlayer[] players;
+    private ClientModelMarket market;
+    private ClientModelFaithTrack faithTrack;
+    private ClientModelDevCardSpace devCardSpace;
+    private ClientModelPlayer[] players;
 
 
 
-    public View (){
+    public ClientModel(){
         this.currentPlayer = 0;
         this.numberOfPlayer = 0;
         this.lastUsedActionCardCode = 0;
-        this.market = new ViewMarket();
-        this.faithTrack = new ViewFaithTrack();
-        this.devCardSpace = new ViewDevCardSpace();
-        this.players = new ViewPlayer[4];
+        this.market = new ClientModelMarket();
+        this.faithTrack = new ClientModelFaithTrack();
+        this.devCardSpace = new ClientModelDevCardSpace();
+        this.players = new ClientModelPlayer[4];
     }
 
     public int getCurrentPlayer() {
@@ -38,21 +38,21 @@ public class View {
         return lastUsedActionCardCode;
     }
 
-    public ViewMarket getMarket() {
+    public ClientModelMarket getMarket() {
         return market;
     }
 
-    public ViewFaithTrack getFaithTrack() {
+    public ClientModelFaithTrack getFaithTrack() {
         return faithTrack;
     }
 
 
 
-    public ViewDevCardSpace getDevCardSpace() {
+    public ClientModelDevCardSpace getDevCardSpace() {
         return devCardSpace;
     }
 
-    public ViewPlayer getPlayer(int selectplayer) {
+    public ClientModelPlayer getPlayer(int selectplayer) {
         return players[selectplayer];
     }
 
@@ -69,21 +69,21 @@ public class View {
         this.lastUsedActionCardCode = lastUsedActionCardCode;
     }
 
-    public void setMarket(ViewMarket market) {
+    public void setMarket(ClientModelMarket market) {
         this.market = market;
     }
 
-    public void setFaithTrack(ViewFaithTrack faithTrack) {
+    public void setFaithTrack(ClientModelFaithTrack faithTrack) {
         this.faithTrack = faithTrack;
     }
 
 
 
-    public void setDevCardSpace(ViewDevCardSpace devCardSpace) {
+    public void setDevCardSpace(ClientModelDevCardSpace devCardSpace) {
         this.devCardSpace = devCardSpace;
     }
 
-    public void setPlayer(ViewPlayer players, int selectplayer) {
+    public void setPlayer(ClientModelPlayer players, int selectplayer) {
         this.players[selectplayer] = players;
     }
 

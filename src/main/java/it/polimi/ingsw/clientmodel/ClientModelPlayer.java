@@ -1,22 +1,22 @@
-package it.polimi.ingsw.view;
+package it.polimi.ingsw.clientmodel;
 
-public class ViewPlayer {
+public class ClientModelPlayer {
     private String nickname;
     private int turnOrder;
-    private ViewLeaderCard[] leaderCard;
-    private ViewChest chest;
-    private ViewStorage storage;
-    private ViewPersonalDevCardSlots personalDevCardSlots;
+    private ClientModelLeaderCard[] leaderCard;
+    private ClientModelChest chest;
+    private ClientModelStorage storage;
+    private ClientModelPersonalDevCardSlots personalDevCardSlots;
     private int currentVictoryPoints;
     private int selectleader;
 
-    public ViewPlayer(){
+    public ClientModelPlayer(){
         this.nickname = "";
         this.turnOrder = 0;
-        this.leaderCard = new ViewLeaderCard[2];
-        this.chest = new ViewChest();
-        this.storage = new ViewStorage();
-        this.personalDevCardSlots = new ViewPersonalDevCardSlots();
+        this.leaderCard = new ClientModelLeaderCard[2];
+        this.chest = new ClientModelChest();
+        this.storage = new ClientModelStorage();
+        this.personalDevCardSlots = new ClientModelPersonalDevCardSlots();
         this.currentVictoryPoints = 0;
 
 
@@ -30,19 +30,19 @@ public class ViewPlayer {
         return turnOrder;
     }
 
-    public ViewLeaderCard getLeaderCard(int selectleader) {
+    public ClientModelLeaderCard getLeaderCard(int selectleader) {
         return leaderCard[selectleader];
     }
 
-    public ViewChest getChest() {
+    public ClientModelChest getChest() {
         return chest;
     }
 
-    public ViewStorage getStorage() {
+    public ClientModelStorage getStorage() {
         return storage;
     }
 
-    public ViewPersonalDevCardSlots getPersonalDevCardSlots() {
+    public ClientModelPersonalDevCardSlots getPersonalDevCardSlots() {
         return personalDevCardSlots;
     }
 
@@ -58,19 +58,19 @@ public class ViewPlayer {
         this.turnOrder = turnOrder;
     }
 
-    public void setLeaderCard(ViewLeaderCard leaderCard, int selectleader) {
+    public void setLeaderCard(ClientModelLeaderCard leaderCard, int selectleader) {
         this.leaderCard[selectleader] = leaderCard;
     }
 
-    public void setChest(ViewChest chest) {
+    public void setChest(ClientModelChest chest) {
         this.chest = chest;
     }
 
-    public void setStorage(ViewStorage storage) {
+    public void setStorage(ClientModelStorage storage) {
         this.storage = storage;
     }
 
-    public void setPersonalDevCardSlots(ViewPersonalDevCardSlots personalDevCardSlots) {
+    public void setPersonalDevCardSlots(ClientModelPersonalDevCardSlots personalDevCardSlots) {
         this.personalDevCardSlots = personalDevCardSlots;
     }
 

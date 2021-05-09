@@ -17,7 +17,6 @@ public class ConvertWhiteMarbleMarketEffectTest {
     public void testGetEffectType(){
         rb.addResource(r);
         LeaderEffect l = new ConvertWhiteMarbleMarketEffect("shields");
-
         assertSame("convertWhiteMarbleMarketEffect", l.getEffectName() );
 
     }
