@@ -54,6 +54,8 @@ public class Response {
     int newStonesQuantity;
     int newShieldsQuantity;
     int newServantsQuantity;
+    int newDevCardCode;
+    int stackSlotNumberToPlace;
     int newCurrentPlayer;
     int[] leaderCardsDrawn = new int[4];
     //updated all getters and setters up to this variable
@@ -271,6 +273,14 @@ public class Response {
 
     public int getNewServantsQuantity() {
         return newServantsQuantity;
+    }
+
+    public int getNewDevCardCode() {
+        return newDevCardCode;
+    }
+
+    public int getStackSlotNumberToPlace() {
+        return stackSlotNumberToPlace;
     }
 
     public int getNewCurrentPlayer() {
@@ -494,6 +504,14 @@ public class Response {
 
     public void setNewServantsQuantity(int newServantsQuantity) {
         this.newServantsQuantity = newServantsQuantity;
+    }
+
+    public void setNewDevCardCode(int newDevCardCode) {
+        this.newDevCardCode = newDevCardCode;
+    }
+
+    public void setStackSlotNumberToPlace(int stackSlotNumberToPlace) {
+        this.stackSlotNumberToPlace = stackSlotNumberToPlace;
     }
 
     public void setNewCurrentPlayer(int newCurrentPlayer) {
