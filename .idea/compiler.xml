@@ -6,6 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ingswAM2021-Carotti-Corti-Crugnola" />
         <module name="ProgettoIngSw" />
         <module name="AM44" />
       </profile>
