@@ -211,6 +211,14 @@ public class MasterController {
         return game.getFaithTrack().getUpdateMessageOfFaithTrackCurrentState();
     }
 
+    public String getMarketUpdate() {
+        return game.getMarket().getUpdateMessageOfMarketCurrentState();
+    }
+
+    public String getDevCardsSpaceUpdate() {
+        return game.getDevCardSpace().getUpdateMessageOfDevCardSpaceCurrentState();
+    }
+
     public String getStorageUpdateOfPlayer(int turnOrder) {
         return game.getPlayerByTurnOrder(turnOrder).getUpdateMessageOfStorageCurrentState();
     }
@@ -222,6 +230,7 @@ public class MasterController {
     public String getChestUpdateOfPlayer(int turnOrder) {
         return game.getPlayerByTurnOrder(turnOrder).getUpdateMessageOfChestCurrentState();
     }
+
 
 
 }

@@ -253,23 +253,23 @@ public class MarbleContainer {
 
     public String getUpdateMessageOfMarketCurrentState() {
 
-        return "{\"cmd\" : \"marketUpdate\", \"newFirstMarketRow\" : [" +
-                marbleMatrix[0][0].getColor().charAt(0) + "," +
-                marbleMatrix[0][1].getColor().charAt(0) + "," +
-                marbleMatrix[0][2].getColor().charAt(0) + "," +
-                marbleMatrix[0][3].getColor().charAt(0) + "], " +
-                "\"newSecondMarketRow\" : [" +
-                marbleMatrix[1][0].getColor().charAt(0) + "," +
-                marbleMatrix[1][1].getColor().charAt(0) + "," +
-                marbleMatrix[1][2].getColor().charAt(0) + "," +
-                marbleMatrix[1][3].getColor().charAt(0) + "]," +
-                "\"newThirdMarketRow\" : [" +
-                marbleMatrix[2][0].getColor().charAt(0) + "," +
-                marbleMatrix[2][1].getColor().charAt(0) + "," +
-                marbleMatrix[2][2].getColor().charAt(0) + "," +
-                marbleMatrix[2][3].getColor().charAt(0) + "]," +
-                "\"newExtraMarble\" : " +
-                extraMarble.getColor().charAt(0) + "}";
+        return "{\"cmd\" : \"marketUpdate\", \"newFirstMarketRow\" : [\"" +
+                marbleMatrix[0][0].getColor() + "\", \"" +
+                marbleMatrix[0][1].getColor() + "\", \"" +
+                marbleMatrix[0][2].getColor() + "\", \"" +
+                marbleMatrix[0][3].getColor() + "\"], " +
+                "\"newSecondMarketRow\" : [\"" +
+                marbleMatrix[1][0].getColor() + "\", \"" +
+                marbleMatrix[1][1].getColor() + "\", \"" +
+                marbleMatrix[1][2].getColor() + "\", \"" +
+                marbleMatrix[1][3].getColor() + "\"]," +
+                "\"newThirdMarketRow\" : [\"" +
+                marbleMatrix[2][0].getColor() + "\", \"" +
+                marbleMatrix[2][1].getColor() + "\", \"" +
+                marbleMatrix[2][2].getColor() + "\", \"" +
+                marbleMatrix[2][3].getColor() + "\"]," +
+                "\"newExtraMarble\" : \"" +
+                extraMarble.getColor() + "\"}";
     }
 
 

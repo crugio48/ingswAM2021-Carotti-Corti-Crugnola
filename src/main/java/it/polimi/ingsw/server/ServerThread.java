@@ -192,7 +192,9 @@ public class ServerThread implements Runnable {
 
                 updateBroadcaster.broadcastMessage(masterController.getSetupUpdateMessage());
                 updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
-                //Thread.sleep(3 * 1000); //just to make sure that the setup update message has arrived
+                updateBroadcaster.broadcastMessage(masterController.getMarketUpdate());
+                updateBroadcaster.broadcastMessage(masterController.getDevCardsSpaceUpdate());
+                //Thread.sleep(3 * 1000);
 
                 for (int i = 1; i <= numOfPlayers; i++) {
                     updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(i));

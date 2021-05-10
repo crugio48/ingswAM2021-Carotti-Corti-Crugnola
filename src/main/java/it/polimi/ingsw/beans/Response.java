@@ -32,10 +32,10 @@ public class Response {
     int newYellow1;
     int newYellow2;
     int newYellow3;
-    char[] newFirstMarketRow = new char[4];
-    char[] newSecondMarketRow = new char[4];
-    char[] newThirdMarketRow = new char[4];
-    char newExtraMarble;
+    String[] newFirstMarketRow = new String[4];
+    String[] newSecondMarketRow = new String[4];
+    String[] newThirdMarketRow = new String[4];
+    String newExtraMarble;
     String playerUsername;
     String[] playerUsernames = new String[4];
     String newResourceTypeOfSlot1;
@@ -187,19 +187,19 @@ public class Response {
         return newYellow3;
     }
 
-    public char[] getNewFirstMarketRow() {
+    public String[] getNewFirstMarketRow() {
         return newFirstMarketRow;
     }
 
-    public char[] getNewSecondMarketRow() {
+    public String[] getNewSecondMarketRow() {
         return newSecondMarketRow;
     }
 
-    public char[] getNewThirdMarketRow() {
+    public String[] getNewThirdMarketRow() {
         return newThirdMarketRow;
     }
 
-    public char getNewExtraMarble() {
+    public String getNewExtraMarble() {
         return newExtraMarble;
     }
 
@@ -418,19 +418,19 @@ public class Response {
         this.newYellow3 = newYellow3;
     }
 
-    public void setNewFirstMarketRow(char[] newFirstMarketRow) {
+    public void setNewFirstMarketRow(String[] newFirstMarketRow) {
         this.newFirstMarketRow = newFirstMarketRow;
     }
 
-    public void setNewSecondMarketRow(char[] newSecondMarketRow) {
+    public void setNewSecondMarketRow(String[] newSecondMarketRow) {
         this.newSecondMarketRow = newSecondMarketRow;
     }
 
-    public void setNewThirdMarketRow(char[] newThirdMarketRow) {
+    public void setNewThirdMarketRow(String[] newThirdMarketRow) {
         this.newThirdMarketRow = newThirdMarketRow;
     }
 
-    public void setNewExtraMarble(char newExtraMarble) {
+    public void setNewExtraMarble(String newExtraMarble) {
         this.newExtraMarble = newExtraMarble;
     }
 
