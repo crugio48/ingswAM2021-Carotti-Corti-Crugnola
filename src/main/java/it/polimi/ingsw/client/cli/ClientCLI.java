@@ -49,9 +49,6 @@ public class ClientCLI extends Client {
 
             //this loop is the initial setup one
             while (true) {
-                while (stringBuffer.isEmpty()) {
-                    Thread.sleep(500);
-                }
                 serverResp = stringBuffer.readMessage();
                 response = (Response) gson.fromJson(serverResp, Response.class);
 
