@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
+import it.polimi.ingsw.client.MessageSender;
 
 import java.io.*;
 import java.net.Socket;
@@ -32,8 +33,7 @@ public class ClientCLI extends Client {
         try {
             Socket socket = new Socket(hostName, portNumber);
 
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            //BufferedReader serverIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.messageSender = new MessageSender(socket); //this is the object to use to send messages to the server
 
             ClientConnectionThread clientConnectionThread = new ClientConnectionThread(this, socket);
 
@@ -43,7 +43,6 @@ public class ClientCLI extends Client {
 
 
             String userInput;
-            String outMessage;
             String serverResp;
             Response response;
             String temporaryUsername = null; // this will be used to save the final username and get our turnOrder value from the view
@@ -78,9 +77,7 @@ public class ClientCLI extends Client {
                             }
                             break;
                         }
-                        outMessage = "{\"numOfPlayers\" : " + num + "}";
-                        out.println(outMessage);
-                        out.flush();
+                        messageSender.sendInitialNumOfPlayers(num);
                         break;
 
                     case"insertUsername":
@@ -94,9 +91,7 @@ public class ClientCLI extends Client {
                             }
                             break;
                         }
-                        outMessage = "{\"username\" : \"" + userInput +"\"}";
-                        out.println(outMessage);
-                        out.flush();
+                        messageSender.sendUsername(userInput);
                         temporaryUsername = userInput;
                         break;
 
@@ -151,9 +146,7 @@ public class ClientCLI extends Client {
                             }
                             break;
                         }
-                        outMessage = "{\"chosenLeader1\" : " + card1Code + ",\"chosenLeader2\" : " + card2Code + "}";
-                        out.println(outMessage);
-                        out.flush();
+                        messageSender.sendInitialChosenLeaderCards(card1Code, card2Code);
                         break;
 
                     case"giveInitialResources":
@@ -172,9 +165,7 @@ public class ClientCLI extends Client {
                                     }
                                     break;
                                 }
-                                outMessage = "{\"chosenResource1\" : \"" + userInput + "\"}";
-                                out.println(outMessage);
-                                out.flush();
+                                messageSender.sendInitialChosenResources(userInput, null);
                                 break;
                             case 2:
                                 printOut("you need to choose two starting resources," +
@@ -199,9 +190,7 @@ public class ClientCLI extends Client {
                                     }
                                     break;
                                 }
-                                outMessage = "{\"chosenResource1\" : \"" + resource1 + "\", \"chosenResource2\" : \"" + resource2 +"\"}";
-                                out.println(outMessage);
-                                out.flush();
+                                messageSender.sendInitialChosenResources(resource1, resource2);
                                 break;
                             default:
                                 break;
@@ -256,8 +245,7 @@ public class ClientCLI extends Client {
                             printOut("are you sure that you want to close the connection to the server? (yes || no)");
                             userInput = stdIn.nextLine();
                             if (userInput.equals("yes")) {     //this is a reminder if a player gets here by error
-                                out.println("rageQuit");
-                                out.flush();
+                                messageSender.sendDisconnectRequest();
                                 return;
                             }
                         }
@@ -312,8 +300,7 @@ public class ClientCLI extends Client {
                             printOut("are you sure that you want to close the connection to the server? (yes || no)");
                             userInput = stdIn.nextLine();
                             if (userInput.equals("yes")) {     //this is a reminder if a player gets here by error
-                                out.println("rageQuit");
-                                out.flush();
+                                messageSender.sendDisconnectRequest();
                                 return;
                             }
                         }

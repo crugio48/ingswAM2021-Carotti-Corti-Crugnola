@@ -5,6 +5,7 @@ package it.polimi.ingsw.client;
 public abstract class Client {
 
     protected CustomStringBuffer stringBuffer;
+    protected MessageSender messageSender;
     //creare parametro view
 
     public Client() {
