@@ -16,31 +16,29 @@ public class ServerThread implements Runnable {
     private Socket socket;
     private MasterController masterController;
     private UpdateBroadcaster updateBroadcaster;
+    private MessageSenderToMyClient messageSenderToMyClient;
     private String myClientUsername;
     private int myClientTurnOrder;
 
-    public ServerThread(Socket socket, MasterController masterController, UpdateBroadcaster updateBroadcaster) {
+    public ServerThread(Socket socket, MasterController masterController, UpdateBroadcaster updateBroadcaster) throws IOException {
         this.socket = socket;
         this.masterController = masterController;
         this.updateBroadcaster = updateBroadcaster;
+        this.messageSenderToMyClient = new MessageSenderToMyClient(socket); //used to send messages only to our client
     }
 
     public void run() {
         Gson gson = new Gson();
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter out = new PrintWriter(socket.getOutputStream());
 
-            String outMessage;
             String clientInput;
             Command command;
 
             //here the initial setup starts with the server leading the flow
             //only the first client to connect will choose the amount of players in the game
             if (masterController.checkIfIAmTheFirstToConnect()) {
-                outMessage = "{\"cmd\" : \"defineNumberOfPlayers\"}";
-                out.println(outMessage);
-                out.flush();
+                messageSenderToMyClient.askForInitialNumberOfPLayers(null);
 
                 while (true) {
                     clientInput = in.readLine();
@@ -49,19 +47,14 @@ public class ServerThread implements Runnable {
                         break;
                     }
                     else {
-                        outMessage = "{\"cmd\" : \"defineNumberOfPlayers\", \"resp\" : \"there was an error receiving " +
-                                "the number, please insert again\"}";
-                        out.println(outMessage);
-                        out.flush();
+                        messageSenderToMyClient.askForInitialNumberOfPLayers("there was an error receiving the number, please insert again");
                     }
                 }
             }
 
 
             //inserting username, trying to register to game, if game is full then notify and close connection
-            outMessage = "{\"cmd\" : \"insertUsername\"}";
-            out.println(outMessage);
-            out.flush();
+            messageSenderToMyClient.askForInitialUsername(null);
             while (true) {
                 clientInput = in.readLine();
                 command = (Command) gson.fromJson(clientInput, Command.class);
@@ -73,36 +66,22 @@ public class ServerThread implements Runnable {
                         break;
                     }
                     else {
-                        outMessage = "{\"cmd\" : \"insertUsername\", \"resp\" : \"sorry username already exists," +
-                                " please try again\"}";
-                        out.println(outMessage);
-                        out.flush();
-
+                        messageSenderToMyClient.askForInitialUsername("sorry username already exists, please try again");
                     }
                 } catch (GameAlreadyFullException e) {
-                    outMessage = "{\"cmd\" : \"sorryGameAlreadyFull\", \"resp\" : \"" + e.getMessage() + "\"}"; //to stop client main
-                    out.println(outMessage);
-                    out.flush();
-                    out.println("closing connection"); //to stop client thread
-                    out.flush();
-
+                    messageSenderToMyClient.tellGameIsAlreadyFull(e.getMessage());
                     in.close();
-                    out.close();
                     socket.close();
                     return;
                 } catch (GameStillNotInitialized e) {
-                    outMessage = "{\"cmd\" : \"insertUsername\", \"resp\" : \"" + e.getMessage() + "\"}";
-                    out.println(outMessage);
-                    out.flush();
+                    messageSenderToMyClient.askForInitialUsername(e.getMessage());
                 }
             }
 
 
             //distribution of leaderCards
             int[] leaderCardsDrawn = masterController.drawFourLeaderCards();
-            outMessage = "{\"cmd\" : \"leaderDistribution\", \"leaderCardsDrawn\" : " + Arrays.toString(leaderCardsDrawn) + "}";
-            out.println(outMessage);
-            out.flush();
+            messageSenderToMyClient.distributionOfInitialLeaderCards(leaderCardsDrawn, null);
             while (true) {
                 clientInput = in.readLine();
                 command = (Command) gson.fromJson(clientInput, Command.class);
@@ -111,10 +90,8 @@ public class ServerThread implements Runnable {
                     break;
                 }
                 else {
-                    outMessage = "{\"cmd\" : \"leaderDistribution\", \"leaderCardsDrawn\" : " + Arrays.toString(leaderCardsDrawn) + ", " +
-                            "\"resp\" : \"sorry there was a problem in the server, player try choosing your leader cards again\"}";
-                    out.println(outMessage);
-                    out.flush();
+                    messageSenderToMyClient.distributionOfInitialLeaderCards(leaderCardsDrawn,
+                            "sorry there was a problem in the server, player try choosing your leader cards again");
                 }
             }
 
@@ -122,9 +99,7 @@ public class ServerThread implements Runnable {
             switch (myClientTurnOrder) {
                 case 2:
                 case 3:
-                    outMessage = "{\"cmd\" : \"giveInitialResources\", \"numOfInitialResources\" : 1}";
-                    out.println(outMessage);
-                    out.flush();
+                    messageSenderToMyClient.distributionOfInitialResources(1,null);
                     while (true){
                         clientInput = in.readLine();
                         command = (Command) gson.fromJson(clientInput, Command.class);
@@ -133,18 +108,13 @@ public class ServerThread implements Runnable {
                             break;
                         }
                         else {
-                            outMessage = "{\"cmd\" : \"giveInitialResources\", \"numOfInitialResources\" : 1, " +
-                                    "\"resp\" : \"sorry there was an error on the server, please try again to choose the " +
-                                    "initial resources\"}";
-                            out.println(outMessage);
-                            out.flush();
+                            messageSenderToMyClient.distributionOfInitialResources(1,
+                                    "sorry there was an error on the server, please try again to choose the initial resources");
                         }
                     }
                     break;
                 case 4:
-                    outMessage = "{\"cmd\" : \"giveInitialResources\", \"numOfInitialResources\" : 2}";
-                    out.println(outMessage);
-                    out.flush();
+                    messageSenderToMyClient.distributionOfInitialResources(2, null);
                     while (true){
                         clientInput = in.readLine();
                         command = (Command) gson.fromJson(clientInput, Command.class);
@@ -154,11 +124,8 @@ public class ServerThread implements Runnable {
                             break;
                         }
                         else {
-                            outMessage = "{\"cmd\" : \"giveInitialResources\", \"numOfInitialResources\" : 1, " +
-                                    "\"resp\" : \"sorry there was an error on the server, please try again to choose the " +
-                                    "initial resources\"}";
-                            out.println(outMessage);
-                            out.flush();
+                            messageSenderToMyClient.distributionOfInitialResources(2,
+                                    "sorry there was an error on the server, please try again to choose the initial resources");
                         }
                     }
                     break;
@@ -168,13 +135,7 @@ public class ServerThread implements Runnable {
             }
 
             //this message is to make the client logic print out a custom message to the players that have ended their initial setup
-            if (masterController.getGameNumberOfPlayers() > 1) {
-                outMessage = "{\"cmd\" : \"waitingForOtherPlayersCommunication\"}";
-            } else {
-                outMessage = "{\"cmd\" : \"waitingForSinglePlayerGameCommunication\"}";
-            }
-            out.println(outMessage);
-            out.flush();
+            messageSenderToMyClient.communicateThatInitialSetupIsFinishing(masterController.getGameNumberOfPlayers());
 
 
             masterController.endedConfiguration();
@@ -211,8 +172,7 @@ public class ServerThread implements Runnable {
             while (true) {
                 clientInput = in.readLine();
                 if (clientInput.equals("rageQuit")) {
-                    out.println("closing connection");
-                    out.flush();
+                    messageSenderToMyClient.closeConnection();
                     break;
                 }
 
@@ -254,7 +214,6 @@ public class ServerThread implements Runnable {
 
 
             in.close();
-            out.close();
             socket.close();
         } catch (IOException | InterruptedException e) {
             System.err.println(e.getMessage());

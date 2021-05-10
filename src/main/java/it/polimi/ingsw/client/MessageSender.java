@@ -11,7 +11,7 @@ public class MessageSender {
     private PrintWriter out;
 
     public MessageSender(Socket socket) throws IOException {
-        this.out = new PrintWriter(socket.getOutputStream(), true);
+        this.out = new PrintWriter(socket.getOutputStream());
     }
 
     //here we write all methods to send messages to the server
@@ -35,16 +35,15 @@ public class MessageSender {
     }
 
     public void sendInitialChosenResources(String resource1, String resource2) {
+        String outMessage;
         if (resource2 == null) {
-            String outMessage = "{\"chosenResource1\" : \"" + resource1 + "\"}";
-            out.println(outMessage);
-            out.flush();
+            outMessage = "{\"chosenResource1\" : \"" + resource1 + "\"}";
         }
         else {
-            String outMessage = "{\"chosenResource1\" : \"" + resource1 + "\", \"chosenResource2\" : \"" + resource2 +"\"}";
-            out.println(outMessage);
-            out.flush();
+            outMessage = "{\"chosenResource1\" : \"" + resource1 + "\", \"chosenResource2\" : \"" + resource2 + "\"}";
         }
+        out.println(outMessage);
+        out.flush();
     }
 
     public void sendDisconnectRequest() {
