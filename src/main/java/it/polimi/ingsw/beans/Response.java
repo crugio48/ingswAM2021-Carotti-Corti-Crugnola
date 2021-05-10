@@ -58,6 +58,7 @@ public class Response {
     int stackSlotNumberToPlace;
     int newCurrentPlayer;
     int[] leaderCardsDrawn = new int[4];
+    int lastActionCardUsedCode;
     //updated all getters and setters up to this variable
 
 
@@ -291,6 +292,10 @@ public class Response {
         return leaderCardsDrawn;
     }
 
+    public int getLastActionCardUsedCode() {
+        return lastActionCardUsedCode;
+    }
+
     // start of all setters /////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -520,5 +525,9 @@ public class Response {
 
     public void setLeaderCardsDrawn(int[] leaderCardsDrawn) {
         this.leaderCardsDrawn = leaderCardsDrawn;
+    }
+
+    public void setLastActionCardUsedCode(int lastActionCardUsedCode) {
+        this.lastActionCardUsedCode = lastActionCardUsedCode;
     }
 }

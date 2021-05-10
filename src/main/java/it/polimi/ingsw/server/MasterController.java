@@ -176,6 +176,22 @@ public class MasterController {
 
 
     //from now on all following methods don't need to be synchronized
+
+    /**
+     * this is the method that the serverThread calls, before calling the end turn method, if their client requested the endTurn
+     * and if they checked that the game is a single player game
+     * @return
+     */
+    public String doLorenzoActionAndGetUpdateString() {
+        if(game.getNumOfPlayers() != 1) {
+            return null;
+        }
+        else {
+            return game.drawAndExecuteActionCard();
+        }
+
+    }
+
     public void setInitialFaithPointsToEveryone() {
         int numOfPlayers = this.getGameNumberOfPlayers();
 
