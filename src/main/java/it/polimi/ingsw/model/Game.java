@@ -196,14 +196,16 @@ public class Game {
      * this method is used to get the actionCard from the actionCards' deck, add
      * the action card to the other deck (the one containing only the used actionCards)
      * and activating the effect of the action card by passing the entire Game
-     *
+     * @return the update string of lorenzo action
      */
-    public void drawAndExecuteActionCard(){
+    public String drawAndExecuteActionCard(){
         ActionCard topCard = (ActionCard) actionCardDeck.getLastCardAndDiscard();
 
         usedActionCards.push(topCard);
 
         topCard.activateEffect(this);
+
+        return "{\"cmd\" : \"lorenzoActionUpdate\", \"lastActionCardUsedCode\" : " + topCard.getCode() + "}";
     }
 
     /**

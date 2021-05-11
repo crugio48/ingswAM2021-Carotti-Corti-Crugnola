@@ -3,10 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 import it.polimi.ingsw.exceptions.GameStillNotInitialized;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.model.resources.Coins;
-import it.polimi.ingsw.model.resources.Servants;
-import it.polimi.ingsw.model.resources.Shields;
-import it.polimi.ingsw.model.resources.Stones;
+import it.polimi.ingsw.model.resources.*;
 
 
 import java.util.Arrays;
@@ -176,6 +173,22 @@ public class MasterController {
 
 
     //from now on all following methods don't need to be synchronized
+
+    /**
+     * this is the method that the serverThread calls, before calling the end turn method, if their client requested the endTurn
+     * and if they checked that the game is a single player game
+     * @return
+     */
+    public String doLorenzoActionAndGetUpdateString() {
+        if(game.getNumOfPlayers() != 1) {
+            return null;
+        }
+        else {
+            return game.drawAndExecuteActionCard();
+        }
+
+    }
+
     public void setInitialFaithPointsToEveryone() {
         int numOfPlayers = this.getGameNumberOfPlayers();
 
@@ -211,6 +224,14 @@ public class MasterController {
         return game.getFaithTrack().getUpdateMessageOfFaithTrackCurrentState();
     }
 
+    public String getMarketUpdate() {
+        return game.getMarket().getUpdateMessageOfMarketCurrentState();
+    }
+
+    public String getDevCardsSpaceUpdate() {
+        return game.getDevCardSpace().getUpdateMessageOfDevCardSpaceCurrentState();
+    }
+
     public String getStorageUpdateOfPlayer(int turnOrder) {
         return game.getPlayerByTurnOrder(turnOrder).getUpdateMessageOfStorageCurrentState();
     }
@@ -223,5 +244,266 @@ public class MasterController {
         return game.getPlayerByTurnOrder(turnOrder).getUpdateMessageOfChestCurrentState();
     }
 
+    public TurnInfo getTurnInfo() {
+        return turnInfo;
+    }
 
+    public ResourceBox buyFromMarket(int marketPosition) {
+        return game.getMarket().insertMarbleSlideAndGetResourceBox(marketPosition);
+    }
+
+    public void giveFaithPointsToOnePlayer(int numberOfPoints, int playerTurnOrder) {
+        for (int i = numberOfPoints; i > 0; i--) {
+            game.getFaithTrack().moveForward(playerTurnOrder);
+        }
+    }
+
+    private void giveFaithPointsToMultiplePeople(boolean player1, boolean player2, boolean player3, boolean player4) {
+        game.getFaithTrack().moveForwardMultiplePLayers(player1,player2,player3,player4);
+    }
+
+    public boolean hasActiveLeaderWithMarketAction(int playerTurnOrder) {
+        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
+        return p.hasActiveLeaderWithMarketAction();
+    }
+
+    /**
+     * this is a very important method that basically does all checks for the leader effect of market conversion of white marble
+     * and also refactors based on that the players bought resources in the TurnInfo class
+     * @param stones
+     * @param shields
+     * @param servants
+     * @param coins
+     * @param playerTurnOrder
+     * @return
+     */
+    public boolean checkAndRefactorRequestedResourcesToBuyFromMarket(int stones, int shields, int servants, int coins, int playerTurnOrder) {
+        int jollyResourcesThatWereToChoose = turnInfo.getJolly();
+        if (jollyResourcesThatWereToChoose == 0) { //there were no jolly resources to choose
+            return (turnInfo.getStones() == stones && turnInfo.getShields() == shields && turnInfo.getServants() == servants
+            && turnInfo.getCoins() == coins);
+        }
+        else {   //there were some jolly resources to choose
+            if (stones - turnInfo.getStones() < 0 ||
+                    shields - turnInfo.getShields() < 0 ||
+                    servants - turnInfo.getServants() < 0 ||
+                    coins - turnInfo.getCoins() < 0) return false; //first check that player hasn't cheated by removing some bought resources
+
+            String[] activeMarketEffects = game.getPlayerByTurnOrder(playerTurnOrder).getActiveMarketEffectResourceNames();
+            int spentJollys = 0;
+            switch(activeMarketEffects[0]) {
+                case"shields":
+                    spentJollys += shields - turnInfo.getShields();
+                    switch (activeMarketEffects[1]) {
+                        case"stones":
+                            spentJollys += stones - turnInfo.getStones();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    servants != turnInfo.getServants() ||
+                                    coins != turnInfo.getCoins()) return false;
+                            break;
+                        case"servants":
+                            spentJollys += servants - turnInfo.getServants();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    stones != turnInfo.getStones() ||
+                                    coins != turnInfo.getCoins()) return false;
+                            break;
+                        case"coins":
+                            spentJollys += coins - turnInfo.getCoins();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    servants != turnInfo.getServants() ||
+                                    stones != turnInfo.getStones()) return false;
+                            break;
+                        default:
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    servants != turnInfo.getServants() ||
+                                    stones != turnInfo.getStones() ||
+                                    coins != turnInfo.getCoins()) return false;
+                            break;
+                    }
+                    break;
+                case"stones":
+                    spentJollys += stones - turnInfo.getStones();
+                    switch (activeMarketEffects[1]) {
+                        case"shields":
+                            spentJollys += shields - turnInfo.getShields();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    servants != turnInfo.getServants() ||
+                                    coins != turnInfo.getCoins()) return false;
+                            break;
+                        case"servants":
+                            spentJollys += servants - turnInfo.getServants();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    shields != turnInfo.getShields() ||
+                                    coins != turnInfo.getCoins()) return false;
+                            break;
+                        case"coins":
+                            spentJollys += coins - turnInfo.getCoins();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    servants != turnInfo.getServants() ||
+                                    shields != turnInfo.getShields()) return false;
+                            break;
+                        default:
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    servants != turnInfo.getServants() ||
+                                    shields != turnInfo.getShields() ||
+                                    coins != turnInfo.getCoins()) return false;
+                            break;
+                    }
+                    break;
+                case"servants":
+                    spentJollys += servants - turnInfo.getServants();
+                    switch (activeMarketEffects[1]) {
+                        case"stones":
+                            spentJollys += stones - turnInfo.getStones();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    shields != turnInfo.getShields() ||
+                                    coins != turnInfo.getCoins()) return false;
+                            break;
+                        case"shields":
+                            spentJollys += shields - turnInfo.getShields();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    stones != turnInfo.getStones() ||
+                                    coins != turnInfo.getCoins()) return false;
+                            break;
+                        case"coins":
+                            spentJollys += coins - turnInfo.getCoins();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    shields != turnInfo.getShields() ||
+                                    stones != turnInfo.getStones()) return false;
+                            break;
+                        default:
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    shields != turnInfo.getShields() ||
+                                    stones != turnInfo.getStones() ||
+                                    coins != turnInfo.getCoins()) return false;
+                            break;
+                    }
+                    break;
+                case"coins":
+                    spentJollys += coins - turnInfo.getCoins();
+                    switch (activeMarketEffects[1]) {
+                        case"stones":
+                            spentJollys += stones - turnInfo.getStones();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    servants != turnInfo.getServants() ||
+                                    shields != turnInfo.getShields()) return false;
+                            break;
+                        case"servants":
+                            spentJollys += servants - turnInfo.getServants();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    stones != turnInfo.getStones() ||
+                                    shields != turnInfo.getShields()) return false;
+                            break;
+                        case"shields":
+                            spentJollys += shields - turnInfo.getShields();
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    servants != turnInfo.getServants() ||
+                                    stones != turnInfo.getStones()) return false;
+                            break;
+                        default:
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    servants != turnInfo.getServants() ||
+                                    stones != turnInfo.getStones() ||
+                                    shields != turnInfo.getShields()) return false;
+                            break;
+                    }
+                    break;
+                default:
+                    return false;
+            }
+            //if we get here then the quantities were correct
+            turnInfo.setJolly(0);
+            turnInfo.setStones(stones);
+            turnInfo.setServants(servants);
+            turnInfo.setShields(shields);
+            turnInfo.setCoins(coins);
+            return true;
+        }
+    }
+
+    public boolean placeResourceOfPlayerInSlot(int slotNumber, String resourceType, int playerTurnOrder) {
+        return game.getPlayerByTurnOrder(playerTurnOrder).getStorage().addOneResourceByResourceName(resourceType,slotNumber);
+    }
+
+    public boolean discardOneResourceAndGiveFaithPoints(String resourceType, int playerTurnOrder) {
+        switch(resourceType) {
+            case"shield":
+                if (turnInfo.getShields() <= 0) return false;
+                turnInfo.setShields(turnInfo.getShields() - 1);
+                break;
+            case"stone":
+                if (turnInfo.getStones() <= 0) return false;
+                turnInfo.setStones(turnInfo.getStones() - 1);
+                break;
+            case"servant":
+                if (turnInfo.getServants() <= 0) return false;
+                turnInfo.setServants(turnInfo.getServants() - 1);
+                break;
+            case"coin":
+                if (turnInfo.getCoins() <= 0) return false;
+                turnInfo.setCoins(turnInfo.getCoins() - 1);
+                break;
+            default:
+                return false;
+        }
+
+        if (game.getNumOfPlayers() > 1) {
+            switch (playerTurnOrder) {
+                case 1:
+                    this.giveFaithPointsToMultiplePeople(false, true, true, true);
+                    break;
+                case 2:
+                    this.giveFaithPointsToMultiplePeople(true, false, true, true);
+                    break;
+                case 3:
+                    this.giveFaithPointsToMultiplePeople(true, true, false, true);
+                    break;
+                case 4:
+                    this.giveFaithPointsToMultiplePeople(true, true, true, false);
+                    break;
+                default:
+                    break;
+            }
+        }
+        else {
+            game.getFaithTrack().moveBlackCrossForward();
+        }
+        return true;
+    }
+
+    public boolean moveOneResourceOfPlayer(int fromSlotNumber, int toSlotNumber, int playerTurnOrder) {
+        return game.getPlayerByTurnOrder(playerTurnOrder).getStorage().moveOneResource(fromSlotNumber,toSlotNumber);
+    }
+
+    public boolean switchResourceSlotsOfPlayer(int fromSlotNumber, int toSlotNumber, int playerTurnOrder) {
+        return game.getPlayerByTurnOrder(playerTurnOrder).getStorage().switchResources(fromSlotNumber, toSlotNumber);
+    }
+
+    public void discardAllRemainingResourcesAndGiveFaithPoints(int playerTurnOrder) {
+        int totalRemainingResources = turnInfo.getCoins() + turnInfo.getServants() + turnInfo.getStones() + turnInfo.getShields();
+
+        for (int i = totalRemainingResources; i > 0; i--) {
+            if (game.getNumOfPlayers() > 1) {
+                switch (playerTurnOrder) {
+                    case 1:
+                        this.giveFaithPointsToMultiplePeople(false, true, true, true);
+                        break;
+                    case 2:
+                        this.giveFaithPointsToMultiplePeople(true, false, true, true);
+                        break;
+                    case 3:
+                        this.giveFaithPointsToMultiplePeople(true, true, false, true);
+                        break;
+                    case 4:
+                        this.giveFaithPointsToMultiplePeople(true, true, true, false);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else {
+                game.getFaithTrack().moveBlackCrossForward();
+            }
+        }
+    }
 }

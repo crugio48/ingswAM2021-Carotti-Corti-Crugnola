@@ -70,8 +70,11 @@ public class ClientConnectionThread extends Thread {
                     case"personalDevCardSlotUpdate":
                         //here we will parse and update the view
                         break;
+                    case"lorenzoActionUpdate":
+                        //here we will parse and update the view
+                        break;
                     case"endTurnUpdate":
-                        //don't do anything, this is the only update that the main will parse and execute
+                        //here we will parse and update the view
                         break;
                     default:
                         client.stringBuffer.addMessage(received);

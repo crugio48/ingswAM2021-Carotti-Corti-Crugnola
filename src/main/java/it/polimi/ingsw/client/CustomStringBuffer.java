@@ -12,13 +12,14 @@ public class CustomStringBuffer {
 
     public synchronized void addMessage(String message) {
         buffer.add(message); //this method appends the message always in the last position of the list
+        notifyAll();
     }
 
-    public synchronized String readMessage() {
+    public synchronized String readMessage() throws InterruptedException {
+        while (buffer.isEmpty()) {
+            wait();
+        }
         return buffer.removeFirst();  //this method returns the first element of the list and removes it from the list
     }
 
-    public synchronized boolean isEmpty() {
-        return buffer.isEmpty();
-    }
 }

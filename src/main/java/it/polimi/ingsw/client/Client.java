@@ -6,6 +6,7 @@ public abstract class Client {
 
     //the stringBuffer contains all the messages meant to be read
     protected CustomStringBuffer stringBuffer;
+    protected MessageSender messageSender;
     //creare parametro view
 
     public Client() {
