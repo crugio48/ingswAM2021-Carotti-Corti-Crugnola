@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Command;
 import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 import it.polimi.ingsw.exceptions.GameStillNotInitialized;
+import it.polimi.ingsw.model.resources.ResourceBox;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -175,32 +176,210 @@ public class ServerThread implements Runnable {
                     messageSenderToMyClient.closeConnection();
                     break;
                 }
+                //check if it is this player current turn
+                if (masterController.getCurrentTurnOrder() != myClientTurnOrder) {
+                    messageSenderToMyClient.badCommand("it's not your turn");
+                    continue;
+                }
 
                 command = (Command) gson.fromJson(clientInput, Command.class);
 
                 switch(command.getCmd()) {
                     case"buyFromMarket":
-                        //DA FARE
+                        int marketPos = command.getMarketPosition();
+                        ResourceBox boughtResources;
+                        //checks if action requested is valid
+                        if (masterController.getTurnInfo().getCurrentMainAction() != null) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        if ((boughtResources = masterController.buyFromMarket(marketPos)) == null) {
+                            messageSenderToMyClient.badCommand("invalid market position requested");
+                            break;
+                        }
+                        //if we get here it means that the action was valid
+                        updateBroadcaster.broadcastMessage(masterController.getMarketUpdate());  //market update
+                        masterController.getTurnInfo().setCurrentMainAction("market");
+                        masterController.getTurnInfo().setServants(boughtResources.getResourceQuantity("servants"));
+                        masterController.getTurnInfo().setCoins(boughtResources.getResourceQuantity("coins"));
+                        masterController.getTurnInfo().setShields(boughtResources.getResourceQuantity("shields"));
+                        masterController.getTurnInfo().setStones(boughtResources.getResourceQuantity("stones"));
+                        if (masterController.hasActiveLeaderWithMarketAction(myClientTurnOrder)) {  //only players with specific active leaders buy jolly resources
+                            masterController.getTurnInfo().setJolly(boughtResources.getResourceQuantity("jolly"));
+                        }
+                        if (boughtResources.getResourceQuantity("faith") != 0) { //check to see if the player earned a faith point
+                            masterController.giveFaithPointsToOnePlayer(boughtResources.getResourceQuantity("faith"), myClientTurnOrder);
+                            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());     //faithTrack update
+                        }
+                        messageSenderToMyClient.goodBuyFromMarket(masterController.getTurnInfo().getStones(),
+                                masterController.getTurnInfo().getServants(),
+                                masterController.getTurnInfo().getShields(),
+                                masterController.getTurnInfo().getCoins(),
+                                masterController.getTurnInfo().getJolly());
+                        break;
+
                     case"activateProduction":
-                        //DA FARE
+                        if (masterController.getTurnInfo().getCurrentMainAction() != null) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        //DA COMPLETARE
                     case"buyDevCard":
-                        //DA FARE
+                        if (masterController.getTurnInfo().getCurrentMainAction() != null) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        //DA COMPLETARE
                     case"activateLeader":
                         //DA FARE
                     case"discardLeader":
                         //DA FARE
                     case"endTurn":
                         //DA FARE
+                    case"chosenResourcesToBuy":
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        //here we try to execute the command
+                        if (masterController.checkAndRefactorRequestedResourcesToBuyFromMarket(command.getStones(),
+                                command.getShields(), command.getServants(), command.getCoins(), myClientTurnOrder)) {   //true if client request was good
+                            messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins());
+                        }
+                        else {  //false if client request was bad
+                            messageSenderToMyClient.badMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getJolly());
+                        }
+                        break;
+
                     case"placeResourceInSlot":
-                        //DA FARE
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        if(masterController.getTurnInfo().getJolly() != 0) {
+                            messageSenderToMyClient.badCommand("you still have to use the leader effect");
+                            break;
+                        }
+                        //here we try to execute the command
+                        if (masterController.placeResourceOfPlayerInSlot(command.getSlotNumber(),
+                                command.getResourceType(), myClientTurnOrder)) { //true if all went correctly
+                            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+                            messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins());
+                        }
+                        else { //false if wrong action decided by the client
+                            messageSenderToMyClient.badMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    0);
+                        }
+                        break;
+
                     case"discardResource":
-                        //DA FARE
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        if(masterController.getTurnInfo().getJolly() != 0) {
+                            messageSenderToMyClient.badCommand("you still have to use the leader effect");
+                            break;
+                        }
+                        //here we try to execute the command
+                        if (masterController.discardOneResourceAndGiveFaithPoints(command.getResourceType(), myClientTurnOrder)) { //true if command was correct
+                            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
+                            messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins());
+                        }
+                        else {  //false if command wasn't correct
+                            messageSenderToMyClient.badMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    0);
+                        }
+                        break;
+
                     case"moveOneResource":
-                        //DA FARE
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        if(masterController.getTurnInfo().getJolly() != 0) {
+                            messageSenderToMyClient.badCommand("you still have to use the leader effect");
+                            break;
+                        }
+                        //here we try to execute the command
+                        if (masterController.moveOneResourceOfPlayer(command.getFromSlotNumber(),
+                                command.getToSlotNumber(), myClientTurnOrder)) {  //true if command was correct
+                            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+                            messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins());
+                        }
+                        else {
+                            messageSenderToMyClient.badMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    0);
+                        }
+                        break;
+
                     case"switchResourceSlots":
-                        //DA FARE
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        if(masterController.getTurnInfo().getJolly() != 0) {
+                            messageSenderToMyClient.badCommand("you still have to use the leader effect");
+                            break;
+                        }
+                        //here we try to execute the command
+                        if (masterController.switchResourceSlotsOfPlayer(command.getFromSlotNumber(),
+                                command.getToSlotNumber(), myClientTurnOrder)) { //true if command was correct
+                            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+                            messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins());
+                        }
+                        else { //false if command was not correct
+                            messageSenderToMyClient.badMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    0);
+                        }
+                        break;
+
                     case"endPlacing":
-                        //DA FARE
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        if(masterController.getTurnInfo().getJolly() != 0) {
+                            messageSenderToMyClient.badCommand("you still have to use the leader effect");
+                            break;
+                        }
+                        //now we try to execute the command
+                        masterController.discardAllRemainingResourcesAndGiveFaithPoints(myClientTurnOrder);
+                        updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
+                        messageSenderToMyClient.goodCommand("you have ended the placing of your resources");
+                        break;
+
                     case"chosenResourcesToPay":
                         //DA FARE
                     case"chosenSlotNumberForDevCard":

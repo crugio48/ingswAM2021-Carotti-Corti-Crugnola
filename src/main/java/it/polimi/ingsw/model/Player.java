@@ -308,5 +308,25 @@ public class Player {
     }
 
 
+    public boolean hasActiveLeaderWithMarketAction() {
+        for (LeaderCard card: leaderCard) {
+            if (card.isActive() && card.getEffect().getEffectName().equals("convertWhiteMarbleMarketEffect")){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String[] getActiveMarketEffectResourceNames() {
+        String[] toReturn = new String[2];
+        int pos = 0;
+        for (LeaderCard card: leaderCard) {
+            if (card.isActive() && card.getEffect().getEffectName().equals("convertWhiteMarbleMarketEffect")) {
+                toReturn[pos] = card.getEffect().getTargetResource();
+                pos++;
+            }
+        }
+        return toReturn;
+    }
 
 }

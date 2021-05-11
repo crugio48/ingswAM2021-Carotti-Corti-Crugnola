@@ -100,4 +100,75 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
+    public void badCommand(String customResponse) {
+        String outMessage;
+        if (customResponse == null) {
+            outMessage = "{\"commandWasCorrect\" : false}";
+        }
+        else {
+            outMessage = "{\"commandWasCorrect\" : false, \"resp\" : \"" + customResponse + "\"}";
+        }
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void goodBuyFromMarket(int stones, int servants, int shields, int coins, int jolly) {
+        String outMessage = "{\"commandWasCorrect\" : true, " +
+                "\"stones\" : " + stones + ", " +
+                "\"servants\" : " + servants + ", " +
+                "\"shields\" : " + shields + ", " +
+                "\"coins\" : " + coins + ", " +
+                "\"jolly\" : " + jolly + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    /**
+     * good result of mid actions
+     * @param stones
+     * @param servants
+     * @param shields
+     * @param coins
+     */
+    public void goodMarketBuyActionMidTurn(int stones, int servants, int shields, int coins) {
+        String outMessage = "{\"commandWasCorrect\" : true, " +
+                "\"stones\" : " + stones + ", " +
+                "\"servants\" : " + servants + ", " +
+                "\"shields\" : " + shields + ", " +
+                "\"coins\" : " + coins + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    /**
+     * bad result of mid actions
+     * @param stones
+     * @param servants
+     * @param shields
+     * @param coins
+     * @param jolly set != 0 only if the request was the one of activating leader effects
+     */
+    public void badMarketBuyActionMidTurn(int stones, int servants, int shields, int coins, int jolly) {
+        String outMessage = "{\"commandWasCorrect\" : false, " +
+                "\"stones\" : " + stones + ", " +
+                "\"servants\" : " + servants + ", " +
+                "\"shields\" : " + shields + ", " +
+                "\"coins\" : " + coins + ", " +
+                "\"jolly\" : " + jolly + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void goodCommand(String customResponse) {
+        String outMessage;
+        if (customResponse == null) {
+            outMessage = "{\"commandWasCorrect\" : true}";
+        }
+        else {
+            outMessage = "{\"commandWasCorrect\" : true, \"resp\" : \"" + customResponse + "\"}";
+        }
+        out.println(outMessage);
+        out.flush();
+    }
+
 }

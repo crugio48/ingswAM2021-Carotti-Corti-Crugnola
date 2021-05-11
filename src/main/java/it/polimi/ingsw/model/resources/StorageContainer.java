@@ -90,6 +90,21 @@ public class StorageContainer {
         }
     }
 
+    public boolean addOneResourceByResourceName(String resourceType, int slotNumber) {
+        switch(resourceType) {
+            case"shield":
+                return this.addResource(new Shields(1), slotNumber);
+            case"stone":
+                return this.addResource(new Stones(1), slotNumber);
+            case"servant":
+                return this.addResource(new Servants(1), slotNumber);
+            case"coin":
+                return this.addResource(new Coins(1), slotNumber);
+            default:
+                return false;
+        }
+    }
+
     /**
      * this method tries to remove a given amount of a resource
      * @param resource is the type and quantity of recource to remove
