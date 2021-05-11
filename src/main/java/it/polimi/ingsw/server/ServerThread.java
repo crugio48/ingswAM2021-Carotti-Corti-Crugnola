@@ -28,7 +28,9 @@ public class ServerThread implements Runnable {
     public void run() {
         Gson gson = new Gson();
         try {
+            //everything that comes from the socket is saved in the variable "in"
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            //the printwriter is used to stream from the server to the clients
             PrintWriter out = new PrintWriter(socket.getOutputStream());
 
             String outMessage;
@@ -43,11 +45,17 @@ public class ServerThread implements Runnable {
                 out.flush();
 
                 while (true) {
+                    //saving everything that comes from the client
                     clientInput = in.readLine();
+                    //depending on the client message we parse the clientInput in the Command class
                     command = (Command) gson.fromJson(clientInput, Command.class);
+                    //checking if in the command the numOfPlayers is defined properly and instantiating a game with
+                    //the master controller
                     if (masterController.createGame(command.getNumOfPlayers())) {
                         break;
                     }
+                    //if the mastercontroller wasn't able to create the game we keep asking to define the numOfPlayers
+                    //and send a message to notify something went wrong
                     else {
                         outMessage = "{\"cmd\" : \"defineNumberOfPlayers\", \"resp\" : \"there was an error receiving " +
                                 "the number, please insert again\"}";
@@ -66,6 +74,7 @@ public class ServerThread implements Runnable {
                 clientInput = in.readLine();
                 command = (Command) gson.fromJson(clientInput, Command.class);
                 try {
+                    //now we try to add the new player to the game
                     if (masterController.addPlayerToGame(command.getUsername())) {
                         this.myClientUsername = command.getUsername();
                         this.myClientTurnOrder = masterController.getPlayerTurnOrder(myClientUsername);
@@ -103,10 +112,13 @@ public class ServerThread implements Runnable {
             outMessage = "{\"cmd\" : \"leaderDistribution\", \"leaderCardsDrawn\" : " + Arrays.toString(leaderCardsDrawn) + "}";
             out.println(outMessage);
             out.flush();
+
+            //now we wait for the player to choose 2 out of the 4 leader cards received
             while (true) {
                 clientInput = in.readLine();
                 command = (Command) gson.fromJson(clientInput, Command.class);
 
+                //now we check if the leaderCard code provided is ok
                 if (masterController.giveLeaderCardsToPLayer(command.getChosenLeader1(), command.getChosenLeader2(), this.myClientUsername)) {
                     break;
                 }
@@ -120,6 +132,7 @@ public class ServerThread implements Runnable {
 
             //distribution of initial resources
             switch (myClientTurnOrder) {
+                //no extra resources for player 1 or 2
                 case 2:
                 case 3:
                     outMessage = "{\"cmd\" : \"giveInitialResources\", \"numOfInitialResources\" : 1}";
@@ -179,11 +192,13 @@ public class ServerThread implements Runnable {
 
             masterController.endedConfiguration();
 
+            //BEGINNING OF BROADCASTING MESSAGES FROM PLAYER WITH TURNORDER 1
             //now only the thread associated to the client with turn order 1 broadcasts the initial updates to everyone
             if (myClientTurnOrder == 1) {
                 int numOfPlayers = masterController.getGameNumberOfPlayers();
-                while (masterController.getNumOfClientsThatHaveEndedInitialConfiguration() !=  //infinite loop until all players have ended their setup
-                        numOfPlayers) {
+
+                //infinite loop until all players have ended their setup
+                while (masterController.getNumOfClientsThatHaveEndedInitialConfiguration() !=  numOfPlayers) {
                     Thread.sleep(5 * 1000); //sleep for 10 second then do the check again
                 }
 
@@ -206,6 +221,7 @@ public class ServerThread implements Runnable {
 
 
             //now the game can start
+            //from this moment the server is passive and accepts/rejects messages only
             while (true) {
                 clientInput = in.readLine();
                 if (clientInput.equals("rageQuit")) {

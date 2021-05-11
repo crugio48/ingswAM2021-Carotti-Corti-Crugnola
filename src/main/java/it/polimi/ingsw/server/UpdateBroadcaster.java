@@ -24,6 +24,8 @@ public class UpdateBroadcaster {
     }
 
     public synchronized void broadcastMessage(String message) {
+        //for each printwriter in the hashset (so for each client registered in the hashset) we
+        //send the message passed in the out: each server will send a message to the corresponding client
         for(PrintWriter out: clientsSocketsOut) {
             out.println(message);
             out.flush();

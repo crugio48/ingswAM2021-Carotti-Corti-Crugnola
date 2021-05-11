@@ -4,6 +4,7 @@ package it.polimi.ingsw.client;
 
 public abstract class Client {
 
+    //the stringBuffer contains all the messages meant to be read
     protected CustomStringBuffer stringBuffer;
     //creare parametro view
 

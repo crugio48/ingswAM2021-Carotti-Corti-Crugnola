@@ -27,9 +27,11 @@ public class MultiEchoServer {
             return;
         }
         System.out.println("Server ready");
+        //server starts listening:
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
+                //from this moment we have a thread associated with the client that establishes the connection
                 executor.submit(new ServerThread(socket, this.masterController, this.updateBroadcaster));
             } catch(IOException e) {
                 break; // Entrerei qui se serverSocket venisse chiuso
