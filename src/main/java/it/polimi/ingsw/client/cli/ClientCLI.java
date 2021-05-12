@@ -254,27 +254,6 @@ public class ClientCLI extends Client {
                     switch (selection) {
                         case 1:
 
-                            if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
-                            printOut("This is the current situation of your personal board\n" +
-                                    "please input the number of players for the game(1-4): ");
-                            int num;
-                            while (true) {
-                                userInput = stdIn.nextLine();
-                                try {
-                                    num = Integer.parseInt(userInput);
-                                } catch (NumberFormatException e) {
-                                    printOut("please enter an integer number between 1 and 4: ");
-                                    continue;
-                                }
-                                if (num < 1 || num > 4) {
-                                    printOut("please enter an integer number between 1 and 4: ");
-                                    continue;
-                                }
-                                break;
-                            }
-                            messageSender.sendInitialNumOfPlayers(num);
-                            break;
-
 
                             //DA FARE: stampa la propria personal board
                         case 2:

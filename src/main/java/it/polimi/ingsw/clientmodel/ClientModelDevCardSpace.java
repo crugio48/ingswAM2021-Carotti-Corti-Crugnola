@@ -16,21 +16,19 @@ public class ClientModelDevCardSpace extends MyObservable {
     int codeYellow2;
     int codeYellow3;
 
-    public ClientModelDevCardSpace(int codeBlue1, int codeBlue2, int codeBlue3, int codeGreen1, int codeGreen2,
-                                   int codeGreen3, int codePurple1, int codePurple2, int codePurple3,
-                                   int codeYellow1, int codeYellow2, int codeYellow3) {
-        this.codeBlue1 = codeBlue1;
-        this.codeBlue2 = codeBlue2;
-        this.codeBlue3 = codeBlue3;
-        this.codeGreen1 = codeGreen1;
-        this.codeGreen2 = codeGreen2;
-        this.codeGreen3 = codeGreen3;
-        this.codePurple1 = codePurple1;
-        this.codePurple2 = codePurple2;
-        this.codePurple3 = codePurple3;
-        this.codeYellow1 = codeYellow1;
-        this.codeYellow2 = codeYellow2;
-        this.codeYellow3 = codeYellow3;
+    public ClientModelDevCardSpace() {
+        this.codeBlue1 = 0;
+        this.codeBlue2 = 0;
+        this.codeBlue3 = 0;
+        this.codeGreen1 = 0;
+        this.codeGreen2 = 0;
+        this.codeGreen3 = 0;
+        this.codePurple1 = 0;
+        this.codePurple2 = 0;
+        this.codePurple3 = 0;
+        this.codeYellow1 = 0;
+        this.codeYellow2 = 0;
+        this.codeYellow3 = 0;
     }
 
     public int getCodeBlue1() {
