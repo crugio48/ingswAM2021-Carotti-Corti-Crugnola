@@ -1,21 +1,24 @@
 package it.polimi.ingsw.client;
 
 
+import it.polimi.ingsw.clientmodel.ClientModel;
 
 public abstract class Client {
 
     //the stringBuffer contains all the messages meant to be read
     protected CustomStringBuffer stringBuffer;
     protected MessageSender messageSender;
-    //creare parametro view
+    protected ClientModel clientModel;
 
     public Client() {
         this.stringBuffer = new CustomStringBuffer();
+        this.clientModel = new ClientModel();
     }
 
 
 
-    //here we put as private variable the view
+
+
 
 
     //here we put all methods to access the view
