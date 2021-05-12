@@ -506,4 +506,56 @@ public class MasterController {
             }
         }
     }
+
+
+    public boolean activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
+                                      boolean baseProductionActivation, String baseInputResource1, String baseInputResource2,
+                                      String baseOutputResource, boolean leaderSlot1Activation, int leader1Code,
+                                      String leader1ConvertedResource, boolean leaderSlot2Activation, int leader2Code,
+                                      String leader2ConvertedResource, int playerTurnOrder) {
+
+        //this is the viability check
+        if (!game.getPlayerByTurnOrder(playerTurnOrder).checkIfProductionRequestedIsViable(slot1Activation,
+                slot2Activation, slot3Activation, baseProductionActivation, baseInputResource1, baseInputResource2,
+                leaderSlot1Activation, leader1Code, leaderSlot2Activation, leader2Code)) {
+            return false;
+        }
+        //if we get here then the production requested is viable and we can just save all information in the TurnInfo object and then return true
+        ResourceBox totalCost = new ResourceBox();
+
+        if (slot1Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(1).getCost());
+        if (slot2Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(2).getCost());
+        if (slot3Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(3).getCost());
+
+        if (baseProductionActivation) {
+            totalCost.addResourceByStringName(baseInputResource1);
+            totalCost.addResourceByStringName(baseInputResource2);
+        }
+
+        if(leaderSlot1Activation) {
+            totalCost.addResourceByStringName(game.getPlayerByTurnOrder(playerTurnOrder).getLeaderCardByCardCode(leader1Code).getEffect().getTargetResource());
+        }
+
+        if(leaderSlot2Activation) {
+            totalCost.addResourceByStringName(game.getPlayerByTurnOrder(playerTurnOrder).getLeaderCardByCardCode(leader2Code).getEffect().getTargetResource());
+        }
+
+        turnInfo.setCurrentMainAction("activateProd");
+        turnInfo.setServants(totalCost.getResourceQuantity("servants"));
+        turnInfo.setShields(totalCost.getResourceQuantity("shields"));
+        turnInfo.setStones(totalCost.getResourceQuantity("stones"));
+        turnInfo.setCoins(totalCost.getResourceQuantity("coins"));
+
+        turnInfo.setSlot1Activation(slot1Activation);
+        turnInfo.setSlot2Activation(slot2Activation);
+        turnInfo.setSlot3Activation(slot3Activation);
+        turnInfo.setBaseProductionActivation(baseProductionActivation);
+        turnInfo.setBaseOutputResource(baseOutputResource);
+        turnInfo.setLeaderSlot1Activation(leaderSlot1Activation);
+        turnInfo.setLeader1ConvertedResource(leader1ConvertedResource);
+        turnInfo.setLeaderSlot2Activation(leaderSlot2Activation);
+        turnInfo.setLeader2ConvertedResource(leader2ConvertedResource);
+
+        return true;
+    }
 }

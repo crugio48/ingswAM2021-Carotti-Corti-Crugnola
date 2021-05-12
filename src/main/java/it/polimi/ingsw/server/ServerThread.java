@@ -186,14 +186,14 @@ public class ServerThread implements Runnable {
 
                 switch(command.getCmd()) {
                     case"buyFromMarket":
-                        int marketPos = command.getMarketPosition();
                         ResourceBox boughtResources;
                         //checks if action requested is valid
                         if (masterController.getTurnInfo().getCurrentMainAction() != null) {
                             messageSenderToMyClient.badCommand("wrong action requested");
                             break;
                         }
-                        if ((boughtResources = masterController.buyFromMarket(marketPos)) == null) {
+                        //here we execute the command
+                        if ((boughtResources = masterController.buyFromMarket(command.getMarketPosition())) == null) {
                             messageSenderToMyClient.badCommand("invalid market position requested");
                             break;
                         }
@@ -223,7 +223,22 @@ public class ServerThread implements Runnable {
                             messageSenderToMyClient.badCommand("wrong action requested");
                             break;
                         }
-                        //DA COMPLETARE
+                        //here we try to execute the command
+                        if (masterController.activateProduction(command.isSlot1Activation(), command.isSlot2Activation(),
+                                command.isSlot3Activation(), command.isBaseProductionActivation(), command.getBaseInputResource1(),
+                                command.getBaseInputResource2(), command.getBaseOutputResource(), command.isLeader1SlotActivation(),
+                                command.getLeader1Code(), command.getLeader1ConvertedResource(), command.isLeader2SlotActivation(),
+                                command.getLeader2Code(), command.getLeader2ConvertedResource(), myClientTurnOrder)) {  //if this is true then we already have everything saved and done
+                            messageSenderToMyClient.goodProductionActivation(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getServants());
+                        }
+                        else {
+                            messageSenderToMyClient.badCommand("the requested production isn't viable");
+                        }
+                        break;
+
                     case"buyDevCard":
                         if (masterController.getTurnInfo().getCurrentMainAction() != null) {
                             messageSenderToMyClient.badCommand("wrong action requested");
