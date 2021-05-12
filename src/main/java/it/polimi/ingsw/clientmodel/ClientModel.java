@@ -20,9 +20,13 @@ public class ClientModel {
         this.currentPlayer = 0;
         this.numberOfPlayer = 0;
         this.lastUsedActionCardCode = 0;
-        this.market = new ClientModelMarket();
+        this.market = new ClientModelMarket(null, null, null, null);
         this.faithTrack = new ClientModelFaithTrack();
-        this.devCardSpace = new ClientModelDevCardSpace();
+        //the default code is 0 if the stack is empty
+        this.devCardSpace = new ClientModelDevCardSpace(
+                0,0,0,0,
+                0,0,0,0,
+                0,0,0, 0);
         this.players = new ClientModelPlayer[4];
     }
 
