@@ -8,12 +8,12 @@ public class TurnInfo {
     private int gameNumOfPlayers;
     private int currentPlayer;
     private String currentMainAction; //"market" || "buyDev" || "activateProd" if it has been confirmed or if it has already been completed, null if the action still hasn't been performed
+    private boolean actionCompleted;  //used to know if "buyDev" or "activateProd" action was totally completed or not
     private int coins;
     private int stones;
     private int servants; // for all of these the value of reset is 0
     private int shields;
     private int jolly;
-    //
     private boolean slot1Activation;
     private boolean slot2Activation;
     private boolean slot3Activation;
@@ -28,6 +28,7 @@ public class TurnInfo {
     public TurnInfo() {
         this.currentPlayer = 1;
         this.currentMainAction = null;
+        this.actionCompleted = false;
         this.coins = 0;
         this.stones = 0;
         this.servants = 0;
@@ -56,6 +57,10 @@ public class TurnInfo {
 
     public void setCurrentMainAction(String currentMainAction) {
         this.currentMainAction = currentMainAction;
+    }
+
+    public void setActionCompleted(boolean actionCompleted) {
+        this.actionCompleted = actionCompleted;
     }
 
     public void setCoins(int coins) {
@@ -122,6 +127,10 @@ public class TurnInfo {
         return currentMainAction;
     }
 
+    public boolean isActionCompleted() {
+        return actionCompleted;
+    }
+
     public int getCoins() {
         return coins;
     }
@@ -186,6 +195,7 @@ public class TurnInfo {
         if (currentPlayer < gameNumOfPlayers) currentPlayer++;
         else currentPlayer = 1;
         this.currentMainAction = null;
+        this.actionCompleted = false;
         this.coins = 0;
         this.stones = 0;
         this.servants = 0;

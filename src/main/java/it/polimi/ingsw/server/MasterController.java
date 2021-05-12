@@ -481,6 +481,11 @@ public class MasterController {
 
     public void discardAllRemainingResourcesAndGiveFaithPoints(int playerTurnOrder) {
         int totalRemainingResources = turnInfo.getCoins() + turnInfo.getServants() + turnInfo.getStones() + turnInfo.getShields();
+        turnInfo.setCoins(0);
+        turnInfo.setServants(0);
+        turnInfo.setStones(0);
+        turnInfo.setShields(0);
+
 
         for (int i = totalRemainingResources; i > 0; i--) {
             if (game.getNumOfPlayers() > 1) {
@@ -523,9 +528,9 @@ public class MasterController {
         //if we get here then the production requested is viable and we can just save all information in the TurnInfo object and then return true
         ResourceBox totalCost = new ResourceBox();
 
-        if (slot1Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(1).getCost());
-        if (slot2Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(2).getCost());
-        if (slot3Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(3).getCost());
+        if (slot1Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(1).getProductionInput());
+        if (slot2Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(2).getProductionInput());
+        if (slot3Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(3).getProductionInput());
 
         if (baseProductionActivation) {
             totalCost.addResourceByStringName(baseInputResource1);
@@ -555,6 +560,81 @@ public class MasterController {
         turnInfo.setLeader1ConvertedResource(leader1ConvertedResource);
         turnInfo.setLeaderSlot2Activation(leaderSlot2Activation);
         turnInfo.setLeader2ConvertedResource(leader2ConvertedResource);
+
+        return true;
+    }
+
+
+    public boolean executeProductionIfPlayerPayedTheCorrectAmountOfResources(int chestCoins, int chestStones, int chestServants,
+                                                                             int chestShields, int storageCoins, int storageStones,
+                                                                             int storageServants, int storageShields, int playerTurnOrder) {
+
+        if (turnInfo.isActionCompleted()) return false;  //initial check to avoid a player executing production multiple times
+
+        //now we check if the provided resources are equal to the ones the player had to pay
+        if (turnInfo.getCoins() != (chestCoins + storageCoins) ||
+                turnInfo.getStones() != (chestStones + storageStones) ||
+                turnInfo.getServants() != (chestServants + storageServants) ||
+                turnInfo.getShields() != (chestShields + storageShields)) {
+            return false;
+        }
+
+        ResourceBox playerChest = game.getPlayerByTurnOrder(playerTurnOrder).getChest();
+        StorageContainer playerStorage = game.getPlayerByTurnOrder(playerTurnOrder).getStorage();
+
+        //now we check if the player has the said amount of resources
+        if (playerChest.getResourceQuantity("coins") < chestCoins ||
+                playerChest.getResourceQuantity("stones") < chestStones ||
+                playerChest.getResourceQuantity("servants") < chestServants ||
+                playerChest.getResourceQuantity("shields") < chestShields ||
+                playerStorage.getResourceQuantity("coins") < storageCoins ||
+                playerStorage.getResourceQuantity("stones") < storageStones ||
+                playerStorage.getResourceQuantity("servants") < storageServants ||
+                playerStorage.getResourceQuantity("shields") < storageShields) {
+            return false;
+        }
+
+        //now w know that the requested action is totally correct
+        //now we can remove the resources without problems
+        playerChest.removeResource(new Coins(chestCoins));
+        playerChest.removeResource(new Stones(chestStones));
+        playerChest.removeResource(new Servants(chestServants));
+        playerChest.removeResource(new Shields(chestShields));
+
+        playerStorage.removeResource(new Coins(storageCoins));
+        playerStorage.removeResource(new Stones(storageStones));
+        playerStorage.removeResource(new Servants(storageServants));
+        playerStorage.removeResource(new Shields(storageShields));
+
+        //now we can calculate all resources produced
+        ResourceBox productionOutput = new ResourceBox();
+
+        if(turnInfo.isSlot1Activation()) productionOutput.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(1).getProductionOutput());
+        if(turnInfo.isSlot2Activation()) productionOutput.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(2).getProductionOutput());
+        if(turnInfo.isSlot3Activation()) productionOutput.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(3).getProductionOutput());
+
+        if(turnInfo.isBaseProductionActivation()) {
+            productionOutput.addResourceByStringName(turnInfo.getBaseOutputResource());
+        }
+
+        if(turnInfo.isLeaderSlot1Activation()) {
+            productionOutput.addResourceByStringName(turnInfo.getLeader1ConvertedResource());
+            productionOutput.addResourceByStringName("faith");
+        }
+
+        if(turnInfo.isLeaderSlot2Activation()) {
+            productionOutput.addResourceByStringName(turnInfo.getLeader2ConvertedResource());
+            productionOutput.addResourceByStringName("faith");
+        }
+
+        //now we give all resources produced to the player
+        playerChest.addResource(new Coins(productionOutput.getResourceQuantity("coins")));
+        playerChest.addResource(new Shields(productionOutput.getResourceQuantity("shields")));
+        playerChest.addResource(new Servants(productionOutput.getResourceQuantity("servants")));
+        playerChest.addResource(new Stones(productionOutput.getResourceQuantity("stones")));
+        this.giveFaithPointsToOnePlayer(productionOutput.getResourceQuantity("faith"), playerTurnOrder);
+
+        turnInfo.setActionCompleted(true);
 
         return true;
     }

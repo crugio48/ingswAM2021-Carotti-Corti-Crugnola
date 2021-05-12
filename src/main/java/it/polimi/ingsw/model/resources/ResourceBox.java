@@ -39,8 +39,8 @@ public class ResourceBox {
     }
 
 
-    public void addResourceByStringName(String singularResource) {
-        switch (singularResource) {
+    public void addResourceByStringName(String resourceName) {
+        switch (resourceName) {
             case"stone":
             case"stones":
                 this.addResource(new Stones(1));
@@ -69,20 +69,26 @@ public class ResourceBox {
     }
 
 
-    public void removeResource(Resource resource) {
-        if (resource == null) return;
+    /**
+     * this method tries to remove a given amount of a resource
+     * @param resource is the type and quantity of resource to remove
+     * @return is true if it was removed successfully, is false if it was not possible to remove for various reasons, if it is false nothing has changed
+     */
+    public boolean removeResource(Resource resource) {
+        if (resource == null) return false;
 
         for (Resource resourceIterator : box) {
             if (resourceIterator.getName().equals(resource.getName())) {
                 int newQuantity = resourceIterator.getQuantity() - resource.getQuantity();
-                if (newQuantity <= 0) {
-                    box.remove(resourceIterator);
+                if (newQuantity < 0) {  //asked to remove too much quantity
+                    return false;
                 } else {
                     resourceIterator.setQuantity(newQuantity);
+                    return true;
                 }
-                return;
             }
         }
+        return false;  //resource not found
     }
 
 

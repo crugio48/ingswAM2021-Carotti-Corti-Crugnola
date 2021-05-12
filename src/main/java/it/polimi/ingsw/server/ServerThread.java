@@ -395,7 +395,29 @@ public class ServerThread implements Runnable {
                         messageSenderToMyClient.goodCommand("you have ended the placing of your resources");
                         break;
 
-                    case"chosenResourcesToPay":
+                    case"chosenResourcesToPayForProduction":
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("activateProd")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        //now we try to execute the command
+                        if (masterController.executeProductionIfPlayerPayedTheCorrectAmountOfResources(command.getChestCoins(),
+                                command.getChestStones(), command.getChestServants(), command.getChestShields(),
+                                command.getStorageCoins(), command.getStorageStones(), command.getStorageServants(),
+                                command.getStorageShields(), myClientTurnOrder)) {  //true if action is viable
+                            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
+                            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+                            updateBroadcaster.broadcastMessage(masterController.getChestUpdateOfPlayer(myClientTurnOrder));
+                            messageSenderToMyClient.goodCommand(null);
+                        }
+                        else {
+                            messageSenderToMyClient.badProductionExecution(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getServants());
+                        }
+                        break;
+                    case"chosenResourcesToPayForDevCard":
                         //DA FARE
                     case"chosenSlotNumberForDevCard":
                         //DA FARE
