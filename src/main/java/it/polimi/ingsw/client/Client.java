@@ -16,10 +16,4 @@ public abstract class Client {
     }
 
 
-
-
-
-
-
-    //here we put all methods to access the view
 }
