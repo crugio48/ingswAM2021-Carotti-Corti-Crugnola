@@ -238,7 +238,19 @@ public class ServerThread implements Runnable {
                     case"discardLeader":
                         //DA FARE
                     case"endTurn":
-                        //DA FARE
+                        //check if player has done their main action
+                        if (masterController.checkIfMainActionWasCompleted()) { //true
+                            if (masterController.getGameNumberOfPlayers() == 1) { //only if single player game
+                                updateBroadcaster.broadcastMessage(masterController.doLorenzoActionAndGetUpdateString());
+                            }
+                            updateBroadcaster.broadcastMessage(masterController.endTurnAndGetEndTurnUpdateMessage());
+                            messageSenderToMyClient.goodCommand("you have ended your turn");
+                        }
+                        else { //false
+                            messageSenderToMyClient.badCommand("you still haven't done your main action");
+                        }
+                        break;
+
                     case"chosenResourcesToBuy":
                         if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
                             messageSenderToMyClient.badCommand("wrong action requested");

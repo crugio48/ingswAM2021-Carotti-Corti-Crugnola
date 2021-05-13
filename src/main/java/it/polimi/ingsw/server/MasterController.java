@@ -171,7 +171,6 @@ public class MasterController {
                 turnInfo.getCurrentPlayer() + "}";
     }
 
-
     //from now on all following methods don't need to be synchronized
 
     /**
@@ -500,6 +499,7 @@ public class MasterController {
         turnInfo.setServants(0);
         turnInfo.setStones(0);
         turnInfo.setShields(0);
+        turnInfo.setActionCompleted(true);
 
 
         for (int i = totalRemainingResources; i > 0; i--) {
@@ -652,5 +652,14 @@ public class MasterController {
         turnInfo.setActionCompleted(true);
 
         return true;
+    }
+
+    /**
+     * returns false if main action isn't totally completed
+     * @return
+     */
+    public boolean checkIfMainActionWasCompleted() {
+        return turnInfo.getCurrentMainAction() != null &&
+                (turnInfo.getCurrentMainAction() == null || turnInfo.isActionCompleted());
     }
 }
