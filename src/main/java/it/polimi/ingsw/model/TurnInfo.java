@@ -23,6 +23,9 @@ public class TurnInfo {
     private String leader1ConvertedResource;
     private boolean leaderSlot2Activation;
     private String leader2ConvertedResource;
+    private char devCardColour;              // 'x' is the reset value
+    private int devCardLevel;               // 0 is the reset value
+    private boolean alreadyPayedForTheDevCard;
 
 
     public TurnInfo() {
@@ -43,6 +46,9 @@ public class TurnInfo {
         this.leader1ConvertedResource = null;
         this.leaderSlot2Activation = false;
         this.leader2ConvertedResource = null;
+        this.devCardColour = 'x';
+        this.devCardLevel = 0;
+        this.alreadyPayedForTheDevCard = false;
     }
 
     public void setGameNumOfPlayers(int gameNumOfPlayers) {
@@ -119,6 +125,18 @@ public class TurnInfo {
         this.leader2ConvertedResource = leader2ConvertedResource;
     }
 
+    public void setDevCardColour(char devCardColour) {
+        this.devCardColour = devCardColour;
+    }
+
+    public void setDevCardLevel(int devCardLevel) {
+        this.devCardLevel = devCardLevel;
+    }
+
+    public void setAlreadyPayedForTheDevCard(boolean alreadyPayedForTheDevCard) {
+        this.alreadyPayedForTheDevCard = alreadyPayedForTheDevCard;
+    }
+
     public int getCurrentPlayer() {
         return currentPlayer;
     }
@@ -187,6 +205,18 @@ public class TurnInfo {
         return leader2ConvertedResource;
     }
 
+    public char getDevCardColour() {
+        return devCardColour;
+    }
+
+    public int getDevCardLevel() {
+        return devCardLevel;
+    }
+
+    public boolean hasAlreadyPayedForTheDevCard() {
+        return alreadyPayedForTheDevCard;
+    }
+
     /**
      * this is the method that does the end turn logic
      * for the logic to work it is needed a reset of some of TurnInfo variables
@@ -210,6 +240,8 @@ public class TurnInfo {
         this.leader1ConvertedResource = null;
         this.leaderSlot2Activation = false;
         this.leader2ConvertedResource = null;
+        this.devCardColour = 'x';
+        this.devCardLevel = 0;
     }
 
 }

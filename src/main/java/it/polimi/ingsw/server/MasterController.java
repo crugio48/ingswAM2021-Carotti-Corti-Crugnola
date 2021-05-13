@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 import it.polimi.ingsw.exceptions.GameStillNotInitialized;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.resources.*;
 
 
@@ -609,7 +610,7 @@ public class MasterController {
             return false;
         }
 
-        //now w know that the requested action is totally correct
+        //now we know that the requested action is totally correct
         //now we can remove the resources without problems
         playerChest.removeResource(new Coins(chestCoins));
         playerChest.removeResource(new Stones(chestStones));
@@ -661,5 +662,102 @@ public class MasterController {
     public boolean checkIfMainActionWasCompleted() {
         return turnInfo.getCurrentMainAction() != null &&
                 (turnInfo.getCurrentMainAction() == null || turnInfo.isActionCompleted());
+    }
+
+
+    public boolean buyDevCard(char devCardColour, int devCardLevel, int playerTurnOrder) {
+        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
+
+        if (!game.getDevCardSpace().isBuyable(devCardLevel, devCardColour, p)){
+            return false;
+        }
+
+        ResourceBox cardCost = game.getDevCardSpace().peekTopCard(devCardLevel, devCardColour).getCost();
+
+        turnInfo.setCurrentMainAction("buyDev");
+        turnInfo.setStones(cardCost.getResourceQuantity("stones"));
+        turnInfo.setShields(cardCost.getResourceQuantity("shields"));
+        turnInfo.setCoins(cardCost.getResourceQuantity("coins"));
+        turnInfo.setServants(cardCost.getResourceQuantity("servants"));
+        turnInfo.setDevCardColour(devCardColour);
+        turnInfo.setDevCardLevel(devCardLevel);
+
+        return true;
+    }
+
+    public boolean buyDevCardIfPlayerPayedTheCorrectAmountOfResources(int chestCoins, int chestStones, int chestServants,
+                                                                      int chestShields, int storageCoins, int storageStones,
+                                                                      int storageServants, int storageShields, int playerTurnOrder) {
+        if (turnInfo.isActionCompleted()) return false;
+        if (turnInfo.hasAlreadyPayedForTheDevCard()) return false;
+
+        //now we check if the provided resources are equal to the ones the player had to pay
+        if (turnInfo.getCoins() != (chestCoins + storageCoins) ||
+                turnInfo.getStones() != (chestStones + storageStones) ||
+                turnInfo.getServants() != (chestServants + storageServants) ||
+                turnInfo.getShields() != (chestShields + storageShields)) {
+            return false;
+        }
+
+        ResourceBox playerChest = game.getPlayerByTurnOrder(playerTurnOrder).getChest();
+        StorageContainer playerStorage = game.getPlayerByTurnOrder(playerTurnOrder).getStorage();
+
+        //now we check if the player has the said amount of resources
+        if (playerChest.getResourceQuantity("coins") < chestCoins ||
+                playerChest.getResourceQuantity("stones") < chestStones ||
+                playerChest.getResourceQuantity("servants") < chestServants ||
+                playerChest.getResourceQuantity("shields") < chestShields ||
+                playerStorage.getResourceQuantity("coins") < storageCoins ||
+                playerStorage.getResourceQuantity("stones") < storageStones ||
+                playerStorage.getResourceQuantity("servants") < storageServants ||
+                playerStorage.getResourceQuantity("shields") < storageShields) {
+            return false;
+        }
+
+        //now we know that the requested action is totally correct
+        //now we can remove the resources without problems
+        playerChest.removeResource(new Coins(chestCoins));
+        playerChest.removeResource(new Stones(chestStones));
+        playerChest.removeResource(new Servants(chestServants));
+        playerChest.removeResource(new Shields(chestShields));
+
+        playerStorage.removeResource(new Coins(storageCoins));
+        playerStorage.removeResource(new Stones(storageStones));
+        playerStorage.removeResource(new Servants(storageServants));
+        playerStorage.removeResource(new Shields(storageShields));
+
+        turnInfo.setAlreadyPayedForTheDevCard(true);
+
+        return true;
+    }
+
+    public boolean placeDevCard(int slotNumber, int playerTurnOrder) {
+
+        if (!turnInfo.hasAlreadyPayedForTheDevCard()) {
+            return false;
+        }
+        if (!game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().isCardPlaceable(
+                game.getDevCardSpace().peekTopCard(turnInfo.getDevCardLevel(), turnInfo.getDevCardColour()), slotNumber)){
+            return false;
+        }
+
+        //now we know the card is placeable
+        DevCard card = game.getDevCardSpace().getnremoveTopCard(turnInfo.getDevCardLevel(), turnInfo.getDevCardColour());
+
+        game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().placeCard(card, slotNumber);
+
+        turnInfo.setActionCompleted(true);
+
+        return true;
+    }
+
+    public String getUpdateMessageOfPersonalDevCardSlot(int slotNumber, int playerTurnOrder) {
+        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
+        int newCode = p.getPersonalDevelopmentCardSlots().peekTopCard(slotNumber).getCode();
+
+        return "{\"cmd\" : \"personalDevCardSlotUpdate\" , " +
+                "\"playerUsername\" : \"" + p.getUsername() + "\", " +
+                "\"newDevCardCode\" : " + newCode + ", " +
+                "\"stackSlotNumberToPlace\" : " + slotNumber + "}";
     }
 }

@@ -170,6 +170,10 @@ public class DevCardSpace {
     }
 
      public DevCard peekTopCard(int level , char colour){
+        if (level < 1 || level > 3 ||
+                (colour != 'b' && colour != 'g' && colour != 'p' && colour != 'y')) {
+            return null;
+        }
 
         if (selectstack(level, colour).isEmpty()) return null;  //check if selected stack is empty
 

@@ -232,7 +232,19 @@ public class ServerThread implements Runnable {
                             messageSenderToMyClient.badCommand("wrong action requested");
                             break;
                         }
-                        //DA COMPLETARE
+                        // here we try to execute the command
+                        if (masterController.buyDevCard(command.getDevCardColour(), command.getDevCardLevel(),
+                                myClientTurnOrder)){
+                            messageSenderToMyClient.goodDevCardBuyAction(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getServants());
+                        }
+                        else {
+                            messageSenderToMyClient.badCommand("you can't buy that card");
+                        }
+                        break;
+
                     case"activateLeader":
                         //DA FARE
                     case"discardLeader":
@@ -242,6 +254,8 @@ public class ServerThread implements Runnable {
                         if (masterController.checkIfMainActionWasCompleted()) { //true
                             if (masterController.getGameNumberOfPlayers() == 1) { //only if single player game
                                 updateBroadcaster.broadcastMessage(masterController.doLorenzoActionAndGetUpdateString());
+                                updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
+                                updateBroadcaster.broadcastMessage(masterController.getDevCardsSpaceUpdate());
                             }
                             updateBroadcaster.broadcastMessage(masterController.endTurnAndGetEndTurnUpdateMessage());
                             messageSenderToMyClient.goodCommand("you have ended your turn");
@@ -417,12 +431,48 @@ public class ServerThread implements Runnable {
                                     masterController.getTurnInfo().getServants());
                         }
                         break;
+
                     case"chosenResourcesToPayForDevCard":
-                        //DA FARE
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("buyDev")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        //now we try to execute the command
+                        if (masterController.buyDevCardIfPlayerPayedTheCorrectAmountOfResources(command.getChestCoins(),
+                                command.getChestStones(), command.getChestServants(), command.getChestShields(),
+                                command.getStorageCoins(), command.getStorageStones(), command.getStorageServants(),
+                                command.getStorageShields(), myClientTurnOrder)) {
+                            updateBroadcaster.broadcastMessage(masterController.getChestUpdateOfPlayer(myClientTurnOrder));
+                            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+                            messageSenderToMyClient.goodCommand(null);
+                        }
+                        else {
+                            messageSenderToMyClient.badDevCardBuyChoosingPayement(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getServants());
+                        }
+                        break;
+
                     case"chosenSlotNumberForDevCard":
-                        //DA FARE
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("buyDev")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        //now we try to execute the command
+                        if (masterController.placeDevCard(command.getSlotNumber(), myClientTurnOrder)) { //if true
+                            updateBroadcaster.broadcastMessage(masterController.getUpdateMessageOfPersonalDevCardSlot(
+                                    command.getSlotNumber(), myClientTurnOrder));
+                            updateBroadcaster.broadcastMessage(masterController.getDevCardsSpaceUpdate());
+                            messageSenderToMyClient.goodCommand("you bought the card successfully");
+                        }
+                        else {// if false
+                            messageSenderToMyClient.badCommand("it wasn't possible to place the card in that slot");
+                        }
+                        break;
+
                     default:
-                        //DA FARE
+                        messageSenderToMyClient.badCommand("it wasn't possible to understand your command");
                         break;
                 }
 
