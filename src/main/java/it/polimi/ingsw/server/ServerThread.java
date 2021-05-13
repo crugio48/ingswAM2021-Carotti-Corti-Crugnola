@@ -186,36 +186,24 @@ public class ServerThread implements Runnable {
 
                 switch(command.getCmd()) {
                     case"buyFromMarket":
-                        ResourceBox boughtResources;
                         //checks if action requested is valid
                         if (masterController.getTurnInfo().getCurrentMainAction() != null) {
                             messageSenderToMyClient.badCommand("wrong action requested");
                             break;
                         }
                         //here we execute the command
-                        if ((boughtResources = masterController.buyFromMarket(command.getMarketPosition())) == null) {
+                        if (masterController.buyFromMarket(command.getMarketPosition(), myClientTurnOrder)) {  //if true then action was correct
+                            updateBroadcaster.broadcastMessage(masterController.getMarketUpdate());  //market update
+                            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate()); //faithTrack update
+                            messageSenderToMyClient.goodBuyFromMarket(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getJolly());
+                        }
+                        else {  //if false then the action was not correct
                             messageSenderToMyClient.badCommand("invalid market position requested");
-                            break;
                         }
-                        //if we get here it means that the action was valid
-                        updateBroadcaster.broadcastMessage(masterController.getMarketUpdate());  //market update
-                        masterController.getTurnInfo().setCurrentMainAction("market");
-                        masterController.getTurnInfo().setServants(boughtResources.getResourceQuantity("servants"));
-                        masterController.getTurnInfo().setCoins(boughtResources.getResourceQuantity("coins"));
-                        masterController.getTurnInfo().setShields(boughtResources.getResourceQuantity("shields"));
-                        masterController.getTurnInfo().setStones(boughtResources.getResourceQuantity("stones"));
-                        if (masterController.hasActiveLeaderWithMarketAction(myClientTurnOrder)) {  //only players with specific active leaders buy jolly resources
-                            masterController.getTurnInfo().setJolly(boughtResources.getResourceQuantity("jolly"));
-                        }
-                        if (boughtResources.getResourceQuantity("faith") != 0) { //check to see if the player earned a faith point
-                            masterController.giveFaithPointsToOnePlayer(boughtResources.getResourceQuantity("faith"), myClientTurnOrder);
-                            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());     //faithTrack update
-                        }
-                        messageSenderToMyClient.goodBuyFromMarket(masterController.getTurnInfo().getStones(),
-                                masterController.getTurnInfo().getServants(),
-                                masterController.getTurnInfo().getShields(),
-                                masterController.getTurnInfo().getCoins(),
-                                masterController.getTurnInfo().getJolly());
                         break;
 
                     case"activateProduction":

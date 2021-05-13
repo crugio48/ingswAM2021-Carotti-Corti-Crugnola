@@ -248,8 +248,23 @@ public class MasterController {
         return turnInfo;
     }
 
-    public ResourceBox buyFromMarket(int marketPosition) {
-        return game.getMarket().insertMarbleSlideAndGetResourceBox(marketPosition);
+    public boolean buyFromMarket(int marketPosition, int playerTurnOrder) {
+        ResourceBox bought = game.getMarket().insertMarbleSlideAndGetResourceBox(marketPosition);
+
+        if (bought == null) return false;
+
+        //if we get here then the action was done successfully
+        turnInfo.setCurrentMainAction("market");
+        turnInfo.setServants(bought.getResourceQuantity("servants"));
+        turnInfo.setCoins(bought.getResourceQuantity("coins"));
+        turnInfo.setShields(bought.getResourceQuantity("shields"));
+        turnInfo.setStones(bought.getResourceQuantity("stones"));
+        if (this.hasActiveLeaderWithMarketAction(playerTurnOrder)) {
+            turnInfo.setJolly(bought.getResourceQuantity("jolly"));
+        }
+        this.giveFaithPointsToOnePlayer(bought.getResourceQuantity("faith"), playerTurnOrder );
+
+        return true;
     }
 
     public void giveFaithPointsToOnePlayer(int numberOfPoints, int playerTurnOrder) {
