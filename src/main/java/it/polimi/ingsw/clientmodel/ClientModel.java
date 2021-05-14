@@ -15,7 +15,6 @@ public class ClientModel {
     private ClientModelPlayer[] players;
 
 
-
     public ClientModel(){
         this.currentPlayer = 0;
         this.numberOfPlayer = 0;
@@ -47,7 +46,38 @@ public class ClientModel {
         return faithTrack;
     }
 
+    public String visualizeOtherPlayersLeaderCards(int turnOrder){
+        StringBuilder toReturn = new StringBuilder();
+        for (ClientModelPlayer p : players){
+            if (p.getTurnOrder() != turnOrder){
+                toReturn.append("Player [").append(p.getNickname()).append("]:\n");
+                if (p.getLeaderCard(0).isActive()) toReturn.append(p.getLeaderCard(0).visualizePersonalLeaderCard()).append("\n");
+                if (p.getLeaderCard(1).isActive()) toReturn.append(p.getLeaderCard(1).visualizePersonalLeaderCard()).append("\n");
+            }
+        }
+        return toReturn.toString();
+    }
 
+    public ClientModelPlayer getPlayerByTurnorder(int turnOrder){
+        for (ClientModelPlayer player : players){
+            if (player.getTurnOrder() == turnOrder){
+                return player;
+            }
+        }
+        return null;
+    }
+
+    public String printAllOtherPlayersAndNicknames(int myTurnOrder){
+        StringBuilder toReturn = new StringBuilder();
+        for (int i = 1; i < numberOfPlayer; i++){
+            if (i == myTurnOrder) continue;
+            ClientModelPlayer p = getPlayerByTurnorder(i);
+
+            toReturn.append("Player[").append(i).append(", ").append(p.getNickname()).append("] ");
+
+        }
+        return toReturn.toString();
+    }
 
     public ClientModelDevCardSpace getDevCardSpace() {
         return devCardSpace;
@@ -77,7 +107,6 @@ public class ClientModel {
     public void setFaithTrack(ClientModelFaithTrack faithTrack) {
         this.faithTrack = faithTrack;
     }
-
 
 
     public void setDevCardSpace(ClientModelDevCardSpace devCardSpace) {

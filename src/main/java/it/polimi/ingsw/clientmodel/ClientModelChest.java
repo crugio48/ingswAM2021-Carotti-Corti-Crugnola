@@ -1,17 +1,28 @@
 package it.polimi.ingsw.clientmodel;
 
-public class ClientModelChest {
+import it.polimi.ingsw.MyObservable;
+
+
+public class ClientModelChest extends MyObservable {
 
     private int coinsQuantity;
     private int stonesQuantity;
     private int shieldsQuantity;
     private int servantsQuantity;
 
-    public ClientModelChest(){
+    public ClientModelChest() {
         this.coinsQuantity = 0;
         this.stonesQuantity = 0;
         this.shieldsQuantity = 0;
         this.servantsQuantity = 0;
+    }
+
+    public void visualizeClientModelChest(){
+
+        printOut("Coins: " + coinsQuantity);
+        printOut("Shields: " + shieldsQuantity);
+        printOut("Stones: " + servantsQuantity);
+        printOut("Servants: " + servantsQuantity);
     }
 
     public int getCoinsQuantity() {
@@ -44,5 +55,17 @@ public class ClientModelChest {
 
     public void setServantsQuantity(int servantsQuantity) {
         this.servantsQuantity = servantsQuantity;
+    }
+
+    public void setClientModelChestUpdate(int coins, int stones, int shields, int servants){
+        setCoinsQuantity(coins);
+        setServantsQuantity(servants);
+        setShieldsQuantity(shields);
+        setStonesQuantity(stones);
+        notifyObservers();
+    }
+
+    public void printOut(String toPrint) {
+        System.out.println(toPrint);
     }
 }

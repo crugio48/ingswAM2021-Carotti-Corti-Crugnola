@@ -1,7 +1,11 @@
 package it.polimi.ingsw.clientmodel;
 
+import it.polimi.ingsw.CardDecoder.CardDecoder;
 import it.polimi.ingsw.MyObservable;
+import it.polimi.ingsw.model.cards.Card;
 
+import javax.naming.InterruptedNamingException;
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class ClientModelPersonalDevCardSlots extends MyObservable {
@@ -63,6 +67,69 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
                 break;
         }
         notifyObservers();
+        }
+
+
+        public void visualizePersonalDevCardSlots(){
+
+            CardDecoder cardDecoder = new CardDecoder();
+            ArrayList<Integer> popCards = new ArrayList<Integer>();
+            Stack<Integer> firstStackClone = (Stack<Integer>) getFirstStack().clone();
+            Stack<Integer> secondStackClone = (Stack<Integer>) getSecondStack().clone();
+            Stack<Integer> thirdStackClone = (Stack<Integer>) getFirstStack().clone();
+
+            if (getTotalCardsPlaced() == 0) {
+                printOut("Your personal board has no cards");
+            }
+            else {
+                if (getFirstStack().size() == 0) printOut("First Stack is empty");
+                if (getFirstStack().size() > 0) {
+                    printOut("First stack cards:");
+                    if (getFirstStack().size() == 1) printOut(cardDecoder.printOnCliCard(getFirstStackTopCardCode()));
+                    if (getFirstStack().size() == 2) {
+                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
+                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
+                    }
+                    if (getFirstStack().size() == 3) {
+                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
+                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
+                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
+                    }
+                }
+
+                if (getSecondStack().size() == 0) printOut("Second Stack is empty");
+                if (getSecondStack().size() > 0) {
+                    printOut("Second stack cards:");
+                    if (getSecondStack().size() == 1) printOut(cardDecoder.printOnCliCard(getSecondStackTopCardCode()));
+                    if (getSecondStack().size() == 2) {
+                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
+                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
+                    }
+                    if (getSecondStack().size() == 3) {
+                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
+                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
+                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
+                    }
+                }
+                if (getThirdStack().size() == 0) printOut("Third Stack is empty");
+                if (getThirdStack().size() > 0) {
+                    printOut("Third stack cards:");
+                    if (getThirdStack().size() == 1) printOut(cardDecoder.printOnCliCard(getThirdStackTopCardCode()));
+                    if (getThirdStack().size() == 2) {
+                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
+                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
+                    }
+                    if (getThirdStack().size() == 3) {
+                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
+                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
+                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
+                    }
+                }
+            }
+        }
+
+        public void printOut(String toPrint) {
+            System.out.println(toPrint);
         }
 
 }

@@ -31,6 +31,18 @@ public class ClientModelMarket extends MyObservable {
         return extramarble;
     }
 
+    public String visualizeMarket(){
+        String toReturn = "";
+
+        toReturn += "[" + rowOneMatrix[0] + ", " + rowOneMatrix[1] + ", " + rowOneMatrix[2] + ", " + rowOneMatrix[3] + "]\n";
+        toReturn += "[" + rowTwoMatrix[0] + ", " + rowTwoMatrix[1] + ", " + rowTwoMatrix[2] + ", " + rowTwoMatrix[3] + "]\n";
+        toReturn += "[" + rowThreeMatrix[0] + ", " + rowThreeMatrix[1] + ", " + rowThreeMatrix[2] + ", " + rowThreeMatrix[3] + "]\n";
+        toReturn += "Extra Marble: " + getExtramarble();
+
+        return toReturn;
+
+    }
+
 
     public void setMarketUpdate(String[] rowOneMatrix, String[] rowTwoMatrix, String[] rowThreeMatrix, String extramarble){
         this.rowOneMatrix = rowOneMatrix;

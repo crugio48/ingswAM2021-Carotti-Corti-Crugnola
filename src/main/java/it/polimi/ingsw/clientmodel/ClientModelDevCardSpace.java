@@ -1,6 +1,8 @@
 package it.polimi.ingsw.clientmodel;
 
+import it.polimi.ingsw.CardDecoder.CardDecoder;
 import it.polimi.ingsw.MyObservable;
+import it.polimi.ingsw.model.cards.Card;
 
 public class ClientModelDevCardSpace extends MyObservable {
     int codeBlue1;
@@ -97,5 +99,33 @@ public class ClientModelDevCardSpace extends MyObservable {
       this.codeYellow3 = codeYellow3;
       notifyObservers();
   }
+
+  public String visualizeDevelopmentCardsSpace(){
+      CardDecoder cardDecoder = new CardDecoder();
+      String toReturn = "";
+
+      toReturn += "Green Cards:\n";
+      toReturn += cardDecoder.printOnCliCard(this.codeGreen3) + "\n";
+      toReturn += cardDecoder.printOnCliCard(this.codeGreen2) + "\n";
+      toReturn += cardDecoder.printOnCliCard(this.codeGreen1) + "\n";
+
+      toReturn += "Blue Cards:\n";
+      toReturn += cardDecoder.printOnCliCard(this.codeBlue3) + "\n";
+      toReturn += cardDecoder.printOnCliCard(this.codeBlue2) + "\n";
+      toReturn += cardDecoder.printOnCliCard(this.codeBlue1) + "\n";
+
+      toReturn += "Yellow Cards:\n";
+      toReturn += cardDecoder.printOnCliCard(this.codeYellow3) + "\n";
+      toReturn += cardDecoder.printOnCliCard(this.codeYellow2) + "\n";
+      toReturn += cardDecoder.printOnCliCard(this.codeYellow1) + "\n";
+
+      toReturn += "Purple Cards:\n";
+      toReturn += cardDecoder.printOnCliCard(this.codePurple3) + "\n";
+      toReturn += cardDecoder.printOnCliCard(this.codePurple2) + "\n";
+      toReturn += cardDecoder.printOnCliCard(this.codePurple1) + "\n";
+
+      return toReturn;
+  }
+
 
 }

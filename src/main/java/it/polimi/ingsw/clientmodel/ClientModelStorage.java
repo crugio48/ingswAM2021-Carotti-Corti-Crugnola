@@ -1,6 +1,8 @@
 package it.polimi.ingsw.clientmodel;
 
-public class ClientModelStorage {
+import it.polimi.ingsw.MyObservable;
+
+public class ClientModelStorage extends MyObservable {
     private String resourceOfSlot1;
     private int quantityOfSlot1;
     private String resourceOfSlot2;
@@ -104,5 +106,42 @@ public class ClientModelStorage {
 
     public void setQuantityOfLeaderSlot2(int quantityOfLeaderSlot2) {
         this.quantityOfLeaderSlot2 = quantityOfLeaderSlot2;
+    }
+
+    public void setClientModelStorageUpdate(int ql1, int ql2, int q1, int q2, int q3, String sl1, String sl2, String sl3, String ls1, String ls2){
+        setQuantityOfLeaderSlot1(ql1);
+        setQuantityOfLeaderSlot2(ql2);
+        setQuantityOfSlot1(q1);
+        setQuantityOfSlot2(q2);
+        setQuantityOfSlot3(q3);
+        setResourceOfSlot1(sl1);
+        setResourceOfSlot2(sl2);
+        setResourceOfSlot3(sl3);
+        setResourceTypeOfLeaderSlot1(ls1);
+        setResourceTypeOfLeaderSlot2(ls2);
+
+    }
+
+    public void visualizeClientModelStorage(){
+
+        printOut("Resource of Slot 1: " + resourceOfSlot1);
+        printOut("Quantity of Slot 1: " + quantityOfSlot1);
+
+        printOut("Resource of Slot 2: " + resourceOfSlot2);
+        printOut("Quantity of Slot 2: " + quantityOfSlot2);
+
+        printOut("Resource of Slot 3: " + resourceOfSlot3);
+        printOut("Quantity of Slot 3: " + quantityOfSlot3);
+
+        printOut("Resource of Leader slot 1: " + resourceOfSlot1);
+        printOut("Quantity of Leader Slot 1: " + quantityOfLeaderSlot1);
+
+        printOut("Resource of Leader slot 2: " + resourceOfSlot2);
+        printOut("Quantity of Leader Slot 2: " + quantityOfLeaderSlot2);
+
+    }
+
+    public void printOut(String toPrint) {
+        System.out.println(toPrint);
     }
 }

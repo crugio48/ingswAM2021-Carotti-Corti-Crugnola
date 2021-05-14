@@ -253,14 +253,67 @@ public class ClientCLI extends Client {
                     }
                     switch (selection) {
                         case 1:
+                            //print the player personal board
+                            printOut("These are your development cards:");
+                            clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+                            printOut("These are the resources in your chest:");
+                            clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
+                            printOut("These are the resources in your storage:");
+                            clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
+                            printOut("This is your faithTrack:");
+                            printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(myTurnOrder));
+                            printOut("These are your Leader Cards: ");
+                            printOut("First card:\n");
+                            printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
+                            printOut("Second card:\n");
+                            printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
 
-
-                            //DA FARE: stampa la propria personal board
                         case 2:
-                            //DA FARE: interazione su qualse player guardare e poi stampa
+                            printOut("These are the other players: ");
+                            printOut(clientModel.printAllOtherPlayersAndNicknames(myTurnOrder));
+
+                            while (true){
+                                printOut("Please insert the turnorder of the player of which you want information: ");
+                                userInput = stdIn.nextLine();
+                                int selectedTurnorder = -1;
+
+                                try {
+                                    selectedTurnorder = (int)Integer.parseInt(userInput);
+                                } catch (NumberFormatException e){
+                                    printOut("Please enter a valid number");
+                                }
+
+                                if (selectedTurnorder == myTurnOrder) {
+                                    printOut("You selected your turnorder, please insert the turnorder again");
+                                    continue;
+                                }
+                                if (selectedTurnorder > 0 && selectedTurnorder <= clientModel.getNumberOfPlayer()) {
+
+                                    printOut("These are your development cards:");
+                                    clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+                                    printOut("These are the resources in your chest:");
+                                    clientModel.getPlayerByTurnorder(selectedTurnorder).getChest().visualizeClientModelChest();
+                                    printOut("These are the resources in your storage:");
+                                    clientModel.getPlayerByTurnorder(selectedTurnorder).getStorage().visualizeClientModelStorage();
+                                    printOut("This is your faithTrack:");
+                                    printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(selectedTurnorder));
+                                    printOut("These are the used leaderCards of the other players: ");
+                                    printOut(clientModel.visualizeOtherPlayersLeaderCards(myTurnOrder));
+                                    break;
+                                }
+                            }
+
+                            //DA FARE: interazione su qualche player guardare e poi stampa
                         case 3:
-                            //DA FARE: stampa dev cards
+                            //printing the development cards
+                            printOut("These are the development cards:");
+                            printOut(clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace());
+
                         case 4:
+
+                            printOut("This is the market:");
+                            printOut(clientModel.getMarket().visualizeMarket());
+
                             //DA FARE: stampa market
                         case 5:
                             //DA FARE
