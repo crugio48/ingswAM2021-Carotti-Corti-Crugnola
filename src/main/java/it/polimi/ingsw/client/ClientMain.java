@@ -30,7 +30,5 @@ public class ClientMain {
             }
             System.out.println("enter a valid number please");
         }
-
-
     }
 }

@@ -69,7 +69,7 @@ public class ClientModel {
 
     public ClientModelPlayer getPlayerByNickname(String nickname){
         for (ClientModelPlayer player : players){
-            if(player.getNickname() == nickname){
+            if(player.getNickname().equals(nickname)){
                 return player;
             }
         }

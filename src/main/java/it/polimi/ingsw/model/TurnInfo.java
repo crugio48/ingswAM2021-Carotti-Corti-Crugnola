@@ -9,11 +9,15 @@ public class TurnInfo {
     private int currentPlayer;
     private String currentMainAction; //"market" || "buyDev" || "activateProd" if it has been confirmed or if it has already been completed, null if the action still hasn't been performed
     private boolean actionCompleted;  //used to know if "buyDev" or "activateProd" action was totally completed or not
+
+    //all three
     private int coins;
     private int stones;
     private int servants; // for all of these the value of reset is 0
     private int shields;
     private int jolly;
+
+    //production
     private boolean slot1Activation;
     private boolean slot2Activation;
     private boolean slot3Activation;
@@ -23,6 +27,8 @@ public class TurnInfo {
     private String leader1ConvertedResource;
     private boolean leaderSlot2Activation;
     private String leader2ConvertedResource;
+
+    //buy dev card
     private char devCardColour;              // 'x' is the reset value
     private int devCardLevel;               // 0 is the reset value
     private boolean alreadyPayedForTheDevCard;

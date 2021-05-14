@@ -61,7 +61,6 @@ public class ClientModelFaithTrack extends MyObservable {
         int index = turnOrder - 1;
 
         String toReturn = "";
-
         toReturn += "First Pope Space cells: from cell 5 to cell 8\n";
         toReturn += "Second Pope Space cells: from cell 6 to cell 10\n";
         toReturn += "Third Pope Space cells: from cell 19 to cell 24\n";
