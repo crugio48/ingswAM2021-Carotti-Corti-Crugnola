@@ -216,6 +216,7 @@ public class ClientCLI extends Client {
             //now the game has started and the client leads the communication
             while (true) {
                 //DA FARE: check su this.myturnorder == view.currentplayer e salvare risultato in isMyTurn
+                //DA FARE: logica di fine turno
 
                 if (isMyTurn) {
                     printOut("it is your turn, please choose what you want to do, type:\n" +
@@ -253,72 +254,24 @@ public class ClientCLI extends Client {
                     }
                     switch (selection) {
                         case 1:
-                            //print the player personal board
-                            printOut("These are your development cards:");
-                            clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
-                            printOut("These are the resources in your chest:");
-                            clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
-                            printOut("These are the resources in your storage:");
-                            clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
-                            printOut("This is your faithTrack:");
-                            printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(myTurnOrder));
-                            printOut("These are your Leader Cards: ");
-                            printOut("First card:\n");
-                            printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
-                            printOut("Second card:\n");
-                            printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
-
+                            printPersonalBoard();
+                            break;
                         case 2:
-                            printOut("These are the other players: ");
-                            printOut(clientModel.printAllOtherPlayersAndNicknames(myTurnOrder));
-
-                            while (true){
-                                printOut("Please insert the turnorder of the player of which you want information: ");
-                                userInput = stdIn.nextLine();
-                                int selectedTurnorder = -1;
-
-                                try {
-                                    selectedTurnorder = (int)Integer.parseInt(userInput);
-                                } catch (NumberFormatException e){
-                                    printOut("Please enter a valid number");
-                                }
-
-                                if (selectedTurnorder == myTurnOrder) {
-                                    printOut("You selected your turnorder, please insert the turnorder again");
-                                    continue;
-                                }
-                                if (selectedTurnorder > 0 && selectedTurnorder <= clientModel.getNumberOfPlayer()) {
-
-                                    printOut("These are your development cards:");
-                                    clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
-                                    printOut("These are the resources in your chest:");
-                                    clientModel.getPlayerByTurnorder(selectedTurnorder).getChest().visualizeClientModelChest();
-                                    printOut("These are the resources in your storage:");
-                                    clientModel.getPlayerByTurnorder(selectedTurnorder).getStorage().visualizeClientModelStorage();
-                                    printOut("This is your faithTrack:");
-                                    printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(selectedTurnorder));
-                                    printOut("These are the used leaderCards of the other players: ");
-                                    printOut(clientModel.visualizeOtherPlayersLeaderCards(myTurnOrder));
-                                    break;
-                                }
-                            }
-
-                            //DA FARE: interazione su qualche player guardare e poi stampa
+                            printOtherPlayersBoard();
+                            break;
                         case 3:
                             //printing the development cards
-                            printOut("These are the development cards:");
-                            printOut(clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace());
-
+                            printDevelopmentCards();
+                            break;
                         case 4:
-
-                            printOut("This is the market:");
-                            printOut(clientModel.getMarket().visualizeMarket());
-
-                            //DA FARE: stampa market
+                            printMarket();
+                            break;
                         case 5:
-                            //DA FARE
+                            printActivationLeaderCard(gson, response);
+                            break;
                         case 6:
-                            //DA FARE
+                            printDiscardYourActiveLeader(gson, response);
+                            break;
                         case 7:
                             //DA FARE
                         case 8:
@@ -388,5 +341,139 @@ public class ClientCLI extends Client {
         System.out.println(toPrint);
     }
 
+    private void printPersonalBoard(){
+        //print the player personal board
+        printOut("These are your development cards:");
+        clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+        printOut("These are the resources in your chest:");
+        clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
+        printOut("These are the resources in your storage:");
+        clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
+        printOut("This is your faithTrack:");
+        printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(myTurnOrder));
+        printOut("These are your Leader Cards: ");
+        printOut("First card:\n");
+        printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
+        printOut("Second card:\n");
+        printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
+    }
+
+    private void printOtherPlayersBoard(){
+        String userInput;
+        printOut("These are the other players: ");
+        printOut(clientModel.printAllOtherPlayersAndNicknames(myTurnOrder));
+
+        while (true){
+            printOut("Please insert the turnorder of the player of which you want information: ");
+            userInput = stdIn.nextLine();
+            int selectedTurnorder = -1;
+
+            try {
+                selectedTurnorder = (int)Integer.parseInt(userInput);
+            } catch (NumberFormatException e){
+                printOut("Please enter a valid number");
+                continue;
+            }
+
+            if (selectedTurnorder == myTurnOrder) {
+                printOut("You selected your turnorder, please insert the turnorder again");
+                continue;
+            }
+            if (selectedTurnorder > 0 && selectedTurnorder <= clientModel.getNumberOfPlayer()) {
+
+                printOut("These are your development cards:");
+                clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+                printOut("These are the resources in your chest:");
+                clientModel.getPlayerByTurnorder(selectedTurnorder).getChest().visualizeClientModelChest();
+                printOut("These are the resources in your storage:");
+                clientModel.getPlayerByTurnorder(selectedTurnorder).getStorage().visualizeClientModelStorage();
+                printOut("This is your faithTrack:");
+                printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(selectedTurnorder));
+                printOut("These are the active leaderCards of the other players: ");
+                printOut(clientModel.visualizeOtherPlayersLeaderCards(myTurnOrder));
+                break;
+            }
+        }
+    }
+
+    private void printDevelopmentCards(){
+        printOut("These are the development cards:");
+        printOut(clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace());
+    }
+
+    private void printMarket(){
+        //print the client model market
+        printOut("This is the market:");
+        printOut(clientModel.getMarket().visualizeMarket());
+    }
+
+    private void printActivationLeaderCard(Gson gson, Response response) throws InterruptedException {
+        String userInput;
+        String serverResp;
+        //DA FARE: activate a leader card
+        printOut("First card:\n");
+        printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
+        printOut("Second card:\n");
+        printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
+        printOut("Provide the code of the leadercard you want to activate");
+
+        while (true){
+            userInput = stdIn.nextLine();
+
+            if (userInput.equals("stop")) break;
+
+            int selectedLeaderCode = -1;
+
+            try {
+                selectedLeaderCode = (int)Integer.parseInt(userInput);
+            } catch (NumberFormatException e){
+                printOut("Please enter a valid number");
+                continue;
+            }
+
+            messageSender.sendChosenLeaderToActivate(selectedLeaderCode);
+            serverResp = stringBuffer.readMessage();
+            response = (Response) gson.fromJson(serverResp, Response.class);
+            if(response.isCommandWasCorrect()) break;
+            else {
+                printOut(response.getResp());
+                printOut("Try to insert a new leader code or write \"stop\" to do another action");
+            }
+        }
+    }
+
+
+    private void printDiscardYourActiveLeader(Gson gson, Response response) throws InterruptedException {
+        String userInput;
+        String serverResp;
+        int selectedLeaderCode = -1;
+
+        printOut("Active Cards:\n");
+        if (clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).isActive())
+            printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
+        if (clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).isActive())
+            printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
+
+        while(true){
+            printOut("Please insert the number of the card you want to discard:");
+            userInput = stdIn.nextLine();
+            if (userInput.equals("stop")) break;
+            try {
+                selectedLeaderCode = (int)Integer.parseInt(userInput);
+            } catch (NumberFormatException e){
+                printOut("Please enter a valid number");
+                continue;
+            }
+            messageSender.discardYourActiveLeader(selectedLeaderCode);
+            serverResp = stringBuffer.readMessage();
+            response = (Response) gson.fromJson(serverResp, Response.class);
+            if(response.isCommandWasCorrect()) break;
+            else {
+                printOut(response.getResp());
+                printOut("Try to insert a new leader code or write \"stop\" to do another action");
+            }
+        }
+
+    }
 
 }

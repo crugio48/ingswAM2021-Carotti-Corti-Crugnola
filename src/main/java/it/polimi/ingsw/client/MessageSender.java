@@ -51,5 +51,17 @@ public class MessageSender {
         out.flush();
     }
 
+    public void sendChosenLeaderToActivate(int codeLeaderChosen){
+        String outMessage = "{\"cmd\" : activateLeader" +  ",\"leaderCode\" : " + codeLeaderChosen + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void discardYourActiveLeader(int codeLeaderChosen){
+        String outMessage = "{\"cmd\" : discardLeader" +  ",\"leaderCode\" : " + codeLeaderChosen + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+
 
 }
