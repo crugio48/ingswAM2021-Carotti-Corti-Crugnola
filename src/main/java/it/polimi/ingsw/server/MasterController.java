@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 import it.polimi.ingsw.exceptions.GameStillNotInitialized;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.resources.*;
 
 
@@ -171,7 +172,6 @@ public class MasterController {
                 turnInfo.getCurrentPlayer() + "}";
     }
 
-
     //from now on all following methods don't need to be synchronized
 
     /**
@@ -248,8 +248,23 @@ public class MasterController {
         return turnInfo;
     }
 
-    public ResourceBox buyFromMarket(int marketPosition) {
-        return game.getMarket().insertMarbleSlideAndGetResourceBox(marketPosition);
+    public boolean buyFromMarket(int marketPosition, int playerTurnOrder) {
+        ResourceBox bought = game.getMarket().insertMarbleSlideAndGetResourceBox(marketPosition);
+
+        if (bought == null) return false;
+
+        //if we get here then the action was done successfully
+        turnInfo.setCurrentMainAction("market");
+        turnInfo.setServants(bought.getResourceQuantity("servants"));
+        turnInfo.setCoins(bought.getResourceQuantity("coins"));
+        turnInfo.setShields(bought.getResourceQuantity("shields"));
+        turnInfo.setStones(bought.getResourceQuantity("stones"));
+        if (this.hasActiveLeaderWithMarketAction(playerTurnOrder)) {
+            turnInfo.setJolly(bought.getResourceQuantity("jolly"));
+        }
+        this.giveFaithPointsToOnePlayer(bought.getResourceQuantity("faith"), playerTurnOrder );
+
+        return true;
     }
 
     public void giveFaithPointsToOnePlayer(int numberOfPoints, int playerTurnOrder) {
@@ -481,6 +496,12 @@ public class MasterController {
 
     public void discardAllRemainingResourcesAndGiveFaithPoints(int playerTurnOrder) {
         int totalRemainingResources = turnInfo.getCoins() + turnInfo.getServants() + turnInfo.getStones() + turnInfo.getShields();
+        turnInfo.setCoins(0);
+        turnInfo.setServants(0);
+        turnInfo.setStones(0);
+        turnInfo.setShields(0);
+        turnInfo.setActionCompleted(true);
+
 
         for (int i = totalRemainingResources; i > 0; i--) {
             if (game.getNumOfPlayers() > 1) {
@@ -505,5 +526,238 @@ public class MasterController {
                 game.getFaithTrack().moveBlackCrossForward();
             }
         }
+    }
+
+
+    public boolean activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
+                                      boolean baseProductionActivation, String baseInputResource1, String baseInputResource2,
+                                      String baseOutputResource, boolean leaderSlot1Activation, int leader1Code,
+                                      String leader1ConvertedResource, boolean leaderSlot2Activation, int leader2Code,
+                                      String leader2ConvertedResource, int playerTurnOrder) {
+
+        //this is the viability check
+        if (!game.getPlayerByTurnOrder(playerTurnOrder).checkIfProductionRequestedIsViable(slot1Activation,
+                slot2Activation, slot3Activation, baseProductionActivation, baseInputResource1, baseInputResource2,
+                leaderSlot1Activation, leader1Code, leaderSlot2Activation, leader2Code)) {
+            return false;
+        }
+        //if we get here then the production requested is viable and we can just save all information in the TurnInfo object and then return true
+        ResourceBox totalCost = new ResourceBox();
+
+        if (slot1Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(1).getProductionInput());
+        if (slot2Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(2).getProductionInput());
+        if (slot3Activation) totalCost.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(3).getProductionInput());
+
+        if (baseProductionActivation) {
+            totalCost.addResourceByStringName(baseInputResource1);
+            totalCost.addResourceByStringName(baseInputResource2);
+        }
+
+        if(leaderSlot1Activation) {
+            totalCost.addResourceByStringName(game.getPlayerByTurnOrder(playerTurnOrder).getLeaderCardByCardCode(leader1Code).getEffect().getTargetResource());
+        }
+
+        if(leaderSlot2Activation) {
+            totalCost.addResourceByStringName(game.getPlayerByTurnOrder(playerTurnOrder).getLeaderCardByCardCode(leader2Code).getEffect().getTargetResource());
+        }
+
+        turnInfo.setCurrentMainAction("activateProd");
+        turnInfo.setServants(totalCost.getResourceQuantity("servants"));
+        turnInfo.setShields(totalCost.getResourceQuantity("shields"));
+        turnInfo.setStones(totalCost.getResourceQuantity("stones"));
+        turnInfo.setCoins(totalCost.getResourceQuantity("coins"));
+
+        turnInfo.setSlot1Activation(slot1Activation);
+        turnInfo.setSlot2Activation(slot2Activation);
+        turnInfo.setSlot3Activation(slot3Activation);
+        turnInfo.setBaseProductionActivation(baseProductionActivation);
+        turnInfo.setBaseOutputResource(baseOutputResource);
+        turnInfo.setLeaderSlot1Activation(leaderSlot1Activation);
+        turnInfo.setLeader1ConvertedResource(leader1ConvertedResource);
+        turnInfo.setLeaderSlot2Activation(leaderSlot2Activation);
+        turnInfo.setLeader2ConvertedResource(leader2ConvertedResource);
+
+        return true;
+    }
+
+
+    public boolean executeProductionIfPlayerPayedTheCorrectAmountOfResources(int chestCoins, int chestStones, int chestServants,
+                                                                             int chestShields, int storageCoins, int storageStones,
+                                                                             int storageServants, int storageShields, int playerTurnOrder) {
+
+        if (turnInfo.isActionCompleted()) return false;  //initial check to avoid a player executing production multiple times
+
+        //now we check if the provided resources are equal to the ones the player had to pay
+        if (turnInfo.getCoins() != (chestCoins + storageCoins) ||
+                turnInfo.getStones() != (chestStones + storageStones) ||
+                turnInfo.getServants() != (chestServants + storageServants) ||
+                turnInfo.getShields() != (chestShields + storageShields)) {
+            return false;
+        }
+
+        ResourceBox playerChest = game.getPlayerByTurnOrder(playerTurnOrder).getChest();
+        StorageContainer playerStorage = game.getPlayerByTurnOrder(playerTurnOrder).getStorage();
+
+        //now we check if the player has the said amount of resources
+        if (playerChest.getResourceQuantity("coins") < chestCoins ||
+                playerChest.getResourceQuantity("stones") < chestStones ||
+                playerChest.getResourceQuantity("servants") < chestServants ||
+                playerChest.getResourceQuantity("shields") < chestShields ||
+                playerStorage.getResourceQuantity("coins") < storageCoins ||
+                playerStorage.getResourceQuantity("stones") < storageStones ||
+                playerStorage.getResourceQuantity("servants") < storageServants ||
+                playerStorage.getResourceQuantity("shields") < storageShields) {
+            return false;
+        }
+
+        //now we know that the requested action is totally correct
+        //now we can remove the resources without problems
+        playerChest.removeResource(new Coins(chestCoins));
+        playerChest.removeResource(new Stones(chestStones));
+        playerChest.removeResource(new Servants(chestServants));
+        playerChest.removeResource(new Shields(chestShields));
+
+        playerStorage.removeResource(new Coins(storageCoins));
+        playerStorage.removeResource(new Stones(storageStones));
+        playerStorage.removeResource(new Servants(storageServants));
+        playerStorage.removeResource(new Shields(storageShields));
+
+        //now we can calculate all resources produced
+        ResourceBox productionOutput = new ResourceBox();
+
+        if(turnInfo.isSlot1Activation()) productionOutput.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(1).getProductionOutput());
+        if(turnInfo.isSlot2Activation()) productionOutput.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(2).getProductionOutput());
+        if(turnInfo.isSlot3Activation()) productionOutput.addResourceBox(game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().peekTopCard(3).getProductionOutput());
+
+        if(turnInfo.isBaseProductionActivation()) {
+            productionOutput.addResourceByStringName(turnInfo.getBaseOutputResource());
+        }
+
+        if(turnInfo.isLeaderSlot1Activation()) {
+            productionOutput.addResourceByStringName(turnInfo.getLeader1ConvertedResource());
+            productionOutput.addResourceByStringName("faith");
+        }
+
+        if(turnInfo.isLeaderSlot2Activation()) {
+            productionOutput.addResourceByStringName(turnInfo.getLeader2ConvertedResource());
+            productionOutput.addResourceByStringName("faith");
+        }
+
+        //now we give all resources produced to the player
+        playerChest.addResource(new Coins(productionOutput.getResourceQuantity("coins")));
+        playerChest.addResource(new Shields(productionOutput.getResourceQuantity("shields")));
+        playerChest.addResource(new Servants(productionOutput.getResourceQuantity("servants")));
+        playerChest.addResource(new Stones(productionOutput.getResourceQuantity("stones")));
+        this.giveFaithPointsToOnePlayer(productionOutput.getResourceQuantity("faith"), playerTurnOrder);
+
+        turnInfo.setActionCompleted(true);
+
+        return true;
+    }
+
+    /**
+     * returns false if main action isn't totally completed
+     * @return
+     */
+    public boolean checkIfMainActionWasCompleted() {
+        return turnInfo.getCurrentMainAction() != null &&
+                (turnInfo.getCurrentMainAction() == null || turnInfo.isActionCompleted());
+    }
+
+
+    public boolean buyDevCard(char devCardColour, int devCardLevel, int playerTurnOrder) {
+        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
+
+        if (!game.getDevCardSpace().isBuyable(devCardLevel, devCardColour, p)){
+            return false;
+        }
+
+        ResourceBox cardCost = game.getDevCardSpace().peekTopCard(devCardLevel, devCardColour).getCost();
+
+        turnInfo.setCurrentMainAction("buyDev");
+        turnInfo.setStones(cardCost.getResourceQuantity("stones"));
+        turnInfo.setShields(cardCost.getResourceQuantity("shields"));
+        turnInfo.setCoins(cardCost.getResourceQuantity("coins"));
+        turnInfo.setServants(cardCost.getResourceQuantity("servants"));
+        turnInfo.setDevCardColour(devCardColour);
+        turnInfo.setDevCardLevel(devCardLevel);
+
+        return true;
+    }
+
+    public boolean buyDevCardIfPlayerPayedTheCorrectAmountOfResources(int chestCoins, int chestStones, int chestServants,
+                                                                      int chestShields, int storageCoins, int storageStones,
+                                                                      int storageServants, int storageShields, int playerTurnOrder) {
+        if (turnInfo.isActionCompleted()) return false;
+        if (turnInfo.hasAlreadyPayedForTheDevCard()) return false;
+
+        //now we check if the provided resources are equal to the ones the player had to pay
+        if (turnInfo.getCoins() != (chestCoins + storageCoins) ||
+                turnInfo.getStones() != (chestStones + storageStones) ||
+                turnInfo.getServants() != (chestServants + storageServants) ||
+                turnInfo.getShields() != (chestShields + storageShields)) {
+            return false;
+        }
+
+        ResourceBox playerChest = game.getPlayerByTurnOrder(playerTurnOrder).getChest();
+        StorageContainer playerStorage = game.getPlayerByTurnOrder(playerTurnOrder).getStorage();
+
+        //now we check if the player has the said amount of resources
+        if (playerChest.getResourceQuantity("coins") < chestCoins ||
+                playerChest.getResourceQuantity("stones") < chestStones ||
+                playerChest.getResourceQuantity("servants") < chestServants ||
+                playerChest.getResourceQuantity("shields") < chestShields ||
+                playerStorage.getResourceQuantity("coins") < storageCoins ||
+                playerStorage.getResourceQuantity("stones") < storageStones ||
+                playerStorage.getResourceQuantity("servants") < storageServants ||
+                playerStorage.getResourceQuantity("shields") < storageShields) {
+            return false;
+        }
+
+        //now we know that the requested action is totally correct
+        //now we can remove the resources without problems
+        playerChest.removeResource(new Coins(chestCoins));
+        playerChest.removeResource(new Stones(chestStones));
+        playerChest.removeResource(new Servants(chestServants));
+        playerChest.removeResource(new Shields(chestShields));
+
+        playerStorage.removeResource(new Coins(storageCoins));
+        playerStorage.removeResource(new Stones(storageStones));
+        playerStorage.removeResource(new Servants(storageServants));
+        playerStorage.removeResource(new Shields(storageShields));
+
+        turnInfo.setAlreadyPayedForTheDevCard(true);
+
+        return true;
+    }
+
+    public boolean placeDevCard(int slotNumber, int playerTurnOrder) {
+
+        if (!turnInfo.hasAlreadyPayedForTheDevCard()) {
+            return false;
+        }
+        if (!game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().isCardPlaceable(
+                game.getDevCardSpace().peekTopCard(turnInfo.getDevCardLevel(), turnInfo.getDevCardColour()), slotNumber)){
+            return false;
+        }
+
+        //now we know the card is placeable
+        DevCard card = game.getDevCardSpace().getnremoveTopCard(turnInfo.getDevCardLevel(), turnInfo.getDevCardColour());
+
+        game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().placeCard(card, slotNumber);
+
+        turnInfo.setActionCompleted(true);
+
+        return true;
+    }
+
+    public String getUpdateMessageOfPersonalDevCardSlot(int slotNumber, int playerTurnOrder) {
+        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
+        int newCode = p.getPersonalDevelopmentCardSlots().peekTopCard(slotNumber).getCode();
+
+        return "{\"cmd\" : \"personalDevCardSlotUpdate\" , " +
+                "\"playerUsername\" : \"" + p.getUsername() + "\", " +
+                "\"newDevCardCode\" : " + newCode + ", " +
+                "\"stackSlotNumberToPlace\" : " + slotNumber + "}";
     }
 }

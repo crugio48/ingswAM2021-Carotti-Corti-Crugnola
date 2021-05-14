@@ -171,4 +171,44 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
+    public void goodProductionActivation(int stones, int shields, int coins, int servants) {
+        String outMessage = "{\"commandWasCorrect\" : true, " +
+                "\"stones\" : " + stones + ", " +
+                "\"servants\" : " + servants + ", " +
+                "\"shields\" : " + shields + ", " +
+                "\"coins\" : " + coins + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void badProductionExecution(int stones, int shields, int coins, int servants) {
+        String outMessage = "{\"commandWasCorrect\" : false, " +
+                "\"stones\" : " + stones + ", " +
+                "\"servants\" : " + servants + ", " +
+                "\"shields\" : " + shields + ", " +
+                "\"coins\" : " + coins + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void goodDevCardBuyAction(int stones, int shields, int coins, int servants) {
+        String outMessage = "{\"commandWasCorrect\" : true, " +
+                "\"stones\" : " + stones + ", " +
+                "\"servants\" : " + servants + ", " +
+                "\"shields\" : " + shields + ", " +
+                "\"coins\" : " + coins + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void badDevCardBuyChoosingPayement(int stones, int shields, int coins, int servants) {
+        String outMessage = "{\"commandWasCorrect\" : false, " +
+                "\"stones\" : " + stones + ", " +
+                "\"servants\" : " + servants + ", " +
+                "\"shields\" : " + shields + ", " +
+                "\"coins\" : " + coins + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+    
 }

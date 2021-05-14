@@ -22,20 +22,73 @@ public class ResourceBox {
         box.add(resource);
     }
 
-    public void removeResource(Resource resource) {
-        if (resource == null) return;
+    /**
+     * useful method to calculate total cost of some actions
+     * @param resourceBox is a resource box extracted from a card
+     */
+    public void addResourceBox(ResourceBox resourceBox) {
+        if (resourceBox == null) return;
+
+        this.addResource(new Coins(resourceBox.getResourceQuantity("coins")));
+        this.addResource(new Shields(resourceBox.getResourceQuantity("shields")));
+        this.addResource(new Servants(resourceBox.getResourceQuantity("servants")));
+        this.addResource(new Stones(resourceBox.getResourceQuantity("stones")));
+        //these last two are not used for cost but may be used for other reasons
+        this.addResource(new Faith(resourceBox.getResourceQuantity("faith")));
+        this.addResource(new Jolly(resourceBox.getResourceQuantity("jolly")));
+    }
+
+
+    public void addResourceByStringName(String resourceName) {
+        switch (resourceName) {
+            case"stone":
+            case"stones":
+                this.addResource(new Stones(1));
+                break;
+            case"shield":
+            case"shields":
+                this.addResource(new Shields(1));
+                break;
+            case"servant":
+            case"servants":
+                this.addResource(new Servants(1));
+                break;
+            case"coin":
+            case"coins":
+                this.addResource(new Coins(1));
+                break;
+            case"faith":
+                this.addResource(new Faith(1));
+                break;
+            case"jolly":
+                this.addResource(new Jolly(1));
+                break;
+            default:
+                break;
+        }
+    }
+
+
+    /**
+     * this method tries to remove a given amount of a resource
+     * @param resource is the type and quantity of resource to remove
+     * @return is true if it was removed successfully, is false if it was not possible to remove for various reasons, if it is false nothing has changed
+     */
+    public boolean removeResource(Resource resource) {
+        if (resource == null) return false;
 
         for (Resource resourceIterator : box) {
             if (resourceIterator.getName().equals(resource.getName())) {
                 int newQuantity = resourceIterator.getQuantity() - resource.getQuantity();
-                if (newQuantity <= 0) {
-                    box.remove(resourceIterator);
+                if (newQuantity < 0) {  //asked to remove too much quantity
+                    return false;
                 } else {
                     resourceIterator.setQuantity(newQuantity);
+                    return true;
                 }
-                return;
             }
         }
+        return false;  //resource not found
     }
 
 

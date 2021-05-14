@@ -186,36 +186,24 @@ public class ServerThread implements Runnable {
 
                 switch(command.getCmd()) {
                     case"buyFromMarket":
-                        int marketPos = command.getMarketPosition();
-                        ResourceBox boughtResources;
                         //checks if action requested is valid
                         if (masterController.getTurnInfo().getCurrentMainAction() != null) {
                             messageSenderToMyClient.badCommand("wrong action requested");
                             break;
                         }
-                        if ((boughtResources = masterController.buyFromMarket(marketPos)) == null) {
+                        //here we execute the command
+                        if (masterController.buyFromMarket(command.getMarketPosition(), myClientTurnOrder)) {  //if true then action was correct
+                            updateBroadcaster.broadcastMessage(masterController.getMarketUpdate());  //market update
+                            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate()); //faithTrack update
+                            messageSenderToMyClient.goodBuyFromMarket(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getServants(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getJolly());
+                        }
+                        else {  //if false then the action was not correct
                             messageSenderToMyClient.badCommand("invalid market position requested");
-                            break;
                         }
-                        //if we get here it means that the action was valid
-                        updateBroadcaster.broadcastMessage(masterController.getMarketUpdate());  //market update
-                        masterController.getTurnInfo().setCurrentMainAction("market");
-                        masterController.getTurnInfo().setServants(boughtResources.getResourceQuantity("servants"));
-                        masterController.getTurnInfo().setCoins(boughtResources.getResourceQuantity("coins"));
-                        masterController.getTurnInfo().setShields(boughtResources.getResourceQuantity("shields"));
-                        masterController.getTurnInfo().setStones(boughtResources.getResourceQuantity("stones"));
-                        if (masterController.hasActiveLeaderWithMarketAction(myClientTurnOrder)) {  //only players with specific active leaders buy jolly resources
-                            masterController.getTurnInfo().setJolly(boughtResources.getResourceQuantity("jolly"));
-                        }
-                        if (boughtResources.getResourceQuantity("faith") != 0) { //check to see if the player earned a faith point
-                            masterController.giveFaithPointsToOnePlayer(boughtResources.getResourceQuantity("faith"), myClientTurnOrder);
-                            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());     //faithTrack update
-                        }
-                        messageSenderToMyClient.goodBuyFromMarket(masterController.getTurnInfo().getStones(),
-                                masterController.getTurnInfo().getServants(),
-                                masterController.getTurnInfo().getShields(),
-                                masterController.getTurnInfo().getCoins(),
-                                masterController.getTurnInfo().getJolly());
                         break;
 
                     case"activateProduction":
@@ -223,19 +211,60 @@ public class ServerThread implements Runnable {
                             messageSenderToMyClient.badCommand("wrong action requested");
                             break;
                         }
-                        //DA COMPLETARE
+                        //here we try to execute the command
+                        if (masterController.activateProduction(command.isSlot1Activation(), command.isSlot2Activation(),
+                                command.isSlot3Activation(), command.isBaseProductionActivation(), command.getBaseInputResource1(),
+                                command.getBaseInputResource2(), command.getBaseOutputResource(), command.isLeader1SlotActivation(),
+                                command.getLeader1Code(), command.getLeader1ConvertedResource(), command.isLeader2SlotActivation(),
+                                command.getLeader2Code(), command.getLeader2ConvertedResource(), myClientTurnOrder)) {  //if this is true then we already have everything saved and done
+                            messageSenderToMyClient.goodProductionActivation(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getServants());
+                        }
+                        else {
+                            messageSenderToMyClient.badCommand("the requested production isn't viable");
+                        }
+                        break;
+
                     case"buyDevCard":
                         if (masterController.getTurnInfo().getCurrentMainAction() != null) {
                             messageSenderToMyClient.badCommand("wrong action requested");
                             break;
                         }
-                        //DA COMPLETARE
+                        // here we try to execute the command
+                        if (masterController.buyDevCard(command.getDevCardColour(), command.getDevCardLevel(),
+                                myClientTurnOrder)){
+                            messageSenderToMyClient.goodDevCardBuyAction(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getServants());
+                        }
+                        else {
+                            messageSenderToMyClient.badCommand("you can't buy that card");
+                        }
+                        break;
+
                     case"activateLeader":
                         //DA FARE
                     case"discardLeader":
                         //DA FARE
                     case"endTurn":
-                        //DA FARE
+                        //check if player has done their main action
+                        if (masterController.checkIfMainActionWasCompleted()) { //true
+                            if (masterController.getGameNumberOfPlayers() == 1) { //only if single player game
+                                updateBroadcaster.broadcastMessage(masterController.doLorenzoActionAndGetUpdateString());
+                                updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
+                                updateBroadcaster.broadcastMessage(masterController.getDevCardsSpaceUpdate());
+                            }
+                            updateBroadcaster.broadcastMessage(masterController.endTurnAndGetEndTurnUpdateMessage());
+                            messageSenderToMyClient.goodCommand("you have ended your turn");
+                        }
+                        else { //false
+                            messageSenderToMyClient.badCommand("you still haven't done your main action");
+                        }
+                        break;
+
                     case"chosenResourcesToBuy":
                         if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
                             messageSenderToMyClient.badCommand("wrong action requested");
@@ -380,12 +409,70 @@ public class ServerThread implements Runnable {
                         messageSenderToMyClient.goodCommand("you have ended the placing of your resources");
                         break;
 
-                    case"chosenResourcesToPay":
-                        //DA FARE
+                    case"chosenResourcesToPayForProduction":
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("activateProd")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        //now we try to execute the command
+                        if (masterController.executeProductionIfPlayerPayedTheCorrectAmountOfResources(command.getChestCoins(),
+                                command.getChestStones(), command.getChestServants(), command.getChestShields(),
+                                command.getStorageCoins(), command.getStorageStones(), command.getStorageServants(),
+                                command.getStorageShields(), myClientTurnOrder)) {  //true if action is viable
+                            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
+                            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+                            updateBroadcaster.broadcastMessage(masterController.getChestUpdateOfPlayer(myClientTurnOrder));
+                            messageSenderToMyClient.goodCommand(null);
+                        }
+                        else {
+                            messageSenderToMyClient.badProductionExecution(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getServants());
+                        }
+                        break;
+
+                    case"chosenResourcesToPayForDevCard":
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("buyDev")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        //now we try to execute the command
+                        if (masterController.buyDevCardIfPlayerPayedTheCorrectAmountOfResources(command.getChestCoins(),
+                                command.getChestStones(), command.getChestServants(), command.getChestShields(),
+                                command.getStorageCoins(), command.getStorageStones(), command.getStorageServants(),
+                                command.getStorageShields(), myClientTurnOrder)) {
+                            updateBroadcaster.broadcastMessage(masterController.getChestUpdateOfPlayer(myClientTurnOrder));
+                            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+                            messageSenderToMyClient.goodCommand(null);
+                        }
+                        else {
+                            messageSenderToMyClient.badDevCardBuyChoosingPayement(masterController.getTurnInfo().getStones(),
+                                    masterController.getTurnInfo().getShields(),
+                                    masterController.getTurnInfo().getCoins(),
+                                    masterController.getTurnInfo().getServants());
+                        }
+                        break;
+
                     case"chosenSlotNumberForDevCard":
-                        //DA FARE
+                        if (!masterController.getTurnInfo().getCurrentMainAction().equals("buyDev")) {
+                            messageSenderToMyClient.badCommand("wrong action requested");
+                            break;
+                        }
+                        //now we try to execute the command
+                        if (masterController.placeDevCard(command.getSlotNumber(), myClientTurnOrder)) { //if true
+                            updateBroadcaster.broadcastMessage(masterController.getUpdateMessageOfPersonalDevCardSlot(
+                                    command.getSlotNumber(), myClientTurnOrder));
+                            updateBroadcaster.broadcastMessage(masterController.getDevCardsSpaceUpdate());
+                            messageSenderToMyClient.goodCommand("you bought the card successfully");
+                        }
+                        else {// if false
+                            messageSenderToMyClient.badCommand("it wasn't possible to place the card in that slot");
+                        }
+                        break;
+
                     default:
-                        //DA FARE
+                        messageSenderToMyClient.badCommand("it wasn't possible to understand your command");
                         break;
                 }
 

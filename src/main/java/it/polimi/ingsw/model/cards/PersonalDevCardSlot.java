@@ -20,7 +20,7 @@ public class PersonalDevCardSlot {
         return totalCardsPlaced;
     }
 
-    private Stack<DevCard> selectslot(int number){
+    private Stack<DevCard> selectSlot(int number){
         if(number==1){ return cardSlot1;}
         else if(number==2) {return cardSlot2;}
         else{return cardSlot3;}
@@ -29,7 +29,7 @@ public class PersonalDevCardSlot {
     public boolean placeCard(DevCard card, int stackNum){
 
         if(isCardPlaceable(card, stackNum)){
-            selectslot(stackNum).push(card);
+            selectSlot(stackNum).push(card);
             totalCardsPlaced++;
             return true;
         }
@@ -40,15 +40,15 @@ public class PersonalDevCardSlot {
     public boolean isCardPlaceable (DevCard card, int stackNum){
             switch (card.getLevel()) {
                 case 1:
-                    if(selectslot(stackNum).size()==0) return true;
+                    if(selectSlot(stackNum).size()==0) return true;
                     else return false;
 
                 case 2:
-                    if(selectslot(stackNum).size()==1) return true;
+                    if(selectSlot(stackNum).size()==1) return true;
                     else return false;
 
                 case 3:
-                    if(selectslot(stackNum).size()==2) return true;
+                    if(selectSlot(stackNum).size()==2) return true;
                     else return false;
 
                 default:
@@ -59,7 +59,7 @@ public class PersonalDevCardSlot {
 
     public DevCard peekTopCard(int stackNumb){
 
-        return selectslot(stackNumb).peek();
+        return selectSlot(stackNumb).peek();
 
     }
 

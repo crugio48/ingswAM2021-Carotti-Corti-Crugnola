@@ -107,7 +107,7 @@ public class StorageContainer {
 
     /**
      * this method tries to remove a given amount of a resource
-     * @param resource is the type and quantity of recource to remove
+     * @param resource is the type and quantity of resource to remove
      * @return is true if it was removed successfully, is false if it was not possible to remove for various reasons, if it is false nothing has changed
      */
     public boolean removeResource(Resource resource){

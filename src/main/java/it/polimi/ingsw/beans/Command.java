@@ -24,10 +24,10 @@ public class Command {
     String baseInputResource1;
     String baseInputResource2;
     String baseOutputResource;
-    boolean leader1SlotProduction;
+    boolean leader1SlotActivation;
     int leader1Code;
     String leader1ConvertedResource;
-    boolean leader2SlotProduction;
+    boolean leader2SlotActivation;
     int leader2Code;
     String leader2ConvertedResource;
     int chestCoins;
@@ -138,8 +138,8 @@ public class Command {
         return baseOutputResource;
     }
 
-    public boolean isLeader1SlotProduction() {
-        return leader1SlotProduction;
+    public boolean isLeader1SlotActivation() {
+        return leader1SlotActivation;
     }
 
     public int getLeader1Code() {
@@ -150,8 +150,8 @@ public class Command {
         return leader1ConvertedResource;
     }
 
-    public boolean isLeader2SlotProduction() {
-        return leader2SlotProduction;
+    public boolean isLeader2SlotActivation() {
+        return leader2SlotActivation;
     }
 
     public int getLeader2Code() {
@@ -302,8 +302,8 @@ public class Command {
         this.baseOutputResource = baseOutputResource;
     }
 
-    public void setLeader1SlotProduction(boolean leader1SlotProduction) {
-        this.leader1SlotProduction = leader1SlotProduction;
+    public void setLeader1SlotActivation(boolean leader1SlotActivation) {
+        this.leader1SlotActivation = leader1SlotActivation;
     }
 
     public void setLeader1Code(int leader1Code) {
@@ -314,8 +314,8 @@ public class Command {
         this.leader1ConvertedResource = leader1ConvertedResource;
     }
 
-    public void setLeader2SlotProduction(boolean leader2SlotProduction) {
-        this.leader2SlotProduction = leader2SlotProduction;
+    public void setLeader2SlotActivation(boolean leader2SlotActivation) {
+        this.leader2SlotActivation = leader2SlotActivation;
     }
 
     public void setLeader2Code(int leader2Code) {
