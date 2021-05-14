@@ -19,6 +19,7 @@ public class ClientConnectionThread extends Thread {
     private Client client;
     private Socket socket;
     private BufferedReader serverIn;
+    private int cont;
 
     public ClientConnectionThread(Client client, Socket socket) throws IOException {
         this.client = client;
@@ -53,28 +54,30 @@ public class ClientConnectionThread extends Thread {
                         //here we will parse and update the view
                         break;
                     case"faithTrackUpdate":
-                        //here we will parse and update the view
+
                         break;
                     case"devCardSpaceUpdate":
                         //here we will parse and update the view
                         break;
                     case"marketUpdate":
-                        //here we will parse and update the view
+                        client.clientModel.getMarket().setMarketUpdate(response.getNewFirstMarketRow() , response.getNewSecondMarketRow() , response.getNewThirdMarketRow(), response.getNewExtraMarble());
                         break;
                     case"storageUpdate":
-                        //here we will parse and update the view
+                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getStorage().setClientModelStorageUpdate(response.getNewQuantityOfLeaderSlot1() , response.getNewQuantityOfLeaderSlot2(), response.getNewQuantityOfSlot1() , response.getNewQuantityOfSlot2(), response.getNewQuantityOfSlot3(), response.getNewResourceTypeOfSlot1() , response.getNewResourceTypeOfSlot2(), response.getNewResourceTypeOfSlot3(), response.getNewResourceTypeOfLeaderSlot1() , response.getNewResourceTypeOfLeaderSlot2());
                         break;
                     case"chestUpdate":
-                        //here we will parse and update the view
+                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getChest().setClientModelChestUpdate( response.getNewCoinsQuantity() , response.getNewServantsQuantity() , response.getNewShieldsQuantity() , response.getNewStonesQuantity());
                         break;
                     case"personalDevCardSlotUpdate":
-                        //here we will parse and update the view
+                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(response.getNewDevCardCode(), response.getStackSlotNumberToPlace());
                         break;
                     case"lorenzoActionUpdate":
-                        //here we will parse and update the view
+                        client.clientModel.setLastUsedActionCardCode(response.getLastActionCardUsedCode());
                         break;
                     case"endTurnUpdate":
-                        //here we will parse and update the view
+                        cont = client.clientModel.getCurrentPlayer() + 1;
+                        if(cont>client.clientModel.getNumberOfPlayer()) cont=1;
+                        client.clientModel.setCurrentPlayer(cont);
                         break;
                     default:
                         client.stringBuffer.addMessage(received);

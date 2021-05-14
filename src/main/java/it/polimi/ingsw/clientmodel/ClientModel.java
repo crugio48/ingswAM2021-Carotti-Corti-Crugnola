@@ -67,6 +67,16 @@ public class ClientModel {
         return null;
     }
 
+    public ClientModelPlayer getPlayerByNickname(String nickname){
+        for (ClientModelPlayer player : players){
+            if(player.getNickname() == nickname){
+                return player;
+            }
+        }
+        return null;
+
+    }
+
     public String printAllOtherPlayersAndNicknames(int myTurnOrder){
         StringBuilder toReturn = new StringBuilder();
         for (int i = 1; i < numberOfPlayer; i++){
