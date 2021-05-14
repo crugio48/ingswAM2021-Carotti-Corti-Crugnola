@@ -187,7 +187,6 @@ public class CardDecoder {
                     }
                 }
 
-
             } catch (ParseException e) {
                 e.printStackTrace();
             } catch (FileNotFoundException e) {
@@ -196,8 +195,8 @@ public class CardDecoder {
                 e.printStackTrace();
             }
         }
-        else {
-            return "the card id is not valid";
-        }
+
+        return "the card id is not valid";
+
     }
 }
