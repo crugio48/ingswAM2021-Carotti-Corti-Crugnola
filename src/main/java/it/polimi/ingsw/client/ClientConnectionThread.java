@@ -45,19 +45,23 @@ public class ClientConnectionThread extends Thread {
                 }
                 switch (response.getCmd()) {
                     case"setupUpdate":
-                        //here we will parse and update the view
+                        //here we will parse and update the clientModel
                         break;
                     case"leaderCardsUpdate":
-                        //here we will parse and update the view
+                        //here we will parse and update the clientModel
                         break;
                     case"totalVictoryPointsUpdate":
-                        //here we will parse and update the view
+                        //here we will parse and update the clientModel
                         break;
                     case"faithTrackUpdate":
-
+                        client.clientModel.getFaithTrack().setFaithTrackUpdate(response.getNewPlayersPositions(),
+                                response.getNewBlackCrossPosition(),
+                                response.getNewActiveFirstPapalFavourCard(),
+                                response.getNewActiveSecondPapalFavourCard(),
+                                response.getNewActiveThirdPapalFavourCard());
                         break;
                     case"devCardSpaceUpdate":
-                        //here we will parse and update the view
+                        //here we will parse and update the clientModel
                         break;
                     case"marketUpdate":
                         client.clientModel.getMarket().setMarketUpdate(response.getNewFirstMarketRow() , response.getNewSecondMarketRow() , response.getNewThirdMarketRow(), response.getNewExtraMarble());
