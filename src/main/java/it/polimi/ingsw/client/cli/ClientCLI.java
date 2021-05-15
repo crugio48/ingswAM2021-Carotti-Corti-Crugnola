@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.cli;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
@@ -274,9 +275,9 @@ public class ClientCLI extends Client {
                             printDiscardYourActiveLeader(gson, response);
                             break;
                         case 7:
-                            //DA FARE
+                            printBuyResourceFromMarket(gson,response);
                         case 8:
-                            //DA FARE
+                            ;
                         case 9:
                             //DA FARE
                         case 10:
@@ -475,6 +476,179 @@ public class ClientCLI extends Client {
             }
         }
 
+    }
+
+    private void printBuyResourceFromMarket (Gson gson, Response response) throws InterruptedException {
+        String userInput;
+        String serverResp;
+        String res1 = null, res2 = null;
+        int selectedRow = 0, selectedslot =0;
+        String[] jollyresource;
+        int coins, stones, shields, jolly, servants;
+        int jollycoins = 0, jollystones = 0, jollyshields = 0, jollyservants = 0;
+        boolean loop=true;
+
+
+        printOut("Market:\n");
+        clientModel.getMarket().visualizeMarket();
+
+        while (true) {
+            printOut("Please insert the number of the place you want to insert new marble in:");
+            userInput = stdIn.nextLine();
+            if (userInput.equals("stop")) break;
+            try {
+                selectedRow = (int) Integer.parseInt(userInput);
+            } catch (NumberFormatException e) {
+                printOut("Please enter a valid number");
+                continue;
+            }
+            messageSender.buyResourceFromMarket(selectedRow);
+            serverResp = stringBuffer.readMessage();
+            response = (Response) gson.fromJson(serverResp, Response.class);
+            if (response.isCommandWasCorrect()) {
+                coins = response.getCoins();
+                stones = response.getStones();
+                shields = response.getShields();
+                servants = response.getServants();
+                jollyresource = response.getTargetResources();
+                jolly = response.getJolly();
+                if (jolly != 0) {
+                    while (true) {
+                        printOut("You can change" + jolly + " white marbles in " + jollyresource[0] + " or " + jollyresource[1]);
+                        while (jolly != 0) {
+                            printOut("What do you want to change a white marble with? \n 1." + jollyresource[0] + " 2." + jollyresource[1] + " 3. Nothing");
+                            userInput = stdIn.nextLine();
+                            if (userInput == "1") {
+                                if (jollyresource[0] == "coins") jollycoins++;
+                                if (jollyresource[0] == "stones") jollystones++;
+                                if (jollyresource[0] == "servants") jollyservants++;
+                                if (jollyresource[0] == "shields") jollyshields++;
+                                jolly--;
+                            } else if (userInput == "2") {
+                                if (jollyresource[1] == "coins") jollycoins++;
+                                if (jollyresource[1] == "stones") jollystones++;
+                                if (jollyresource[1] == "servants") jollyservants++;
+                                if (jollyresource[1] == "shields") jollyshields++;
+                                jolly--;
+                            } else if (userInput == "3") {
+                                jolly--;
+                                continue;
+                            } else {
+                                printOut("Selection not valid");
+                                continue;
+                            }
+                        }
+
+                        messageSender.chosenResourceToBuy(jollycoins, jollystones, jollyshields, jollyservants);
+                        serverResp = stringBuffer.readMessage();
+                        response = (Response) gson.fromJson(serverResp, Response.class);
+                        if (response.isCommandWasCorrect()) break;
+                        else {
+                            printOut("error with changing white marbles");
+                        }
+                    }
+                }
+                while(loop) {
+                    printOut("STORAGE: \n");
+                    clientModel.getPlayerByTurnorder(clientModel.getCurrentPlayer()).getStorage().visualizeClientModelStorage();
+                    printOut("CHEST :\n");
+                    clientModel.getPlayerByTurnorder(clientModel.getCurrentPlayer()).getChest().visualizeClientModelChest();
+                    printOut("\nResources to be placed : Coins = "+ response.getCoins() + " || Stones = " + response.getStones() + " ||  Shields : " + response.getShields() + " || Servants = " + response.getServants());
+                    printOut("\nChoose between these actions: \n " +
+                            "1. Place a resource in a slot \n " +
+                            "2. Discard a resource \n " +
+                            "3. Move a resource from a slot to another \n " +
+                            "4. Switch 2 slots filled with resources \n " +
+                            "5. End resource placing");
+                    userInput = stdIn.nextLine();
+                    switch (userInput){
+                        case "1": printOut("Place a resource in a slot:");
+                                    printOut("Choose resource: (1.coins , 2.stones , 3.Shields , 4.Servants");
+                                    userInput = stdIn.nextLine();
+                                    switch (userInput){
+                                        case "1": res1 = "Coins";
+                                        case "2": res1 = "Stones";
+                                        case "3": res1 = "Shields";
+                                        case "4": res1 = "Servants";
+                                        default: printOut("Error placing resource");break;
+                                    }
+                                    printOut("Choose slot: (1,2,3)");
+                                    userInput = stdIn.nextLine();
+                                    switch (userInput){
+                                        case "1": messageSender.placeResourceInSlot(res1,1);
+                                        case "2": messageSender.placeResourceInSlot(res1,2);
+                                        case "3": messageSender.placeResourceInSlot(res1,3);
+                                        default: printOut("Error placing resource");break;
+                                    }
+                            serverResp = stringBuffer.readMessage();
+                            response = (Response) gson.fromJson(serverResp, Response.class);
+                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect"); break;
+
+                        case "2": printOut("Discard a resource");
+                            printOut("Choose resource: (1.coins , 2.stones , 3.Shields , 4.Servants");
+                            userInput = stdIn.nextLine();
+                            switch (userInput){
+                                case "1": messageSender.discardResource("Coins");
+                                case "2": messageSender.discardResource("Stones");
+                                case "3": messageSender.discardResource("Shields");
+                                case "4": messageSender.discardResource("Servants");
+                                default: printOut("Error discarding resource");break;
+                            }
+                            serverResp = stringBuffer.readMessage();
+                            response = (Response) gson.fromJson(serverResp, Response.class);
+                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect"); break;
+
+                        case "3": printOut("Move one resource from a slot to another:");
+                            printOut("Choose first slot (1,2,3)");
+                            userInput = stdIn.nextLine();
+                            switch (userInput){
+                                case "1": selectedslot = 1;
+                                case "2": selectedslot = 2;
+                                case "3": selectedslot = 3;
+                                default: printOut("Error moving resource");break;
+                            }
+                            printOut("Choose second slot: (1,2,3)");
+                            userInput = stdIn.nextLine();
+                            switch (userInput){
+                                case "1": messageSender.moveOneResource(selectedslot,1);
+                                case "2": messageSender.moveOneResource(selectedslot,2);
+                                case "3": messageSender.moveOneResource(selectedslot,3);
+                                default: printOut("Error moving resource");break;
+                            }
+                            serverResp = stringBuffer.readMessage();
+                            response = (Response) gson.fromJson(serverResp, Response.class);
+                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect"); break;
+
+                        case "4": printOut("Move all resources from a slot to another:");
+                            printOut("Choose first slot (1,2,3)");
+                            userInput = stdIn.nextLine();
+                            switch (userInput){
+                                case "1": selectedslot = 1;
+                                case "2": selectedslot = 2;
+                                case "3": selectedslot = 3;
+                                default: printOut("Error moving resources");break;
+                            }
+                            printOut("Choose second slot: (1,2,3)");
+                            userInput = stdIn.nextLine();
+                            switch (userInput){
+                                case "1": messageSender.switchResourceSlot(selectedslot,1);
+                                case "2": messageSender.switchResourceSlot(selectedslot,2);
+                                case "3": messageSender.switchResourceSlot(selectedslot,3);
+                                default: printOut("Error moving resources");break;
+                            }
+                            serverResp = stringBuffer.readMessage();
+                            response = (Response) gson.fromJson(serverResp, Response.class);
+                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect"); break;
+
+                        case "5":messageSender.endPlacing();
+                            loop=false;
+                            break;
+                }
+            }
+                break;
+        }
+
+    }
     }
 
 }

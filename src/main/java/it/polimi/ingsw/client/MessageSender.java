@@ -63,5 +63,49 @@ public class MessageSender {
         out.flush();
     }
 
+    public void buyResourceFromMarket(int rowchosen) {
+        String outMessage = "{\"cmd\" : \"buyFromMarket\"" + ",\"marketposition\" : " + rowchosen + "}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void chosenResourceToBuy(int coins , int stones , int shields , int servants){
+        String outMessage = "{\"cmd\" : \"chosenResourceToBuy\"" + ",\"coins\" : " + coins + ",\"stones\" : " + stones +",\"shields\" : " + shields +",\"servants\" : " + servants +"}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void placeResourceInSlot (String resource, int slot){
+        String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" + ",\"ResourceType\" : " + resource + ",\"SlotNumber\" : " + slot +"}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void discardResource (String resource){
+        String outMessage = "{\"cmd\" : \"discardResource\"" + ",\"ResourceType\" : " + resource +"}";
+        out.println(outMessage);
+        out.flush();
+    }
+    public void moveOneResource (int slot1, int slot2){
+        String outMessage = "{\"cmd\" : \"moveOneResource\"" + ",\"fromSlotNumber\" : " + slot1 + ",\"toSlotNumber\" : " + slot2 +"}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void switchResourceSlot (int slot1, int slot2){
+        String outMessage = "{\"cmd\" : \"switchResourceSlots\"" + ",\"fromSlotNumber\" : " + slot1 + ",\"toSlotNumber\" : " + slot2 +"}";
+        out.println(outMessage);
+        out.flush();
+    }
+    public void endPlacing(){
+        String outMessage = "{\"cmd\" : \"endPlacing\"}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+
+
+
+
 
 }

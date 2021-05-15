@@ -54,19 +54,19 @@ public class MarbleContainerTest {
       Response response = (Response) gson.fromJson(updateMessage, Response.class);
 
       assertEquals("marketUpdate", response.getCmd());
-      assertEquals(marbleContainer.getMarbleFromMatrix(1,1).charAt(0), response.getNewFirstMarketRow()[0]);
-      assertEquals(marbleContainer.getMarbleFromMatrix(1,2).charAt(0), response.getNewFirstMarketRow()[1]);
-      assertEquals(marbleContainer.getMarbleFromMatrix(1,3).charAt(0), response.getNewFirstMarketRow()[2]);
-      assertEquals(marbleContainer.getMarbleFromMatrix(1,4).charAt(0), response.getNewFirstMarketRow()[3]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(1,1), response.getNewFirstMarketRow()[0]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(1,2), response.getNewFirstMarketRow()[1]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(1,3), response.getNewFirstMarketRow()[2]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(1,4), response.getNewFirstMarketRow()[3]);
 
-      assertEquals(marbleContainer.getMarbleFromMatrix(2,1).charAt(0), response.getNewSecondMarketRow()[0]);
-      assertEquals(marbleContainer.getMarbleFromMatrix(2,2).charAt(0), response.getNewSecondMarketRow()[1]);
-      assertEquals(marbleContainer.getMarbleFromMatrix(2,3).charAt(0), response.getNewSecondMarketRow()[2]);
-      assertEquals(marbleContainer.getMarbleFromMatrix(2,4).charAt(0), response.getNewSecondMarketRow()[3]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(2,1), response.getNewSecondMarketRow()[0]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(2,2), response.getNewSecondMarketRow()[1]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(2,3), response.getNewSecondMarketRow()[2]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(2,4), response.getNewSecondMarketRow()[3]);
 
-      assertEquals(marbleContainer.getMarbleFromMatrix(3,1).charAt(0), response.getNewThirdMarketRow()[0]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(3,1), response.getNewThirdMarketRow()[0]);
 
-      assertEquals(marbleContainer.getExtraMarble().charAt(0), response.getNewExtraMarble());
+      assertEquals(marbleContainer.getExtraMarble(), response.getNewExtraMarble());
 
 
         //changing the market disposition
@@ -82,11 +82,11 @@ public class MarbleContainerTest {
       System.out.println(updateMessage2);
       Response response2 = (Response) gson.fromJson(updateMessage2, Response.class);
 
-      assertEquals(marbleContainer.getMarbleFromMatrix(1,1).charAt(0), response2.getNewFirstMarketRow()[0]);
-      assertEquals(marbleContainer.getMarbleFromMatrix(2,2).charAt(0), response2.getNewSecondMarketRow()[1]);
-      assertEquals(marbleContainer.getMarbleFromMatrix(3,1).charAt(0), response2.getNewThirdMarketRow()[0]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(1,1), response2.getNewFirstMarketRow()[0]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(2,2), response2.getNewSecondMarketRow()[1]);
+      assertEquals(marbleContainer.getMarbleFromMatrix(3,1), response2.getNewThirdMarketRow()[0]);
 
-      assertEquals(marbleContainer.getExtraMarble().charAt(0), response2.getNewExtraMarble());
+      assertEquals(marbleContainer.getExtraMarble(), response2.getNewExtraMarble());
 
 
 
