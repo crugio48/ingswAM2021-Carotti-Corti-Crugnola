@@ -35,46 +35,22 @@ public class CardDecoder {
                     tempCard = leaderResourceIterator.next();
                     int readCode = ((Long) tempCard.get("id")).intValue();
                     if (readCode == providedCode) {
-                        result = "Card Code: " + String.valueOf(providedCode) + ", ";
 
-                        switch ((String) tempCard.get("required")) {
-                            case ("shields"):
-                                result = result + "Resource Required: shields, ";
-                                break;
-                            case ("stones"):
-                                result = result + "Resource Required: stones, ";
-                                break;
-                            case ("servants"):
-                                result = result + "Resource Required: servants, ";
-                                break;
-                            case ("coins"):
-                                result = result + "Resource Required: coins, ";
-                                break;
-                            default:
-                                break;
-                        }
+                        String c = String.valueOf(providedCode);
 
-                        result = result + "Effect: Increase Storage, ";
+                        result =   " __________________ \n";
+                        result +=  "|code = " + c + "          |\n";
+                        result +=  "|                  |\n";
+                        result +=  "|res. required:    |\n";
+                        result +=  "|" + (String) tempCard.get("required") + "           |\n";
+                        result +=  "|quantity: " + tempCard.get("quantity") +"       |\n";
+                        result +=  "|                  |\n";
+                        result +=  "|Increase Storage  |\n";
+                        result +=  "|" + (String) tempCard.get("target") + "             |\n";
+                        result +=  "|                  |\n";
+                        result +=  "|Victory Points: "+ tempCard.get("victoryPoints") + " |\n";
+                        result +=  "|__________________|\n";
 
-                        switch ((String) tempCard.get("target")) {
-                            case ("shields"):
-                                result = result + "Target Resource: shields, ";
-                                break;
-                            case ("stones"):
-                                result = result + "Target Resource: stones, ";
-                                break;
-                            case ("servants"):
-                                result = result + "Target Resource: shields, ";
-                                break;
-                            case ("coins"):
-                                result = result + "Target Resource: coins, ";
-                                break;
-                            default:
-                                break;
-                        }
-
-                        result = result + "Quantity of resource required: " + tempCard.get("quantity") + ", ";
-                        result = result + "Victory Points: " + tempCard.get("victoryPoints");
                         return result;
                     }
                 }
@@ -100,7 +76,10 @@ public class CardDecoder {
 
                     if (readCode == providedCode) {
                         String result;
-                        result = "Card Code: " + String.valueOf(providedCode) + ", ";
+
+
+
+
 
                         int greenReq = ((Long) tempCard.get("greenCardsRequired")).intValue();
                         int purpleReq = ((Long) tempCard.get("purpleCardsRequired")).intValue();
@@ -108,27 +87,32 @@ public class CardDecoder {
                         int yellowReq = ((Long) tempCard.get("yellowCardsRequired")).intValue();
                         boolean lvlTwoReq = (Boolean) tempCard.get("levelTwoRequired");
                         int vicPoints = ((Long) tempCard.get("victoryPoints")).intValue();
-                        result = result + "green Cards Required: " + greenReq + ", " +
-                                "purple Cards Required: " + purpleReq + ", " +
-                                "blue Cards Required: " + blueReq + ", " +
-                                "yellow Cards Required: " + yellowReq + ", " +
-                                "Level Two Required: " + lvlTwoReq + ", " +
-                                "victory points: " + vicPoints + ", ";
+                        String target = ((String) tempCard.get("target"));
 
-                        switch ((String) tempCard.get("effect")) {
+                        result =   " __________________ \n";
+                        result +=  "|code = " + providedCode + "          |\n";
+                        result +=  "|                  |\n";
 
-                            case ("discountDevelopmentCardEffect"):
-                                result = result + "Effect: discountDevelopmentCardEffect";
-                                break;
-                            case ("convertWhiteMarbleMarketEffect"):
-                                result = result + "Effect: convertWhiteMarbleMarketEffect";
-                                break;
-                            case ("increaseProductionEffect"):
-                                result = result + "Effect: increaseProductionEffect";
-                                break;
-                            default:
-                                break;
-                        }
+                        if (tempCard.get("effect").equals("discountDevelopmentCardEffect"))
+                            result += "|Disc. dev. card   |\n";
+                        if (tempCard.get("effect").equals("convertWhiteMarbleMarketEffect"))
+                            result += "|Conv. white Marble|\n";
+                        if (tempCard.get("effect").equals("increaseProductionEffect"))
+                            result += "|Incr.   Production|\n";
+
+                        result +=  "|" + target + "           |\n";
+
+
+                        result +=  "|                  |\n";
+                        if (greenReq > 0 ) result += "|" + "Green req: " + greenReq + "      |\n";
+                        if (purpleReq > 0 ) result += "|" + "Purple req: " + purpleReq + "     |\n";
+                        if (blueReq > 0 ) result += "|" + "Blue req: " + blueReq + "       |\n";
+                        if (yellowReq > 0 ) result += "|" + "Yellow req: " + yellowReq + "      |\n";
+                        if (lvlTwoReq) result += "|" + "Lv 2 req: " + lvlTwoReq + "      |\n";
+                        result +=  "|                  |\n";
+                        result +=  "|Victory Points:" + vicPoints + "  |\n";
+                        result +=  "|__________________|\n";
+
                         return result;
                     }
 
@@ -148,12 +132,16 @@ public class CardDecoder {
                 JSONObject devJsonObj = (JSONObject) devObj;
                 JSONArray devArrayCards = (JSONArray) devJsonObj.get("cards");
                 Iterator<JSONObject> devIterator = devArrayCards.iterator();
+                String result = "";
 
                 while (devIterator.hasNext()) {
                     tempCard = devIterator.next();
                     int readCode = ((Long) tempCard.get("code")).intValue();
 
                     if (readCode == providedCode) {
+
+
+
 
                         int level = ((Long) tempCard.get("level")).intValue();
                         String colour = ((String) tempCard.get("colour"));
@@ -170,20 +158,38 @@ public class CardDecoder {
                         int outputFaith = ((Long) tempCard.get("outputFaith")).intValue();
                         int victoryPoints = ((Long) tempCard.get("victoryPoints")).intValue();
 
-                        return "Card Code: " + String.valueOf(providedCode) + ", level: " + level + ", " +
-                                "colour: " + colour + ", " +
-                                "costStones: " + costStones + ", " +
-                                "costServants: " + costServants + ", " +
-                                "costShields: " + costShields + ", " +
-                                "costCoins: " + costCoins + ", " +
-                                "inputStones: " + inputStones + ", " +
-                                "inputServants: " + inputServants + ", " +
-                                "inputShields: " + inputShields + ", " +
-                                "outputStones: " + outputStones + ", " +
-                                "outputShields: " + outputShields + ", " +
-                                "outputCoins: " + outputCoins + ", " +
-                                "outputFaith: " + outputFaith + ", " +
-                                "victoryPoints: " + victoryPoints;
+
+                        result +=   " __________________ \n";
+                        result +=  "|code = " + providedCode + "         |\n";
+                        result +=  "|                  |\n";
+                        result +=  "|Development Card  |\n";
+
+                        if (costStones > 0) result += "|Cost Stones: " + tempCard.get("costStones") + "    |\n";
+                        if (costServants > 0) result += "|Cost Servants: " + tempCard.get("costServants") + "   |\n";
+                        if (costShields > 0) result += "|Cost Shields: " + tempCard.get("costShields") + "    |\n";
+                        if (costCoins > 0) result += "|Cost Coins: " + tempCard.get("costCoins") + "   |\n";
+
+                        result +=  "|                  |\n";
+                        result +=  "|Level: " + level + "          |\n";
+                        result +=  "|Colour: " + colour + "         |\n";
+                        result +=  "|                  |\n";
+
+
+
+
+                        if (inputStones > 0) result += "|Input stones: " + tempCard.get("inputStones") + "   |\n";
+                        if (inputServants > 0) result += "|Input Servants: " + tempCard.get("inputServants") + "  |\n";
+                        if (inputShields > 0) result += "|Input Shields: " + tempCard.get("inputShields") + "  |\n";
+                        if (outputStones > 0) result += "|Output Stones: " + tempCard.get("outputStones") + "  |\n";
+                        if (outputShields > 0) result += "|Output Shields: " + tempCard.get("outputShields") + "   |\n";
+                        if (outputCoins > 0) result += "|Output Coins: " + tempCard.get("outputCoins") + "   |\n";
+                        if (outputFaith > 0) result += "|Output Faith: " + tempCard.get("outputFaith") + "   |\n";
+
+                        result +=  "|                  |\n";
+                        result +=  "|Victory Points: " + tempCard.get("victoryPoints") + "|\n";
+                        result +=  "|__________________|\n";
+
+                        return result;
                     }
                 }
 
