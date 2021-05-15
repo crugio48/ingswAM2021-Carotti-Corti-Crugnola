@@ -64,7 +64,7 @@ public class MessageSender {
     }
 
     public void buyResourceFromMarket(int position) {
-        String outMessage = "{\"cmd\" : \"buyFromMarket\"" + ",\"MarketPosition\" : " + position + "}";
+        String outMessage = "{\"cmd\" : \"buyFromMarket\"" + ",\"marketPosition\" : " + position + "}";
         out.println(outMessage);
         out.flush();
     }
@@ -76,13 +76,13 @@ public class MessageSender {
     }
 
     public void placeResourceInSlot (String resource, int slot){
-        String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" + ",\"ResourceType\" : " + resource + ",\"SlotNumber\" : " + slot +"}";
+        String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" + ",\"resourceType\" : " + resource + ",\"SlotNumber\" : " + slot +"}";
         out.println(outMessage);
         out.flush();
     }
 
     public void discardResource (String resource){
-        String outMessage = "{\"cmd\" : \"discardResource\"" + ",\"ResourceType\" : " + resource +"}";
+        String outMessage = "{\"cmd\" : \"discardResource\"" + ",\"resourceType\" : " + resource +"}";
         out.println(outMessage);
         out.flush();
     }
