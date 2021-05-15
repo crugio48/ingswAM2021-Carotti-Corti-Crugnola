@@ -17,11 +17,11 @@ public class CardDecoder {
         JSONParser parser = new JSONParser();
         JSONObject tempCard;
 
-        if (providedCode == 0) {
-            return "the card was discarded";
+        if (providedCode <= 0) {
+            return "the card id is not valid";
         }
 
-        else if (providedCode >= 1 && providedCode <= 4) {
+        else if (providedCode <= 4) {
             try {
                 Object leaderResourceObj = parser.parse(new FileReader("src/main/resources/LeaderCardsResource.json"));
                 JSONObject leaderResourceJsonObj = (JSONObject) leaderResourceObj;
@@ -87,7 +87,7 @@ public class CardDecoder {
             }
         }
 
-        else if (providedCode >= 5 && providedCode <= 16) {
+        else if (providedCode <= 16) {
             try {
                 Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
                 JSONObject leaderDevJsonObj = (JSONObject) leaderDevObj;
@@ -142,7 +142,7 @@ public class CardDecoder {
             }
         }
 
-        else if (providedCode >= 17 && providedCode <= 64) {
+        else if (providedCode <= 64) {
             try {
                 Object devObj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
                 JSONObject devJsonObj = (JSONObject) devObj;

@@ -59,6 +59,7 @@ public class Response {
     int newCurrentPlayer;
     int[] leaderCardsDrawn = new int[4];
     int lastActionCardUsedCode;
+    String targetResources[] = new String[2];
     //updated all getters and setters up to this variable
 
 
@@ -296,6 +297,10 @@ public class Response {
         return lastActionCardUsedCode;
     }
 
+    public String[] getTargetResources() {
+        return targetResources;
+    }
+
     // start of all setters /////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -529,5 +534,9 @@ public class Response {
 
     public void setLastActionCardUsedCode(int lastActionCardUsedCode) {
         this.lastActionCardUsedCode = lastActionCardUsedCode;
+    }
+
+    public void setTargetResources(String[] targetResources) {
+        this.targetResources = targetResources;
     }
 }

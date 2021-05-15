@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 import it.polimi.ingsw.exceptions.GameStillNotInitialized;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.resources.*;
 
 
@@ -261,6 +262,7 @@ public class MasterController {
         turnInfo.setStones(bought.getResourceQuantity("stones"));
         if (this.hasActiveLeaderWithMarketAction(playerTurnOrder)) {
             turnInfo.setJolly(bought.getResourceQuantity("jolly"));
+            turnInfo.setTargetResources(game.getPlayerByTurnOrder(playerTurnOrder).getActiveMarketEffectResourceNames());
         }
         this.giveFaithPointsToOnePlayer(bought.getResourceQuantity("faith"), playerTurnOrder );
 
@@ -673,6 +675,28 @@ public class MasterController {
         }
 
         ResourceBox cardCost = game.getDevCardSpace().peekTopCard(devCardLevel, devCardColour).getCost();
+
+        for (int i = 0; i < 2; i++) {
+            LeaderCard card = p.getLeaderCard(0);
+            if (card.getEffect().getEffectName().equals("discountDevelopmentCardsEffect") && card.isActive()) {
+                switch(card.getEffect().getTargetResource()) {
+                    case"coins":
+                        cardCost.removeResource(new Coins(1));
+                        break;
+                    case"stones":
+                        cardCost.removeResource(new Stones(1));
+                        break;
+                    case"servants":
+                        cardCost.removeResource(new Servants(1));
+                        break;
+                    case"shields":
+                        cardCost.removeResource(new Shields(1));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
 
         turnInfo.setCurrentMainAction("buyDev");
         turnInfo.setStones(cardCost.getResourceQuantity("stones"));

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.clientmodel;
 
-public class ClientModelPlayer {
+import it.polimi.ingsw.MyObservable;
+
+public class ClientModelPlayer extends MyObservable {
     private String nickname;
     private int turnOrder;
     private ClientModelLeaderCard[] leaderCard;
@@ -8,11 +10,8 @@ public class ClientModelPlayer {
     private ClientModelStorage storage;
     private ClientModelPersonalDevCardSlots personalDevCardSlots;
     private int currentVictoryPoints;
-    private int selectleader;
 
     public ClientModelPlayer(){
-        this.nickname = "";
-        this.turnOrder = 0;
         this.leaderCard = new ClientModelLeaderCard[2];
         this.chest = new ClientModelChest();
         this.storage = new ClientModelStorage();
@@ -30,8 +29,8 @@ public class ClientModelPlayer {
         return turnOrder;
     }
 
-    public ClientModelLeaderCard getLeaderCard(int selectleader) {
-        return leaderCard[selectleader];
+    public ClientModelLeaderCard getLeaderCard(int slot) {
+        return leaderCard[slot];
     }
 
     public ClientModelChest getChest() {
@@ -76,5 +75,13 @@ public class ClientModelPlayer {
 
     public void setCurrentVictoryPoints(int currentVictoryPoints) {
         this.currentVictoryPoints = currentVictoryPoints;
+    }
+
+    public void setLeaderCardsUpdate(int leaderCode1, boolean leader1Active, int leaderCode2, boolean leader2Active) {
+        this.leaderCard[0].setCode(leaderCode1);
+        this.leaderCard[0].setActive(leader1Active);
+        this.leaderCard[1].setCode(leaderCode2);
+        this.leaderCard[1].setActive(leader2Active);
+        notifyObservers();
     }
 }

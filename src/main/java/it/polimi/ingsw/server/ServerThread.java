@@ -197,7 +197,8 @@ public class ServerThread implements Runnable {
                                     masterController.getTurnInfo().getServants(),
                                     masterController.getTurnInfo().getShields(),
                                     masterController.getTurnInfo().getCoins(),
-                                    masterController.getTurnInfo().getJolly());
+                                    masterController.getTurnInfo().getJolly(),
+                                    masterController.getTurnInfo().getTargetResources());
                         }
                         else {  //if false then the action was not correct
                             messageSenderToMyClient.badCommand("invalid market position requested");

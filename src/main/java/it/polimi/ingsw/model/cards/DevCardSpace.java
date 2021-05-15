@@ -195,6 +195,28 @@ public class DevCardSpace {
 
         ResourceBox cost = topCard.getCost();
 
+        for (int i = 0; i < 2; i++) {
+            LeaderCard card = p.getLeaderCard(0);
+            if (card.getEffect().getEffectName().equals("discountDevelopmentCardsEffect") && card.isActive()) {
+                switch(card.getEffect().getTargetResource()) {
+                    case"coins":
+                        cost.removeResource(new Coins(1));
+                        break;
+                    case"stones":
+                        cost.removeResource(new Stones(1));
+                        break;
+                    case"servants":
+                        cost.removeResource(new Servants(1));
+                        break;
+                    case"shields":
+                        cost.removeResource(new Shields(1));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         boolean condition1 = p.getPersonalDevelopmentCardSlots().isCardPlaceable(topCard,1);
         boolean condition2 = p.getPersonalDevelopmentCardSlots().isCardPlaceable(topCard,2);
         boolean condition3 = p.getPersonalDevelopmentCardSlots().isCardPlaceable(topCard,3);

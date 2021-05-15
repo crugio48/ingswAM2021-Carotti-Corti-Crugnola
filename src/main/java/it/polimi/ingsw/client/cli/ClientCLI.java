@@ -379,7 +379,7 @@ public class ClientCLI extends Client {
                 printOut("You selected your turnorder, please insert the turnorder again");
                 continue;
             }
-            if (selectedTurnorder > 0 && selectedTurnorder <= clientModel.getNumberOfPlayer()) {
+            if (selectedTurnorder > 0 && selectedTurnorder <= clientModel.getNumberOfPlayers()) {
 
                 printOut("These are your development cards:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();

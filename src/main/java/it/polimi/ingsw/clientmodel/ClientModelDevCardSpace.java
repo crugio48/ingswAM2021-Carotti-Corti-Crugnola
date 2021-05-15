@@ -81,7 +81,7 @@ public class ClientModelDevCardSpace extends MyObservable {
         return codeYellow3;
     }
 
-  public void devCardSpaceUpdate(int codeBlue1, int codeBlue2, int codeBlue3, int codeGreen1, int codeGreen2,
+  public void setDevCardSpaceUpdate(int codeBlue1, int codeBlue2, int codeBlue3, int codeGreen1, int codeGreen2,
                                  int codeGreen3, int codePurple1, int codePurple2, int codePurple3,
                                  int codeYellow1, int codeYellow2, int codeYellow3){
 

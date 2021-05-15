@@ -112,13 +112,14 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void goodBuyFromMarket(int stones, int servants, int shields, int coins, int jolly) {
+    public void goodBuyFromMarket(int stones, int servants, int shields, int coins, int jolly, String[] targetResources) {
         String outMessage = "{\"commandWasCorrect\" : true, " +
                 "\"stones\" : " + stones + ", " +
                 "\"servants\" : " + servants + ", " +
                 "\"shields\" : " + shields + ", " +
                 "\"coins\" : " + coins + ", " +
-                "\"jolly\" : " + jolly + "}";
+                "\"jolly\" : " + jolly +
+                "\"targetResources\" : " + Arrays.toString(targetResources) + "}";
         out.println(outMessage);
         out.flush();
     }

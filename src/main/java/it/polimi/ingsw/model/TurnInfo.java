@@ -15,7 +15,10 @@ public class TurnInfo {
     private int stones;
     private int servants; // for all of these the value of reset is 0
     private int shields;
+
+    //market
     private int jolly;
+    private String[] targetResources;
 
     //production
     private boolean slot1Activation;
@@ -43,6 +46,7 @@ public class TurnInfo {
         this.servants = 0;
         this.shields = 0;
         this.jolly = 0;
+        this.targetResources = new String[2];
         this.slot1Activation = false;
         this.slot2Activation = false;
         this.slot3Activation = false;
@@ -93,6 +97,10 @@ public class TurnInfo {
 
     public void setJolly(int jolly) {
         this.jolly = jolly;
+    }
+
+    public void setTargetResources(String[] targetResources) {
+        this.targetResources = targetResources;
     }
 
     public void setSlot1Activation(boolean slot1Activation) {
@@ -175,6 +183,10 @@ public class TurnInfo {
         return jolly;
     }
 
+    public String[] getTargetResources() {
+        return targetResources;
+    }
+
     public boolean isSlot1Activation() {
         return slot1Activation;
     }
@@ -237,6 +249,8 @@ public class TurnInfo {
         this.servants = 0;
         this.shields = 0;
         this.jolly = 0;
+        this.targetResources[0] = null;
+        this.targetResources[1] = null;
         this.slot1Activation = false;
         this.slot2Activation = false;
         this.slot3Activation = false;
