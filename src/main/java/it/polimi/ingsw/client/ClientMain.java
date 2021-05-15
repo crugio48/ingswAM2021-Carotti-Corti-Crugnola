@@ -16,7 +16,7 @@ public class ClientMain {
 
         Scanner stdIn = new Scanner(System.in);
 
-        System.out.println("welcome to Maestri del Rinascimento,\n" +
+        System.out.println("Welcome to Maestri del Rinascimento,\n" +
                 "please choose how you want to play: (enter 1 for CLI or 2 for GUI)");
 
         String input;
