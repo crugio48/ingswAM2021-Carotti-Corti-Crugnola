@@ -210,13 +210,14 @@ public class ClientCLI extends Client {
             }
 
             this.myUsername = temporaryUsername;
-            //DA FARE: pescare e salvarsi in this.myturnorder il valore preso dalla view in base al this.myusername
+            this.myTurnOrder = clientModel.getPlayerByNickname(myUsername).getTurnOrder();
 
-            boolean isMyTurn = true; //TRUE SOLO ADESSO PER FARE TEST FINCHE NON FINIAMO LA VIEW
+            boolean isMyTurn;
+
             //now the game has started and the client leads the communication
             while (true) {
-                //DA FARE: check su this.myturnorder == view.currentplayer e salvare risultato in isMyTurn
-                //DA FARE: logica di fine turno
+                isMyTurn = (clientModel.getCurrentPlayer() == myTurnOrder);
+                //DA FARE: logica di fine gioco
 
                 if (isMyTurn) {
                     printOut("it is your turn, please choose what you want to do, type:\n" +
@@ -379,7 +380,7 @@ public class ClientCLI extends Client {
                 printOut("You selected your turnorder, please insert the turnorder again");
                 continue;
             }
-            if (selectedTurnorder > 0 && selectedTurnorder <= clientModel.getNumberOfPlayer()) {
+            if (selectedTurnorder > 0 && selectedTurnorder <= clientModel.getNumberOfPlayers()) {
 
                 printOut("These are development cards:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();

@@ -2,8 +2,14 @@ package it.polimi.ingsw.model;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
+import it.polimi.ingsw.model.cards.DevCardsRequirement;
+import it.polimi.ingsw.model.cards.LeaderCard;
+import it.polimi.ingsw.model.cards.leaderEffects.ConvertWhiteMarbleMarketEffect;
 import it.polimi.ingsw.model.resources.*;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -80,6 +86,15 @@ public class PlayerTest {
         assertEquals(12, response2.getNewShieldsQuantity() );
 
 
+    }
+
+    @Test
+    public void targetResourcesTest(){
+        p1.setLeaderCard(new LeaderCard(2, new ResourceBox(), new ConvertWhiteMarbleMarketEffect("shields"), 10),1);
+        p1.setLeaderCard(new LeaderCard(5, new ResourceBox(), new ConvertWhiteMarbleMarketEffect("stones"), 10),2);
+
+        p1.getLeaderCard(1).activateCard();
+        System.out.println(Arrays.toString(p1.getActiveMarketEffectResourceNames()));
     }
 
 }

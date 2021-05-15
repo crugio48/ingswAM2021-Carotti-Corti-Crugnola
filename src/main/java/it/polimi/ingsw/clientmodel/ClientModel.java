@@ -1,37 +1,34 @@
 package it.polimi.ingsw.clientmodel;
 
 
+import java.util.ArrayList;
+
 public class ClientModel {
-
-
-
     private int currentPlayer;
-    private int numberOfPlayer;
+    private int numberOfPlayers;
     private int lastUsedActionCardCode;
-    private int selectplayer;
     private ClientModelMarket market;
     private ClientModelFaithTrack faithTrack;
     private ClientModelDevCardSpace devCardSpace;
-    private ClientModelPlayer[] players;
+    private ArrayList<ClientModelPlayer> players;
 
 
     public ClientModel(){
-        this.currentPlayer = 0;
-        this.numberOfPlayer = 0;
+        this.currentPlayer = 1;
+        this.numberOfPlayers = 0;
         this.lastUsedActionCardCode = 0;
         this.market = new ClientModelMarket();
         this.faithTrack = new ClientModelFaithTrack();
-        //the default code is 0 if the stack is empty
         this.devCardSpace = new ClientModelDevCardSpace();
-        this.players = new ClientModelPlayer[4];
+        this.players = new ArrayList<>();
     }
 
-    public int getCurrentPlayer() {
+    public synchronized int getCurrentPlayer() {
         return currentPlayer;
     }
 
-    public int getNumberOfPlayer() {
-        return numberOfPlayer;
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
     public int getLastUsedActionCardCode() {
@@ -66,7 +63,7 @@ public class ClientModel {
         return null;
     }
 
-    public ClientModelPlayer getPlayerByNickname(String nickname){
+    public synchronized ClientModelPlayer getPlayerByNickname(String nickname){
         for (ClientModelPlayer player : players){
             if(player.getNickname().equals(nickname)){
                 return player;
@@ -78,7 +75,7 @@ public class ClientModel {
 
     public String printAllOtherPlayersAndNicknames(int myTurnOrder){
         StringBuilder toReturn = new StringBuilder();
-        for (int i = 1; i < numberOfPlayer; i++){
+        for (int i = 1; i <= numberOfPlayers; i++){
             if (i == myTurnOrder) continue;
             ClientModelPlayer p = getPlayerByTurnorder(i);
 
@@ -92,17 +89,12 @@ public class ClientModel {
         return devCardSpace;
     }
 
-    public ClientModelPlayer getPlayer(int selectplayer) {
-        return players[selectplayer];
-    }
-
-
-    public void setCurrentPlayer(int currentPlayer) {
+    public synchronized void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
-    public void setNumberOfPlayer(int numberOfPlayer) {
-        this.numberOfPlayer = numberOfPlayer;
+    public void setNumberOfPlayers(int numberOfPlayer) {
+        this.numberOfPlayers = numberOfPlayer;
     }
 
     public void setLastUsedActionCardCode(int lastUsedActionCardCode) {
@@ -122,8 +114,18 @@ public class ClientModel {
         this.devCardSpace = devCardSpace;
     }
 
-    public void setPlayer(ClientModelPlayer players, int selectplayer) {
-        this.players[selectplayer] = players;
+    public synchronized void setSetupUpdate(String[] nicknames) {
+        int numOfPlayers = 0;
+        for (String name : nicknames) {
+            if (name != null) {
+                numOfPlayers++;
+            }
+        }
+        this.numberOfPlayers = numOfPlayers;
+        for (int i = 0; i < numOfPlayers; i++) {
+            players.add(new ClientModelPlayer(nicknames[i], i+1));
+        }
     }
+
 
 }

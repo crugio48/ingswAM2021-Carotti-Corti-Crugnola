@@ -4,6 +4,7 @@ import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 import it.polimi.ingsw.exceptions.GameStillNotInitialized;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevCard;
+import it.polimi.ingsw.model.cards.LeaderCard;
 import it.polimi.ingsw.model.resources.*;
 
 
@@ -261,6 +262,7 @@ public class MasterController {
         turnInfo.setStones(bought.getResourceQuantity("stones"));
         if (this.hasActiveLeaderWithMarketAction(playerTurnOrder)) {
             turnInfo.setJolly(bought.getResourceQuantity("jolly"));
+            turnInfo.setTargetResources(game.getPlayerByTurnOrder(playerTurnOrder).getActiveMarketEffectResourceNames());
         }
         this.giveFaithPointsToOnePlayer(bought.getResourceQuantity("faith"), playerTurnOrder );
 
@@ -674,6 +676,28 @@ public class MasterController {
 
         ResourceBox cardCost = game.getDevCardSpace().peekTopCard(devCardLevel, devCardColour).getCost();
 
+        for (int i = 0; i < 2; i++) {
+            LeaderCard card = p.getLeaderCard(0);
+            if (card.getEffect().getEffectName().equals("discountDevelopmentCardsEffect") && card.isActive()) {
+                switch(card.getEffect().getTargetResource()) {
+                    case"coins":
+                        cardCost.removeResource(new Coins(1));
+                        break;
+                    case"stones":
+                        cardCost.removeResource(new Stones(1));
+                        break;
+                    case"servants":
+                        cardCost.removeResource(new Servants(1));
+                        break;
+                    case"shields":
+                        cardCost.removeResource(new Shields(1));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         turnInfo.setCurrentMainAction("buyDev");
         turnInfo.setStones(cardCost.getResourceQuantity("stones"));
         turnInfo.setShields(cardCost.getResourceQuantity("shields"));
@@ -759,5 +783,56 @@ public class MasterController {
                 "\"playerUsername\" : \"" + p.getUsername() + "\", " +
                 "\"newDevCardCode\" : " + newCode + ", " +
                 "\"stackSlotNumberToPlace\" : " + slotNumber + "}";
+    }
+
+    public boolean activateLeader(int leaderCode, int playerTurnOrder) {
+        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
+
+        try {
+            LeaderCard card = p.getLeaderCardByCardCode(leaderCode);
+            if (card.isDiscarded()) return false;
+            if (card.isActive()) return false;
+
+            if (card.getResourceRequirement() != null) {
+                if (p.checkIfLeaderResourceRequirementIsMet(card.getResourceRequirement())) {
+                    card.activateCard();
+                    if (card.getEffect().getEffectName().equals("increaseStorageEffect")){
+                        p.getStorage().activateLeaderSlot(card.getEffect().getTargetResource());
+                    }
+                    return true;
+                }
+            }
+            else {
+                if (p.getPersonalDevelopmentCardSlots().isLeaderDevCardRequirementsMet(card.getCardsRequirement())) {
+                    card.activateCard();
+                    if (card.getEffect().getEffectName().equals("increaseStorageEffect")){
+                        p.getStorage().activateLeaderSlot(card.getEffect().getTargetResource());
+                    }
+                    return true;
+                }
+            }
+            return false;
+
+        }
+        catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    public boolean discardLeader(int leaderCode, int playerTurnOrder) {
+        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
+
+        try {
+            LeaderCard card = p.getLeaderCardByCardCode(leaderCode);
+            if (card.isDiscarded()) return false;
+            if (card.isActive()) return false;
+
+            this.giveFaithPointsToOnePlayer(1,playerTurnOrder);
+            card.discardCard();
+            return true;
+        }
+        catch (NullPointerException e) {
+            return false;
+        }
     }
 }

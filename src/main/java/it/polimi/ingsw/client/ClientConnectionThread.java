@@ -45,10 +45,10 @@ public class ClientConnectionThread extends Thread {
                 }
                 switch (response.getCmd()) {
                     case"setupUpdate":
-                        //here we will parse and update the clientModel
+                        client.clientModel.setSetupUpdate(response.getPlayerUsernames());
                         break;
                     case"leaderCardsUpdate":
-                        //here we will parse and update the clientModel
+                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).setLeaderCardsUpdate(response.getLeader1Code(), response.isLeader1Active(), response.getLeader2Code(), response.isLeader2Active());
                         break;
                     case"totalVictoryPointsUpdate":
                         //here we will parse and update the clientModel
@@ -61,16 +61,24 @@ public class ClientConnectionThread extends Thread {
                                 response.getNewActiveThirdPapalFavourCard());
                         break;
                     case"devCardSpaceUpdate":
-                        //here we will parse and update the clientModel
+                        client.clientModel.getDevCardSpace().setDevCardSpaceUpdate(response.getNewBlue1(),response.getNewBlue2(),response.getNewBlue3(),
+                                response.getNewGreen1(),response.getNewGreen2(),response.getNewGreen3(),
+                                response.getNewPurple1(),response.getNewPurple2(),response.getNewPurple3(),
+                                response.getNewYellow1(),response.getNewYellow2(),response.getNewYellow3());
                         break;
                     case"marketUpdate":
                         client.clientModel.getMarket().setMarketUpdate(response.getNewFirstMarketRow() , response.getNewSecondMarketRow() , response.getNewThirdMarketRow(), response.getNewExtraMarble());
                         break;
                     case"storageUpdate":
-                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getStorage().setClientModelStorageUpdate(response.getNewQuantityOfLeaderSlot1() , response.getNewQuantityOfLeaderSlot2(), response.getNewQuantityOfSlot1() , response.getNewQuantityOfSlot2(), response.getNewQuantityOfSlot3(), response.getNewResourceTypeOfSlot1() , response.getNewResourceTypeOfSlot2(), response.getNewResourceTypeOfSlot3(), response.getNewResourceTypeOfLeaderSlot1() , response.getNewResourceTypeOfLeaderSlot2());
+                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getStorage().
+                                setClientModelStorageUpdate(response.getNewQuantityOfLeaderSlot1() , response.getNewQuantityOfLeaderSlot2(),
+                                response.getNewQuantityOfSlot1() , response.getNewQuantityOfSlot2(), response.getNewQuantityOfSlot3(),
+                                        response.getNewResourceTypeOfSlot1() , response.getNewResourceTypeOfSlot2(),
+                                        response.getNewResourceTypeOfSlot3(), response.getNewResourceTypeOfLeaderSlot1() ,
+                                        response.getNewResourceTypeOfLeaderSlot2());
                         break;
                     case"chestUpdate":
-                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getChest().setClientModelChestUpdate( response.getNewCoinsQuantity() , response.getNewServantsQuantity() , response.getNewShieldsQuantity() , response.getNewStonesQuantity());
+                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getChest().setClientModelChestUpdate( response.getNewCoinsQuantity() , response.getNewStonesQuantity() , response.getNewShieldsQuantity() , response.getNewServantsQuantity());
                         break;
                     case"personalDevCardSlotUpdate":
                         client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(response.getNewDevCardCode(), response.getStackSlotNumberToPlace());
@@ -79,9 +87,7 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setLastUsedActionCardCode(response.getLastActionCardUsedCode());
                         break;
                     case"endTurnUpdate":
-                        cont = client.clientModel.getCurrentPlayer() + 1;
-                        if(cont>client.clientModel.getNumberOfPlayer()) cont=1;
-                        client.clientModel.setCurrentPlayer(cont);
+                        client.clientModel.setCurrentPlayer(response.getNewCurrentPlayer());
                         break;
                     default:
                         client.stringBuffer.addMessage(received);
