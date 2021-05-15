@@ -410,7 +410,7 @@ public class ClientCLI extends Client {
     }
 
     private void printActivationLeaderCard(Gson gson, Response response) throws InterruptedException {
-        String userInput,userInput2;
+        String userInput;
         String serverResp;
         //DA FARE: activate a leader card
         printOut("First card:\n");
