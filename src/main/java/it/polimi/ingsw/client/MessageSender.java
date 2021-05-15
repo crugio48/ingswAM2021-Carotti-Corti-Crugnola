@@ -109,6 +109,12 @@ public class MessageSender {
         out.flush();
     }
 
+    public void endTurn() {
+        String outMessage = "{\"cmd\" : \"endTurn\"}";
+        out.println(outMessage);
+        out.flush();
+    }
+
 
 
 
