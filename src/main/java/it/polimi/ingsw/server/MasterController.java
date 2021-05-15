@@ -784,4 +784,49 @@ public class MasterController {
                 "\"newDevCardCode\" : " + newCode + ", " +
                 "\"stackSlotNumberToPlace\" : " + slotNumber + "}";
     }
+
+    public boolean activateLeader(int leaderCode, int playerTurnOrder) {
+        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
+
+        try {
+            LeaderCard card = p.getLeaderCardByCardCode(leaderCode);
+            if (card.isDiscarded()) return false;
+            if (card.isActive()) return false;
+
+            if (card.getResourceRequirement() != null) {
+                if (p.checkIfLeaderResourceRequirementIsMet(card.getResourceRequirement())) {
+                    card.activateCard();
+                    return true;
+                }
+            }
+            else {
+                if (p.getPersonalDevelopmentCardSlots().isLeaderDevCardRequirementsMet(card.getCardsRequirement())) {
+                    card.activateCard();
+                    return true;
+                }
+            }
+            return false;
+
+        }
+        catch (NullPointerException e) {
+            return false;
+        }
+    }
+
+    public boolean discardLeader(int leaderCode, int playerTurnOrder) {
+        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
+
+        try {
+            LeaderCard card = p.getLeaderCardByCardCode(leaderCode);
+            if (card.isDiscarded()) return false;
+            if (card.isActive()) return false;
+
+            this.giveFaithPointsToOnePlayer(1,playerTurnOrder);
+            card.discardCard();
+            return true;
+        }
+        catch (NullPointerException e) {
+            return false;
+        }
+    }
 }

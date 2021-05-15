@@ -245,9 +245,30 @@ public class ServerThread implements Runnable {
                         break;
 
                     case"activateLeader":
-                        //DA FARE
+                        //maybe add a check for main action in progress
+                        //here we try to execute the command
+                        if (masterController.activateLeader(command.getLeaderCode(), myClientTurnOrder)){
+                            updateBroadcaster.broadcastMessage(masterController.getLeaderCardsUpdateOfPlayer(myClientTurnOrder));
+                            messageSenderToMyClient.goodCommand("the leader has been activated");
+                        }
+                        else {
+                            messageSenderToMyClient.badCommand("the leader requirement wasn't met");
+                        }
+                        break;
+
                     case"discardLeader":
-                        //DA FARE
+                        //maybe add a check for main action in progress
+                        //here we try to execute the command
+                        if (masterController.discardLeader(command.getLeaderCode(), myClientTurnOrder)) {
+                            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
+                            updateBroadcaster.broadcastMessage(masterController.getLeaderCardsUpdateOfPlayer(myClientTurnOrder));
+                            messageSenderToMyClient.goodCommand("the leader has been discarded");
+                        }
+                        else {
+                            messageSenderToMyClient.badCommand("you can't discard this leader");
+                        }
+                        break;
+
                     case"endTurn":
                         //check if player has done their main action
                         if (masterController.checkIfMainActionWasCompleted()) { //true
