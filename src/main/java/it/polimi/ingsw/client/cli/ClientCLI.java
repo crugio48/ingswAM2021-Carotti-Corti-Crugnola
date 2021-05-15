@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.cli;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
