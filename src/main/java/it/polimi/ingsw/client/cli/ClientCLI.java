@@ -278,6 +278,7 @@ public class ClientCLI extends Client {
                             break;
                         case 8:
                             printBuyDevelopmentCard(gson,response);
+                            break;
                         case 9:
                             //DA FARE
                         case 10:
