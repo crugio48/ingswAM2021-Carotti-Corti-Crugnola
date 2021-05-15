@@ -11,8 +11,12 @@ public class ClientModelPlayer extends MyObservable {
     private ClientModelPersonalDevCardSlots personalDevCardSlots;
     private int currentVictoryPoints;
 
-    public ClientModelPlayer(){
+    public ClientModelPlayer(String nickname, int turnOrder){
+        this.nickname = nickname;
+        this.turnOrder = turnOrder;
         this.leaderCard = new ClientModelLeaderCard[2];
+        this.leaderCard[0] = new ClientModelLeaderCard();
+        this.leaderCard[1] = new ClientModelLeaderCard();
         this.chest = new ClientModelChest();
         this.storage = new ClientModelStorage();
         this.personalDevCardSlots = new ClientModelPersonalDevCardSlots();

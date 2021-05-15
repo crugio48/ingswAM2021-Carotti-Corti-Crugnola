@@ -8,7 +8,6 @@ import it.polimi.ingsw.exceptions.GameStillNotInitialized;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 public class ServerThread implements Runnable {
@@ -249,6 +248,7 @@ public class ServerThread implements Runnable {
                         //here we try to execute the command
                         if (masterController.activateLeader(command.getLeaderCode(), myClientTurnOrder)){
                             updateBroadcaster.broadcastMessage(masterController.getLeaderCardsUpdateOfPlayer(myClientTurnOrder));
+                            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
                             messageSenderToMyClient.goodCommand("the leader has been activated");
                         }
                         else {

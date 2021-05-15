@@ -133,10 +133,10 @@ public class ClientModelStorage extends MyObservable {
         printOut("Resource of Slot 3: " + resourceOfSlot3);
         printOut("Quantity of Slot 3: " + quantityOfSlot3);
 
-        printOut("Resource of Leader slot 1: " + resourceOfSlot1);
+        printOut("Resource of Leader slot 1: " + resourceTypeOfLeaderSlot1);
         printOut("Quantity of Leader Slot 1: " + quantityOfLeaderSlot1);
 
-        printOut("Resource of Leader slot 2: " + resourceOfSlot2);
+        printOut("Resource of Leader slot 2: " + resourceTypeOfLeaderSlot2);
         printOut("Quantity of Leader Slot 2: " + quantityOfLeaderSlot2);
 
     }

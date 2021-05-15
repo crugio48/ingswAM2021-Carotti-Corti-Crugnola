@@ -70,10 +70,15 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.getMarket().setMarketUpdate(response.getNewFirstMarketRow() , response.getNewSecondMarketRow() , response.getNewThirdMarketRow(), response.getNewExtraMarble());
                         break;
                     case"storageUpdate":
-                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getStorage().setClientModelStorageUpdate(response.getNewQuantityOfLeaderSlot1() , response.getNewQuantityOfLeaderSlot2(), response.getNewQuantityOfSlot1() , response.getNewQuantityOfSlot2(), response.getNewQuantityOfSlot3(), response.getNewResourceTypeOfSlot1() , response.getNewResourceTypeOfSlot2(), response.getNewResourceTypeOfSlot3(), response.getNewResourceTypeOfLeaderSlot1() , response.getNewResourceTypeOfLeaderSlot2());
+                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getStorage().
+                                setClientModelStorageUpdate(response.getNewQuantityOfLeaderSlot1() , response.getNewQuantityOfLeaderSlot2(),
+                                response.getNewQuantityOfSlot1() , response.getNewQuantityOfSlot2(), response.getNewQuantityOfSlot3(),
+                                        response.getNewResourceTypeOfSlot1() , response.getNewResourceTypeOfSlot2(),
+                                        response.getNewResourceTypeOfSlot3(), response.getNewResourceTypeOfLeaderSlot1() ,
+                                        response.getNewResourceTypeOfLeaderSlot2());
                         break;
                     case"chestUpdate":
-                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getChest().setClientModelChestUpdate( response.getNewCoinsQuantity() , response.getNewServantsQuantity() , response.getNewShieldsQuantity() , response.getNewStonesQuantity());
+                        client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getChest().setClientModelChestUpdate( response.getNewCoinsQuantity() , response.getNewStonesQuantity() , response.getNewShieldsQuantity() , response.getNewServantsQuantity());
                         break;
                     case"personalDevCardSlotUpdate":
                         client.clientModel.getPlayerByNickname(response.getPlayerUsername()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(response.getNewDevCardCode(), response.getStackSlotNumberToPlace());

@@ -271,9 +271,9 @@ public class Player {
         }
         return "{\"cmd\" : \"storageUpdate\", " +
                 "\"playerUsername\" : \"" + username + "\"," +
-                "\"newResourceTypeOfSLot1\" : \"" + resourceTypeOfSlot.get(0) + "\"," +
-                "\"newResourceTypeOfSLot2\" : \"" + resourceTypeOfSlot.get(1)+ "\"," +
-                "\"newResourceTypeOfSLot3\" : \"" + resourceTypeOfSlot.get(2) + "\"," +
+                "\"newResourceTypeOfSlot1\" : \"" + resourceTypeOfSlot.get(0) + "\"," +
+                "\"newResourceTypeOfSlot2\" : \"" + resourceTypeOfSlot.get(1)+ "\"," +
+                "\"newResourceTypeOfSlot3\" : \"" + resourceTypeOfSlot.get(2) + "\"," +
                 "\"newQuantityOfSlot1\" : " + resourceQuantityOfSlot.get(0) + "," +
                 "\"newQuantityOfSlot2\" : " + resourceQuantityOfSlot.get(1) + "," +
                 "\"newQuantityOfSlot3\" : " + resourceQuantityOfSlot.get(2) + "," +

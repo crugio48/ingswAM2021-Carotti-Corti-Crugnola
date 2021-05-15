@@ -796,12 +796,18 @@ public class MasterController {
             if (card.getResourceRequirement() != null) {
                 if (p.checkIfLeaderResourceRequirementIsMet(card.getResourceRequirement())) {
                     card.activateCard();
+                    if (card.getEffect().getEffectName().equals("increaseStorageEffect")){
+                        p.getStorage().activateLeaderSlot(card.getEffect().getTargetResource());
+                    }
                     return true;
                 }
             }
             else {
                 if (p.getPersonalDevelopmentCardSlots().isLeaderDevCardRequirementsMet(card.getCardsRequirement())) {
                     card.activateCard();
+                    if (card.getEffect().getEffectName().equals("increaseStorageEffect")){
+                        p.getStorage().activateLeaderSlot(card.getEffect().getTargetResource());
+                    }
                     return true;
                 }
             }
