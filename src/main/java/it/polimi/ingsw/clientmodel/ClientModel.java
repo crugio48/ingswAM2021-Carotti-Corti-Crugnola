@@ -46,11 +46,10 @@ public class ClientModel {
         return faithTrack;
     }
 
-    public String visualizeOtherPlayersLeaderCards(int turnOrder){
+    public String visualizeOtherPlayerLeaderCards(int turnOrder){
         StringBuilder toReturn = new StringBuilder();
         for (ClientModelPlayer p : players){
-            if (p.getTurnOrder() != turnOrder){
-                toReturn.append("Player [").append(p.getNickname()).append("]:\n");
+            if (p.getTurnOrder() == turnOrder){
                 if (p.getLeaderCard(0).isActive()) toReturn.append(p.getLeaderCard(0).visualizePersonalLeaderCard()).append("\n");
                 if (p.getLeaderCard(1).isActive()) toReturn.append(p.getLeaderCard(1).visualizePersonalLeaderCard()).append("\n");
             }

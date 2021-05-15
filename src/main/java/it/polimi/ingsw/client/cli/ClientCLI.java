@@ -381,7 +381,7 @@ public class ClientCLI extends Client {
             }
             if (selectedTurnorder > 0 && selectedTurnorder <= clientModel.getNumberOfPlayer()) {
 
-                printOut("These are your development cards:");
+                printOut("These are development cards:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
                 printOut("These are the resources in your chest:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getChest().visualizeClientModelChest();
@@ -390,7 +390,7 @@ public class ClientCLI extends Client {
                 printOut("This is your faithTrack:");
                 printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(selectedTurnorder));
                 printOut("These are the active leaderCards of the other players: ");
-                printOut(clientModel.visualizeOtherPlayersLeaderCards(myTurnOrder));
+                printOut(clientModel.visualizeOtherPlayerLeaderCards(myTurnOrder));
                 break;
             }
         }

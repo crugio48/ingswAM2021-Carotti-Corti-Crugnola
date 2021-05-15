@@ -39,9 +39,6 @@ public class ClientModelLeaderCard {
              toReturn += "The card is not active\n";
          }
         if (this.code == 0) toReturn += "The card was discarded\n";
-        else {
-            toReturn += "The card hasn't been discarded yet\n";
-        }
         return toReturn;
     }
 
