@@ -195,8 +195,8 @@ public class DevCardSpace {
 
         ResourceBox cost = topCard.getCost();
 
-        for (int i = 0; i < 2; i++) {
-            LeaderCard card = p.getLeaderCard(0);
+        for (int i = 1; i <= 2; i++) {
+            LeaderCard card = p.getLeaderCard(i);
             if (card.getEffect().getEffectName().equals("discountDevelopmentCardsEffect") && card.isActive()) {
                 switch(card.getEffect().getTargetResource()) {
                     case"coins":

@@ -275,7 +275,7 @@ public class ServerThread implements Runnable {
     private void buyFromMarket(Command command) {
         //checks if action requested is valid
         if (masterController.getTurnInfo().getCurrentMainAction() != null) {
-            messageSenderToMyClient.badCommand("wrong action requested");
+            messageSenderToMyClient.badCommand("you have already done a main action");
             return;
         }
         //here we execute the command
@@ -296,7 +296,7 @@ public class ServerThread implements Runnable {
 
     private void activateProduction(Command command) {
         if (masterController.getTurnInfo().getCurrentMainAction() != null) {
-            messageSenderToMyClient.badCommand("wrong action requested");
+            messageSenderToMyClient.badCommand("you have already done a main action");
             return;
         }
         //here we try to execute the command
@@ -317,7 +317,7 @@ public class ServerThread implements Runnable {
 
     private void buyDevCard(Command command) {
         if (masterController.getTurnInfo().getCurrentMainAction() != null) {
-            messageSenderToMyClient.badCommand("wrong action requested");
+            messageSenderToMyClient.badCommand("you have already done a main action");
             return;
         }
         // here we try to execute the command

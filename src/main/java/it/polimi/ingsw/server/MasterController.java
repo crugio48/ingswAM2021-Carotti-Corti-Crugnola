@@ -717,8 +717,8 @@ public class MasterController {
 
         ResourceBox cardCost = game.getDevCardSpace().peekTopCard(devCardLevel, devCardColour).getCost();
 
-        for (int i = 0; i < 2; i++) {
-            LeaderCard card = p.getLeaderCard(0);
+        for (int i = 1; i <= 2; i++) {
+            LeaderCard card = p.getLeaderCard(i);
             if (card.getEffect().getEffectName().equals("discountDevelopmentCardsEffect") && card.isActive()) {
                 switch(card.getEffect().getTargetResource()) {
                     case"coins":
