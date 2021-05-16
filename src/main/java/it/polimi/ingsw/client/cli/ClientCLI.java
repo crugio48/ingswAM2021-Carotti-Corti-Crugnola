@@ -650,8 +650,8 @@ public class ClientCLI extends Client {
         printOut("\nThese are the development cards available to buy:\n");
         printOut(clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace());
 
+        printOut("Please insert the level of the card you want to buy(or 'stop' to exit):");
         while(true){
-            printOut("Please insert the level of the card you want to buy:");
             userInput = stdIn.nextLine();
             if (userInput.equals("stop")) break;
             try {
@@ -660,9 +660,9 @@ public class ClientCLI extends Client {
                 printOut("Please enter a valid number");
                 continue;
             }
+            printOut("Please insert the colour of the card you want to buy: (y,g,p,b)");
            while(true) {
-               printOut("Please insert the colour of the card you want to buy: (y,g,p,b)");
-               userInput = stdIn.next();
+               userInput = stdIn.nextLine();
                switch (userInput) {
                    case "y":
                        messageSender.buyDevelopmentCard(level, 'y');
