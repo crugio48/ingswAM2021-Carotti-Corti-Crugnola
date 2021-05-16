@@ -116,7 +116,8 @@ public class ClientCLI extends Client {
                             printBuyDevelopmentCard();
                             break;
                         case 9:
-                            //DA FARE
+                            printActivateProduction();
+                            break;
                         case 10:
                             askForEndTurn();
                             break;
