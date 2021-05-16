@@ -76,7 +76,7 @@ public class MessageSender {
     }
 
     public void placeResourceInSlot (String resource, int slot){
-        String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" + ",\"resourceType\" : " + resource + ",\"SlotNumber\" : " + slot +"}";
+        String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" + ",\"resourceType\" : " + resource + ",\"slotNumber\" : " + slot +"}";
         out.println(outMessage);
         out.flush();
     }
@@ -104,13 +104,26 @@ public class MessageSender {
     }
 
     public void buyDevelopmentCard(int level, char colour){
-        String outMessage = "{\"cmd\" : \"buyDevCard\"" + ",\"DevCardColour\" : " + colour + ",\"DevCardleve\" : " + level +"}";
+        String outMessage = "{\"cmd\" : \"buyDevCard\"" + ",\"devCardColour\" : " + colour + ",\"devCardlevel\" : " + level +"}";
         out.println(outMessage);
         out.flush();
     }
 
     public void endTurn() {
         String outMessage = "{\"cmd\" : \"endTurn\"}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void chosenResourcesToPayForDevCard (int chestcoins, int cheststones, int chestshields, int chestservants, int storagecoins, int storagestones, int storageshields, int storageservants){
+        String outMessage = "{\"cmd\" : \"chosenResourcesToPayForDevCard\"" + ",\"chestCoins\" : " + chestcoins + ",\"chestStones\" : " + cheststones + ",\"chestShields\" : " + chestshields + ",\"chestServants\" : " + chestservants + ",\"storageCoins\" : " + storagecoins + ",\"storageStones\" : " + cheststones + ",\"storageShields\" : " + storageshields + ",\"storageServants\" : " + storageservants +"}";
+        out.println(outMessage);
+        out.flush();
+
+    }
+
+    public void chosenSlotNumberForDevCard (int selectslot){
+        String outMessage = "{\"cmd\" : \"chosenSlotNumberForDevCard\"" + ",\"slotNumber\" : " + selectslot + "}";
         out.println(outMessage);
         out.flush();
     }

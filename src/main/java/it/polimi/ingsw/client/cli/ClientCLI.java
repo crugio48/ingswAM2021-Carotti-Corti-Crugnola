@@ -549,11 +549,15 @@ public class ClientCLI extends Client {
         int level=0;
         char colour;
         boolean loop =true;
+        int chestcoins =0, cheststones =0, chestshield = 0, chestservants =0;
+        int storagecoins = 0, storagestones = 0, storageshields = 0, storageservants = 0;
+        int costcoins= 0, coststones = 0, costshields = 0, costservants = 0;
 
         printOut("\nThese are the development cards available to buy:\n");
         printOut(clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace());
 
         while(true){
+            loop=true;
             printOut("Please insert the level of the card you want to buy:");
             userInput = stdIn.nextLine();
             if (userInput.equals("stop")) break;
@@ -563,21 +567,108 @@ public class ClientCLI extends Client {
                 printOut("Please enter a valid number");
                 continue;
             }
-           while(loop) {printOut("Please insert the colour of the card you want to buy: (yellow,green,purple,blue)");
+           while(loop) {printOut("Please insert the colour of the card you want to buy: (y,g,p,b)");
             userInput = stdIn.next();
             switch(userInput){
-                case "yellow": messageSender.buyDevelopmentCard(level,'y');loop=false;
-                case "green": messageSender.buyDevelopmentCard(level,'g');loop=false;
-                case "purple": messageSender.buyDevelopmentCard(level,'p');loop=false;
-                case "blue": messageSender.buyDevelopmentCard(level,'b');loop=false;
-                default: printOut("Please enter a valid colour"); break;
+                case "y": {messageSender.buyDevelopmentCard(level,'y');loop=false;break;}
+                case "g": {messageSender.buyDevelopmentCard(level,'g');loop=false;break;}
+                case "p": {messageSender.buyDevelopmentCard(level,'p');loop=false;break;}
+                case "b": {messageSender.buyDevelopmentCard(level,'b');loop=false;break;}
+                default: {printOut("Please enter a valid colour"); break;}
             }}
             serverResp = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverResp, Response.class);
-            if(response.isCommandWasCorrect()) break;
+            if(response.isCommandWasCorrect()){
+                while (true){
+                costcoins = response.getCoins();
+                coststones = response.getStones();
+                costshields = response.getShields();
+                costservants = response.getServants();
+                printOut("This card cost: " +
+                        "coins = " + costcoins +
+                        "Stones = " + coststones +
+                        "Shields = " + costshields +
+                        "Servants = " + costservants );
+                        if(costcoins!=0){
+                            while(costcoins>0) {
+                                printOut("Where do you want to get the coin from? (chest or storage");
+                                userInput = stdIn.nextLine();
+                                if(userInput.equals("chest")){chestcoins ++; costcoins--; }
+                                else if(userInput.equals("storage")){storagecoins ++; costcoins--;}
+                                else {printOut("Please insert chest or storage");}
+
+                            }
+                        }
+                if(coststones!=0){
+                    while(coststones>0) {
+                        printOut("Where do you want to get the stone from? (chest or storage");
+                        userInput = stdIn.nextLine();
+                        if(userInput.equals("chest")){cheststones ++; coststones--; }
+                        else if(userInput.equals("storage")){storagestones ++; coststones--;}
+                        else {printOut("Please insert chest or storage");}
+
+                    }
+                }
+                if(costshields!=0){
+                    while(costshields>0) {
+                        printOut("Where do you want to get the shield from? (chest or storage");
+                        userInput = stdIn.nextLine();
+                        if(userInput.equals("chest")){chestshield ++; costshields--; }
+                        else if(userInput.equals("storage")){storageshields ++; costshields--;}
+                        else {printOut("Please insert chest or storage");}
+
+                    }
+                }
+                if(costservants!=0){
+                    while(costservants>0) {
+                        printOut("Where do you want to get the servant from? (chest or storage");
+                        userInput = stdIn.nextLine();
+                        if(userInput.equals("chest")){chestservants ++; costservants--; }
+                        else if(userInput.equals("storage")){storageservants ++; costservants--;}
+                        else {printOut("Please insert chest or storage");}
+
+                    }
+                }
+                messageSender.chosenResourcesToPayForDevCard(chestcoins,cheststones,chestshield,chestservants,storagecoins,storagestones,storageshields,storageservants);
+                serverResp = stringBuffer.readMessage();
+                response = (Response) gson.fromJson(serverResp, Response.class);
+                if(response.isCommandWasCorrect()){
+                    printOut("Card bought successfully. Now you have to choose in which slot you want to put the card in:\n These is the slots situation :\n ");
+                    clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+                    printOut("\nSelect the slot you want to put the new Card in : (1,2,3) ");
+                    while (true) {
+                        userInput = stdIn.nextLine();
+                        if (userInput.equals("1")) {
+                            messageSender.chosenSlotNumberForDevCard(1);
+                            break;
+                        } else if (userInput.equals("2")) {
+                            messageSender.chosenSlotNumberForDevCard(2);
+                            break;
+                        } else if (userInput.equals("3")) {
+                            messageSender.chosenSlotNumberForDevCard(3);
+                            break;
+                        } else {
+                            printOut("Wrong selection, please insert a valid selection: (1,2,3)");
+                        }
+                    }
+                    serverResp = stringBuffer.readMessage();
+                    response = (Response) gson.fromJson(serverResp, Response.class);
+                    if(response.isCommandWasCorrect()){printOut("\n Card successfully placed!");break;}
+                    else {
+                        printOut("Error buying Dev Card");
+                        ;
+                    }
+                    }
+                else {
+                    printOut("You don't have the resources you have selected");
+                    continue;
+
+
+                }
+                }}
             else {
                 printOut(response.getResp());
-                printOut("Try to insert a new Dev Card level code or write \"stop\" to do another action");
+                printOut("Please try to insert a new Dev Card level code or write \"stop\" to do another action");
             }
         }
     }
