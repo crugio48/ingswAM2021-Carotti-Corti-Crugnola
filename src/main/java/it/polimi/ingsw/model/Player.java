@@ -328,6 +328,9 @@ public class Player {
                 toReturn[pos] = card.getEffect().getTargetResource();
                 pos++;
             }
+            else {
+                toReturn[pos] = "null";
+            }
         }
         return toReturn;
     }

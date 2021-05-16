@@ -76,13 +76,13 @@ public class MessageSender {
     }
 
     public void placeResourceInSlot (String resource, int slot){
-        String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" + ",\"resourceType\" : " + resource + ",\"slotNumber\" : " + slot +"}";
+        String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" + ",\"resourceType\" : \"" + resource + "\" ,\"slotNumber\" : " + slot +"}";
         out.println(outMessage);
         out.flush();
     }
 
     public void discardResource (String resource){
-        String outMessage = "{\"cmd\" : \"discardResource\"" + ",\"resourceType\" : " + resource +"}";
+        String outMessage = "{\"cmd\" : \"discardResource\"" + ",\"resourceType\" : \"" + resource +"\"}";
         out.println(outMessage);
         out.flush();
     }
@@ -104,7 +104,7 @@ public class MessageSender {
     }
 
     public void buyDevelopmentCard(int level, char colour){
-        String outMessage = "{\"cmd\" : \"buyDevCard\"" + ",\"devCardColour\" : " + colour + ",\"devCardlevel\" : " + level +"}";
+        String outMessage = "{\"cmd\" : \"buyDevCard\"" + ",\"devCardColour\" : " + colour + ",\"devCardLevel\" : " + level +"}";
         out.println(outMessage);
         out.flush();
     }

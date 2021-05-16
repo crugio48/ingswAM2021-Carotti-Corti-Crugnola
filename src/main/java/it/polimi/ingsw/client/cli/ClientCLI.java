@@ -328,7 +328,7 @@ public class ClientCLI extends Client {
         int selectedRow = 0, selectedslot =0;
         String[] jollyresource;
         int coins, stones, shields, jolly, servants;
-        int jollycoins = 0, jollystones = 0, jollyshields = 0, jollyservants = 0;
+
         boolean loop=true;
 
 
@@ -353,25 +353,26 @@ public class ClientCLI extends Client {
                 stones = response.getStones();
                 shields = response.getShields();
                 servants = response.getServants();
-                jollyresource = response.getTargetResources();
                 jolly = response.getJolly();
                 if (jolly != 0) {
+                    jollyresource = response.getTargetResources();
                     while (true) {
+                        int jollycoins = 0, jollystones = 0, jollyshields = 0, jollyservants = 0;
                         printOut("You can change" + jolly + " white marbles in " + jollyresource[0] + " or " + jollyresource[1]);
                         while (jolly != 0) {
                             printOut("What do you want to change a white marble with? \n 1." + jollyresource[0] + " 2." + jollyresource[1] + " 3. Nothing");
                             userInput = stdIn.nextLine();
                             if (userInput == "1") {
-                                if (jollyresource[0] == "coins") jollycoins++;
-                                if (jollyresource[0] == "stones") jollystones++;
-                                if (jollyresource[0] == "servants") jollyservants++;
-                                if (jollyresource[0] == "shields") jollyshields++;
+                                if (jollyresource[0].equals("coins")) jollycoins++;
+                                if (jollyresource[0].equals("stones")) jollystones++;
+                                if (jollyresource[0].equals("servants")) jollyservants++;
+                                if (jollyresource[0].equals("shields")) jollyshields++;
                                 jolly--;
                             } else if (userInput == "2") {
-                                if (jollyresource[1] == "coins") jollycoins++;
-                                if (jollyresource[1] == "stones") jollystones++;
-                                if (jollyresource[1] == "servants") jollyservants++;
-                                if (jollyresource[1] == "shields") jollyshields++;
+                                if (jollyresource[1].equals("coins")) jollycoins++;
+                                if (jollyresource[1].equals("stones")) jollystones++;
+                                if (jollyresource[1].equals("servants")) jollyservants++;
+                                if (jollyresource[1].equals("shields")) jollyshields++;
                                 jolly--;
                             } else if (userInput == "3") {
                                 jolly--;
@@ -382,10 +383,12 @@ public class ClientCLI extends Client {
                             }
                         }
 
-                        messageSender.chosenResourceToBuy(jollycoins, jollystones, jollyshields, jollyservants);
+                        messageSender.chosenResourceToBuy(jollycoins + coins, jollystones + stones, jollyshields + shields, jollyservants + servants);
                         serverResp = stringBuffer.readMessage();
                         response = (Response) gson.fromJson(serverResp, Response.class);
-                        if (response.isCommandWasCorrect()) break;
+                        if (response.isCommandWasCorrect()) {
+                            break;
+                        }
                         else {
                             printOut("error with changing white marbles");
                         }
@@ -401,39 +404,52 @@ public class ClientCLI extends Client {
                             "1. Place a resource in a slot \n " +
                             "2. Discard a resource \n " +
                             "3. Move a resource from a slot to another \n " +
-                            "4. Switch 2 slots filled with resources \n " +
+                            "4. Switch the resources of two normal slots \n " +
                             "5. End resource placing");
                     userInput = stdIn.nextLine();
                     switch (userInput) {
                         case "1":
                             printOut("Place a resource in a slot:");
                             printOut("Choose resource: (1.coins , 2.stones , 3.Shields , 4.Servants");
-                            userInput = stdIn.nextLine();
-                            switch (userInput) {
-                                case "1":
-                                    res1 = "Coins";
-                                case "2":
-                                    res1 = "Stones";
-                                case "3":
-                                    res1 = "Shields";
-                                case "4":
-                                    res1 = "Servants";
-                                default:
-                                    printOut("Error placing resource");
-                                    break;
+                            while (true) {
+                                userInput = stdIn.nextLine();
+                                switch (userInput) {
+                                    case "1":
+                                        res1 = "coin";
+                                        break;
+                                    case "2":
+                                        res1 = "stone";
+                                        break;
+                                    case "3":
+                                        res1 = "shield";
+                                        break;
+                                    case "4":
+                                        res1 = "servant";
+                                        break;
+                                    default:
+                                        printOut("please input a valid number");
+                                        continue;
+                                }
+                                break;
                             }
                             printOut("Choose slot: (1,2,3)");
-                            userInput = stdIn.nextLine();
-                            switch (userInput) {
-                                case "1":
-                                    messageSender.placeResourceInSlot(res1, 1);
-                                case "2":
-                                    messageSender.placeResourceInSlot(res1, 2);
-                                case "3":
-                                    messageSender.placeResourceInSlot(res1, 3);
-                                default:
-                                    printOut("Error placing resource");
-                                    break;
+                            while (true ) {
+                                userInput = stdIn.nextLine();
+                                switch (userInput) {
+                                    case "1":
+                                        messageSender.placeResourceInSlot(res1, 1);
+                                        break;
+                                    case "2":
+                                        messageSender.placeResourceInSlot(res1, 2);
+                                        break;
+                                    case "3":
+                                        messageSender.placeResourceInSlot(res1, 3);
+                                        break;
+                                    default:
+                                        printOut("please input a valid number");
+                                        continue;
+                                }
+                                break;
                             }
                             serverResp = stringBuffer.readMessage();
                             response = (Response) gson.fromJson(serverResp, Response.class);
@@ -442,20 +458,27 @@ public class ClientCLI extends Client {
 
                         case "2":
                             printOut("Discard a resource");
-                            printOut("Choose resource: (1.coins , 2.stones , 3.Shields , 4.Servants");
-                            userInput = stdIn.nextLine();
-                            switch (userInput) {
-                                case "1":
-                                    messageSender.discardResource("Coins");
-                                case "2":
-                                    messageSender.discardResource("Stones");
-                                case "3":
-                                    messageSender.discardResource("Shields");
-                                case "4":
-                                    messageSender.discardResource("Servants");
-                                default:
-                                    printOut("Error discarding resource");
-                                    break;
+                            printOut("Choose resource: (1.coin , 2.stone , 3.shield , 4.servant");
+                            while (true) {
+                                userInput = stdIn.nextLine();
+                                switch (userInput) {
+                                    case "1":
+                                        messageSender.discardResource("coin");
+                                        break;
+                                    case "2":
+                                        messageSender.discardResource("stone");
+                                        break;
+                                    case "3":
+                                        messageSender.discardResource("shield");
+                                        break;
+                                    case "4":
+                                        messageSender.discardResource("servant");
+                                        break;
+                                    default:
+                                        printOut("please input a valid number");
+                                        continue;
+                                }
+                                break;
                             }
                             serverResp = stringBuffer.readMessage();
                             response = (Response) gson.fromJson(serverResp, Response.class);
@@ -464,31 +487,70 @@ public class ClientCLI extends Client {
 
                         case "3":
                             printOut("Move one resource from a slot to another:");
-                            printOut("Choose first slot (1,2,3)");
-                            userInput = stdIn.nextLine();
-                            switch (userInput) {
-                                case "1":
-                                    selectedslot = 1;
-                                case "2":
-                                    selectedslot = 2;
-                                case "3":
-                                    selectedslot = 3;
-                                default:
-                                    printOut("Error moving resource");
-                                    break;
+                            printOut("Choose from which slot you want to move: (1, 2, 3, leaderSlot1, leaderSlot2)");
+                            while (true) {
+                                userInput = stdIn.nextLine();
+                                switch (userInput) {
+                                    case "1":
+                                        selectedslot = 1;
+                                        break;
+                                    case "2":
+                                        selectedslot = 2;
+                                        break;
+                                    case "3":
+                                        selectedslot = 3;
+                                        break;
+                                    case"leaderSlot1":
+                                        selectedslot = 4;
+                                        break;
+                                    case"leaderSlot2":
+                                        selectedslot = 5;
+                                        break;
+                                    default:
+                                        printOut("please input a valid slot");
+                                        continue;
+                                }
+                                break;
                             }
-                            printOut("Choose second slot: (1,2,3)");
-                            userInput = stdIn.nextLine();
-                            switch (userInput) {
-                                case "1":
-                                    messageSender.moveOneResource(selectedslot, 1);
-                                case "2":
-                                    messageSender.moveOneResource(selectedslot, 2);
-                                case "3":
-                                    messageSender.moveOneResource(selectedslot, 3);
-                                default:
-                                    printOut("Error moving resource");
-                                    break;
+                            printOut("Choose to which slot you want to move: (1, 2, 3, leaderSlot1, leaderSlot2)");
+                            while (true) {
+                                userInput = stdIn.nextLine();
+                                switch (userInput) {
+                                    case "1":
+                                        if (selectedslot >= 4) {
+                                            messageSender.moveOneResource(selectedslot, 1);
+                                        }
+                                        else {
+                                            messageSender.switchResourceSlot(selectedslot, 1);
+                                        }
+                                        break;
+                                    case "2":
+                                        if (selectedslot >= 4) {
+                                            messageSender.moveOneResource(selectedslot, 2);
+                                        }
+                                        else {
+                                            messageSender.switchResourceSlot(selectedslot, 2);
+                                        }
+                                        break;
+                                    case "3":
+                                        if (selectedslot >= 4) {
+                                            messageSender.moveOneResource(selectedslot, 3);
+                                        }
+                                        else {
+                                            messageSender.switchResourceSlot(selectedslot, 3);
+                                        }
+                                        break;
+                                    case"leaderSlot1":
+                                        messageSender.moveOneResource(selectedslot, 4);
+                                        break;
+                                    case"leaderSlot2":
+                                        messageSender.moveOneResource(selectedslot, 5);
+                                        break;
+                                    default:
+                                        printOut("please input a valid slot");
+                                        continue;
+                                }
+                                break;
                             }
                             serverResp = stringBuffer.readMessage();
                             response = (Response) gson.fromJson(serverResp, Response.class);
@@ -496,32 +558,44 @@ public class ClientCLI extends Client {
                             break;
 
                         case "4":
-                            printOut("Move all resources from a slot to another:");
-                            printOut("Choose first slot (1,2,3)");
-                            userInput = stdIn.nextLine();
-                            switch (userInput) {
-                                case "1":
-                                    selectedslot = 1;
-                                case "2":
-                                    selectedslot = 2;
-                                case "3":
-                                    selectedslot = 3;
-                                default:
-                                    printOut("Error moving resources");
-                                    break;
+                            printOut("Switch the resources of two normal slots:");
+                            printOut("Choose first slot (1, 2, 3)");
+                            while (true) {
+                                userInput = stdIn.nextLine();
+                                switch (userInput) {
+                                    case "1":
+                                        selectedslot = 1;
+                                        break;
+                                    case "2":
+                                        selectedslot = 2;
+                                        break;
+                                    case "3":
+                                        selectedslot = 3;
+                                        break;
+                                    default:
+                                        printOut("please choose a valid slot");
+                                        continue;
+                                }
+                                break;
                             }
-                            printOut("Choose second slot: (1,2,3)");
-                            userInput = stdIn.nextLine();
-                            switch (userInput) {
-                                case "1":
-                                    messageSender.switchResourceSlot(selectedslot, 1);
-                                case "2":
-                                    messageSender.switchResourceSlot(selectedslot, 2);
-                                case "3":
-                                    messageSender.switchResourceSlot(selectedslot, 3);
-                                default:
-                                    printOut("Error moving resources");
-                                    break;
+                            printOut("Choose second slot: (1, 2, 3)");
+                            while (true) {
+                                userInput = stdIn.nextLine();
+                                switch (userInput) {
+                                    case "1":
+                                        messageSender.switchResourceSlot(selectedslot, 1);
+                                        break;
+                                    case "2":
+                                        messageSender.switchResourceSlot(selectedslot, 2);
+                                        break;
+                                    case "3":
+                                        messageSender.switchResourceSlot(selectedslot, 3);
+                                        break;
+                                    default:
+                                        printOut("please choose a valid slot");
+                                        continue;
+                                }
+                                break;
                             }
                             serverResp = stringBuffer.readMessage();
                             response = (Response) gson.fromJson(serverResp, Response.class);
@@ -529,8 +603,30 @@ public class ClientCLI extends Client {
                             break;
 
                         case "5":
-                            messageSender.endPlacing();
-                            loop = false;
+                            printOut("all non placed resources are going to be discarded,\n are you sure you want to end placing (yes || no):");
+                            while (true){
+                                userInput = stdIn.nextLine();
+                                switch (userInput){
+                                    case"yes":
+                                        messageSender.endPlacing();
+                                        break;
+                                    case"no":
+                                        break;
+                                    default:
+                                        printOut("please enter a valid answer");
+                                        continue;
+                                }
+                                break;
+                            }
+                            serverResp = stringBuffer.readMessage();
+                            response = (Response) gson.fromJson(serverResp, Response.class);
+                            if (!response.isCommandWasCorrect()) {
+                                printOut("Command was incorrect");
+                            }
+                            else{
+                                printOut(response.getResp()); //custom message from server of ended placing
+                                loop = false;
+                            }
                             break;
                     }
                 }
@@ -538,9 +634,8 @@ public class ClientCLI extends Client {
             }
             else{ printOut(response.getResp());
                 printOut("Try to insert a valid place number or write \"stop\" to do another action");
-
             }
-    }
+        }
     }
 
     private void printBuyDevelopmentCard() throws InterruptedException{
@@ -716,8 +811,8 @@ public class ClientCLI extends Client {
                 "output: 1 resource of your choice\n");
         printOut("now you have to select all production you want to activate");
         if (!clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().getFirstStack().isEmpty()) {
+            printOut("do you want to activate the card in the first slot (yes || no):");
             while (true) {
-                printOut("do you want to activate the card in the first slot (yes || no):");
                 userInput = stdIn.nextLine();
                 if (userInput.equals("yes")){
                     activateFirstSlot = true;
@@ -731,8 +826,8 @@ public class ClientCLI extends Client {
             }
         }
         if (!clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().getSecondStack().isEmpty()) {
+            printOut("do you want to activate the card in the second slot (yes || no):");
             while (true) {
-                printOut("do you want to activate the card in the second slot (yes || no):");
                 userInput = stdIn.nextLine();
                 if (userInput.equals("yes")){
                     activateSecondSlot = true;
@@ -746,8 +841,8 @@ public class ClientCLI extends Client {
             }
         }
         if (!clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().getThirdStack().isEmpty()) {
+            printOut("do you want to activate the card in the third slot (yes || no):");
             while (true) {
-                printOut("do you want to activate the card in the third slot (yes || no):");
                 userInput = stdIn.nextLine();
                 if (userInput.equals("yes")){
                     activateThirdSlot = true;
@@ -761,23 +856,22 @@ public class ClientCLI extends Client {
             }
         }
         if (leader1Active) {
+            printOut("do you want to activate the leaderProduction with code " + leader1Code + " (yes || no):");
             while (true) {
-                printOut("do you want to activate the leaderProduction with code " + leader1Code + " (yes || no):");
                 userInput = stdIn.nextLine();
                 if (userInput.equals("yes")){
                     activateLeader1 = true;
+                    printOut("which resource do you choose as output (stone || coin || shield || servant): ");
                     while (true) {
-                        printOut("which resource do you choose as output (stone || coin || shield || servant): ");
                         userInput = stdIn.nextLine();
                         if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
                                 !userInput.equals("shield")) {
                             printOut("please insert a valid resource");
+                            continue;
                         }
-                        else {
-                            leader1ConvertedResource = userInput;
-                            break;
-                        }
+                        break;
                     }
+                    leader1ConvertedResource = userInput;
                     break;
                 } else if (userInput.equals("no")){
                     activateLeader1 = false;
@@ -788,23 +882,22 @@ public class ClientCLI extends Client {
             }
         }
         if (leader2Active) {
+            printOut("do you want to activate the leaderProduction with code " + leader2Code + " (yes || no):");
             while (true) {
-                printOut("do you want to activate the leaderProduction with code " + leader2Code + " (yes || no):");
                 userInput = stdIn.nextLine();
                 if (userInput.equals("yes")){
                     activateLeader2 = true;
+                    printOut("which resource do you choose as output (stone || coin || shield || servant): ");
                     while (true) {
-                        printOut("which resource do you choose as output (stone || coin || shield || servant): ");
                         userInput = stdIn.nextLine();
                         if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
                                 !userInput.equals("shield")) {
                             printOut("please insert a valid resource");
+                            continue;
                         }
-                        else {
-                            leader2ConvertedResource = userInput;
-                            break;
-                        }
+                        break;
                     }
+                    leader2ConvertedResource = userInput;
                     break;
                 } else if (userInput.equals("no")){
                     activateLeader2 = false;
@@ -814,47 +907,44 @@ public class ClientCLI extends Client {
                 }
             }
         }
+        printOut("do you want to activate the base production (yes || no): ");
         while (true) {
-            printOut("do you want to activate the base production (yes || no): ");
             userInput = stdIn.nextLine();
             if (userInput.equals("yes")){
                 activateBaseProduction = true;
+                printOut("which resource do you choose as first input (stone || coin || shield || servant): ");
                 while (true) {
-                    printOut("which resource do you choose as first input (stone || coin || shield || servant): ");
                     userInput = stdIn.nextLine();
                     if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
                             !userInput.equals("shield")) {
                         printOut("please insert a valid resource");
+                        continue;
                     }
-                    else {
-                        baseInput1 = userInput;
-                        break;
-                    }
+                    break;
                 }
+                baseInput1 = userInput;
+                printOut("which resource do you choose as second input (stone || coin || shield || servant): ");
                 while (true) {
-                    printOut("which resource do you choose as second input (stone || coin || shield || servant): ");
                     userInput = stdIn.nextLine();
                     if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
                             !userInput.equals("shield")) {
                         printOut("please insert a valid resource");
+                        continue;
                     }
-                    else {
-                        baseInput2 = userInput;
-                        break;
-                    }
+                    break;
                 }
+                baseInput2 = userInput;
+                printOut("which resource do you choose as output (stone || coin || shield || servant): ");
                 while (true) {
-                    printOut("which resource do you choose as output (stone || coin || shield || servant): ");
                     userInput = stdIn.nextLine();
                     if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
                             !userInput.equals("shield")) {
                         printOut("please insert a valid resource");
+                        continue;
                     }
-                    else {
-                        baseOutput = userInput;
-                        break;
-                    }
+                    break;
                 }
+                baseOutput = userInput;
                 break;
             }
             else if (userInput.equals("no")){
@@ -897,8 +987,8 @@ public class ClientCLI extends Client {
                     "you have to pay:\n" +
                     +costCoins + " coins, " + costStones + " stones, " + costServants + " servants, " + costShields + " shields\n");
             while (costCoins > 0) {
+                printOut("how many coins do you pay from your storage: ");
                 while (true) {
-                    printOut("how many coins do you pay from your storage: ");
                     userInput = stdIn.nextLine();
                     try {
                         storageCoins = Integer.parseInt(userInput);
@@ -908,8 +998,8 @@ public class ClientCLI extends Client {
                     }
                     break;
                 }
+                printOut("how many coins do you pay from your chest: ");
                 while (true) {
-                    printOut("how many coins do you pay from your chest: ");
                     userInput = stdIn.nextLine();
                     try {
                         chestCoins = Integer.parseInt(userInput);
@@ -927,8 +1017,8 @@ public class ClientCLI extends Client {
                 }
             }
             while (costServants > 0) {
+                printOut("how many servants do you pay from your storage: ");
                 while (true) {
-                    printOut("how many servants do you pay from your storage: ");
                     userInput = stdIn.nextLine();
                     try {
                         storageServants = Integer.parseInt(userInput);
@@ -938,8 +1028,8 @@ public class ClientCLI extends Client {
                     }
                     break;
                 }
+                printOut("how many servants do you pay from your chest: ");
                 while (true) {
-                    printOut("how many servants do you pay from your chest: ");
                     userInput = stdIn.nextLine();
                     try {
                         chestServants = Integer.parseInt(userInput);
@@ -957,8 +1047,8 @@ public class ClientCLI extends Client {
                 }
             }
             while (costShields > 0) {
+                printOut("how many shields do you pay from your storage: ");
                 while (true) {
-                    printOut("how many shields do you pay from your storage: ");
                     userInput = stdIn.nextLine();
                     try {
                         storageShields = Integer.parseInt(userInput);
@@ -968,8 +1058,8 @@ public class ClientCLI extends Client {
                     }
                     break;
                 }
+                printOut("how many shields do you pay from your chest: ");
                 while (true) {
-                    printOut("how many shields do you pay from your chest: ");
                     userInput = stdIn.nextLine();
                     try {
                         chestShields = Integer.parseInt(userInput);
@@ -987,8 +1077,8 @@ public class ClientCLI extends Client {
                 }
             }
             while (costStones > 0) {
+                printOut("how many stones do you pay from your storage: ");
                 while (true) {
-                    printOut("how many stones do you pay from your storage: ");
                     userInput = stdIn.nextLine();
                     try {
                         storageStones = Integer.parseInt(userInput);
@@ -998,8 +1088,8 @@ public class ClientCLI extends Client {
                     }
                     break;
                 }
+                printOut("how many stones do you pay from your chest: ");
                 while (true) {
-                    printOut("how many stones do you pay from your chest: ");
                     userInput = stdIn.nextLine();
                     try {
                         chestStones = Integer.parseInt(userInput);

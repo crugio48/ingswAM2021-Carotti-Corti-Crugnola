@@ -59,7 +59,7 @@ public class Response {
     int newCurrentPlayer;
     int[] leaderCardsDrawn = new int[4];
     int lastActionCardUsedCode;
-    String targetResources[] = new String[2];
+    String[] targetResources = new String[2];
     //updated all getters and setters up to this variable
 
 

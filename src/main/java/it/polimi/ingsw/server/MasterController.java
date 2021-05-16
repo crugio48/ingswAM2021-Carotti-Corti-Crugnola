@@ -442,7 +442,27 @@ public class MasterController {
     }
 
     public boolean placeResourceOfPlayerInSlot(int slotNumber, String resourceType, int playerTurnOrder) {
-        return game.getPlayerByTurnOrder(playerTurnOrder).getStorage().addOneResourceByResourceName(resourceType,slotNumber);
+        boolean placed = game.getPlayerByTurnOrder(playerTurnOrder).getStorage().addOneResourceByResourceName(resourceType,slotNumber);
+
+        if (!placed) return false;
+
+        switch (resourceType) {
+            case"coin":
+                turnInfo.setCoins(turnInfo.getCoins() - 1);
+                break;
+            case"shield":
+                turnInfo.setShields(turnInfo.getShields() - 1);
+                break;
+            case"servant":
+                turnInfo.setServants(turnInfo.getServants() - 1);
+                break;
+            case"stone":
+                turnInfo.setStones(turnInfo.getStones() - 1);
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     public boolean discardOneResourceAndGiveFaithPoints(String resourceType, int playerTurnOrder) {
