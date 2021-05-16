@@ -115,7 +115,44 @@ public class MessageSender {
         out.flush();
     }
 
+    public void activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
+                                   boolean baseProductionActivation, String baseInputResource1, String baseInputResource2, String baseOutputResource,
+                                   boolean leaderSlot1Activation, int leader1Code, String leader1ConvertedResource,
+                                   boolean leaderSlot2Activation, int leader2Code, String leader2ConvertedResource) {
 
+        String outMessage = "{\"cmd\" : \"activateProduction\", \"slot1Activation\" : " + slot1Activation + ", " +
+                "\"slot2Activation\" : " + slot2Activation + ", " +
+                "\"slot3Activation\" : " + slot3Activation + ", " +
+                "\"baseProductionActivation\" : " + baseProductionActivation + ", " +
+                "\"baseInputResource1\" : \"" + baseInputResource1 + "\", " +
+                "\"baseInputResource2\" : \"" + baseInputResource2 + "\", " +
+                "\"baseOutputResource\" : \"" + baseOutputResource + "\", " +
+                "\"leaderSlot1Activation\" : " + leaderSlot1Activation + ", " +
+                "\"leader1Code\" : " + leader1Code + ", " +
+                "\"leader1ConvertedResource\" : \"" + leader1ConvertedResource + "\", " +
+                "\"leaderSlot2Activation\" : " + leaderSlot2Activation + ", " +
+                "\"leader2Code\" : " + leader2Code + ", " +
+                "\"leader2ConvertedResource\" : \"" + leader2ConvertedResource + "\"}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+    public void chosenResourcesToPayForProduction(int storageCoins, int storageShields, int storageServants, int storageStones,
+                                                  int chestCoins, int chestShields, int chestServants, int chestStones) {
+
+        String outMessage = "{\"cmd\" : \"chosenResourcesToPayForProduction\", " +
+                "\"storageCoins\" : " + storageCoins + ", " +
+                "\"storageShields\" : " + storageShields + ", " +
+                "\"storageServants\" : " + storageServants + ", " +
+                "\"storageStones\" : " + storageStones + ", " +
+                "\"chestCoins\" : " + chestCoins + ", " +
+                "\"chestShields\" : " + chestShields + ", " +
+                "\"chestServants\" : " + chestServants + ", " +
+                "\"chestStones\" : " + chestStones + "}";
+        out.println(outMessage);
+        out.flush();
+
+    }
 
 
 

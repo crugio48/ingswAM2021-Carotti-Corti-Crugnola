@@ -578,7 +578,368 @@ public class ClientCLI extends Client {
                 printOut(response.getResp());
                 printOut("Try to insert a new Dev Card level code or write \"stop\" to do another action");
             }
-        }}
+        }
+    }
+
+    private void printActivateProduction() throws InterruptedException {
+        String userInput;
+        String serverIn;
+        boolean activateFirstSlot = false;
+        boolean activateSecondSlot = false;
+        boolean activateThirdSlot = false;
+        boolean activateLeader1 = false;
+        String leader1ConvertedResource = null;
+        boolean activateLeader2 = false;
+        String leader2ConvertedResource = null;
+        boolean activateBaseProduction = false;
+        String baseInput1 = null;
+        String baseInput2 = null;
+        String baseOutput = null;
+
+        int leader1Code = clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).getCode();
+        boolean leader1Active = (clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).isActive() &&
+                leader1Code >= 13 && leader1Code <= 16);
+
+        int leader2Code = clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).getCode();
+        boolean leader2Active = (clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).isActive() &&
+                leader2Code >= 13 && leader2Code <= 16);
+
+        CardDecoder cardDecoder = new CardDecoder();
+        printOut("your storage is: ");
+        clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
+        printOut("your chest is: ");
+        clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
+        printOut("here are your development cards: ");
+        clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().printTopCards();
+        if (leader1Active) {
+            printOut("you have a leader active with with production effect: ");
+            cardDecoder.printLeaderEffect(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).getCode());
+        }
+        if (leader2Active) {
+            printOut("you also have a leader active with with production effect: ");
+            cardDecoder.printLeaderEffect(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).getCode());
+        }
+        printOut("you also have the possibility to activate the base production that is: \n" +
+                "input: 2 resources of your choice\n" +
+                "output: 1 resource of your choice\n");
+        printOut("now you have to select all production you want to activate");
+        if (!clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().getFirstStack().isEmpty()) {
+            while (true) {
+                printOut("do you want to activate the card in the first slot (yes || no):");
+                userInput = stdIn.nextLine();
+                if (userInput.equals("yes")){
+                    activateFirstSlot = true;
+                    break;
+                } else if (userInput.equals("no")){
+                    activateFirstSlot = false;
+                    break;
+                } else {
+                    printOut("please input a valid word");
+                }
+            }
+        }
+        if (!clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().getSecondStack().isEmpty()) {
+            while (true) {
+                printOut("do you want to activate the card in the second slot (yes || no):");
+                userInput = stdIn.nextLine();
+                if (userInput.equals("yes")){
+                    activateSecondSlot = true;
+                    break;
+                } else if (userInput.equals("no")){
+                    activateSecondSlot = false;
+                    break;
+                } else {
+                    printOut("please input a valid word");
+                }
+            }
+        }
+        if (!clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().getThirdStack().isEmpty()) {
+            while (true) {
+                printOut("do you want to activate the card in the third slot (yes || no):");
+                userInput = stdIn.nextLine();
+                if (userInput.equals("yes")){
+                    activateThirdSlot = true;
+                    break;
+                } else if (userInput.equals("no")){
+                    activateThirdSlot = false;
+                    break;
+                } else {
+                    printOut("please input a valid word");
+                }
+            }
+        }
+        if (leader1Active) {
+            while (true) {
+                printOut("do you want to activate the leaderProduction with code " + leader1Code + " (yes || no):");
+                userInput = stdIn.nextLine();
+                if (userInput.equals("yes")){
+                    activateLeader1 = true;
+                    while (true) {
+                        printOut("which resource do you choose as output (stone || coin || shield || servant): ");
+                        userInput = stdIn.nextLine();
+                        if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
+                                !userInput.equals("shield")) {
+                            printOut("please insert a valid resource");
+                        }
+                        else {
+                            leader1ConvertedResource = userInput;
+                            break;
+                        }
+                    }
+                    break;
+                } else if (userInput.equals("no")){
+                    activateLeader1 = false;
+                    break;
+                } else {
+                    printOut("please input a valid word");
+                }
+            }
+        }
+        if (leader2Active) {
+            while (true) {
+                printOut("do you want to activate the leaderProduction with code " + leader2Code + " (yes || no):");
+                userInput = stdIn.nextLine();
+                if (userInput.equals("yes")){
+                    activateLeader2 = true;
+                    while (true) {
+                        printOut("which resource do you choose as output (stone || coin || shield || servant): ");
+                        userInput = stdIn.nextLine();
+                        if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
+                                !userInput.equals("shield")) {
+                            printOut("please insert a valid resource");
+                        }
+                        else {
+                            leader2ConvertedResource = userInput;
+                            break;
+                        }
+                    }
+                    break;
+                } else if (userInput.equals("no")){
+                    activateLeader2 = false;
+                    break;
+                } else {
+                    printOut("please input a valid word");
+                }
+            }
+        }
+        while (true) {
+            printOut("do you want to activate the base production (yes || no): ");
+            userInput = stdIn.nextLine();
+            if (userInput.equals("yes")){
+                activateBaseProduction = true;
+                while (true) {
+                    printOut("which resource do you choose as first input (stone || coin || shield || servant): ");
+                    userInput = stdIn.nextLine();
+                    if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
+                            !userInput.equals("shield")) {
+                        printOut("please insert a valid resource");
+                    }
+                    else {
+                        baseInput1 = userInput;
+                        break;
+                    }
+                }
+                while (true) {
+                    printOut("which resource do you choose as second input (stone || coin || shield || servant): ");
+                    userInput = stdIn.nextLine();
+                    if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
+                            !userInput.equals("shield")) {
+                        printOut("please insert a valid resource");
+                    }
+                    else {
+                        baseInput2 = userInput;
+                        break;
+                    }
+                }
+                while (true) {
+                    printOut("which resource do you choose as output (stone || coin || shield || servant): ");
+                    userInput = stdIn.nextLine();
+                    if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
+                            !userInput.equals("shield")) {
+                        printOut("please insert a valid resource");
+                    }
+                    else {
+                        baseOutput = userInput;
+                        break;
+                    }
+                }
+                break;
+            }
+            else if (userInput.equals("no")){
+                activateBaseProduction = false;
+                break;
+            }
+            else {
+                printOut("please enter a valid word");
+            }
+        }
+        messageSender.activateProduction(activateFirstSlot, activateSecondSlot, activateThirdSlot, activateBaseProduction, baseInput1,
+                baseInput2, baseOutput, activateLeader1, leader1Code, leader1ConvertedResource, activateLeader2, leader2Code, leader2ConvertedResource);
+
+        serverIn = stringBuffer.readMessage();
+        Response response = (Response) gson.fromJson(serverIn, Response.class);
+        if (!response.isCommandWasCorrect()) {  //if production requested was not correct we break out of the method
+            printOut(response.getResp());
+            return;
+        }
+        //if it was correct then we need to make the client decide where do we take the resources from
+        while (true) {
+            int storageCoins = 0;
+            int storageShields = 0;
+            int storageStones = 0;
+            int storageServants = 0;
+            int chestCoins = 0;
+            int chestShields = 0;
+            int chestStones = 0;
+            int chestServants = 0;
+            int costCoins = response.getCoins();
+            int costStones = response.getStones();
+            int costShields = response.getShields();
+            int costServants = response.getServants();
+
+            printOut("your storage is: ");
+            clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
+            printOut("your chest is: ");
+            clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
+            printOut("you selected a viable production, now you need to choose from where to spend your resources:\n" +
+                    "you have to pay:\n" +
+                    +costCoins + " coins, " + costStones + " stones, " + costServants + " servants, " + costShields + " shields\n");
+            while (costCoins > 0) {
+                while (true) {
+                    printOut("how many coins do you pay from your storage: ");
+                    userInput = stdIn.nextLine();
+                    try {
+                        storageCoins = Integer.parseInt(userInput);
+                    } catch (NumberFormatException e) {
+                        printOut("please input a valid number");
+                        continue;
+                    }
+                    break;
+                }
+                while (true) {
+                    printOut("how many coins do you pay from your chest: ");
+                    userInput = stdIn.nextLine();
+                    try {
+                        chestCoins = Integer.parseInt(userInput);
+                    } catch (NumberFormatException e) {
+                        printOut("please input a valid number");
+                        continue;
+                    }
+                    break;
+                }
+                if (chestCoins + storageCoins != costCoins) {
+                    printOut("you didn't pay the right amount of coins, please try again");
+                }
+                else {
+                    costCoins = 0;
+                }
+            }
+            while (costServants > 0) {
+                while (true) {
+                    printOut("how many servants do you pay from your storage: ");
+                    userInput = stdIn.nextLine();
+                    try {
+                        storageServants = Integer.parseInt(userInput);
+                    } catch (NumberFormatException e) {
+                        printOut("please input a valid number");
+                        continue;
+                    }
+                    break;
+                }
+                while (true) {
+                    printOut("how many servants do you pay from your chest: ");
+                    userInput = stdIn.nextLine();
+                    try {
+                        chestServants = Integer.parseInt(userInput);
+                    } catch (NumberFormatException e) {
+                        printOut("please input a valid number");
+                        continue;
+                    }
+                    break;
+                }
+                if (chestServants + storageServants != costServants) {
+                    printOut("you didn't pay the right amount of servants, please try again");
+                }
+                else {
+                    costServants = 0;
+                }
+            }
+            while (costShields > 0) {
+                while (true) {
+                    printOut("how many shields do you pay from your storage: ");
+                    userInput = stdIn.nextLine();
+                    try {
+                        storageShields = Integer.parseInt(userInput);
+                    } catch (NumberFormatException e) {
+                        printOut("please input a valid number");
+                        continue;
+                    }
+                    break;
+                }
+                while (true) {
+                    printOut("how many shields do you pay from your chest: ");
+                    userInput = stdIn.nextLine();
+                    try {
+                        chestShields = Integer.parseInt(userInput);
+                    } catch (NumberFormatException e) {
+                        printOut("please input a valid number");
+                        continue;
+                    }
+                    break;
+                }
+                if (chestShields + storageShields != costShields) {
+                    printOut("you didn't pay the right amount of shields, please try again");
+                }
+                else {
+                    costShields = 0;
+                }
+            }
+            while (costStones > 0) {
+                while (true) {
+                    printOut("how many stones do you pay from your storage: ");
+                    userInput = stdIn.nextLine();
+                    try {
+                        storageStones = Integer.parseInt(userInput);
+                    } catch (NumberFormatException e) {
+                        printOut("please input a valid number");
+                        continue;
+                    }
+                    break;
+                }
+                while (true) {
+                    printOut("how many stones do you pay from your chest: ");
+                    userInput = stdIn.nextLine();
+                    try {
+                        chestStones = Integer.parseInt(userInput);
+                    } catch (NumberFormatException e) {
+                        printOut("please input a valid number");
+                        continue;
+                    }
+                    break;
+                }
+                if (chestStones + storageStones != costStones) {
+                    printOut("you didn't pay the right amount of stones, please try again");
+                }
+                else {
+                    costStones = 0;
+                }
+            }
+
+            messageSender.chosenResourcesToPayForProduction(storageCoins, storageShields, storageServants, storageStones,
+                    chestCoins, chestShields, chestServants, chestStones);
+
+            serverIn = stringBuffer.readMessage();
+            response = (Response) gson.fromJson(serverIn, Response.class);
+
+            if (response.isCommandWasCorrect()) {
+                printOut("you activated production successfully");
+                break;
+            }
+            else {
+                printOut("you chose a wrong quantity of resources, please try again");
+            }
+        }
+    }
 
 
     private void askForEndTurn() throws InterruptedException {

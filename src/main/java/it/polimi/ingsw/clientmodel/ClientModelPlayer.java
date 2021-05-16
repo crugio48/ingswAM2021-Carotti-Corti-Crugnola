@@ -33,6 +33,11 @@ public class ClientModelPlayer extends MyObservable {
         return turnOrder;
     }
 
+    /**
+     *
+     * @param slot   0 or 1
+     * @return
+     */
     public ClientModelLeaderCard getLeaderCard(int slot) {
         return leaderCard[slot];
     }

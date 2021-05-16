@@ -128,6 +128,21 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
             }
         }
 
+        public void printTopCards(){
+        CardDecoder cardDecoder = new CardDecoder();
+        printOut("first slot: ");
+        if (!firstStack.isEmpty()) printOut(cardDecoder.printOnCliCard(firstStack.peek()));
+        else printOut("no card present");
+
+        printOut("second slot: ");
+        if (!secondStack.isEmpty()) printOut(cardDecoder.printOnCliCard(secondStack.peek()));
+        else printOut("no card present");
+
+        printOut("third slot: ");
+        if (!thirdStack.isEmpty()) printOut(cardDecoder.printOnCliCard(thirdStack.peek()));
+        else printOut("no card present");
+        }
+
         public void printOut(String toPrint) {
             System.out.println(toPrint);
         }
