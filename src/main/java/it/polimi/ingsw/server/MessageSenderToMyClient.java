@@ -118,7 +118,7 @@ public class MessageSenderToMyClient {
                 "\"servants\" : " + servants + ", " +
                 "\"shields\" : " + shields + ", " +
                 "\"coins\" : " + coins + ", " +
-                "\"jolly\" : " + jolly +
+                "\"jolly\" : " + jolly + ", " +
                 "\"targetResources\" : " + Arrays.toString(targetResources) + "}";
         out.println(outMessage);
         out.flush();

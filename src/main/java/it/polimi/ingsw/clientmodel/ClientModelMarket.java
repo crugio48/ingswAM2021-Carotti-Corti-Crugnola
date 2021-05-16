@@ -33,10 +33,11 @@ public class ClientModelMarket extends MyObservable {
 
     public String visualizeMarket(){
         String toReturn = "";
-
-        toReturn += "[" + rowOneMatrix[0] + ", " + rowOneMatrix[1] + ", " + rowOneMatrix[2] + ", " + rowOneMatrix[3] + "]\n";
-        toReturn += "[" + rowTwoMatrix[0] + ", " + rowTwoMatrix[1] + ", " + rowTwoMatrix[2] + ", " + rowTwoMatrix[3] + "]\n";
-        toReturn += "[" + rowThreeMatrix[0] + ", " + rowThreeMatrix[1] + ", " + rowThreeMatrix[2] + ", " + rowThreeMatrix[3] + "]\n";
+        toReturn += "                                               POSITION:\n";
+        toReturn += "       [" + rowOneMatrix[0] + ", " + rowOneMatrix[1] + ", " + rowOneMatrix[2] + ", " + rowOneMatrix[3] +      "]                1\n";
+        toReturn += "       [" + rowTwoMatrix[0] + ", " + rowTwoMatrix[1] + ", " + rowTwoMatrix[2] + ", " + rowTwoMatrix[3] +      "]                2\n";
+        toReturn += "       [" + rowThreeMatrix[0] + ", " + rowThreeMatrix[1] + ", " + rowThreeMatrix[2] + ", " + rowThreeMatrix[3] + "]                3 \n\n";
+        toReturn += "POSITION: 7      6      5      4\n";
         toReturn += "Extra Marble: " + getExtramarble();
 
         return toReturn;

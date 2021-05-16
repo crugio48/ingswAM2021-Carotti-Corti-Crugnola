@@ -214,4 +214,82 @@ public class CardDecoder {
         return "the card id is not valid";
 
     }
+
+    public void printLeaderEffect(int cardCode) {
+        JSONParser parser = new JSONParser();
+        JSONObject tempCard;
+
+        if (cardCode <= 0) {
+            printOut("error, wrong code");
+        }
+
+        else if (cardCode <= 4){
+            //no need to print anything cause these are the storage effects
+        }
+
+        else if (cardCode <= 8) {
+            try {
+                Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
+                JSONObject leaderDevJsonObj = (JSONObject) leaderDevObj;
+                JSONArray leaderDevArrayCards = (JSONArray) leaderDevJsonObj.get("cards");
+                Iterator<JSONObject> leaderDevIterator = leaderDevArrayCards.iterator();
+
+                while(leaderDevIterator.hasNext()) {
+                    tempCard = leaderDevIterator.next();
+                    int readCode = ((Long) tempCard.get("code")).intValue();
+
+                    if (readCode == cardCode) {
+                        //fare stampa personalizzata dell'effetto sconto dev cards
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else if (cardCode <= 12) {
+            // no need to print custom marble converter effect because server already gives that info
+        }
+
+        else if (cardCode <= 16) {
+            try {
+                Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
+                JSONObject leaderDevJsonObj = (JSONObject) leaderDevObj;
+                JSONArray leaderDevArrayCards = (JSONArray) leaderDevJsonObj.get("cards");
+                Iterator<JSONObject> leaderDevIterator = leaderDevArrayCards.iterator();
+
+                while(leaderDevIterator.hasNext()) {
+                    tempCard = leaderDevIterator.next();
+                    int readCode = ((Long) tempCard.get("code")).intValue();
+
+                    if (readCode == cardCode) {
+                        String target = ((String) tempCard.get("target"));
+
+
+                        printOut("this leader(with code " + cardCode +") production effect is:\n" +
+                                "input: 1 " + target.substring(0,target.length() -1) +
+                                "\noutput: 1 resource of your choice and 1 faith point");
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else {
+            printOut("error, wrong code provided");
+        }
+    }
+
+    private void printOut(String toPrint){
+        System.out.println(toPrint);
+    }
 }

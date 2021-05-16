@@ -442,7 +442,45 @@ public class MasterController {
     }
 
     public boolean placeResourceOfPlayerInSlot(int slotNumber, String resourceType, int playerTurnOrder) {
-        return game.getPlayerByTurnOrder(playerTurnOrder).getStorage().addOneResourceByResourceName(resourceType,slotNumber);
+        //initial check
+        switch (resourceType) {
+            case"coin":
+                if (turnInfo.getCoins() <= 0) return false;
+                break;
+            case"shield":
+                if (turnInfo.getShields() <= 0) return false;
+                break;
+            case"servant":
+                if (turnInfo.getServants() <= 0) return false;
+                break;
+            case"stone":
+                if (turnInfo.getStones() <= 0) return false;
+                break;
+            default:
+                return false;
+        }
+
+        boolean placed = game.getPlayerByTurnOrder(playerTurnOrder).getStorage().addOneResourceByResourceName(resourceType,slotNumber);
+
+        if (!placed) return false;
+
+        switch (resourceType) {
+            case"coin":
+                turnInfo.setCoins(turnInfo.getCoins() - 1);
+                break;
+            case"shield":
+                turnInfo.setShields(turnInfo.getShields() - 1);
+                break;
+            case"servant":
+                turnInfo.setServants(turnInfo.getServants() - 1);
+                break;
+            case"stone":
+                turnInfo.setStones(turnInfo.getStones() - 1);
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     public boolean discardOneResourceAndGiveFaithPoints(String resourceType, int playerTurnOrder) {
@@ -679,8 +717,8 @@ public class MasterController {
 
         ResourceBox cardCost = game.getDevCardSpace().peekTopCard(devCardLevel, devCardColour).getCost();
 
-        for (int i = 0; i < 2; i++) {
-            LeaderCard card = p.getLeaderCard(0);
+        for (int i = 1; i <= 2; i++) {
+            LeaderCard card = p.getLeaderCard(i);
             if (card.getEffect().getEffectName().equals("discountDevelopmentCardsEffect") && card.isActive()) {
                 switch(card.getEffect().getTargetResource()) {
                     case"coins":

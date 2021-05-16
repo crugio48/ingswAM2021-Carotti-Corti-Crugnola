@@ -21,7 +21,7 @@ public class ClientModelChest extends MyObservable {
 
         printOut("Coins: " + coinsQuantity);
         printOut("Shields: " + shieldsQuantity);
-        printOut("Stones: " + servantsQuantity);
+        printOut("Stones: " + stonesQuantity);
         printOut("Servants: " + servantsQuantity);
     }
 
