@@ -249,7 +249,8 @@ public class ClientCLI extends Client {
     private void printMarket(){
         //print the client model market
         printOut("This is the market:");
-        printOut(clientModel.getMarket().visualizeMarket());
+        //printOut(clientModel.getMarket().visualizeMarket());
+        clientModel.getMarket().printMarketAsciiArt();
     }
 
     private void printActivationLeaderCard() throws InterruptedException {
@@ -333,7 +334,8 @@ public class ClientCLI extends Client {
 
 
         printOut("Market:\n");
-        printOut(clientModel.getMarket().visualizeMarket());
+        //printOut(clientModel.getMarket().visualizeMarket());
+        clientModel.getMarket().printMarketAsciiArt();
 
         while (true) {
             printOut("Please insert the number of the place you want to insert new marble in:");
