@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.cli;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.CardDecoder.CardDecoder;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
@@ -19,18 +18,18 @@ public class ClientCLI extends Client {
     //here we add the view as a variable
     private String myUsername;
     private int myTurnOrder;
+    private Gson gson;
 
 
 
     public ClientCLI(Scanner stdIn){
         super();
         this.stdIn = stdIn;
+        this.gson = new Gson();
     }
 
 
     public void beginning(String hostName, int portNumber) {
-
-        Gson gson = new Gson();
         try {
             Socket socket = new Socket(hostName, portNumber);
 
@@ -42,190 +41,13 @@ public class ClientCLI extends Client {
             clientConnectionThread.start();
 
 
+            //this method does all the setup
+            initialSetup();
+
+
 
             String userInput;
-            String serverResp;
             Response response;
-            String temporaryUsername = null; // this will be used to save the final username and get our turnOrder value from the view
-
-            //this loop is the initial setup one
-            while (true) {
-                serverResp = stringBuffer.readMessage();
-                response = (Response) gson.fromJson(serverResp, Response.class);
-
-                if (response.getCmd().equals("gameStart")) break; //this signals that all initial setup is done
-
-                switch (response.getCmd()) {
-                    case"defineNumberOfPlayers":
-                        if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
-                        printOut("you are the first one to connect,\n" +
-                                "please input the number of players for the game(1-4): ");
-                        int num;
-                        while (true) {
-                            userInput = stdIn.nextLine();
-                            try {
-                                num = Integer.parseInt(userInput);
-                            } catch (NumberFormatException e) {
-                                printOut("please enter an integer number between 1 and 4: ");
-                                continue;
-                            }
-                            if (num < 1 || num > 4) {
-                                printOut("please enter an integer number between 1 and 4: ");
-                                continue;
-                            }
-                            break;
-                        }
-                        messageSender.sendInitialNumOfPlayers(num);
-                        break;
-
-                    case"insertUsername":
-                        if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
-                        printOut("enter your nickname: ");
-                        while(true) {
-                            userInput = stdIn.nextLine();
-                            if (userInput == null || userInput.equals("")) {
-                                printOut("invalid username, please enter a valid one: ");
-                                continue;
-                            }
-                            break;
-                        }
-                        messageSender.sendUsername(userInput);
-                        temporaryUsername = userInput;
-                        break;
-
-                    case"sorryGameAlreadyFull":
-                        printOut(response.getResp());
-                        return;
-
-                    case"leaderDistribution":
-                        int[] leaderCardsDrawn = response.getLeaderCardsDrawn();
-                        if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
-                        printOut("now you need to choose your starting leader cards between these: ");
-                        /*qui facciamo il parser delle carte per stamparle a video
-                        {da fare}.......
-                         */
-                        CardDecoder cardDecoder = new CardDecoder();
-
-                        printOut("solo per test finchè non mettiamo il parser, carte pescate: " + Arrays.toString(leaderCardsDrawn));
-
-                        printOut("First Card:");
-                        printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[0]));
-                        printOut("Second Card:");
-                        printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[1]));
-                        printOut("Third Card:");
-                        printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[2]));
-                        printOut("Fourth Card:");
-                        printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[3]));
-
-
-                        printOut("you can choose only two cards,\n" +
-                                "insert the code of the first one you choose: ");
-                        int card1Code;
-                        while (true) {
-                            userInput = stdIn.nextLine();
-                            try {
-                                card1Code = Integer.parseInt(userInput);
-                            } catch (NumberFormatException e) {
-                                printOut("please enter an integer number of one of the codes of the cards you have drawn: ");
-                                continue;
-                            }
-                            if (card1Code != leaderCardsDrawn[0] && card1Code != leaderCardsDrawn[1] && card1Code != leaderCardsDrawn[2] &&
-                                    card1Code != leaderCardsDrawn[3]) {
-                                printOut("please enter an integer number of one of the codes of the cards you have drawn: ");
-                                continue;
-                            }
-                            break;
-                        }
-                        printOut("now enter the second card code: ");
-                        int card2Code;
-                        while (true) {
-                            userInput = stdIn.nextLine();
-                            try {
-                                card2Code = Integer.parseInt(userInput);
-                            } catch (NumberFormatException e) {
-                                printOut("please enter an integer number of one of the codes of the cards you have drawn: ");
-                                continue;
-                            }
-                            if (card2Code != leaderCardsDrawn[0] && card2Code != leaderCardsDrawn[1] && card2Code != leaderCardsDrawn[2] &&
-                                    card2Code != leaderCardsDrawn[3]) {
-                                printOut("please enter an integer number of one of the codes of the cards you have drawn: ");
-                                continue;
-                            }
-                            if (card1Code == card2Code) {
-                                printOut("you cant choose the same card twice, enter a different one: ");
-                                continue;
-                            }
-                            break;
-                        }
-                        messageSender.sendInitialChosenLeaderCards(card1Code, card2Code);
-                        break;
-
-                    case"giveInitialResources":
-                        int numberOfResourcesToChoose = response.getNumOfInitialResources();
-                        if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
-                        switch (numberOfResourcesToChoose) {
-                            case 1:
-                                printOut("you need to choose one starting resource," +
-                                        "please insert the name of the resource (stone || coin || servant || shield): ");
-                                while (true) {
-                                    userInput = stdIn.nextLine();
-                                    if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
-                                            !userInput.equals("shield")) {
-                                        printOut("please insert a valid name for the resource (stone || coin || servant || shield): ");
-                                        continue;
-                                    }
-                                    break;
-                                }
-                                messageSender.sendInitialChosenResources(userInput, null);
-                                break;
-                            case 2:
-                                printOut("you need to choose two starting resources," +
-                                        "please insert the name of the first one (stone || coin || servant || shield): ");
-                                String resource1;
-                                while (true) {
-                                    resource1 = stdIn.nextLine();
-                                    if (!resource1.equals("stone") && !resource1.equals("coin") && !resource1.equals("servant") &&
-                                            !resource1.equals("shield")) {
-                                        printOut("please insert a valid name for the first resource (stone || coin || servant || shield): ");
-                                        continue;
-                                    }
-                                    break;
-                                }
-                                String resource2;
-                                while (true) {
-                                    resource2 = stdIn.nextLine();
-                                    if (!resource2.equals("stone") && !resource2.equals("coin") && !resource2.equals("servant") &&
-                                            !resource2.equals("shield")) {
-                                        printOut("please insert a valid name for the first resource (stone || coin || servant || shield): ");
-                                        continue;
-                                    }
-                                    break;
-                                }
-                                messageSender.sendInitialChosenResources(resource1, resource2);
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-
-                    case "waitingForOtherPlayersCommunication":  //custom message for multiplayer game
-                        printOut("you have ended your initial setup,\n" +
-                                "please wait for the other players to finish");
-                        break;
-
-                    case "waitingForSinglePlayerGameCommunication":  //custom message for single player game
-                        printOut("you have ended your initial setup,\n" +
-                                "the game will start in a few seconds");
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            this.myUsername = temporaryUsername;
-            this.myTurnOrder = clientModel.getPlayerByNickname(myUsername).getTurnOrder();
-
             boolean isMyTurn;
 
             //now the game has started and the client leads the communication
@@ -275,26 +97,28 @@ public class ClientCLI extends Client {
                             printOtherPlayersBoard();
                             break;
                         case 3:
-                            //printing the development cards
                             printDevelopmentCards();
                             break;
                         case 4:
                             printMarket();
                             break;
                         case 5:
-                            printActivationLeaderCard(gson, response);
+                            printActivationLeaderCard();
                             break;
                         case 6:
-                            printDiscardYourActiveLeader(gson, response);
+                            printDiscardYourActiveLeader();
                             break;
                         case 7:
-                            printBuyResourceFromMarket(gson,response);
+                            printBuyResourceFromMarket();
+                            break;
                         case 8:
-                            ;
+                            printBuyDevelopmentCard();
+                            break;
                         case 9:
                             //DA FARE
                         case 10:
-                            //DA FARE
+                            askForEndTurn();
+                            break;
                         default:
                             printOut("please enter a valid number");
                             break;
@@ -328,13 +152,17 @@ public class ClientCLI extends Client {
                     }
                     switch (selection) {
                         case 1:
-                            //DA FARE: stampa la propria personal board
+                            printPersonalBoard();
+                            break;
                         case 2:
-                            //DA FARE: interazione su qualse player guardare e poi stampa
+                            printOtherPlayersBoard();
+                            break;
                         case 3:
-                            //DA FARE: stampa dev cards
+                            printDevelopmentCards();
+                            break;
                         case 4:
-                            //DA FARE: stampa market
+                            printMarket();
+                            break;
                         default:
                             break;
                     }
@@ -422,7 +250,7 @@ public class ClientCLI extends Client {
         printOut(clientModel.getMarket().visualizeMarket());
     }
 
-    private void printActivationLeaderCard(Gson gson, Response response) throws InterruptedException {
+    private void printActivationLeaderCard() throws InterruptedException {
         String userInput;
         String serverResp;
         //DA FARE: activate a leader card
@@ -448,7 +276,7 @@ public class ClientCLI extends Client {
 
             messageSender.sendChosenLeaderToActivate(selectedLeaderCode);
             serverResp = stringBuffer.readMessage();
-            response = (Response) gson.fromJson(serverResp, Response.class);
+            Response response = (Response) gson.fromJson(serverResp, Response.class);
             if(response.isCommandWasCorrect()) break;
             else {
                 printOut(response.getResp());
@@ -458,7 +286,7 @@ public class ClientCLI extends Client {
     }
 
 
-    private void printDiscardYourActiveLeader(Gson gson, Response response) throws InterruptedException {
+    private void printDiscardYourActiveLeader() throws InterruptedException {
         String userInput;
         String serverResp;
         int selectedLeaderCode = -1;
@@ -481,7 +309,7 @@ public class ClientCLI extends Client {
             }
             messageSender.discardYourActiveLeader(selectedLeaderCode);
             serverResp = stringBuffer.readMessage();
-            response = (Response) gson.fromJson(serverResp, Response.class);
+            Response response = (Response) gson.fromJson(serverResp, Response.class);
             if(response.isCommandWasCorrect()) break;
             else {
                 printOut(response.getResp());
@@ -491,7 +319,7 @@ public class ClientCLI extends Client {
 
     }
 
-    private void printBuyResourceFromMarket (Gson gson, Response response) throws InterruptedException {
+    private void printBuyResourceFromMarket() throws InterruptedException {
         String userInput;
         String serverResp;
         String res1 = null, res2 = null;
@@ -503,7 +331,7 @@ public class ClientCLI extends Client {
 
 
         printOut("Market:\n");
-        clientModel.getMarket().visualizeMarket();
+        printOut(clientModel.getMarket().visualizeMarket());
 
         while (true) {
             printOut("Please insert the number of the place you want to insert new marble in:");
@@ -517,7 +345,7 @@ public class ClientCLI extends Client {
             }
             messageSender.buyResourceFromMarket(selectedRow);
             serverResp = stringBuffer.readMessage();
-            response = (Response) gson.fromJson(serverResp, Response.class);
+            Response response = (Response) gson.fromJson(serverResp, Response.class);
             if (response.isCommandWasCorrect()) {
                 coins = response.getCoins();
                 stones = response.getStones();
@@ -561,12 +389,12 @@ public class ClientCLI extends Client {
                         }
                     }
                 }
-                while(loop) {
+                while (loop) {
                     printOut("STORAGE: \n");
-                    clientModel.getPlayerByTurnorder(clientModel.getCurrentPlayer()).getStorage().visualizeClientModelStorage();
+                    clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
                     printOut("CHEST :\n");
-                    clientModel.getPlayerByTurnorder(clientModel.getCurrentPlayer()).getChest().visualizeClientModelChest();
-                    printOut("\nResources to be placed : Coins = "+ response.getCoins() + " || Stones = " + response.getStones() + " ||  Shields : " + response.getShields() + " || Servants = " + response.getServants());
+                    clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
+                    printOut("\nResources to be placed : Coins = " + response.getCoins() + " || Stones = " + response.getStones() + " ||  Shields : " + response.getShields() + " || Servants = " + response.getServants());
                     printOut("\nChoose between these actions: \n " +
                             "1. Place a resource in a slot \n " +
                             "2. Discard a resource \n " +
@@ -574,94 +402,362 @@ public class ClientCLI extends Client {
                             "4. Switch 2 slots filled with resources \n " +
                             "5. End resource placing");
                     userInput = stdIn.nextLine();
-                    switch (userInput){
-                        case "1": printOut("Place a resource in a slot:");
-                                    printOut("Choose resource: (1.coins , 2.stones , 3.Shields , 4.Servants");
-                                    userInput = stdIn.nextLine();
-                                    switch (userInput){
-                                        case "1": res1 = "Coins";
-                                        case "2": res1 = "Stones";
-                                        case "3": res1 = "Shields";
-                                        case "4": res1 = "Servants";
-                                        default: printOut("Error placing resource");break;
-                                    }
-                                    printOut("Choose slot: (1,2,3)");
-                                    userInput = stdIn.nextLine();
-                                    switch (userInput){
-                                        case "1": messageSender.placeResourceInSlot(res1,1);
-                                        case "2": messageSender.placeResourceInSlot(res1,2);
-                                        case "3": messageSender.placeResourceInSlot(res1,3);
-                                        default: printOut("Error placing resource");break;
-                                    }
-                            serverResp = stringBuffer.readMessage();
-                            response = (Response) gson.fromJson(serverResp, Response.class);
-                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect"); break;
-
-                        case "2": printOut("Discard a resource");
+                    switch (userInput) {
+                        case "1":
+                            printOut("Place a resource in a slot:");
                             printOut("Choose resource: (1.coins , 2.stones , 3.Shields , 4.Servants");
                             userInput = stdIn.nextLine();
-                            switch (userInput){
-                                case "1": messageSender.discardResource("Coins");
-                                case "2": messageSender.discardResource("Stones");
-                                case "3": messageSender.discardResource("Shields");
-                                case "4": messageSender.discardResource("Servants");
-                                default: printOut("Error discarding resource");break;
+                            switch (userInput) {
+                                case "1":
+                                    res1 = "Coins";
+                                case "2":
+                                    res1 = "Stones";
+                                case "3":
+                                    res1 = "Shields";
+                                case "4":
+                                    res1 = "Servants";
+                                default:
+                                    printOut("Error placing resource");
+                                    break;
+                            }
+                            printOut("Choose slot: (1,2,3)");
+                            userInput = stdIn.nextLine();
+                            switch (userInput) {
+                                case "1":
+                                    messageSender.placeResourceInSlot(res1, 1);
+                                case "2":
+                                    messageSender.placeResourceInSlot(res1, 2);
+                                case "3":
+                                    messageSender.placeResourceInSlot(res1, 3);
+                                default:
+                                    printOut("Error placing resource");
+                                    break;
                             }
                             serverResp = stringBuffer.readMessage();
                             response = (Response) gson.fromJson(serverResp, Response.class);
-                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect"); break;
-
-                        case "3": printOut("Move one resource from a slot to another:");
-                            printOut("Choose first slot (1,2,3)");
-                            userInput = stdIn.nextLine();
-                            switch (userInput){
-                                case "1": selectedslot = 1;
-                                case "2": selectedslot = 2;
-                                case "3": selectedslot = 3;
-                                default: printOut("Error moving resource");break;
-                            }
-                            printOut("Choose second slot: (1,2,3)");
-                            userInput = stdIn.nextLine();
-                            switch (userInput){
-                                case "1": messageSender.moveOneResource(selectedslot,1);
-                                case "2": messageSender.moveOneResource(selectedslot,2);
-                                case "3": messageSender.moveOneResource(selectedslot,3);
-                                default: printOut("Error moving resource");break;
-                            }
-                            serverResp = stringBuffer.readMessage();
-                            response = (Response) gson.fromJson(serverResp, Response.class);
-                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect"); break;
-
-                        case "4": printOut("Move all resources from a slot to another:");
-                            printOut("Choose first slot (1,2,3)");
-                            userInput = stdIn.nextLine();
-                            switch (userInput){
-                                case "1": selectedslot = 1;
-                                case "2": selectedslot = 2;
-                                case "3": selectedslot = 3;
-                                default: printOut("Error moving resources");break;
-                            }
-                            printOut("Choose second slot: (1,2,3)");
-                            userInput = stdIn.nextLine();
-                            switch (userInput){
-                                case "1": messageSender.switchResourceSlot(selectedslot,1);
-                                case "2": messageSender.switchResourceSlot(selectedslot,2);
-                                case "3": messageSender.switchResourceSlot(selectedslot,3);
-                                default: printOut("Error moving resources");break;
-                            }
-                            serverResp = stringBuffer.readMessage();
-                            response = (Response) gson.fromJson(serverResp, Response.class);
-                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect"); break;
-
-                        case "5":messageSender.endPlacing();
-                            loop=false;
+                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect");
                             break;
+
+                        case "2":
+                            printOut("Discard a resource");
+                            printOut("Choose resource: (1.coins , 2.stones , 3.Shields , 4.Servants");
+                            userInput = stdIn.nextLine();
+                            switch (userInput) {
+                                case "1":
+                                    messageSender.discardResource("Coins");
+                                case "2":
+                                    messageSender.discardResource("Stones");
+                                case "3":
+                                    messageSender.discardResource("Shields");
+                                case "4":
+                                    messageSender.discardResource("Servants");
+                                default:
+                                    printOut("Error discarding resource");
+                                    break;
+                            }
+                            serverResp = stringBuffer.readMessage();
+                            response = (Response) gson.fromJson(serverResp, Response.class);
+                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect");
+                            break;
+
+                        case "3":
+                            printOut("Move one resource from a slot to another:");
+                            printOut("Choose first slot (1,2,3)");
+                            userInput = stdIn.nextLine();
+                            switch (userInput) {
+                                case "1":
+                                    selectedslot = 1;
+                                case "2":
+                                    selectedslot = 2;
+                                case "3":
+                                    selectedslot = 3;
+                                default:
+                                    printOut("Error moving resource");
+                                    break;
+                            }
+                            printOut("Choose second slot: (1,2,3)");
+                            userInput = stdIn.nextLine();
+                            switch (userInput) {
+                                case "1":
+                                    messageSender.moveOneResource(selectedslot, 1);
+                                case "2":
+                                    messageSender.moveOneResource(selectedslot, 2);
+                                case "3":
+                                    messageSender.moveOneResource(selectedslot, 3);
+                                default:
+                                    printOut("Error moving resource");
+                                    break;
+                            }
+                            serverResp = stringBuffer.readMessage();
+                            response = (Response) gson.fromJson(serverResp, Response.class);
+                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect");
+                            break;
+
+                        case "4":
+                            printOut("Move all resources from a slot to another:");
+                            printOut("Choose first slot (1,2,3)");
+                            userInput = stdIn.nextLine();
+                            switch (userInput) {
+                                case "1":
+                                    selectedslot = 1;
+                                case "2":
+                                    selectedslot = 2;
+                                case "3":
+                                    selectedslot = 3;
+                                default:
+                                    printOut("Error moving resources");
+                                    break;
+                            }
+                            printOut("Choose second slot: (1,2,3)");
+                            userInput = stdIn.nextLine();
+                            switch (userInput) {
+                                case "1":
+                                    messageSender.switchResourceSlot(selectedslot, 1);
+                                case "2":
+                                    messageSender.switchResourceSlot(selectedslot, 2);
+                                case "3":
+                                    messageSender.switchResourceSlot(selectedslot, 3);
+                                default:
+                                    printOut("Error moving resources");
+                                    break;
+                            }
+                            serverResp = stringBuffer.readMessage();
+                            response = (Response) gson.fromJson(serverResp, Response.class);
+                            if (!response.isCommandWasCorrect()) printOut("Command was incorrect");
+                            break;
+
+                        case "5":
+                            messageSender.endPlacing();
+                            loop = false;
+                            break;
+                    }
                 }
-            }
                 break;
+            }
+            else{ printOut(response.getResp());
+                printOut("Try to insert a valid place number or write \"stop\" to do another action");
+
+            }
+    }
+    }
+
+    private void printBuyDevelopmentCard() throws InterruptedException{
+        String userInput;
+        String serverResp;
+        int level=0;
+        char colour;
+        boolean loop =true;
+
+        printOut("\nThese are the development cards available to buy:\n");
+        printOut(clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace());
+
+        while(true){
+            printOut("Please insert the level of the card you want to buy:");
+            userInput = stdIn.nextLine();
+            if (userInput.equals("stop")) break;
+            try {
+                level = (int)Integer.parseInt(userInput);
+            } catch (NumberFormatException e){
+                printOut("Please enter a valid number");
+                continue;
+            }
+           while(loop) {printOut("Please insert the colour of the card you want to buy: (yellow,green,purple,blue)");
+            userInput = stdIn.next();
+            switch(userInput){
+                case "yellow": messageSender.buyDevelopmentCard(level,'y');loop=false;
+                case "green": messageSender.buyDevelopmentCard(level,'g');loop=false;
+                case "purple": messageSender.buyDevelopmentCard(level,'p');loop=false;
+                case "blue": messageSender.buyDevelopmentCard(level,'b');loop=false;
+                default: printOut("Please enter a valid colour"); break;
+            }}
+            serverResp = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverResp, Response.class);
+            if(response.isCommandWasCorrect()) break;
+            else {
+                printOut(response.getResp());
+                printOut("Try to insert a new Dev Card level code or write \"stop\" to do another action");
+            }
+        }}
+
+
+    private void askForEndTurn() throws InterruptedException {
+        messageSender.endTurn();
+
+        Gson gson = new Gson();
+        String serverIn = stringBuffer.readMessage();
+        Response response = gson.fromJson(serverIn, Response.class);
+
+        printOut(response.getResp());
+    }
+
+    private void initialSetup() throws InterruptedException {
+        String userInput;
+        String serverResp;
+        Response response;
+        String temporaryUsername = null; // this will be used to save the final username and get our turnOrder value from the view
+
+        while (true) {
+            serverResp = stringBuffer.readMessage();
+            response = (Response) gson.fromJson(serverResp, Response.class);
+
+            if (response.getCmd().equals("gameStart")) break; //this signals that all initial setup is done
+
+            switch (response.getCmd()) {
+                case"defineNumberOfPlayers":
+                    if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
+                    printOut("you are the first one to connect,\n" +
+                            "please input the number of players for the game(1-4): ");
+                    int num;
+                    while (true) {
+                        userInput = stdIn.nextLine();
+                        try {
+                            num = Integer.parseInt(userInput);
+                        } catch (NumberFormatException e) {
+                            printOut("please enter an integer number between 1 and 4: ");
+                            continue;
+                        }
+                        if (num < 1 || num > 4) {
+                            printOut("please enter an integer number between 1 and 4: ");
+                            continue;
+                        }
+                        break;
+                    }
+                    messageSender.sendInitialNumOfPlayers(num);
+                    break;
+
+                case"insertUsername":
+                    if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
+                    printOut("enter your nickname: ");
+                    while(true) {
+                        userInput = stdIn.nextLine();
+                        if (userInput == null || userInput.equals("")) {
+                            printOut("invalid username, please enter a valid one: ");
+                            continue;
+                        }
+                        break;
+                    }
+                    messageSender.sendUsername(userInput);
+                    temporaryUsername = userInput;
+                    break;
+
+                case"sorryGameAlreadyFull":
+                    printOut(response.getResp());
+                    return;
+
+                case"leaderDistribution":
+                    int[] leaderCardsDrawn = response.getLeaderCardsDrawn();
+                    if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
+                    printOut("now you need to choose your starting leader cards between these: ");
+                        /*qui facciamo il parser delle carte per stamparle a video
+                        {da fare}.......
+                         */
+                    printOut("solo per test finchè non mettiamo il parser, carte pescate: " + Arrays.toString(leaderCardsDrawn));
+                    printOut("you can choose only two cards,\n" +
+                            "insert the code of the first one you choose: ");
+                    int card1Code;
+                    while (true) {
+                        userInput = stdIn.nextLine();
+                        try {
+                            card1Code = Integer.parseInt(userInput);
+                        } catch (NumberFormatException e) {
+                            printOut("please enter an integer number of one of the codes of the cards you have drawn: ");
+                            continue;
+                        }
+                        if (card1Code != leaderCardsDrawn[0] && card1Code != leaderCardsDrawn[1] && card1Code != leaderCardsDrawn[2] &&
+                                card1Code != leaderCardsDrawn[3]) {
+                            printOut("please enter an integer number of one of the codes of the cards you have drawn: ");
+                            continue;
+                        }
+                        break;
+                    }
+                    printOut("now enter the second card code: ");
+                    int card2Code;
+                    while (true) {
+                        userInput = stdIn.nextLine();
+                        try {
+                            card2Code = Integer.parseInt(userInput);
+                        } catch (NumberFormatException e) {
+                            printOut("please enter an integer number of one of the codes of the cards you have drawn: ");
+                            continue;
+                        }
+                        if (card2Code != leaderCardsDrawn[0] && card2Code != leaderCardsDrawn[1] && card2Code != leaderCardsDrawn[2] &&
+                                card2Code != leaderCardsDrawn[3]) {
+                            printOut("please enter an integer number of one of the codes of the cards you have drawn: ");
+                            continue;
+                        }
+                        if (card1Code == card2Code) {
+                            printOut("you cant choose the same card twice, enter a different one: ");
+                            continue;
+                        }
+                        break;
+                    }
+                    messageSender.sendInitialChosenLeaderCards(card1Code, card2Code);
+                    break;
+
+                case"giveInitialResources":
+                    int numberOfResourcesToChoose = response.getNumOfInitialResources();
+                    if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
+                    switch (numberOfResourcesToChoose) {
+                        case 1:
+                            printOut("you need to choose one starting resource," +
+                                    "please insert the name of the resource (stone || coin || servant || shield): ");
+                            while (true) {
+                                userInput = stdIn.nextLine();
+                                if (!userInput.equals("stone") && !userInput.equals("coin") && !userInput.equals("servant") &&
+                                        !userInput.equals("shield")) {
+                                    printOut("please insert a valid name for the resource (stone || coin || servant || shield): ");
+                                    continue;
+                                }
+                                break;
+                            }
+                            messageSender.sendInitialChosenResources(userInput, null);
+                            break;
+                        case 2:
+                            printOut("you need to choose two starting resources," +
+                                    "please insert the name of the first one (stone || coin || servant || shield): ");
+                            String resource1;
+                            while (true) {
+                                resource1 = stdIn.nextLine();
+                                if (!resource1.equals("stone") && !resource1.equals("coin") && !resource1.equals("servant") &&
+                                        !resource1.equals("shield")) {
+                                    printOut("please insert a valid name for the first resource (stone || coin || servant || shield): ");
+                                    continue;
+                                }
+                                break;
+                            }
+                            String resource2;
+                            while (true) {
+                                resource2 = stdIn.nextLine();
+                                if (!resource2.equals("stone") && !resource2.equals("coin") && !resource2.equals("servant") &&
+                                        !resource2.equals("shield")) {
+                                    printOut("please insert a valid name for the first resource (stone || coin || servant || shield): ");
+                                    continue;
+                                }
+                                break;
+                            }
+                            messageSender.sendInitialChosenResources(resource1, resource2);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+
+                case "waitingForOtherPlayersCommunication":  //custom message for multiplayer game
+                    printOut("you have ended your initial setup,\n" +
+                            "please wait for the other players to finish");
+                    break;
+
+                case "waitingForSinglePlayerGameCommunication":  //custom message for single player game
+                    printOut("you have ended your initial setup,\n" +
+                            "the game will start in a few seconds");
+                    break;
+
+                default:
+                    break;
+            }
         }
 
+        this.myUsername = temporaryUsername;
+        this.myTurnOrder = clientModel.getPlayerByNickname(myUsername).getTurnOrder();
     }
-    }
-
 }

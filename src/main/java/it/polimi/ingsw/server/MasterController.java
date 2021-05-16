@@ -149,14 +149,17 @@ public class MasterController {
      */
     public synchronized void endedConfiguration() {
         this.numOfClientsThatHaveEndedInitialConfiguration++;
+        notifyAll();
     }
 
     /**
      * this method is used by thread of the client with turnOrder 1 to check when they can broadcast the initial updates for the views
      * @return
      */
-    public synchronized int getNumOfClientsThatHaveEndedInitialConfiguration() {
-        return numOfClientsThatHaveEndedInitialConfiguration;
+    public synchronized void hasConfigurationEnded() throws InterruptedException {
+        while (numOfClientsThatHaveEndedInitialConfiguration < game.getNumOfPlayers()){
+            wait();
+        }
     }
 
     public synchronized int getGameNumberOfPlayers() {
