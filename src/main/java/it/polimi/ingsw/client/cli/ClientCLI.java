@@ -107,7 +107,7 @@ public class ClientCLI extends Client {
                             printActivationLeaderCard();
                             break;
                         case 6:
-                            printDiscardYourActiveLeader();
+                            printDiscardYourNonActiveLeader();
                             break;
                         case 7:
                             printBuyResourceFromMarket();
@@ -288,15 +288,15 @@ public class ClientCLI extends Client {
     }
 
 
-    private void printDiscardYourActiveLeader() throws InterruptedException {
+    private void printDiscardYourNonActiveLeader() throws InterruptedException {
         String userInput;
         String serverResp;
         int selectedLeaderCode = -1;
 
-        printOut("Active Cards:\n");
-        if (clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).isActive())
+        printOut("Non-Active Cards:\n");
+        if (!clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).isActive())
             printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
-        if (clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).isActive())
+        if (!clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).isActive())
             printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
 
         while(true){
