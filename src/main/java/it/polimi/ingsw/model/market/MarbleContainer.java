@@ -98,7 +98,6 @@ public class MarbleContainer {
      * @param position is one of the 7 position of entrance of the extra marble
      */
     private void moveUpAndSubstitute(int position){
-        Marble temp = extraMarble;
         int column;
         switch(position){
             case 4:
@@ -117,20 +116,11 @@ public class MarbleContainer {
                 return;
         }
 
-        for(int row = 0; row < 3; row++) {
-            if (row == 0) {
-                extraMarble = marbleMatrix[0][column];
-                marbleMatrix[0][column] = marbleMatrix[1][column];
-            }
-            if (row == 1) {
-                marbleMatrix[row - 1][column] = marbleMatrix[row][column];
-                marbleMatrix[row][column] = marbleMatrix[row + 1][column];
-            }
-            if (row == 2) {
-                marbleMatrix[row - 1][column] = marbleMatrix[row][column];
-                marbleMatrix[row][column] = temp;
-            }
-        }
+        Marble temp = extraMarble;
+        extraMarble = marbleMatrix[0][column];
+        marbleMatrix[0][column] = marbleMatrix[1][column];
+        marbleMatrix[1][column] = marbleMatrix[2][column];
+        marbleMatrix[2][column] = temp;
     }
 
     /**
@@ -174,18 +164,21 @@ public class MarbleContainer {
                     addResourceToResourceBox(toReturn, temp);
                 }
                 moveUpAndSubstitute(pos);
+                break;
             case 5:
                 for(; i < 3 ; i++){
                     temp = marbleMatrix[i][2];
                     addResourceToResourceBox(toReturn, temp);
                 }
                 moveUpAndSubstitute(pos);
+                break;
             case 6:
                 for(; i < 3 ; i++){
                     temp = marbleMatrix[i][1];
                     addResourceToResourceBox(toReturn, temp);
                 }
                 moveUpAndSubstitute(pos);
+                break;
             case 7:
                 for(; i < 3 ; i++){
                     temp = marbleMatrix[i][0];

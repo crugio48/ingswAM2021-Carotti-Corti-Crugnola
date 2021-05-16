@@ -33,7 +33,7 @@ public class ClientModelMarket extends MyObservable {
         return extramarble;
     }
 
-    public String visualizeMarket(){
+    public synchronized String visualizeMarket(){
         String toReturn = "";
         toReturn += "                                               POSITION:\n";
         toReturn += "       [" + rowOneMatrix[0] + ", " + rowOneMatrix[1] + ", " + rowOneMatrix[2] + ", " + rowOneMatrix[3] +      "]                1\n";
@@ -47,7 +47,7 @@ public class ClientModelMarket extends MyObservable {
     }
 
 
-    public void printMarketAsciiArt() {
+    public synchronized void printMarketAsciiArt() {
         String ANSI_RESET = "\u001B[0m";
         String ANSI_BLACK = "\u001B[30m";
         String ANSI_RED = "\u001B[31m";
@@ -202,7 +202,7 @@ public class ClientModelMarket extends MyObservable {
     }
 
 
-    public void setMarketUpdate(String[] rowOneMatrix, String[] rowTwoMatrix, String[] rowThreeMatrix, String extramarble){
+    public synchronized void setMarketUpdate(String[] rowOneMatrix, String[] rowTwoMatrix, String[] rowThreeMatrix, String extramarble){
         this.rowOneMatrix = rowOneMatrix;
         this.rowTwoMatrix = rowTwoMatrix;
         this.rowThreeMatrix = rowThreeMatrix;
