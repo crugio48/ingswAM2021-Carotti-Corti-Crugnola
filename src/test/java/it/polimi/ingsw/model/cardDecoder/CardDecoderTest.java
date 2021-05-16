@@ -20,5 +20,8 @@ public class CardDecoderTest {
         //devcards
         System.out.println(cardDecoder.printOnCliCard(64));
 
+        System.out.println(cardDecoder.printOnCliCard(26));
+
+
     }
 }

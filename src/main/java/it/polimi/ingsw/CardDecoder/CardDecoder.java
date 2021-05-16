@@ -152,10 +152,14 @@ public class CardDecoder {
                         int inputStones = ((Long) tempCard.get("inputStones")).intValue();
                         int inputServants = ((Long) tempCard.get("inputServants")).intValue();
                         int inputShields = ((Long) tempCard.get("inputShields")).intValue();
+                        int inputCoins = ((Long) tempCard.get("inputCoins")).intValue();
+
                         int outputStones = ((Long) tempCard.get("outputStones")).intValue();
                         int outputShields = ((Long) tempCard.get("outputShields")).intValue();
                         int outputCoins = ((Long) tempCard.get("outputCoins")).intValue();
                         int outputFaith = ((Long) tempCard.get("outputFaith")).intValue();
+                        int outputServants = ((Long) tempCard.get("outputServants")).intValue();
+
                         int victoryPoints = ((Long) tempCard.get("victoryPoints")).intValue();
 
 
@@ -165,9 +169,9 @@ public class CardDecoder {
                         result +=  "|Development Card  |\n";
 
                         if (costStones > 0) result += "|Cost Stones: " + tempCard.get("costStones") + "    |\n";
-                        if (costServants > 0) result += "|Cost Servants: " + tempCard.get("costServants") + "   |\n";
+                        if (costServants > 0) result += "|Cost Servants: " + tempCard.get("costServants") + "  |\n";
                         if (costShields > 0) result += "|Cost Shields: " + tempCard.get("costShields") + "    |\n";
-                        if (costCoins > 0) result += "|Cost Coins: " + tempCard.get("costCoins") + "   |\n";
+                        if (costCoins > 0) result += "|Cost Coins: " + tempCard.get("costCoins") + "     |\n";
 
                         result +=  "|                  |\n";
                         result +=  "|Level: " + level + "          |\n";
@@ -177,16 +181,21 @@ public class CardDecoder {
 
 
 
-                        if (inputStones > 0) result += "|Input stones: " + tempCard.get("inputStones") + "   |\n";
-                        if (inputServants > 0) result += "|Input Servants: " + tempCard.get("inputServants") + "  |\n";
-                        if (inputShields > 0) result += "|Input Shields: " + tempCard.get("inputShields") + "  |\n";
-                        if (outputStones > 0) result += "|Output Stones: " + tempCard.get("outputStones") + "  |\n";
-                        if (outputShields > 0) result += "|Output Shields: " + tempCard.get("outputShields") + "   |\n";
-                        if (outputCoins > 0) result += "|Output Coins: " + tempCard.get("outputCoins") + "   |\n";
-                        if (outputFaith > 0) result += "|Output Faith: " + tempCard.get("outputFaith") + "   |\n";
+                        if (inputStones > 0) result += "|Input stones: " + inputStones + "   |\n";
+                        if (inputServants > 0) result += "|Input Servants: " + inputServants + "  |\n";
+                        if (inputShields > 0) result += "|Input Shields: " + inputShields + "  |\n";
+                        if (inputCoins > 0) result += "|Input Coins: " + inputCoins + "  |\n";
+
+
+                        if (outputStones > 0) result += "|Output Stones: " + outputStones + "  |\n";
+                        if (outputShields > 0) result += "|Output Shields: " + outputShields + "   |\n";
+                        if (outputCoins > 0) result += "|Output Coins: " + outputCoins + "   |\n";
+                        if (outputFaith > 0) result += "|Output Faith: " + outputFaith + "   |\n";
+                        if (outputServants > 0) result += "|Output Servants: " + outputServants + "|\n";
+
 
                         result +=  "|                  |\n";
-                        result +=  "|Victory Points: " + tempCard.get("victoryPoints") + "|\n";
+                        result +=  "|Victory Points: " + victoryPoints + " |\n";
                         result +=  "|__________________|\n";
 
                         return result;
