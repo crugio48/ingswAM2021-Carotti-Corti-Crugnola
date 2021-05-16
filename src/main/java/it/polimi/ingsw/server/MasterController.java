@@ -442,6 +442,24 @@ public class MasterController {
     }
 
     public boolean placeResourceOfPlayerInSlot(int slotNumber, String resourceType, int playerTurnOrder) {
+        //initial check
+        switch (resourceType) {
+            case"coin":
+                if (turnInfo.getCoins() <= 0) return false;
+                break;
+            case"shield":
+                if (turnInfo.getShields() <= 0) return false;
+                break;
+            case"servant":
+                if (turnInfo.getServants() <= 0) return false;
+                break;
+            case"stone":
+                if (turnInfo.getStones() <= 0) return false;
+                break;
+            default:
+                return false;
+        }
+
         boolean placed = game.getPlayerByTurnOrder(playerTurnOrder).getStorage().addOneResourceByResourceName(resourceType,slotNumber);
 
         if (!placed) return false;
