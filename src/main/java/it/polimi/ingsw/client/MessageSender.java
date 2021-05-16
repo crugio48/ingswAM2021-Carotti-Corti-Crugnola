@@ -64,36 +64,48 @@ public class MessageSender {
     }
 
     public void buyResourceFromMarket(int position) {
-        String outMessage = "{\"cmd\" : \"buyFromMarket\"" + ",\"marketPosition\" : " + position + "}";
+        String outMessage = "{\"cmd\" : \"buyFromMarket\"" +
+                ",\"marketPosition\" : " + position + "}";
         out.println(outMessage);
         out.flush();
     }
 
     public void chosenResourceToBuy(int coins , int stones , int shields , int servants){
-        String outMessage = "{\"cmd\" : \"chosenResourceToBuy\"" + ",\"coins\" : " + coins + ",\"stones\" : " + stones +",\"shields\" : " + shields +",\"servants\" : " + servants +"}";
+        String outMessage = "{\"cmd\" : \"chosenResourceToBuy\"" +
+                ",\"coins\" : " + coins +
+                ",\"stones\" : " + stones +
+                ",\"shields\" : " + shields +
+                ",\"servants\" : " + servants +"}";
         out.println(outMessage);
         out.flush();
     }
 
     public void placeResourceInSlot (String resource, int slot){
-        String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" + ",\"resourceType\" : \"" + resource + "\" ,\"slotNumber\" : " + slot +"}";
+        String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" +
+                ",\"resourceType\" : \"" + resource +
+                "\" ,\"slotNumber\" : " + slot +"}";
         out.println(outMessage);
         out.flush();
     }
 
     public void discardResource (String resource){
-        String outMessage = "{\"cmd\" : \"discardResource\"" + ",\"resourceType\" : \"" + resource +"\"}";
+        String outMessage = "{\"cmd\" : \"discardResource\"" +
+                ",\"resourceType\" : \"" + resource +"\"}";
         out.println(outMessage);
         out.flush();
     }
     public void moveOneResource (int slot1, int slot2){
-        String outMessage = "{\"cmd\" : \"moveOneResource\"" + ",\"fromSlotNumber\" : " + slot1 + ",\"toSlotNumber\" : " + slot2 +"}";
+        String outMessage = "{\"cmd\" : \"moveOneResource\"" +
+                ",\"fromSlotNumber\" : " + slot1 + "," +
+                "\"toSlotNumber\" : " + slot2 +"}";
         out.println(outMessage);
         out.flush();
     }
 
     public void switchResourceSlot (int slot1, int slot2){
-        String outMessage = "{\"cmd\" : \"switchResourceSlots\"" + ",\"fromSlotNumber\" : " + slot1 + ",\"toSlotNumber\" : " + slot2 +"}";
+        String outMessage = "{\"cmd\" : \"switchResourceSlots\"" +
+                ",\"fromSlotNumber\" : " + slot1 + "," +
+                "\"toSlotNumber\" : " + slot2 +"}";
         out.println(outMessage);
         out.flush();
     }
@@ -104,7 +116,9 @@ public class MessageSender {
     }
 
     public void buyDevelopmentCard(int level, char colour){
-        String outMessage = "{\"cmd\" : \"buyDevCard\"" + ",\"devCardColour\" : " + colour + ",\"devCardLevel\" : " + level +"}";
+        String outMessage = "{\"cmd\" : \"buyDevCard\"" +
+                ",\"devCardColour\" : " + colour +
+                ",\"devCardLevel\" : " + level +"}";
         out.println(outMessage);
         out.flush();
     }
@@ -116,7 +130,15 @@ public class MessageSender {
     }
 
     public void chosenResourcesToPayForDevCard (int chestcoins, int cheststones, int chestshields, int chestservants, int storagecoins, int storagestones, int storageshields, int storageservants){
-        String outMessage = "{\"cmd\" : \"chosenResourcesToPayForDevCard\"" + ",\"chestCoins\" : " + chestcoins + ",\"chestStones\" : " + cheststones + ",\"chestShields\" : " + chestshields + ",\"chestServants\" : " + chestservants + ",\"storageCoins\" : " + storagecoins + ",\"storageStones\" : " + cheststones + ",\"storageShields\" : " + storageshields + ",\"storageServants\" : " + storageservants +"}";
+        String outMessage = "{\"cmd\" : \"chosenResourcesToPayForDevCard\"" +
+                ",\"chestCoins\" : " + chestcoins +
+                ",\"chestStones\" : " + cheststones +
+                ",\"chestShields\" : " + chestshields +
+                ",\"chestServants\" : " + chestservants +
+                ",\"storageCoins\" : " + storagecoins +
+                ",\"storageStones\" : " + storagestones +
+                ",\"storageShields\" : " + storageshields +
+                ",\"storageServants\" : " + storageservants +"}";
         out.println(outMessage);
         out.flush();
 
