@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.cli;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.CardDecoder.CardDecoder;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
@@ -648,10 +649,17 @@ public class ClientCLI extends Client {
                     int[] leaderCardsDrawn = response.getLeaderCardsDrawn();
                     if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
                     printOut("now you need to choose your starting leader cards between these: ");
-                        /*qui facciamo il parser delle carte per stamparle a video
-                        {da fare}.......
-                         */
-                    printOut("solo per test finchè non mettiamo il parser, carte pescate: " + Arrays.toString(leaderCardsDrawn));
+
+                    CardDecoder cardDecoder = new CardDecoder();
+                    printOut("First Card:");
+                    printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[0]));
+                    printOut("Second Card:");
+                    printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[1]));
+                    printOut("Third Card:");
+                    printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[2]));
+                    printOut("Fourth Card:");
+                    printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[3]));
+
                     printOut("you can choose only two cards,\n" +
                             "insert the code of the first one you choose: ");
                     int card1Code;
