@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
+import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.SoloGameLostException;
 import org.junit.jupiter.api.Test;
 
 
@@ -16,7 +18,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void moveForwardTest() {
+    public void moveForwardTest() throws EndGameException {
         System.out.println(f.positionsAndPoints());
         f.moveForward(1);
         f.moveForward(1);
@@ -37,7 +39,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void moveForwardMultiplePlayers() {
+    public void moveForwardMultiplePlayers() throws EndGameException {
         System.out.println(f.positionsAndPoints());
         f.moveForwardMultiplePLayers(true,false,true,false);
         f.moveForwardMultiplePLayers(true,false,true,false);
@@ -53,7 +55,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void moveBlackCrossForwardTest() {  //it is implied that player1 is the single player
+    public void moveBlackCrossForwardTest() throws EndGameException, SoloGameLostException {  //it is implied that player1 is the single player
         System.out.println(f.positionsAndPoints());
         f.moveForward(1);
         f.moveForward(1);
@@ -74,7 +76,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void lotsOfMovesForwardTest() {
+    public void lotsOfMovesForwardTest() throws EndGameException {
         System.out.println(f.positionsAndPoints());
         f.moveForward(1);
         f.moveForward(1);
@@ -109,7 +111,7 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void updateStringJsonFormatTest() {
+    public void updateStringJsonFormatTest() throws EndGameException {
         Gson gson = new Gson();
 
         String updateMessage = f.getUpdateMessageOfFaithTrackCurrentState();

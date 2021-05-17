@@ -32,4 +32,20 @@ public class UpdateBroadcaster {
         }
     }
 
+    public synchronized void sendEndGameUpdate(){
+        String outMessage = "{\"cmd\" : \"endGameUpdate\"}";
+        for(PrintWriter out: clientsSocketsOut) {
+            out.println(outMessage);
+            out.flush();
+        }
+    }
+
+    public synchronized void sendSoloGameLostUpdate(){
+        String outMessage = "{\"cmd\" : \"soloGameLostUpdate\"}";
+        for(PrintWriter out: clientsSocketsOut) {
+            out.println(outMessage);
+            out.flush();
+        }
+    }
+
 }

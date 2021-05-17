@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
+import it.polimi.ingsw.exceptions.EndGameException;
+
 import java.util.Stack;
 
 public class PersonalDevCardSlot {
@@ -26,11 +28,14 @@ public class PersonalDevCardSlot {
         else{return cardSlot3;}
     }
 
-    public boolean placeCard(DevCard card, int stackNum){
+    public boolean placeCard(DevCard card, int stackNum) throws EndGameException {
 
         if(isCardPlaceable(card, stackNum)){
             selectSlot(stackNum).push(card);
             totalCardsPlaced++;
+            if (totalCardsPlaced == 7) {
+                throw new EndGameException("bought 7 development cards");
+            }
             return true;
         }
         else return false;

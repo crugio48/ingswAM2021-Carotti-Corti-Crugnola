@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.exceptions.GameAlreadyFullException;
+import it.polimi.ingsw.exceptions.SoloGameLostException;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,7 +35,7 @@ public class GameTest {
     }
 
     @Test
-    public void actionCardTest(){
+    public void actionCardTest() throws SoloGameLostException {
         System.out.println("after initialization");
         System.out.println(game.getFaithTrack().getBlackCrossPosition());
         System.out.println(game.getDevCardSpace().peekTopCard(1,'b'));

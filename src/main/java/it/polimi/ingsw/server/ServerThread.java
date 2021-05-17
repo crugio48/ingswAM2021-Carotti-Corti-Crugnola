@@ -142,6 +142,14 @@ public class ServerThread implements Runnable {
                         break;
                 }
 
+
+                if (masterController.isEndGameActivated()) {
+                    updateBroadcaster.sendEndGameUpdate();
+                }
+
+                if (masterController.isSoloGameLost()) {
+                    updateBroadcaster.sendSoloGameLostUpdate();
+                }
             }
 
 

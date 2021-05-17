@@ -169,6 +169,16 @@ public class ClientCLI extends Client {
                             break;
                     }
                 }
+
+                if (clientModel.isSoloGameLost() && clientModel.isEndGameActivated()){
+                    //DA FARE VITTORIA PARTITA NELLO STESSO MOMENTO IN CUI LORENZO AVREBBE VINTO
+                }
+                else if (clientModel.isSoloGameLost()) {
+                    //DA FARE PARTITA SOLITARIA PERSA
+                }
+                else if (clientModel.isEndGameActivated()) {
+                    // DA FARE FINE PARTITA
+                }
             }
 
 

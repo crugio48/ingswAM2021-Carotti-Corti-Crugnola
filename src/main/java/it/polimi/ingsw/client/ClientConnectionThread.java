@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
+import it.polimi.ingsw.client.cli.ClientCLI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -84,6 +85,27 @@ public class ClientConnectionThread extends Thread {
                         break;
                     case"endTurnUpdate":
                         client.clientModel.setCurrentPlayer(response.getNewCurrentPlayer());
+                        break;
+                    case"endGameUpdate":
+                        client.clientModel.setEndGameActivated(true);
+                        if (client instanceof ClientCLI) {
+                            System.out.println("The endGame has started, at the end of this turn cycle the game will finish");
+                        }
+                        else {
+                            //DA FARE gui printout
+                        }
+                        break;
+                    case"soloGameLostUpdate":
+                        client.clientModel.setSoloGameLost(true);
+                        if (client instanceof ClientCLI) {
+                            System.out.println("lorenzo has finished the game");
+                        }
+                        else {
+                            //DA FARE gui printout
+                        }
+                        break;
+                    case"printOutUpdate":
+                        //DA FARE
                         break;
                     default:
                         client.stringBuffer.addMessage(received);

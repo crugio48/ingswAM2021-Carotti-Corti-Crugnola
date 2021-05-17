@@ -1,7 +1,9 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.exceptions.EndGameException;
 import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 import it.polimi.ingsw.exceptions.GameStillNotInitialized;
+import it.polimi.ingsw.exceptions.SoloGameLostException;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.model.cards.DevCard;
 import it.polimi.ingsw.model.cards.LeaderCard;
@@ -17,6 +19,8 @@ public class MasterController {
     private boolean firstPlayerCreationLock;
     private HashMap<Integer,Integer> randomLeaderCardsDraw;
     private int numOfClientsThatHaveEndedInitialConfiguration;
+    private boolean endGameActivated;
+    private boolean soloGameLost;
 
     public MasterController() {
         this.game = null;
@@ -27,6 +31,8 @@ public class MasterController {
             randomLeaderCardsDraw.put(i,i);
         }
         this.numOfClientsThatHaveEndedInitialConfiguration = 0;
+        this.endGameActivated = false;
+        this.soloGameLost = false;
     }
 
     /**
@@ -178,6 +184,15 @@ public class MasterController {
 
     //from now on all following methods don't need to be synchronized
 
+
+    public boolean isEndGameActivated() {
+        return endGameActivated;
+    }
+
+    public boolean isSoloGameLost() {
+        return soloGameLost;
+    }
+
     /**
      * this is the method that the serverThread calls, before calling the end turn method, if their client requested the endTurn
      * and if they checked that the game is a single player game
@@ -188,7 +203,12 @@ public class MasterController {
             return null;
         }
         else {
-            return game.drawAndExecuteActionCard();
+            try {
+                return game.drawAndExecuteActionCard();
+            } catch (SoloGameLostException e) {
+                soloGameLost = true;
+                return game.getLorenzoActionUpdate();
+            }
         }
 
     }
@@ -198,10 +218,18 @@ public class MasterController {
 
         switch (numOfPlayers) {
             case 3:
-                game.getFaithTrack().moveForward(3);
+                try {
+                    game.getFaithTrack().moveForward(3);
+                } catch (EndGameException e) {
+                    endGameActivated = true; // this should never happen here
+                }
                 break;
             case 4:
-                game.getFaithTrack().moveForwardMultiplePLayers(false,false,true,true);
+                try {
+                    game.getFaithTrack().moveForwardMultiplePLayers(false, false, true, true);
+                } catch (EndGameException e) {
+                    endGameActivated = true;  // this should never happen here
+                }
                 break;
             default:
                 break;
@@ -274,12 +302,29 @@ public class MasterController {
 
     public void giveFaithPointsToOnePlayer(int numberOfPoints, int playerTurnOrder) {
         for (int i = numberOfPoints; i > 0; i--) {
-            game.getFaithTrack().moveForward(playerTurnOrder);
+            try {
+                game.getFaithTrack().moveForward(playerTurnOrder);
+            } catch (EndGameException e) {
+                endGameActivated = true;
+            }
         }
     }
 
-    private void giveFaithPointsToMultiplePeople(boolean player1, boolean player2, boolean player3, boolean player4) {
-        game.getFaithTrack().moveForwardMultiplePLayers(player1,player2,player3,player4);
+    private void giveFaithPointsToMultiplePeople(boolean player1, boolean player2, boolean player3, boolean player4, int gameNumOfPlayers) throws EndGameException {
+
+        switch(gameNumOfPlayers) {
+            case 2:
+                game.getFaithTrack().moveForwardMultiplePLayers(player1, player2, false, false);
+                break;
+            case 3:
+                game.getFaithTrack().moveForwardMultiplePLayers(player1, player2, player3, false);
+                break;
+            case 4:
+                game.getFaithTrack().moveForwardMultiplePLayers(player1,player2,player3,player4);
+                break;
+            default:
+                break;
+        }
     }
 
     public boolean hasActiveLeaderWithMarketAction(int playerTurnOrder) {
@@ -505,26 +550,47 @@ public class MasterController {
                 return false;
         }
 
-        if (game.getNumOfPlayers() > 1) {
+        int numOfPlayers = game.getNumOfPlayers();
+        if (numOfPlayers > 1) {
             switch (playerTurnOrder) {
                 case 1:
-                    this.giveFaithPointsToMultiplePeople(false, true, true, true);
+                    try {
+                        this.giveFaithPointsToMultiplePeople(false, true, true, true, numOfPlayers);
+                    } catch (EndGameException e) {
+                        endGameActivated = true;
+                    }
                     break;
                 case 2:
-                    this.giveFaithPointsToMultiplePeople(true, false, true, true);
+                    try {
+                        this.giveFaithPointsToMultiplePeople(true, false, true, true, numOfPlayers);
+                    } catch (EndGameException e) {
+                        endGameActivated = true;
+                    }
                     break;
                 case 3:
-                    this.giveFaithPointsToMultiplePeople(true, true, false, true);
+                    try {
+                        this.giveFaithPointsToMultiplePeople(true, true, false, true, numOfPlayers);
+                    } catch (EndGameException e) {
+                        endGameActivated = true;
+                    }
                     break;
                 case 4:
-                    this.giveFaithPointsToMultiplePeople(true, true, true, false);
+                    try {
+                        this.giveFaithPointsToMultiplePeople(true, true, true, false, numOfPlayers);
+                    } catch (EndGameException e) {
+                        endGameActivated = true;
+                    }
                     break;
                 default:
                     break;
             }
         }
         else {
-            game.getFaithTrack().moveBlackCrossForward();
+            try {
+                game.getFaithTrack().moveBlackCrossForward();
+            } catch (SoloGameLostException e) {
+                soloGameLost = true;
+            }
         }
         return true;
     }
@@ -546,27 +612,48 @@ public class MasterController {
         turnInfo.setActionCompleted(true);
 
 
+        int numOfPlayers = game.getNumOfPlayers();
         for (int i = totalRemainingResources; i > 0; i--) {
-            if (game.getNumOfPlayers() > 1) {
+            if (numOfPlayers > 1) {
                 switch (playerTurnOrder) {
                     case 1:
-                        this.giveFaithPointsToMultiplePeople(false, true, true, true);
+                        try {
+                            this.giveFaithPointsToMultiplePeople(false, true, true, true, numOfPlayers);
+                        } catch (EndGameException e) {
+                            endGameActivated = true;
+                        }
                         break;
                     case 2:
-                        this.giveFaithPointsToMultiplePeople(true, false, true, true);
+                        try {
+                            this.giveFaithPointsToMultiplePeople(true, false, true, true, numOfPlayers);
+                        } catch (EndGameException e) {
+                            endGameActivated = true;
+                        }
                         break;
                     case 3:
-                        this.giveFaithPointsToMultiplePeople(true, true, false, true);
+                        try {
+                            this.giveFaithPointsToMultiplePeople(true, true, false, true, numOfPlayers);
+                        } catch (EndGameException e){
+                            endGameActivated = true;
+                        }
                         break;
                     case 4:
-                        this.giveFaithPointsToMultiplePeople(true, true, true, false);
+                        try {
+                            this.giveFaithPointsToMultiplePeople(true, true, true, false, numOfPlayers);
+                        } catch (EndGameException e){
+                            endGameActivated = true;
+                        }
                         break;
                     default:
                         break;
                 }
             }
             else {
-                game.getFaithTrack().moveBlackCrossForward();
+                try {
+                    game.getFaithTrack().moveBlackCrossForward();
+                } catch (SoloGameLostException e) {
+                    soloGameLost = true;
+                }
             }
         }
     }
@@ -807,10 +894,19 @@ public class MasterController {
         }
 
         //now we know the card is placeable
-        DevCard card = game.getDevCardSpace().getnremoveTopCard(turnInfo.getDevCardLevel(), turnInfo.getDevCardColour());
+        DevCard card;
+        try {
+            card = game.getDevCardSpace().getnremoveTopCard(turnInfo.getDevCardLevel(), turnInfo.getDevCardColour());
+        } catch (SoloGameLostException e) {
+            card = game.getDevCardSpace().getOnlyIfSoloGameLostCard();
+            soloGameLost = true;
+        }
 
-        game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().placeCard(card, slotNumber);
-
+        try {
+            game.getPlayerByTurnOrder(playerTurnOrder).getPersonalDevelopmentCardSlots().placeCard(card, slotNumber);
+        } catch (EndGameException e) {
+            endGameActivated = true;
+        }
         turnInfo.setActionCompleted(true);
 
         return true;
@@ -876,4 +972,6 @@ public class MasterController {
             return false;
         }
     }
+
+
 }

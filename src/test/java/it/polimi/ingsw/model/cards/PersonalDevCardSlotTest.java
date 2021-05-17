@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 
+import it.polimi.ingsw.exceptions.EndGameException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +17,7 @@ public class PersonalDevCardSlotTest {
     DevCard card3 = new DevCard(8,3,'y',3,null,null,null);
 
     @Test
-    public void testisCardPlaceable() {
+    public void testisCardPlaceable() throws EndGameException {
 
         a.placeCard(card1,1);
         assertTrue(a.isCardPlaceable(card2,1));
@@ -26,7 +27,7 @@ public class PersonalDevCardSlotTest {
 
 
     @Test
-    public void testisLeaderDevCardRequirementsMet() {
+    public void testisLeaderDevCardRequirementsMet() throws EndGameException {
         a.placeCard(card1,2);
         a.placeCard(card2,2);
         assertTrue(a.isLeaderDevCardRequirementsMet(req1));
@@ -36,7 +37,7 @@ public class PersonalDevCardSlotTest {
     }
 
     @Test
-    public void victoryPointsTest() {
+    public void victoryPointsTest() throws EndGameException {
         a.placeCard(card1,2);
         a.placeCard(card2,2);
         a.placeCard(card3,2);

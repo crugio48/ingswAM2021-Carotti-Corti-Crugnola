@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.faithtrack;
 
 
+import it.polimi.ingsw.exceptions.EndGameException;
+import it.polimi.ingsw.exceptions.SoloGameLostException;
+
 import java.util.Arrays;
 
 public class FaithTrack {
@@ -28,7 +31,7 @@ public class FaithTrack {
      * if more than one player has to move forward at once this is not the method to be used
      * @param playerNum is the player number of the player that has to advance
      */
-    public void moveForward(int playerNum) {
+    public void moveForward(int playerNum) throws EndGameException {
         playerPositions[playerNum - 1]++;
 
         if (isInPopeSpaceCell(playerNum - 1)) {
@@ -38,6 +41,10 @@ public class FaithTrack {
             if (isInVaticanRelationSpace(3)) papalFavourCards[lastCheckedPopeSpaceCell].activateCardForPlayer(3);
 
             lastCheckedPopeSpaceCell++;
+        }
+
+        if (playerPositions[playerNum - 1] == 24) {
+            throw new EndGameException("final cell of faithTrack reached");
         }
     }
 
@@ -49,7 +56,7 @@ public class FaithTrack {
      * @param player3 true if player 3 has to move
      * @param player4 true if player 4 has to move
      */
-    public void moveForwardMultiplePLayers(boolean player1, boolean player2, boolean player3, boolean player4) {
+    public void moveForwardMultiplePLayers(boolean player1, boolean player2, boolean player3, boolean player4) throws EndGameException {
         if (player1) playerPositions[0]++;
         if (player2) playerPositions[1]++;
         if (player3) playerPositions[2]++;
@@ -62,6 +69,10 @@ public class FaithTrack {
             if (isInVaticanRelationSpace(3)) papalFavourCards[lastCheckedPopeSpaceCell].activateCardForPlayer(3);
 
             lastCheckedPopeSpaceCell++;
+        }
+
+        if (playerPositions[0] == 24 || playerPositions[1] == 24 || playerPositions[2] == 24 || playerPositions[3] == 24) {
+            throw new EndGameException("final cell of faithTrack reached");
         }
     }
 
@@ -113,7 +124,7 @@ public class FaithTrack {
     /**
      * this method moves forward the black cross of the single player mode and checks if black cross reached the next pope space cell
      */
-    public void moveBlackCrossForward() {
+    public void moveBlackCrossForward() throws SoloGameLostException {
         blackCrossPosition++;
 
         if (isBlackCrossInPopeSpaceCell()) {
@@ -123,6 +134,10 @@ public class FaithTrack {
             if (isInVaticanRelationSpace(3)) papalFavourCards[lastCheckedPopeSpaceCell].activateCardForPlayer(3);
 
             lastCheckedPopeSpaceCell++;
+        }
+
+        if (blackCrossPosition == 24) {
+            throw new SoloGameLostException("black cross reached last cell");
         }
     }
 
@@ -187,16 +202,13 @@ public class FaithTrack {
      * @return
      */
     public String getUpdateMessageOfFaithTrackCurrentState() {
-        boolean[] papalFavour1 = papalFavourCards[0].getActiveForPlayer();
-        boolean[] papalFavour2 = papalFavourCards[1].getActiveForPlayer();
-        boolean[] papalFavour3 = papalFavourCards[2].getActiveForPlayer();
 
         return "{\"cmd\" : \"faithTrackUpdate\", " +
                 "\"newPlayersPositions\" : " + Arrays.toString(playerPositions) + ", " +
                 "\"newBlackCrossPosition\" : " + blackCrossPosition + ", " +
-                "\"newActiveFirstPapalFavourCard\" : " + Arrays.toString(papalFavour1) + ", " +
-                "\"newActiveSecondPapalFavourCard\" : " + Arrays.toString(papalFavour2) + ", " +
-                "\"newActiveThirdPapalFavourCard\" : "+ Arrays.toString(papalFavour3) +"}";
+                "\"newActiveFirstPapalFavourCard\" : " + Arrays.toString(papalFavourCards[0].getActiveForPlayer()) + ", " +
+                "\"newActiveSecondPapalFavourCard\" : " + Arrays.toString(papalFavourCards[1].getActiveForPlayer()) + ", " +
+                "\"newActiveThirdPapalFavourCard\" : "+ Arrays.toString(papalFavourCards[2].getActiveForPlayer()) +"}";
     }
 
     @Override

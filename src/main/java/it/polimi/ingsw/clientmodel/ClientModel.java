@@ -13,6 +13,8 @@ public class ClientModel {
     private ClientModelFaithTrack faithTrack;
     private ClientModelDevCardSpace devCardSpace;
     private ArrayList<ClientModelPlayer> players;
+    private boolean endGameActivated;
+    private boolean soloGameLost;
 
 
     public ClientModel(){
@@ -23,6 +25,24 @@ public class ClientModel {
         this.faithTrack = new ClientModelFaithTrack();
         this.devCardSpace = new ClientModelDevCardSpace();
         this.players = new ArrayList<>();
+        this.endGameActivated = false;
+        this.soloGameLost = false;
+    }
+
+    public synchronized void setEndGameActivated(boolean endGameActivated) {
+        this.endGameActivated = endGameActivated;
+    }
+
+    public synchronized boolean isEndGameActivated() {
+        return endGameActivated;
+    }
+
+    public synchronized void setSoloGameLost(boolean soloGameLost) {
+        this.soloGameLost = soloGameLost;
+    }
+
+    public synchronized boolean isSoloGameLost() {
+        return soloGameLost;
     }
 
     public synchronized int getCurrentPlayer() {
@@ -135,7 +155,9 @@ public class ClientModel {
 
         //this is calculating the faithTrack points
         int faithTrackPosition = getFaithTrack().getPlayerPositions()[playerTurnOrder - 1];
-        if ( faithTrackPosition >= 3 && faithTrackPosition <= 5) total += 1;
+        if (faithTrackPosition <= 2) { // no points if <= 2
+        }
+        else if (faithTrackPosition <= 5) total += 1;
         else if (faithTrackPosition <= 8) total += 2;
         else if (faithTrackPosition <= 11) total += 4;
         else if (faithTrackPosition <= 14) total += 6;

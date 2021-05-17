@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.cards;
 
 
+import it.polimi.ingsw.exceptions.SoloGameLostException;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.resources.*;
 
@@ -34,6 +35,7 @@ public class DevCardSpace {
     private Stack<DevCard> Lv1purple;
     private Stack<DevCard> Lv2purple;
     private Stack<DevCard> Lv3purple;
+    private DevCard onlyIfSoloGameLostCard;
 
     public DevCardSpace(){
         this.Lv1blue = new Stack<>();
@@ -180,14 +182,25 @@ public class DevCardSpace {
         return selectstack(level,colour).peek();
      }
 
-     public DevCard getnremoveTopCard(int level, char colour){
+     public DevCard getnremoveTopCard(int level, char colour) throws SoloGameLostException {
 
         if (selectstack(level, colour).isEmpty()) return null;  //check if selected stack is empty
 
-        return selectstack(level,colour).pop();
+         DevCard card = selectstack(level,colour).pop();
+
+         if (selectstack(3, colour).isEmpty()) {
+             onlyIfSoloGameLostCard = card;
+             throw new SoloGameLostException(colour + "development cards are finished");
+         }
+
+         return card;
      }
 
-     public boolean isBuyable(int level, char colour, Player p) {
+    public DevCard getOnlyIfSoloGameLostCard() {
+        return onlyIfSoloGameLostCard;
+    }
+
+    public boolean isBuyable(int level, char colour, Player p) {
 
         DevCard topCard = peekTopCard(level, colour);
 
@@ -225,7 +238,7 @@ public class DevCardSpace {
         else return false;
     }
 
-    public void removeTwoCardsOfColour(char colour) {
+    public void removeTwoCardsOfColour(char colour) throws SoloGameLostException {
         Stack<DevCard> tempStack = selectstack(1,colour);
         if (tempStack.isEmpty()) {
             tempStack = selectstack(2,colour);
@@ -233,7 +246,7 @@ public class DevCardSpace {
             if (tempStack.isEmpty()) {
                 tempStack = selectstack(3,colour);
 
-                if (tempStack.isEmpty()) return; //cards of that colour are finished
+                if (tempStack.isEmpty()) throw new SoloGameLostException(colour + "development cards are finished"); //cards of that colour are finished
             }
         }
         //now surely tempStack is not empty
@@ -251,7 +264,7 @@ public class DevCardSpace {
             if (tempStack.isEmpty()) {
                 tempStack = selectstack(3,colour);
 
-                if (tempStack.isEmpty()) return; //cards of that colour are finished
+                if (tempStack.isEmpty()) throw new SoloGameLostException(colour + "development cards are finished"); //cards of that colour are finished
             }
         }
         //now surely tempStack is not empty

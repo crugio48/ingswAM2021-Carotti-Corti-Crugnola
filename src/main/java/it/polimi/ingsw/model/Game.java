@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.GameAlreadyFullException;
+import it.polimi.ingsw.exceptions.SoloGameLostException;
 import it.polimi.ingsw.model.cards.*;
 import it.polimi.ingsw.model.cards.actionCardsEffects.FaithEffect;
 import it.polimi.ingsw.model.cards.actionCardsEffects.RemoveDevCardEffect;
@@ -198,7 +199,7 @@ public class Game {
      * and activating the effect of the action card by passing the entire Game
      * @return the update string of lorenzo action
      */
-    public String drawAndExecuteActionCard(){
+    public String drawAndExecuteActionCard() throws SoloGameLostException {
         ActionCard topCard = (ActionCard) actionCardDeck.getLastCardAndDiscard();
 
         usedActionCards.push(topCard);
@@ -206,6 +207,16 @@ public class Game {
         topCard.activateEffect(this);
 
         return "{\"cmd\" : \"lorenzoActionUpdate\", \"lastActionCardUsedCode\" : " + topCard.getCode() + "}";
+    }
+
+    public String getLorenzoActionUpdate(){
+
+        if (!usedActionCards.isEmpty()) {
+            return "{\"cmd\" : \"lorenzoActionUpdate\", \"lastActionCardUsedCode\" : " + usedActionCards.peek().getCode() + "}";
+        }
+        else {
+            return "{\"cmd\" : \"lorenzoActionUpdate\", \"lastActionCardUsedCode\" : " + (-6) + "}"; //this is the code of the mixing card
+        }
     }
 
     /**
