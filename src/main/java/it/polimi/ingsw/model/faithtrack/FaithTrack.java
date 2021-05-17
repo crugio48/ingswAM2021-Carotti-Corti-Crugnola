@@ -197,20 +197,6 @@ public class FaithTrack {
         return papalFavourCards;
     }
 
-    /**
-     * this method already returns the full update string in json format to send to all clients when a faithTrackUpdate is needed
-     * @return
-     */
-    public String getUpdateMessageOfFaithTrackCurrentState() {
-
-        return "{\"cmd\" : \"faithTrackUpdate\", " +
-                "\"newPlayersPositions\" : " + Arrays.toString(playerPositions) + ", " +
-                "\"newBlackCrossPosition\" : " + blackCrossPosition + ", " +
-                "\"newActiveFirstPapalFavourCard\" : " + Arrays.toString(papalFavourCards[0].getActiveForPlayer()) + ", " +
-                "\"newActiveSecondPapalFavourCard\" : " + Arrays.toString(papalFavourCards[1].getActiveForPlayer()) + ", " +
-                "\"newActiveThirdPapalFavourCard\" : "+ Arrays.toString(papalFavourCards[2].getActiveForPlayer()) +"}";
-    }
-
     @Override
     public String toString() {
         return "FaithTrack{" +

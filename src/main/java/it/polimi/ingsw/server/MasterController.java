@@ -57,6 +57,14 @@ public class MasterController {
         return true;
     }
 
+    /**
+     * IMPORTANT: only used to set the game of the updateBroadcaster, DO NOT USE for anything else
+     * @return
+     */
+    public Game getGame() {
+        return game;
+    }
+
     public synchronized boolean addPlayerToGame(String username) throws GameAlreadyFullException, GameStillNotInitialized {
         if (game == null) throw new GameStillNotInitialized("we are sorry but the game still hasn't been initialized, please try again");
 
@@ -168,6 +176,7 @@ public class MasterController {
         }
     }
 
+
     public synchronized int getGameNumberOfPlayers() {
         return game.getNumOfPlayers();
     }
@@ -176,10 +185,9 @@ public class MasterController {
         return turnInfo.getCurrentPlayer();
     }
 
-    public synchronized String endTurnAndGetEndTurnUpdateMessage() {
+    public synchronized int endTurnAndGetNewCurrentPlayer() {
         turnInfo.endTurn();
-        return "{\"cmd\" : \"endTurnUpdate\", \"newCurrentPlayer\" : " +
-                turnInfo.getCurrentPlayer() + "}";
+        return turnInfo.getCurrentPlayer();
     }
 
     //from now on all following methods don't need to be synchronized
@@ -198,16 +206,15 @@ public class MasterController {
      * and if they checked that the game is a single player game
      * @return
      */
-    public String doLorenzoActionAndGetUpdateString() {
+    public void doLorenzoAction() {
         if(game.getNumOfPlayers() != 1) {
-            return null;
+            //do nothing you should not call this method
         }
         else {
             try {
-                return game.drawAndExecuteActionCard();
+                game.drawAndExecuteActionCard();
             } catch (SoloGameLostException e) {
                 soloGameLost = true;
-                return game.getLorenzoActionUpdate();
             }
         }
 
@@ -234,46 +241,6 @@ public class MasterController {
             default:
                 break;
         }
-    }
-
-    public String getSetupUpdateMessage () {
-        String[] names = new String[4];
-
-        for (int i = 0; i < 4 ; i++) {
-            Player p = game.getPlayerByTurnOrder(i+1);
-
-            if (p != null) {
-                names[i] = p.getUsername();
-            }
-            else {
-                names[i] = null;
-            }
-        }
-        return "{\"cmd\" : \"setupUpdate\" , \"playerUsernames\" : " + Arrays.toString(names) + "}";
-    }
-
-    public String getFaithTrackUpdate() {
-        return game.getFaithTrack().getUpdateMessageOfFaithTrackCurrentState();
-    }
-
-    public String getMarketUpdate() {
-        return game.getMarket().getUpdateMessageOfMarketCurrentState();
-    }
-
-    public String getDevCardsSpaceUpdate() {
-        return game.getDevCardSpace().getUpdateMessageOfDevCardSpaceCurrentState();
-    }
-
-    public String getStorageUpdateOfPlayer(int turnOrder) {
-        return game.getPlayerByTurnOrder(turnOrder).getUpdateMessageOfStorageCurrentState();
-    }
-
-    public String getLeaderCardsUpdateOfPlayer(int turnOrder) {
-        return game.getPlayerByTurnOrder(turnOrder).getLeaderCardsMessageOfCurrentState();
-    }
-
-    public String getChestUpdateOfPlayer(int turnOrder) {
-        return game.getPlayerByTurnOrder(turnOrder).getUpdateMessageOfChestCurrentState();
     }
 
     public TurnInfo getTurnInfo() {
@@ -910,16 +877,6 @@ public class MasterController {
         turnInfo.setActionCompleted(true);
 
         return true;
-    }
-
-    public String getUpdateMessageOfPersonalDevCardSlot(int slotNumber, int playerTurnOrder) {
-        Player p = game.getPlayerByTurnOrder(playerTurnOrder);
-        int newCode = p.getPersonalDevelopmentCardSlots().peekTopCard(slotNumber).getCode();
-
-        return "{\"cmd\" : \"personalDevCardSlotUpdate\" , " +
-                "\"playerUsername\" : \"" + p.getUsername() + "\", " +
-                "\"newDevCardCode\" : " + newCode + ", " +
-                "\"stackSlotNumberToPlace\" : " + slotNumber + "}";
     }
 
     public boolean activateLeader(int leaderCode, int playerTurnOrder) {

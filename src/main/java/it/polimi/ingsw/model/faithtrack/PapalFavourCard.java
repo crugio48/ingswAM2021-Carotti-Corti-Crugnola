@@ -15,7 +15,7 @@ public class PapalFavourCard {
         return victoryPoints;
     }
 
-    protected boolean[] getActiveForPlayer() {
+    public boolean[] getActiveForPlayer() {
         return activeForPlayer;
     }
 

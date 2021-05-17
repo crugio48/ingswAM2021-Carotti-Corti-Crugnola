@@ -59,9 +59,6 @@ public class ServerThread implements Runnable {
             //now only the thread associated to the client with turn order 1 broadcasts the initial updates to everyone
             if (myClientTurnOrder == 1) {
                 sendInitialUpdates();
-
-                Thread.sleep(500);
-                updateBroadcaster.sendPrintOutUpdate(""); //to print the state of the game for non starting players
             }
 
             //now the game can start
@@ -170,6 +167,7 @@ public class ServerThread implements Runnable {
             String clientInput = in.readLine();
             Command command = (Command) gson.fromJson(clientInput, Command.class);
             if (masterController.createGame(command.getNumOfPlayers())) {
+                updateBroadcaster.setGame(masterController.getGame()); //only here we use the get game
                 break;
             }
             else {
@@ -266,21 +264,24 @@ public class ServerThread implements Runnable {
         masterController.hasConfigurationEnded(); //this is a blocking method that unlocks when all clients have ended configuration
         masterController.setInitialFaithPointsToEveryone();
 
-        updateBroadcaster.broadcastMessage(masterController.getSetupUpdateMessage());
-        updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
-        updateBroadcaster.broadcastMessage(masterController.getMarketUpdate());
-        updateBroadcaster.broadcastMessage(masterController.getDevCardsSpaceUpdate());
+        updateBroadcaster.sendInitialSetupUpdate();
+        updateBroadcaster.sendFaithTrackUpdate();
+        updateBroadcaster.sendMarketUpdate();
+        updateBroadcaster.sendDevCardSpaceUpdate();
 
         Thread.sleep(1000);//sleep to make sure the setup update has arrived
 
         int numOfPlayers = masterController.getGameNumberOfPlayers();
         for (int i = 1; i <= numOfPlayers; i++) {
-            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(i));
-            updateBroadcaster.broadcastMessage(masterController.getLeaderCardsUpdateOfPlayer(i));
+            updateBroadcaster.sendStorageUpdateOfPlayer(i);
+            updateBroadcaster.sendLeaderCardsUpdateOfPlayer(i);
         }
         Thread.sleep(1000); //sleep to make sure that the above messages have arrived
 
-        updateBroadcaster.broadcastMessage("{\"cmd\" : \"gameStart\"}");
+        updateBroadcaster.sendGameStart();
+
+        Thread.sleep(500);
+        updateBroadcaster.sendPrintOutUpdate(""); //to print the state of the game for non starting players
     }
 
     private void buyFromMarket(Command command) {
@@ -291,8 +292,8 @@ public class ServerThread implements Runnable {
         }
         //here we execute the command
         if (masterController.buyFromMarket(command.getMarketPosition(), myClientTurnOrder)) {  //if true then action was correct
-            updateBroadcaster.broadcastMessage(masterController.getMarketUpdate());  //market update
-            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate()); //faithTrack update
+            updateBroadcaster.sendMarketUpdate();  //market update
+            updateBroadcaster.sendFaithTrackUpdate(); //faithTrack update
             messageSenderToMyClient.goodBuyFromMarket(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
@@ -349,8 +350,8 @@ public class ServerThread implements Runnable {
         //maybe add a check for main action in progress
         //here we try to execute the command
         if (masterController.activateLeader(command.getLeaderCode(), myClientTurnOrder)){
-            updateBroadcaster.broadcastMessage(masterController.getLeaderCardsUpdateOfPlayer(myClientTurnOrder));
-            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+            updateBroadcaster.sendLeaderCardsUpdateOfPlayer(myClientTurnOrder);
+            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
             messageSenderToMyClient.goodCommand("the leader has been activated");
             updateBroadcaster.sendPrintOutUpdate(myClientUsername + " activated a leader");
         }
@@ -363,8 +364,8 @@ public class ServerThread implements Runnable {
         //maybe add a check for main action in progress
         //here we try to execute the command
         if (masterController.discardLeader(command.getLeaderCode(), myClientTurnOrder)) {
-            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
-            updateBroadcaster.broadcastMessage(masterController.getLeaderCardsUpdateOfPlayer(myClientTurnOrder));
+            updateBroadcaster.sendFaithTrackUpdate();
+            updateBroadcaster.sendLeaderCardsUpdateOfPlayer(myClientTurnOrder);
             messageSenderToMyClient.goodCommand("the leader has been discarded");
             updateBroadcaster.sendPrintOutUpdate(myClientUsername + " discarded a leader");
         }
@@ -377,12 +378,13 @@ public class ServerThread implements Runnable {
         //check if player has done their main action
         if (masterController.checkIfMainActionWasCompleted()) { //true
             if (masterController.getGameNumberOfPlayers() == 1) { //only if single player game
-                updateBroadcaster.broadcastMessage(masterController.doLorenzoActionAndGetUpdateString());
-                updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
-                updateBroadcaster.broadcastMessage(masterController.getDevCardsSpaceUpdate());
+                masterController.doLorenzoAction();
+                updateBroadcaster.sendLastUsedLorenzoActionUpdate();
+                updateBroadcaster.sendFaithTrackUpdate();
+                updateBroadcaster.sendDevCardSpaceUpdate();
             }
-            updateBroadcaster.broadcastMessage(masterController.endTurnAndGetEndTurnUpdateMessage());
-            messageSenderToMyClient.goodCommand("you have ended your turn");
+            updateBroadcaster.sendEndTurnUpdate(masterController.endTurnAndGetNewCurrentPlayer());
+            messageSenderToMyClient.goodCommand("");
             updateBroadcaster.sendPrintOutUpdate(myClientUsername + " ended his turn");
         }
         else { //false
@@ -424,7 +426,7 @@ public class ServerThread implements Runnable {
         //here we try to execute the command
         if (masterController.placeResourceOfPlayerInSlot(command.getSlotNumber(),
                 command.getResourceType(), myClientTurnOrder)) { //true if all went correctly
-            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
             messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
@@ -451,7 +453,7 @@ public class ServerThread implements Runnable {
         }
         //here we try to execute the command
         if (masterController.discardOneResourceAndGiveFaithPoints(command.getResourceType(), myClientTurnOrder)) { //true if command was correct
-            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
+            updateBroadcaster.sendFaithTrackUpdate();
             messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
@@ -479,7 +481,7 @@ public class ServerThread implements Runnable {
         //here we try to execute the command
         if (masterController.moveOneResourceOfPlayer(command.getFromSlotNumber(),
                 command.getToSlotNumber(), myClientTurnOrder)) {  //true if command was correct
-            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
             messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
@@ -506,7 +508,7 @@ public class ServerThread implements Runnable {
         //here we try to execute the command
         if (masterController.switchResourceSlotsOfPlayer(command.getFromSlotNumber(),
                 command.getToSlotNumber(), myClientTurnOrder)) { //true if command was correct
-            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
             messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
@@ -532,9 +534,9 @@ public class ServerThread implements Runnable {
         }
         //now we try to execute the command
         masterController.discardAllRemainingResourcesAndGiveFaithPoints(myClientTurnOrder);
-        updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
+        updateBroadcaster.sendFaithTrackUpdate();
         messageSenderToMyClient.goodCommand("you have ended the placing of your resources");
-        updateBroadcaster.sendPrintOutUpdate(myClientUsername + " ended placing his resources");
+        updateBroadcaster.sendPrintOutUpdate(myClientUsername + " ended placing his resources (and might have discarded the remaining resources he had to place)");
     }
 
     private void chosenResourcesToPayForProduction(Command command) {
@@ -547,9 +549,9 @@ public class ServerThread implements Runnable {
                 command.getChestStones(), command.getChestServants(), command.getChestShields(),
                 command.getStorageCoins(), command.getStorageStones(), command.getStorageServants(),
                 command.getStorageShields(), myClientTurnOrder)) {  //true if action is viable
-            updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
-            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
-            updateBroadcaster.broadcastMessage(masterController.getChestUpdateOfPlayer(myClientTurnOrder));
+            updateBroadcaster.sendFaithTrackUpdate();
+            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
+            updateBroadcaster.sendChestUpdateOfPlayer(myClientTurnOrder);
             messageSenderToMyClient.goodCommand(null);
             updateBroadcaster.sendPrintOutUpdate(myClientUsername + " activated his production");
         }
@@ -571,8 +573,8 @@ public class ServerThread implements Runnable {
                 command.getChestStones(), command.getChestServants(), command.getChestShields(),
                 command.getStorageCoins(), command.getStorageStones(), command.getStorageServants(),
                 command.getStorageShields(), myClientTurnOrder)) {
-            updateBroadcaster.broadcastMessage(masterController.getChestUpdateOfPlayer(myClientTurnOrder));
-            updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
+            updateBroadcaster.sendChestUpdateOfPlayer(myClientTurnOrder);
+            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
             messageSenderToMyClient.goodCommand(null);
             updateBroadcaster.sendPrintOutUpdate(myClientUsername + " bought a development card but still hasn't placed it");
         }
@@ -591,9 +593,8 @@ public class ServerThread implements Runnable {
         }
         //now we try to execute the command
         if (masterController.placeDevCard(command.getSlotNumber(), myClientTurnOrder)) { //if true
-            updateBroadcaster.broadcastMessage(masterController.getUpdateMessageOfPersonalDevCardSlot(
-                    command.getSlotNumber(), myClientTurnOrder));
-            updateBroadcaster.broadcastMessage(masterController.getDevCardsSpaceUpdate());
+            updateBroadcaster.sendPersonalDevCardSlotUpdateOfPlayer(command.getSlotNumber(), myClientTurnOrder);
+            updateBroadcaster.sendDevCardSpaceUpdate();
             messageSenderToMyClient.goodCommand("you bought the card successfully");
             updateBroadcaster.sendPrintOutUpdate(myClientUsername + " placed the bought development card");
         }

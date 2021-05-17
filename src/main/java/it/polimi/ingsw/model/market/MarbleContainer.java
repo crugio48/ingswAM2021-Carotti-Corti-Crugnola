@@ -49,13 +49,13 @@ public class MarbleContainer {
 
     /**
      *
-     * @param row is the row of the matrix from where you want to get the Marble (first row is 1)
-     * @param column is the column of the matrix from where you want to get the Marble (first column is 1)
-     * @return is the string of the color of the marble in that position, it is null if position is out of bound
+     * @param row is the row of the matrix from where you want to get the Marble (first row is 0)
+     * @param column is the column of the matrix from where you want to get the Marble (first column is 0)
+     * @return is the marble in that position, it is null if position is out of bound
      */
-    public String getMarbleFromMatrix(int row, int column){
-        if (row < 1 || row > 3 || column < 1 || column > 4) return null;
-        return marbleMatrix[row-1][column-1].getColor();
+    public Marble getMarbleFromMatrix(int row, int column){
+        if (row < 0 || row > 2 || column < 0 || column > 3) return null;
+        return marbleMatrix[row][column];
     }
 
 
@@ -63,8 +63,8 @@ public class MarbleContainer {
      * method used to get the Marble on the side of the market (the one not in the marbleMatrix)
      * @return is the sting of the color of the extra marble
      */
-    public String getExtraMarble(){
-        return extraMarble.getColor();
+    public Marble getExtraMarble(){
+        return extraMarble;
     }
 
 
@@ -243,27 +243,4 @@ public class MarbleContainer {
                 ", extraMarble=" + extraMarble.getColor() +
                 '}';
     }
-
-    public String getUpdateMessageOfMarketCurrentState() {
-
-        return "{\"cmd\" : \"marketUpdate\", \"newFirstMarketRow\" : [\"" +
-                marbleMatrix[0][0].getColor() + "\", \"" +
-                marbleMatrix[0][1].getColor() + "\", \"" +
-                marbleMatrix[0][2].getColor() + "\", \"" +
-                marbleMatrix[0][3].getColor() + "\"], " +
-                "\"newSecondMarketRow\" : [\"" +
-                marbleMatrix[1][0].getColor() + "\", \"" +
-                marbleMatrix[1][1].getColor() + "\", \"" +
-                marbleMatrix[1][2].getColor() + "\", \"" +
-                marbleMatrix[1][3].getColor() + "\"]," +
-                "\"newThirdMarketRow\" : [\"" +
-                marbleMatrix[2][0].getColor() + "\", \"" +
-                marbleMatrix[2][1].getColor() + "\", \"" +
-                marbleMatrix[2][2].getColor() + "\", \"" +
-                marbleMatrix[2][3].getColor() + "\"]," +
-                "\"newExtraMarble\" : \"" +
-                extraMarble.getColor() + "\"}";
-    }
-
-
 }

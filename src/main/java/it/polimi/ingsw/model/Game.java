@@ -26,6 +26,7 @@ public class Game {
     private HashMap<Integer,LeaderCard> leaderCards;
     private Deck actionCardDeck;
     private Stack<ActionCard> usedActionCards;
+    private  int lastUsedActionCard;
     private FaithTrack faithTrack;
     private DevCardSpace devCardSpace;
     private MarbleContainer market;
@@ -36,6 +37,7 @@ public class Game {
         this.numOfPlayers = numOfPlayers;
         this.players = new ArrayList<>();
         this.usedActionCards = new Stack<>();
+        this.lastUsedActionCard = 0;
         this.faithTrack = new FaithTrack();
         this.devCardSpace = new DevCardSpace();
         this.market = new MarbleContainer();
@@ -199,24 +201,18 @@ public class Game {
      * and activating the effect of the action card by passing the entire Game
      * @return the update string of lorenzo action
      */
-    public String drawAndExecuteActionCard() throws SoloGameLostException {
+    public void drawAndExecuteActionCard() throws SoloGameLostException {
         ActionCard topCard = (ActionCard) actionCardDeck.getLastCardAndDiscard();
+
+        lastUsedActionCard = topCard.getCode();
 
         usedActionCards.push(topCard);
 
         topCard.activateEffect(this);
-
-        return "{\"cmd\" : \"lorenzoActionUpdate\", \"lastActionCardUsedCode\" : " + topCard.getCode() + "}";
     }
 
-    public String getLorenzoActionUpdate(){
-
-        if (!usedActionCards.isEmpty()) {
-            return "{\"cmd\" : \"lorenzoActionUpdate\", \"lastActionCardUsedCode\" : " + usedActionCards.peek().getCode() + "}";
-        }
-        else {
-            return "{\"cmd\" : \"lorenzoActionUpdate\", \"lastActionCardUsedCode\" : " + (-6) + "}"; //this is the code of the mixing card
-        }
+    public int getLastUsedActionCard() {
+        return lastUsedActionCard;
     }
 
     /**
@@ -233,7 +229,6 @@ public class Game {
         }
         actionCardDeck.randomizeDeck();
     }
-
 
     public int getNumOfPlayers() {
         return numOfPlayers;

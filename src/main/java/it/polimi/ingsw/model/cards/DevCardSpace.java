@@ -271,21 +271,4 @@ public class DevCardSpace {
         tempStack.pop();      //second discard
     }
 
-
-    public String getUpdateMessageOfDevCardSpaceCurrentState() {
-
-        return "{\"cmd\" : \"devCardSpaceUpdate\", " +
-                "\"newGreen1\" : " + peekTopCard(1,'g').getCode() + ", " +
-                "\"newGreen2\" : " + peekTopCard(2,'g').getCode() + ", " +
-                "\"newGreen3\" : " + peekTopCard(3,'g').getCode() + ", " +
-                "\"newPurple1\" : " + peekTopCard(1,'p').getCode() + ", " +
-                "\"newPurple2\" : " + peekTopCard(2,'p').getCode() + ", " +
-                "\"newPurple3\" : " + peekTopCard(3,'p').getCode() + ", " +
-                "\"newBlue1\" : " + peekTopCard(1,'b').getCode() + ", " +
-                "\"newBlue2\" : " + peekTopCard(2,'b').getCode() + ", " +
-                "\"newBlue3\" : " + peekTopCard(3,'b').getCode() + ", " +
-                "\"newYellow1\" : " + peekTopCard(1,'y').getCode() + ", " +
-                "\"newYellow2\" : " + peekTopCard(2,'y').getCode() + ", " +
-                "\"newYellow3\" : " + peekTopCard(3,'y').getCode() + "}";
-    }
 }
