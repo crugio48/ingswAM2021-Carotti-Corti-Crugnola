@@ -2,7 +2,6 @@ package it.polimi.ingsw.client;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
-import it.polimi.ingsw.client.cli.ClientCLI;
 
 import java.io.BufferedReader;
 import java.io.IOException;

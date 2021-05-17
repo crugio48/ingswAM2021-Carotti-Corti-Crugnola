@@ -188,6 +188,7 @@ public class ClientCLI extends Client {
 
     private void printPersonalBoard(){
         //print the player personal board
+        printOut("you total current victory points are: " + clientModel.getTotalVictoryPointsOfPlayer(myTurnOrder));
         printOut("These are your development cards:");
         clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
         printOut("These are the resources in your chest:");
@@ -226,6 +227,7 @@ public class ClientCLI extends Client {
             }
             if (selectedTurnorder > 0 && selectedTurnorder <= clientModel.getNumberOfPlayers()) {
 
+                printOut("his total current victory points are: " + clientModel.getTotalVictoryPointsOfPlayer(selectedTurnorder));
                 printOut("These are development cards:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
                 printOut("These are the resources in your chest:");

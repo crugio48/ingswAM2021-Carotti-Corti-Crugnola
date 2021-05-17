@@ -65,6 +65,10 @@ public class ClientModelChest extends MyObservable {
         notifyObservers();
     }
 
+    public int getTotalResourcesQuantity() {
+        return coinsQuantity + shieldsQuantity + stonesQuantity + servantsQuantity;
+    }
+
     public void printOut(String toPrint) {
         System.out.println(toPrint);
     }

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.clientmodel;
 
 
+import it.polimi.ingsw.CardDecoder.CardDecoder;
+
 import java.util.ArrayList;
 
 public class ClientModel {
@@ -125,6 +127,40 @@ public class ClientModel {
         for (int i = 0; i < numOfPlayers; i++) {
             players.add(new ClientModelPlayer(nicknames[i], i+1));
         }
+    }
+
+    public synchronized int getTotalVictoryPointsOfPlayer(int playerTurnOrder) {
+        CardDecoder cardDecoder = new CardDecoder();
+        int total = 0;
+
+        //this is calculating the faithTrack points
+        int faithTrackPosition = getFaithTrack().getPlayerPositions()[playerTurnOrder - 1];
+        if ( faithTrackPosition >= 3 && faithTrackPosition <= 5) total += 1;
+        else if (faithTrackPosition <= 8) total += 2;
+        else if (faithTrackPosition <= 11) total += 4;
+        else if (faithTrackPosition <= 14) total += 6;
+        else if (faithTrackPosition <= 17) total += 9;
+        else if (faithTrackPosition <= 20) total += 12;
+        else if (faithTrackPosition <= 23) total += 16;
+        else total += 20;
+        if (getFaithTrack().getActiveFirstPapalFavourCard()[playerTurnOrder - 1]) total += 2;
+        if (getFaithTrack().getActiveSecondPapalFavourCard()[playerTurnOrder - 1]) total += 3;
+        if (getFaithTrack().getActiveThirdPapalFavourCard()[playerTurnOrder - 1]) total += 4;
+
+        //this is calculating leaderCards points
+        ClientModelLeaderCard card = getPlayerByTurnorder(playerTurnOrder).getLeaderCard(0);
+        if (card.getCode() != 0 && card.isActive()) total += cardDecoder.getVictoryPointsOfCard(card.getCode());
+        card = getPlayerByTurnorder(playerTurnOrder).getLeaderCard(1);
+        if (card.getCode() != 0 && card.isActive()) total += cardDecoder.getVictoryPointsOfCard(card.getCode());
+
+        //this is calculating the total victory points of the devCards
+        total += getPlayerByTurnorder(playerTurnOrder).getPersonalDevCardSlots().getTotalVictoryPointsOfPersonalDevCards();
+
+        //this is calculating the victory points gained by the resources the player currently has
+        int resourcesQuantity = getPlayerByTurnorder(playerTurnOrder).getTotalResourcesQuantity();
+        total += Math.floorDiv(resourcesQuantity, 5);
+
+        return total;
     }
 
 

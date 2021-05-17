@@ -190,7 +190,7 @@ public class ClientModelMarket extends MyObservable {
 
         System.out.println("(coin = " + ANSI_YELLOW + "\u25CF" + ANSI_RESET + "), (stone = " + ANSI_BLACK + "\u25CF"+  ANSI_RESET + ")");
         System.out.println("(servant = " + ANSI_PURPLE + "\u25CF" + ANSI_RESET + "), (shield = " + ANSI_BLUE + "\u25CF"+ANSI_RESET + ")");
-        System.out.println("(faith = " + ANSI_RED + "\u25CF" + ANSI_RESET + "), (white = " + ANSI_WHITE + "\u25CF"+ANSI_RESET + ")");
+        System.out.print("(faith = " + ANSI_RED + "\u25CF" + ANSI_RESET + "), (white = " + ANSI_WHITE + "\u25CF"+ANSI_RESET + ")");
 
         for (int i = 0; i <= 8; i++){
             System.out.println();

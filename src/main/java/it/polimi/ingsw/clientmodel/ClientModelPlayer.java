@@ -93,4 +93,13 @@ public class ClientModelPlayer extends MyObservable {
         this.leaderCard[1].setActive(leader2Active);
         notifyObservers();
     }
+
+    public int getTotalResourcesQuantity() {
+        int total = 0;
+
+        total += getChest().getTotalResourcesQuantity();
+        total += getStorage().getTotalResourcesQuantity();
+
+        return total;
+    }
 }

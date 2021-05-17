@@ -141,6 +141,10 @@ public class ClientModelStorage extends MyObservable {
 
     }
 
+    public int getTotalResourcesQuantity() {
+        return quantityOfSlot1 + quantityOfSlot2 + quantityOfSlot3 + quantityOfLeaderSlot1 + quantityOfLeaderSlot2;
+    }
+
     public void printOut(String toPrint) {
         System.out.println(toPrint);
     }

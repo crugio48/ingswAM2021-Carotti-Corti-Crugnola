@@ -143,6 +143,22 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
         else printOut("no card present");
         }
 
+
+    public int getTotalVictoryPointsOfPersonalDevCards() {
+        CardDecoder cardDecoder = new CardDecoder();
+        int total = 0;
+        for (Integer code : firstStack) {
+            total += cardDecoder.getVictoryPointsOfCard(code);
+        }
+        for (Integer code : secondStack) {
+            total += cardDecoder.getVictoryPointsOfCard(code);
+        }
+        for (Integer code : thirdStack) {
+            total += cardDecoder.getVictoryPointsOfCard(code);
+        }
+        return total;
+    }
+
         public void printOut(String toPrint) {
             System.out.println(toPrint);
         }

@@ -289,6 +289,69 @@ public class CardDecoder {
         }
     }
 
+
+    public int getVictoryPointsOfCard(int cardCode) {
+        JSONParser parser = new JSONParser();
+        JSONObject tempCard;
+
+        if (cardCode <= 0) {
+            return 0;
+        } else if (cardCode <= 4) {
+            try {
+                Object leaderResourceObj = parser.parse(new FileReader("src/main/resources/LeaderCardsResource.json"));
+                JSONObject leaderResourceJsonObj = (JSONObject) leaderResourceObj;
+                JSONArray leaderResourceArrayCards = (JSONArray) leaderResourceJsonObj.get("cards");
+                Iterator<JSONObject> leaderResourceIterator = leaderResourceArrayCards.iterator();
+
+                while (leaderResourceIterator.hasNext()) {
+                    tempCard = leaderResourceIterator.next();
+                    int readCode = ((Long) tempCard.get("id")).intValue();
+                    if (readCode == cardCode) {
+                        return ((Long) tempCard.get("victoryPoints")).intValue();
+                    }
+                }
+            } catch (ParseException | IOException e) {
+                e.printStackTrace();
+            }
+        } else if (cardCode <= 16) {
+            try {
+                Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
+                JSONObject leaderDevJsonObj = (JSONObject) leaderDevObj;
+                JSONArray leaderDevArrayCards = (JSONArray) leaderDevJsonObj.get("cards");
+                Iterator<JSONObject> leaderDevIterator = leaderDevArrayCards.iterator();
+
+                while (leaderDevIterator.hasNext()) {
+                    tempCard = leaderDevIterator.next();
+                    int readCode = ((Long) tempCard.get("id")).intValue();
+                    if (readCode == cardCode) {
+                        return ((Long) tempCard.get("victoryPoints")).intValue();
+                    }
+                }
+            } catch (ParseException | IOException e) {
+                e.printStackTrace();
+            }
+        } else if (cardCode <= 64) {
+            try {
+                Object devObj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
+                JSONObject devJsonObj = (JSONObject) devObj;
+                JSONArray devArrayCards = (JSONArray) devJsonObj.get("cards");
+                Iterator<JSONObject> devIterator = devArrayCards.iterator();
+
+                while (devIterator.hasNext()) {
+                    tempCard = devIterator.next();
+                    int readCode = ((Long) tempCard.get("code")).intValue();
+                    if (readCode == cardCode) {
+                        return ((Long) tempCard.get("victoryPoints")).intValue();
+                    }
+                }
+            } catch (ParseException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return 0;
+    }
+
     private void printOut(String toPrint){
         System.out.println(toPrint);
     }
