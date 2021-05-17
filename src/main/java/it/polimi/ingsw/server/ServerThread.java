@@ -59,6 +59,9 @@ public class ServerThread implements Runnable {
             //now only the thread associated to the client with turn order 1 broadcasts the initial updates to everyone
             if (myClientTurnOrder == 1) {
                 sendInitialUpdates();
+
+                Thread.sleep(500);
+                updateBroadcaster.sendPrintOutUpdate(""); //to print the state of the game for non starting players
             }
 
             //now the game can start
@@ -296,6 +299,7 @@ public class ServerThread implements Runnable {
                     masterController.getTurnInfo().getCoins(),
                     masterController.getTurnInfo().getJolly(),
                     masterController.getTurnInfo().getTargetResources());
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " bought from the market");
         }
         else {  //if false then the action was not correct
             messageSenderToMyClient.badCommand("invalid market position requested");
@@ -348,6 +352,7 @@ public class ServerThread implements Runnable {
             updateBroadcaster.broadcastMessage(masterController.getLeaderCardsUpdateOfPlayer(myClientTurnOrder));
             updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
             messageSenderToMyClient.goodCommand("the leader has been activated");
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " activated a leader");
         }
         else {
             messageSenderToMyClient.badCommand("the leader requirement wasn't met");
@@ -361,6 +366,7 @@ public class ServerThread implements Runnable {
             updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
             updateBroadcaster.broadcastMessage(masterController.getLeaderCardsUpdateOfPlayer(myClientTurnOrder));
             messageSenderToMyClient.goodCommand("the leader has been discarded");
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " discarded a leader");
         }
         else {
             messageSenderToMyClient.badCommand("you can't discard this leader");
@@ -377,6 +383,7 @@ public class ServerThread implements Runnable {
             }
             updateBroadcaster.broadcastMessage(masterController.endTurnAndGetEndTurnUpdateMessage());
             messageSenderToMyClient.goodCommand("you have ended your turn");
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " ended his turn");
         }
         else { //false
             messageSenderToMyClient.badCommand("you still haven't done your main action");
@@ -422,6 +429,7 @@ public class ServerThread implements Runnable {
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
                     masterController.getTurnInfo().getCoins());
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " placed a bought resource");
         }
         else { //false if wrong action decided by the client
             messageSenderToMyClient.badMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
@@ -448,6 +456,7 @@ public class ServerThread implements Runnable {
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
                     masterController.getTurnInfo().getCoins());
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " discarded a bought resource");
         }
         else {  //false if command wasn't correct
             messageSenderToMyClient.badMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
@@ -525,6 +534,7 @@ public class ServerThread implements Runnable {
         masterController.discardAllRemainingResourcesAndGiveFaithPoints(myClientTurnOrder);
         updateBroadcaster.broadcastMessage(masterController.getFaithTrackUpdate());
         messageSenderToMyClient.goodCommand("you have ended the placing of your resources");
+        updateBroadcaster.sendPrintOutUpdate(myClientUsername + " ended placing his resources");
     }
 
     private void chosenResourcesToPayForProduction(Command command) {
@@ -541,6 +551,7 @@ public class ServerThread implements Runnable {
             updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
             updateBroadcaster.broadcastMessage(masterController.getChestUpdateOfPlayer(myClientTurnOrder));
             messageSenderToMyClient.goodCommand(null);
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " activated his production");
         }
         else {
             messageSenderToMyClient.badProductionExecution(masterController.getTurnInfo().getStones(),
@@ -563,6 +574,7 @@ public class ServerThread implements Runnable {
             updateBroadcaster.broadcastMessage(masterController.getChestUpdateOfPlayer(myClientTurnOrder));
             updateBroadcaster.broadcastMessage(masterController.getStorageUpdateOfPlayer(myClientTurnOrder));
             messageSenderToMyClient.goodCommand(null);
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " bought a development card but still hasn't placed it");
         }
         else {
             messageSenderToMyClient.badDevCardBuyChoosingPayement(masterController.getTurnInfo().getStones(),
@@ -583,6 +595,7 @@ public class ServerThread implements Runnable {
                     command.getSlotNumber(), myClientTurnOrder));
             updateBroadcaster.broadcastMessage(masterController.getDevCardsSpaceUpdate());
             messageSenderToMyClient.goodCommand("you bought the card successfully");
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " placed the bought development card");
         }
         else {// if false
             messageSenderToMyClient.badCommand("it wasn't possible to place the card in that slot");

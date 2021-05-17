@@ -10,7 +10,6 @@ import it.polimi.ingsw.client.MessageSender;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class ClientCLI extends Client {
@@ -54,13 +53,17 @@ public class ClientCLI extends Client {
             //now the game has started and the client leads the communication
             while (true) {
                 isMyTurn = (clientModel.getCurrentPlayer() == myTurnOrder);
-                //DA FARE: logica di fine gioco
+
 
                 if (isMyTurn) {
-                    printOut("it is your turn, please choose what you want to do, type:\n" +
-                            "1 for looking at your personal board\n" +
-                            "2 for looking at another player personal board\n" +
-                            "3 for looking at the development card piles);\n" +
+                    printOut("\n\nit is your turn, please choose what you want to do, type:\n" +
+                            "1 for looking at your personal board");
+                    if (clientModel.getNumberOfPlayers() > 1) {
+                        printOut("2 for looking at another player personal board");
+                    } else {
+                        printOut("2 for looking at Lorenzo's last turn action and his faithTrack");
+                    }
+                    printOut("3 for looking at the development card piles\n" +
                             "4 for looking at the market\n" +
                             "5 to activate a leader card\n" +
                             "6 to discard a leader card that hasn't been activated\n" +
@@ -95,7 +98,11 @@ public class ClientCLI extends Client {
                             printPersonalBoard();
                             break;
                         case 2:
-                            printOtherPlayersBoard();
+                            if (clientModel.getNumberOfPlayers() > 1){
+                                printOtherPlayersBoard();
+                            } else {
+                                printLastUsedLorenzoAction();
+                            }
                             break;
                         case 3:
                             printDevelopmentCards();
@@ -125,9 +132,10 @@ public class ClientCLI extends Client {
                             printOut("please enter a valid number");
                             break;
                     }
-
                 }
                 else {
+                    notMyTurnExecution();
+                    /*
                     printOut("it is not currently your turn, please choose what you want to do, type:\n" +
                             "1 for looking at your personal board\n" +
                             "2 for looking at another player personal board\n" +
@@ -168,6 +176,8 @@ public class ClientCLI extends Client {
                         default:
                             break;
                     }
+
+                     */
                 }
 
                 if (clientModel.isSoloGameLost() && clientModel.isEndGameActivated()){
@@ -192,6 +202,35 @@ public class ClientCLI extends Client {
 
     }
 
+    /**
+     * queue method to refresh non current players terminal
+     */
+    public synchronized void reprint() {
+        notifyAll();
+    }
+
+    /**
+     * waiting to reprint after a player move
+     * @throws InterruptedException
+     */
+    public synchronized void waitForReprint() throws InterruptedException {
+        wait();
+    }
+
+    private void notMyTurnExecution() throws InterruptedException {
+        printOut("it is not your turn please wait for other players to do any action and the game state will automatically reprint\n" +
+                "everything you type in now will result in a bad request (at your own risk) so please don't type anything for now");
+        waitForReprint();
+        printOut("\nyour personal board: ");
+        printPersonalBoard();
+        printOut("\nother people persona boards");
+        printAllOtherPlayersBoard();
+        printOut("\nthe development card on the table are: ");
+        printDevelopmentCards();
+        printOut("\nthe market is: ");
+        printMarket();
+    }
+
     public void printOut(String toPrint) {
         System.out.println(toPrint);
     }
@@ -213,6 +252,26 @@ public class ClientCLI extends Client {
         printOut("Second card:\n");
         printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
     }
+
+    private void printAllOtherPlayersBoard() {
+        for (int i = 1; i <= clientModel.getNumberOfPlayers(); i++) {
+            if (i != myTurnOrder) {
+                printOut("\n" + clientModel.getPlayerByTurnorder(i).getNickname() + " personal board: ");
+                printOut("current victory points: " + clientModel.getTotalVictoryPointsOfPlayer(i));
+                printOut("the development card slots are: ");
+                clientModel.getPlayerByTurnorder(i).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+                printOut("the chest is: ");
+                clientModel.getPlayerByTurnorder(i).getChest().visualizeClientModelChest();
+                printOut("the storage is: ");
+                clientModel.getPlayerByTurnorder(i).getStorage().visualizeClientModelStorage();
+                printOut("the faithTrack is: ");
+                printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(i));
+                printOut("the active leader cards are: ");
+                printOut(clientModel.visualizeOtherPlayerLeaderCards(i));
+            }
+        }
+    }
+
 
     private void printOtherPlayersBoard(){
         String userInput;
@@ -246,11 +305,45 @@ public class ClientCLI extends Client {
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getStorage().visualizeClientModelStorage();
                 printOut("This is your faithTrack:");
                 printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(selectedTurnorder));
-                printOut("These are the active leaderCards of the other players: ");
-                printOut(clientModel.visualizeOtherPlayerLeaderCards(myTurnOrder));
+                printOut("These are the active leaderCards of the other player: ");
+                printOut(clientModel.visualizeOtherPlayerLeaderCards(selectedTurnorder));
                 break;
             }
         }
+    }
+
+    private void printLastUsedLorenzoAction() {
+        if (clientModel.getLastUsedActionCardCode() == 0) {
+            printOut("lorenzo still hasn't done anything, this is your first turn");
+            printOut("lorenzo's faithTrack: ");
+            //DA FARE print del faith track di lorenzo
+            return;
+        }
+        printOut("last turn lorenzo did this action: ");
+        switch (clientModel.getLastUsedActionCardCode()){
+            case -1:
+                printOut("he removed two blue development cards from the lowest stack level");
+                break;
+            case -2:
+                printOut("he removed two green development cards from the lowest stack level");
+                break;
+            case -3:
+                printOut("he removed two yellow development cards from the lowest stack level");
+                break;
+            case -4:
+                printOut("he removed two purple development cards from the lowest stack level");
+                break;
+            case -5:
+                printOut("he advanced of two cells in the faithTrack");
+                break;
+            case -6:
+                printOut("he advanced of one cell in the faithTrack and remixed his action cards");
+                break;
+            default:
+                break;
+        }
+        printOut("lorenzo's faithTrack: ");
+        //DA FARE print del faith track di lorenzo
     }
 
     private void printDevelopmentCards(){

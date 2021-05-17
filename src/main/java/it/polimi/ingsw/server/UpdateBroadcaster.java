@@ -48,4 +48,12 @@ public class UpdateBroadcaster {
         }
     }
 
+    public synchronized void sendPrintOutUpdate(String message) {
+        String outMessage = "{\"cmd\" : \"printOutUpdate\", \"resp\" : \"" + message + "\"}";
+        for(PrintWriter out: clientsSocketsOut) {
+            out.println(outMessage);
+            out.flush();
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.cli.ClientCLI;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,6 +31,16 @@ public class ClientConnectionThread extends Thread {
 
     @Override
     public void run() {
+        String ANSI_RESET = "\u001B[0m";
+        String ANSI_BLACK = "\u001B[30m";
+        String ANSI_RED = "\u001B[31m";
+        String ANSI_GREEN = "\u001B[32m";
+        String ANSI_YELLOW = "\u001B[33m";
+        String ANSI_BLUE = "\u001B[34m";
+        String ANSI_PURPLE = "\u001B[35m";
+        String ANSI_CYAN = "\u001B[36m";
+        String ANSI_WHITE = "\u001B[37m";
+
         Gson gson = new Gson();
         try {
             String received;
@@ -105,7 +116,13 @@ public class ClientConnectionThread extends Thread {
                         }
                         break;
                     case"printOutUpdate":
-                        //DA FARE
+                        if (client instanceof ClientCLI) {
+                            System.out.println(ANSI_RED + response.getResp() + ANSI_RESET);
+                            ((ClientCLI) client).reprint();
+                        }
+                        else {
+                            //DA FARE gui printout (solo messaggio)
+                        }
                         break;
                     default:
                         client.stringBuffer.addMessage(received);
