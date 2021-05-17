@@ -223,9 +223,9 @@ public class ClientCLI extends Client {
         waitForReprint();
         printOut("\nyour personal board: ");
         printPersonalBoard();
-        printOut("\nother people persona boards");
+        printOut("\nother people personal boards");
         printAllOtherPlayersBoard();
-        printOut("\nthe development card on the table are: ");
+        printOut("\nthe development cards on the table are: ");
         printDevelopmentCards();
         printOut("\nthe market is: ");
         printMarket();
@@ -245,8 +245,8 @@ public class ClientCLI extends Client {
         printOut("These are the resources in your storage:");
         clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
         printOut("This is your faithTrack:");
-        printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(myTurnOrder));
-        printOut("These are your Leader Cards: ");
+        clientModel.getFaithTrack().printFaithTrackAsciiArt(myTurnOrder);
+        printOut("\nThese are your Leader Cards: ");
         printOut("First card:\n");
         printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
         printOut("Second card:\n");
@@ -265,7 +265,7 @@ public class ClientCLI extends Client {
                 printOut("the storage is: ");
                 clientModel.getPlayerByTurnorder(i).getStorage().visualizeClientModelStorage();
                 printOut("the faithTrack is: ");
-                printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(i));
+                clientModel.getFaithTrack().printFaithTrackAsciiArt(i);
                 printOut("the active leader cards are: ");
                 printOut(clientModel.visualizeOtherPlayerLeaderCards(i));
             }
@@ -304,7 +304,7 @@ public class ClientCLI extends Client {
                 printOut("These are the resources in your storage:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getStorage().visualizeClientModelStorage();
                 printOut("This is your faithTrack:");
-                printOut(clientModel.getFaithTrack().visualizeClientModelFaithTrack(selectedTurnorder));
+                clientModel.getFaithTrack().printFaithTrackAsciiArt(selectedTurnorder);
                 printOut("These are the active leaderCards of the other player: ");
                 printOut(clientModel.visualizeOtherPlayerLeaderCards(selectedTurnorder));
                 break;
