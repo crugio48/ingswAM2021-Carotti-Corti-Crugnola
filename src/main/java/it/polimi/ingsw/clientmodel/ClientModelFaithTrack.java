@@ -162,7 +162,7 @@ public class ClientModelFaithTrack extends MyObservable {
         table[4][125] = ANSI_RED + "╝" + ANSI_RESET;
         table[4][110] = ANSI_RED + "4" + ANSI_RESET;
 
-        point= (getPlayerPositions()[turnOrder]*5)+3;
+        point= (getPlayerPositions()[turnOrder-1]*5)+3;
         table[0][point]= marker;
 
         System.out.println("\n(Current Position = " + marker + "   Vatican Report Section = " + ANSI_RED + "╚═╝"+ ANSI_RESET+")" );
