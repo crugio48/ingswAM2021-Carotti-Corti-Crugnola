@@ -650,7 +650,12 @@ public class CardDecoder {
                         int outputServants = ((Long) tempCard.get("outputServants")).intValue();
 
 
-                        matrixInsertionOfString(background, 4,1, "DEVELOPMENT");
+                        matrixInsertionOfString(background, 4,1, "DEV.");
+                        matrixInsertionOfString(background, 4,6, "COL:");
+                        matrixInsertionOfString(background, 4,11, colour.toUpperCase());
+                        matrixInsertionOfString(background, 4,13, "LV:");
+                        matrixInsertionOfString(background, 4,16, String.valueOf(level));
+
 
                         //ascii art DEV CARDS
                         if (costCoins>0){
