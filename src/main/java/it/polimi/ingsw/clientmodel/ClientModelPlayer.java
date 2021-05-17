@@ -9,7 +9,6 @@ public class ClientModelPlayer extends MyObservable {
     private ClientModelChest chest;
     private ClientModelStorage storage;
     private ClientModelPersonalDevCardSlots personalDevCardSlots;
-    private int currentVictoryPoints;
 
     public ClientModelPlayer(String nickname, int turnOrder){
         this.nickname = nickname;
@@ -20,7 +19,6 @@ public class ClientModelPlayer extends MyObservable {
         this.chest = new ClientModelChest();
         this.storage = new ClientModelStorage();
         this.personalDevCardSlots = new ClientModelPersonalDevCardSlots();
-        this.currentVictoryPoints = 0;
 
 
     }
@@ -54,10 +52,6 @@ public class ClientModelPlayer extends MyObservable {
         return personalDevCardSlots;
     }
 
-    public int getCurrentVictoryPoints() {
-        return currentVictoryPoints;
-    }
-
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
@@ -80,10 +74,6 @@ public class ClientModelPlayer extends MyObservable {
 
     public void setPersonalDevCardSlots(ClientModelPersonalDevCardSlots personalDevCardSlots) {
         this.personalDevCardSlots = personalDevCardSlots;
-    }
-
-    public void setCurrentVictoryPoints(int currentVictoryPoints) {
-        this.currentVictoryPoints = currentVictoryPoints;
     }
 
     public void setLeaderCardsUpdate(int leaderCode1, boolean leader1Active, int leaderCode2, boolean leader2Active) {

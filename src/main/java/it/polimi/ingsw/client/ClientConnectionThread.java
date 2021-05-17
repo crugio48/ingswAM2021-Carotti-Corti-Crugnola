@@ -49,9 +49,6 @@ public class ClientConnectionThread extends Thread {
                     case"leaderCardsUpdate":
                         client.clientModel.getPlayerByNickname(response.getPlayerUsername()).setLeaderCardsUpdate(response.getLeader1Code(), response.isLeader1Active(), response.getLeader2Code(), response.isLeader2Active());
                         break;
-                    case"totalVictoryPointsUpdate":
-                        //here we will parse and update the clientModel
-                        break;
                     case"faithTrackUpdate":
                         client.clientModel.getFaithTrack().setFaithTrackUpdate(response.getNewPlayersPositions(),
                                 response.getNewBlackCrossPosition(),
