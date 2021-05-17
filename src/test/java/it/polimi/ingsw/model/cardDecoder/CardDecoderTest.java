@@ -24,4 +24,19 @@ public class CardDecoderTest {
 
 
     }
+
+    @Test
+    public void cardDecoderAsciiTest(){
+
+        //providing an existing card
+        cardDecoder.printCardAscii(3);
+        cardDecoder.printCardAscii(5);
+        cardDecoder.printCardAscii(9);
+        cardDecoder.printCardAscii(14);
+        cardDecoder.printCardAscii(20);
+        cardDecoder.printCardAscii(30);
+        cardDecoder.printCardAscii(40);
+
+
+    }
 }
