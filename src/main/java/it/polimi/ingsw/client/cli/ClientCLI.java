@@ -251,8 +251,8 @@ public class ClientCLI extends Client {
         printOut("These are the resources in your chest:");
         clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
         printOut("These are the resources in your storage:");
-        clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
-        printOut("This is your faithTrack:");
+        clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().printStorageAsciiArt();
+        printOut("\n\nThis is your faithTrack:");
         clientModel.getFaithTrack().printFaithTrackAsciiArt(myTurnOrder);
         printOut("\nThese are your Leader Cards: ");
         printOut("First card:\n");
@@ -271,7 +271,7 @@ public class ClientCLI extends Client {
                 printOut("the chest is: ");
                 clientModel.getPlayerByTurnorder(i).getChest().visualizeClientModelChest();
                 printOut("the storage is: ");
-                clientModel.getPlayerByTurnorder(i).getStorage().visualizeClientModelStorage();
+                clientModel.getPlayerByTurnorder(i).getStorage().printStorageAsciiArt();
                 printOut("the faithTrack is: ");
                 clientModel.getFaithTrack().printFaithTrackAsciiArt(i);
                 printOut("the active leader cards are: ");
@@ -310,7 +310,7 @@ public class ClientCLI extends Client {
                 printOut("These are the resources in your chest:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getChest().visualizeClientModelChest();
                 printOut("These are the resources in your storage:");
-                clientModel.getPlayerByTurnorder(selectedTurnorder).getStorage().visualizeClientModelStorage();
+                clientModel.getPlayerByTurnorder(selectedTurnorder).getStorage().printStorageAsciiArt();
                 printOut("This is your faithTrack:");
                 clientModel.getFaithTrack().printFaithTrackAsciiArt(selectedTurnorder);
                 printOut("These are the active leaderCards of the other player: ");
@@ -655,7 +655,7 @@ public class ClientCLI extends Client {
                 }
                 while (loop) {
                     printOut("STORAGE: \n");
-                    clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
+                    clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().printStorageAsciiArt();
                     printOut("CHEST :\n");
                     clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
                     printOut("\nResources to be placed : Coins = " + response.getCoins() + " || Stones = " + response.getStones() + " ||  Shields : " + response.getShields() + " || Servants = " + response.getServants());
@@ -1096,7 +1096,7 @@ public class ClientCLI extends Client {
 
         CardDecoder cardDecoder = new CardDecoder();
         printOut("your storage is: ");
-        clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
+        clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().printStorageAsciiArt();
         printOut("your chest is: ");
         clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
         printOut("here are your development cards: ");
@@ -1283,7 +1283,7 @@ public class ClientCLI extends Client {
             int costServants = response.getServants();
 
             printOut("your storage is: ");
-            clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
+            clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().printStorageAsciiArt();
             printOut("your chest is: ");
             clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
             printOut("you selected a viable production, now you need to choose from where to spend your resources:\n" +

@@ -165,7 +165,7 @@ public class ClientModelFaithTrack extends MyObservable {
         point= (getPlayerPositions()[turnOrder-1]*5)+3;
         table[0][point]= marker;
 
-        System.out.println("\n(Current Position = " + marker + "   Vatican Report Section = " + ANSI_RED + "╚═╝"+ ANSI_RESET+")" );
+        System.out.println("(Current Position = " + marker + "   Vatican Report Section = " + ANSI_RED + "╚═╝"+ ANSI_RESET+")" );
         System.out.println("(Pope Spaces = " +ANSI_RED + "8,16,24"+ ANSI_RESET + "  Pope Favor Tiles Points = "+ANSI_RED + "═3═"+ ANSI_RESET+")");
         System.out.println("(Victory Points = " + ANSI_YELLOW + "1,2,4,6,...." + ANSI_RESET +")");
 
