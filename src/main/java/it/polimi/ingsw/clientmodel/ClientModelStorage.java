@@ -148,4 +148,177 @@ public class ClientModelStorage extends MyObservable {
     public void printOut(String toPrint) {
         System.out.println(toPrint);
     }
+
+    public void printStorageAsciiArt(){
+        String ANSI_RESET = "\u001B[0m";
+        String ANSI_BLACK = "\u001B[30m";
+        String ANSI_RED = "\u001B[31m";
+        String ANSI_GREEN = "\u001B[32m";
+        String ANSI_YELLOW = "\u001B[33m";
+        String ANSI_BLUE = "\u001B[34m";
+        String ANSI_PURPLE = "\u001B[35m";
+        String ANSI_CYAN = "\u001B[36m";
+        String ANSI_WHITE = "\u001B[37m";
+
+
+        String[][] table = new String[10][40];
+        for (int i = 0; i <= 9; i++){   //filling all table with empty strings
+            for (int j = 0; j <= 39; j++) {
+                table[i][j] = " ";
+            }
+        }
+
+
+        for (int i=0;i<10;i++){
+            table[9-i][i]= "/";
+        }
+        for (int i=10;i<20;i++){
+            table[i-10][i]= "\\" ;
+        }
+        for (int i=1; i<19 ; i++){
+            table[9][i]= "─";
+        }
+        for (int i=7; i<13 ; i++){
+            table[3][i]= "─";
+        }
+        for (int i=4; i<16 ; i++){
+            table[6][i]= "─";
+        }
+
+        if(quantityOfSlot1==1){
+            switch (resourceOfSlot1){
+                case "coins" : {table[2][9] = ANSI_YELLOW + "\u25CF" + ANSI_RESET;break;}
+                case "stones": {table[2][9] = ANSI_BLACK + "\u25CF"+  ANSI_RESET;break;}
+                case "shields": {table[2][9] = ANSI_BLUE + "\u25CF"+ANSI_RESET;break;}
+                case "servants": {table[2][9] = ANSI_PURPLE + "\u25CF" + ANSI_RESET;break;}
+                default: break;
+
+            }
+        }
+
+        if(quantityOfSlot2!=0){
+            switch (resourceOfSlot2){
+                case "coins" : {
+                    for(int i=7;i<=quantityOfSlot2*7;i+=5){
+                   table[5][i] = ANSI_YELLOW + "\u25CF" + ANSI_RESET;}break;}
+                case "stones": {
+                    for(int i=7;i<=quantityOfSlot2*7;i+=5){
+                        table[5][i] = ANSI_BLACK + "\u25CF" + ANSI_RESET;}break;}
+                case "shields": {
+                    for(int i=7;i<=quantityOfSlot2*7;i+=5){
+                        table[5][i] = ANSI_BLUE + "\u25CF" + ANSI_RESET;}break;}
+                case "servants": {
+                    for(int i=7;i<=quantityOfSlot2*7;i+=5){
+                        table[5][i] = ANSI_PURPLE + "\u25CF" + ANSI_RESET;}break;}
+                default: break;
+            }
+        }
+
+        if(quantityOfSlot3!=0){
+            switch (resourceOfSlot3){
+                case "coins" : {
+                    for(int i=4;i<=quantityOfSlot3*5;i+=5){
+                        table[8][i] = ANSI_YELLOW + "\u25CF" + ANSI_RESET;}break;}
+                case "stones": {
+                    for(int i=4;i<=quantityOfSlot3*5;i+=5){
+                        table[8][i] = ANSI_BLACK + "\u25CF" + ANSI_RESET;}break;}
+                case "shields": {
+                    for(int i=4;i<=quantityOfSlot3*5;i+=5){
+                        table[8][i] = ANSI_BLUE + "\u25CF" + ANSI_RESET;}break;}
+                case "servants": {
+                    for(int i=4;i<=quantityOfSlot3*5;i+=5){
+                        table[8][i] = ANSI_PURPLE + "\u25CF" + ANSI_RESET;}break;}
+                default: break;
+            }
+        }
+
+        if(quantityOfLeaderSlot1!=0){
+            table[0][22]= "╔";
+            table[4][22]= "╚";
+            table[0][32]= "╗";
+            table[4][32]= "╝";
+            for (int j = 23; j <= 31; j++) {
+                table[0][j] = "═";
+                table[4][j] = "═";
+            }
+            for (int i = 1; i <= 3; i++) {
+                table[i][22] = "║";
+                table[i][32] = "║";
+            }
+            table[1][34] = "Leader Slot 1";
+            table[2][34] = "2 spaces for " + resourceTypeOfLeaderSlot1;
+            if(quantityOfLeaderSlot1==1){
+                switch (resourceTypeOfLeaderSlot1){
+                    case "coins" : {table[2][27] = ANSI_YELLOW + "\u25CF" + ANSI_RESET;break;}
+                    case "stones": {table[2][27] = ANSI_BLACK + "\u25CF"+  ANSI_RESET;break;}
+                    case "shields": {table[2][27] = ANSI_BLUE + "\u25CF"+ANSI_RESET;break;}
+                    case "servants": {table[2][27] = ANSI_PURPLE + "\u25CF" + ANSI_RESET;break;}
+                    default: break;
+                }
+            }
+
+            if(quantityOfLeaderSlot1==2){
+                switch (resourceTypeOfLeaderSlot1){
+                    case "coins" : {table[2][25] = ANSI_YELLOW + "\u25CF" + ANSI_RESET;table[2][29] = ANSI_YELLOW + "\u25CF" + ANSI_RESET;break;}
+                    case "stones": {table[2][25] = ANSI_BLACK + "\u25CF"+  ANSI_RESET;table[2][29] = ANSI_BLACK + "\u25CF"+  ANSI_RESET;break;}
+                    case "shields": {table[2][25] = ANSI_BLUE + "\u25CF"+ANSI_RESET;table[2][29] = ANSI_BLUE + "\u25CF"+ANSI_RESET;break;}
+                    case "servants": {table[2][25] = ANSI_PURPLE + "\u25CF" + ANSI_RESET;table[2][29] = ANSI_PURPLE + "\u25CF" + ANSI_RESET;break;}
+                    default: break;
+                }
+            }
+
+
+
+        }
+
+        if(quantityOfLeaderSlot2!=0){
+            table[5][22]= "╔";
+            table[9][22]= "╚";
+            table[5][32]= "╗";
+            table[9][32]= "╝";
+            for (int j = 23; j <= 31; j++) {
+                table[5][j] = "═";
+                table[9][j] = "═";
+            }
+            for (int i = 6; i <= 8; i++) {
+                table[i][22] = "║";
+                table[i][32] = "║";
+            }
+            table[6][34] = "Leader Slot 2";
+            table[7][34] = "2 spaces for " + resourceTypeOfLeaderSlot2;
+            if(quantityOfLeaderSlot2==1){
+                switch (resourceTypeOfLeaderSlot2){
+                    case "coins" : {table[7][27] = ANSI_YELLOW + "\u25CF" + ANSI_RESET;break;}
+                    case "stones": {table[7][27] = ANSI_BLACK + "\u25CF"+  ANSI_RESET;break;}
+                    case "shields": {table[7][27] = ANSI_BLUE + "\u25CF"+ANSI_RESET;break;}
+                    case "servants": {table[7][27] = ANSI_PURPLE + "\u25CF" + ANSI_RESET;break;}
+                    default: break;
+                }
+            }
+
+            if(quantityOfLeaderSlot2==2){
+                switch (resourceTypeOfLeaderSlot2){
+                    case "coins" : {table[7][25] = ANSI_YELLOW + "\u25CF" + ANSI_RESET;table[7][29] = ANSI_YELLOW + "\u25CF" + ANSI_RESET;break;}
+                    case "stones": {table[7][25] = ANSI_BLACK + "\u25CF"+  ANSI_RESET;table[7][29] = ANSI_BLACK + "\u25CF"+  ANSI_RESET;break;}
+                    case "shields": {table[7][25] = ANSI_BLUE + "\u25CF"+ANSI_RESET;table[7][29] = ANSI_BLUE + "\u25CF"+ANSI_RESET;break;}
+                    case "servants": {table[7][25] = ANSI_PURPLE + "\u25CF" + ANSI_RESET;table[7][29] = ANSI_PURPLE + "\u25CF" + ANSI_RESET;break;}
+                    default: break;
+                }
+            }
+
+
+
+        }
+
+
+
+        for (int i = 0; i <= 9; i++){
+            System.out.println();
+            for (int j = 0; j <= 39; j++) {
+                System.out.print(table[i][j]);
+            }
+        }
+
+    }
+
 }

@@ -262,6 +262,7 @@ public class TurnInfo {
         this.leader2ConvertedResource = null;
         this.devCardColour = 'x';
         this.devCardLevel = 0;
+        this.alreadyPayedForTheDevCard = false;
     }
 
 }
