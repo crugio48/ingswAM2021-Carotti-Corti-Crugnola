@@ -76,35 +76,39 @@ public class FaithTrackTest {
     }
 
     @Test
-    public void lotsOfMovesForwardTest() throws EndGameException {
-        System.out.println(f.positionsAndPoints());
-        f.moveForward(1);
-        f.moveForward(1);
-        f.moveForward(1);
-        f.moveForward(1);
-        f.moveForward(1);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false); //player1 position = 8 and player 3 position = 3
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);  //player1 position = 10 and player 3 position = 5
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);//player1 position = 15 and player 3 position = 10
-        f.moveForward(3);
-        f.moveForward(3);
-        f.moveForward(3);                         //player 1 position = 15 and player 3 position = 13
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);//player 1 position = 20 and player 3 position = 18
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);
-        f.moveForwardMultiplePLayers(true,false,true,false);//player 1 position = 24 and player 3 position = 22
+    public void lotsOfMovesForwardTest() {
+        try {
+            System.out.println(f.positionsAndPoints());
+            f.moveForward(1);
+            f.moveForward(1);
+            f.moveForward(1);
+            f.moveForward(1);
+            f.moveForward(1);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false); //player1 position = 8 and player 3 position = 3
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);  //player1 position = 10 and player 3 position = 5
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);//player1 position = 15 and player 3 position = 10
+            f.moveForward(3);
+            f.moveForward(3);
+            f.moveForward(3);                         //player 1 position = 15 and player 3 position = 13
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);//player 1 position = 20 and player 3 position = 18
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);
+            f.moveForwardMultiplePLayers(true, false, true, false);//player 1 position = 24 and player 3 position = 22
+        } catch (EndGameException e) {
+            System.out.println("wohooo endgame!!!");
+        }
         System.out.println("next line should be player 1: position = 24, total points = 29; player2: position = 0, total points = 0; player3: position = 22, total points = 23; player4: position = 0, total points = 0");
         System.out.println(f.positionsAndPoints());
         System.out.println("\n\n" + f.toString());

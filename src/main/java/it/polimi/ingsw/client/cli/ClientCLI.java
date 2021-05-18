@@ -246,17 +246,17 @@ public class ClientCLI extends Client {
     private void printPersonalBoard(){
         CardDecoder cardDecoder = new CardDecoder();
         //print the player personal board
-        printOut("you total current victory points are: " + clientModel.getTotalVictoryPointsOfPlayer(myTurnOrder));
-        printOut("These are your development cards:");
+        printOut("you total current VICTORY POINTS are: " + clientModel.getTotalVictoryPointsOfPlayer(myTurnOrder));
+        printOut("These are your DEVELOPMENT CARDS:");
         clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().printPersonalDevCardSlots();
-        printOut("These are the resources in your chest:");
-        clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
-        printOut("These are the resources in your storage:");
+        printOut("\nThese are the resources in your CHEST:");
+        clientModel.getPlayerByTurnorder(myTurnOrder).getChest().printChestAsciiArt();
+        printOut("\nThese are the resources in your STORAGE:");
         clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().printStorageAsciiArt();
-        printOut("\n\nThis is your faithTrack:");
+        printOut("\n\nThis is your FAITH TRACK:");
         clientModel.getFaithTrack().printFaithTrackAsciiArt(myTurnOrder);
 
-        printOut("\nThese are your Leader Cards: ");
+        printOut("\nThese are your LEADER CARDS: ");
         cardDecoder.matrixFourCardsContainer(
                 clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).getCode(),
                 clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).getCode(), 0, 0);
@@ -277,7 +277,7 @@ public class ClientCLI extends Client {
                 clientModel.getPlayerByTurnorder(i).getPersonalDevCardSlots().printPersonalDevCardSlots();
 
                 printOut("the chest is: ");
-                clientModel.getPlayerByTurnorder(i).getChest().visualizeClientModelChest();
+                clientModel.getPlayerByTurnorder(i).getChest().printChestAsciiArt();
                 printOut("the storage is: ");
                 clientModel.getPlayerByTurnorder(i).getStorage().printStorageAsciiArt();
                 printOut("the faithTrack is: ");
@@ -316,7 +316,7 @@ public class ClientCLI extends Client {
                 printOut("These are development cards:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().printPersonalDevCardSlots();
                 printOut("These are the resources in your chest:");
-                clientModel.getPlayerByTurnorder(selectedTurnorder).getChest().visualizeClientModelChest();
+                clientModel.getPlayerByTurnorder(selectedTurnorder).getChest().printChestAsciiArt();
                 printOut("These are the resources in your storage:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getStorage().printStorageAsciiArt();
                 printOut("This is your faithTrack:");
@@ -672,7 +672,7 @@ public class ClientCLI extends Client {
                     printOut("STORAGE: \n");
                     clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().printStorageAsciiArt();
                     printOut("CHEST :\n");
-                    clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
+                    clientModel.getPlayerByTurnorder(myTurnOrder).getChest().printChestAsciiArt();
                     printOut("\nResources to be placed : Coins = " + response.getCoins() + " || Stones = " + response.getStones() + " ||  Shields : " + response.getShields() + " || Servants = " + response.getServants());
                     printOut("\nChoose between these actions: \n " +
                             "1. Place a resource in a slot \n " +
@@ -1113,7 +1113,7 @@ public class ClientCLI extends Client {
         printOut("your storage is: ");
         clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().printStorageAsciiArt();
         printOut("your chest is: ");
-        clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
+        clientModel.getPlayerByTurnorder(myTurnOrder).getChest().printChestAsciiArt();
         printOut("here are your development cards: ");
         clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().printTopCards();
         if (leader1Active) {
@@ -1300,7 +1300,7 @@ public class ClientCLI extends Client {
             printOut("your storage is: ");
             clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().printStorageAsciiArt();
             printOut("your chest is: ");
-            clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
+            clientModel.getPlayerByTurnorder(myTurnOrder).getChest().printChestAsciiArt();
             printOut("you selected a viable production, now you need to choose from where to spend your resources:\n" +
                     "you have to pay:\n" +
                     +costCoins + " coins, " + costStones + " stones, " + costServants + " servants, " + costShields + " shields\n");
