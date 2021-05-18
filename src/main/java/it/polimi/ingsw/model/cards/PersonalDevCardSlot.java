@@ -68,139 +68,154 @@ public class PersonalDevCardSlot {
 
     }
 
-    public boolean isLeaderDevCardRequirementsMet(DevCardsRequirement requirement) {
-        Stack<DevCard> temp1 = new Stack<DevCard>();
-        Stack<DevCard> temp2= new Stack<DevCard>();
-        Stack<DevCard> temp3= new Stack<DevCard>();
-        int conty=0,contg=0,contb=0,contp=0;
-        if (requirement.getYellowCardsRequired() != 0) {
-            if(requirement.isRequiredLevelTwo()){
-                if(cardSlot1.size()==3){ temp1.push(cardSlot1.pop()); }
-                if(cardSlot1.size()==2){  if(cardSlot1.peek().getColour()=='y'){ if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());} return true;}}
-                if(cardSlot2.size()==3){ temp2.push(cardSlot2.pop()); }
-                if(cardSlot2.size()==2){  if(cardSlot2.peek().getColour()=='y'){ if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());} return true;}}
-                    if(cardSlot3.size()==3){ temp3.push(cardSlot3.pop()); }
-                    if(cardSlot3.size()==2){  if(cardSlot3.peek().getColour()=='y'){ if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());} return true;}}
 
+    public boolean checkIfLeaderCardsRequirementIsMet(DevCardsRequirement requirement){
+        int numYellow = 0, numGreen = 0, numPurple = 0, numBlue = 0;
+        boolean yellowLvl2 = false, greenLvl2 = false, purpleLvl2 = false, blueLvl2 = false;
+
+        for (DevCard card : cardSlot1) {
+            if (card.getLevel() == 2) { //card level 2
+                switch (card.getColour()){
+                    case'b':
+                        blueLvl2 = true;
+                        numBlue++;
+                        break;
+                    case'y':
+                        yellowLvl2 = true;
+                        numYellow++;
+                        break;
+                    case'p':
+                        purpleLvl2 = true;
+                        numPurple++;
+                        break;
+                    case'g':
+                        greenLvl2 = true;
+                        numGreen++;
+                        break;
+                    default:
+                        break;
+                }
             }
-            else{
-                if(cardSlot1.size()==3){ if(cardSlot1.peek().getColour()=='y'){conty++;} temp1.push(cardSlot1.pop());}
-                if(cardSlot1.size()==2){ if(cardSlot1.peek().getColour()=='y'){conty++;} temp1.push(cardSlot1.pop());}
-                if(cardSlot1.size()==1){if(cardSlot1.peek().getColour()=='y'){conty++;}}
-                if(cardSlot2.size()==3){ if(cardSlot2.peek().getColour()=='y'){conty++;} temp2.push(cardSlot2.pop());}
-                if(cardSlot2.size()==2){ if(cardSlot2.peek().getColour()=='y'){conty++;} temp2.push(cardSlot2.pop());}
-                if(cardSlot2.size()==1){if(cardSlot2.peek().getColour()=='y'){conty++;}}
-                if(cardSlot3.size()==3){ if(cardSlot3.peek().getColour()=='y'){conty++;} temp3.push(cardSlot3.pop());}
-                if(cardSlot3.size()==2){ if(cardSlot3.peek().getColour()=='y'){conty++;} temp3.push(cardSlot3.pop());}
-                if(cardSlot3.size()==1){if(cardSlot3.peek().getColour()=='y'){conty++;}}
-
-                if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());}
-                if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());}
-                if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());}
-                if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());}
-                if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());}
-                if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());}
+            else {   //card level 1 or 3
+                switch (card.getColour()){
+                    case'b':
+                        numBlue++;
+                        break;
+                    case'y':
+                        numYellow++;
+                        break;
+                    case'p':
+                        numPurple++;
+                        break;
+                    case'g':
+                        numGreen++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        for (DevCard card : cardSlot2) {
+            if (card.getLevel() == 2) { //card level 2
+                switch (card.getColour()){
+                    case'b':
+                        blueLvl2 = true;
+                        numBlue++;
+                        break;
+                    case'y':
+                        yellowLvl2 = true;
+                        numYellow++;
+                        break;
+                    case'p':
+                        purpleLvl2 = true;
+                        numPurple++;
+                        break;
+                    case'g':
+                        greenLvl2 = true;
+                        numGreen++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else {   //card level 1 or 3
+                switch (card.getColour()){
+                    case'b':
+                        numBlue++;
+                        break;
+                    case'y':
+                        numYellow++;
+                        break;
+                    case'p':
+                        numPurple++;
+                        break;
+                    case'g':
+                        numGreen++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        for (DevCard card : cardSlot3) {
+            if (card.getLevel() == 2) { //card level 2
+                switch (card.getColour()){
+                    case'b':
+                        blueLvl2 = true;
+                        numBlue++;
+                        break;
+                    case'y':
+                        yellowLvl2 = true;
+                        numYellow++;
+                        break;
+                    case'p':
+                        purpleLvl2 = true;
+                        numPurple++;
+                        break;
+                    case'g':
+                        greenLvl2 = true;
+                        numGreen++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else {   //card level 1 or 3
+                switch (card.getColour()){
+                    case'b':
+                        numBlue++;
+                        break;
+                    case'y':
+                        numYellow++;
+                        break;
+                    case'p':
+                        numPurple++;
+                        break;
+                    case'g':
+                        numGreen++;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
-
-         else if (requirement.getGreenCardsRequired() != 0) {
-            if(requirement.isRequiredLevelTwo()){
-                if(cardSlot1.size()==3){ temp1.push(cardSlot1.pop()); }
-                if(cardSlot1.size()==2){  if(cardSlot1.peek().getColour()=='g'){ if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());} return true;}}
-                if(cardSlot2.size()==3){ temp2.push(cardSlot2.pop()); }
-                if(cardSlot2.size()==2){  if(cardSlot2.peek().getColour()=='g'){ if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());} return true;}}
-                if(cardSlot3.size()==3){ temp3.push(cardSlot3.pop()); }
-                if(cardSlot3.size()==2){  if(cardSlot3.peek().getColour()=='g'){ if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());} return true;}}
-
-            }
-            else{
-                if(cardSlot1.size()==3){ if(cardSlot1.peek().getColour()=='g'){contg++;} temp1.push(cardSlot1.pop());}
-                if(cardSlot1.size()==2){ if(cardSlot1.peek().getColour()=='g'){contg++;} temp1.push(cardSlot1.pop());}
-                if(cardSlot1.peek().getColour()=='g'){contg++;}
-                if(cardSlot2.size()==3){ if(cardSlot2.peek().getColour()=='g'){contg++;} temp2.push(cardSlot2.pop());}
-                if(cardSlot2.size()==2){ if(cardSlot2.peek().getColour()=='g'){contg++;} temp2.push(cardSlot2.pop());}
-                if(cardSlot2.peek().getColour()=='g'){contg++;}
-                if(cardSlot3.size()==3){ if(cardSlot3.peek().getColour()=='g'){contg++;} temp3.push(cardSlot3.pop());}
-                if(cardSlot3.size()==2){ if(cardSlot3.peek().getColour()=='g'){contg++;} temp3.push(cardSlot3.pop());}
-                if(cardSlot3.peek().getColour()=='g'){contg++;}
-
-                if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());}
-                if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());}
-                if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());}
-                if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());}
-                if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());}
-                if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());}
-            }
-
-            }
-
-
-         else if (requirement.getBlueCardsRequired() != 0) {
-            if(requirement.isRequiredLevelTwo()){
-                if(cardSlot1.size()==3){ temp1.push(cardSlot1.pop()); }
-                if(cardSlot1.size()==2){  if(cardSlot1.peek().getColour()=='b'){ if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());} return true;}}
-                if(cardSlot2.size()==3){ temp2.push(cardSlot2.pop()); }
-                if(cardSlot2.size()==2){  if(cardSlot2.peek().getColour()=='b'){ if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());} return true;}}
-                if(cardSlot3.size()==3){ temp3.push(cardSlot3.pop()); }
-                if(cardSlot3.size()==2){  if(cardSlot3.peek().getColour()=='b'){ if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());} return true;}}
-
-            }
-            else{
-                if(cardSlot1.size()==3){ if(cardSlot1.peek().getColour()=='b'){contb++;} temp1.push(cardSlot1.pop());}
-                if(cardSlot1.size()==2){ if(cardSlot1.peek().getColour()=='b'){contb++;} temp1.push(cardSlot1.pop());}
-                if(cardSlot1.peek().getColour()=='b'){contb++;}
-                if(cardSlot2.size()==3){ if(cardSlot2.peek().getColour()=='b'){contb++;} temp2.push(cardSlot2.pop());}
-                if(cardSlot2.size()==2){ if(cardSlot2.peek().getColour()=='b'){contb++;} temp2.push(cardSlot2.pop());}
-                if(cardSlot2.peek().getColour()=='b'){contb++;}
-                if(cardSlot3.size()==3){ if(cardSlot3.peek().getColour()=='b'){contb++;} temp3.push(cardSlot3.pop());}
-                if(cardSlot3.size()==2){ if(cardSlot3.peek().getColour()=='b'){contb++;} temp3.push(cardSlot3.pop());}
-                if(cardSlot3.peek().getColour()=='b'){contb++;}
-
-                if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());}
-                if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());}
-                if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());}
-                if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());}
-                if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());}
-                if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());}
-            }
-
+        if (requirement.isRequiredLevelTwo()){
+            if (requirement.getBlueCardsRequired() != 0) return blueLvl2;
+            else if (requirement.getGreenCardsRequired() != 0) return greenLvl2;
+            else if (requirement.getPurpleCardsRequired() != 0) return purpleLvl2;
+            else if (requirement.getYellowCardsRequired() != 0) return yellowLvl2;
+            else return false;
         }
-
-
-        else if (requirement.getPurpleCardsRequired() != 0) {
-            if(requirement.isRequiredLevelTwo()){
-                if(cardSlot1.size()==3){ temp1.push(cardSlot1.pop()); }
-                if(cardSlot1.size()==2){  if(cardSlot1.peek().getColour()=='p'){ if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());} return true;}}
-                if(cardSlot2.size()==3){ temp2.push(cardSlot2.pop()); }
-                if(cardSlot2.size()==2){  if(cardSlot2.peek().getColour()=='p'){ if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());} return true;}}
-                if(cardSlot3.size()==3){ temp3.push(cardSlot3.pop()); }
-                if(cardSlot3.size()==2){  if(cardSlot3.peek().getColour()=='p'){ if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());} return true;}}
-
+        else {
+            if (numBlue < requirement.getBlueCardsRequired() ||
+                    numGreen < requirement.getGreenCardsRequired() ||
+                    numPurple < requirement.getPurpleCardsRequired() ||
+                    numYellow < requirement.getYellowCardsRequired()) {
+                return false;
             }
-            else{
-                if(cardSlot1.size()==3){ if(cardSlot1.peek().getColour()=='p'){contp++;} temp1.push(cardSlot1.pop());}
-                if(cardSlot1.size()==2){ if(cardSlot1.peek().getColour()=='p'){contp++;} temp1.push(cardSlot1.pop());}
-                if(cardSlot1.size()==1){if(cardSlot1.peek().getColour()=='p'){contp++;}}
-                if(cardSlot2.size()==3){ if(cardSlot2.peek().getColour()=='p'){contp++;} temp2.push(cardSlot2.pop());}
-                if(cardSlot2.size()==2){ if(cardSlot2.peek().getColour()=='p'){contp++;} temp2.push(cardSlot2.pop());}
-                if(cardSlot2.size()==1){ if(cardSlot2.peek().getColour()=='p'){contp++;}}
-                if(cardSlot3.size()==3){ if(cardSlot3.peek().getColour()=='p'){contp++;} temp3.push(cardSlot3.pop());}
-                if(cardSlot3.size()==2){ if(cardSlot3.peek().getColour()=='p'){contp++;} temp3.push(cardSlot3.pop());}
-                if(cardSlot3.size()==1){if(cardSlot3.peek().getColour()=='p'){contp++;}}
-
-                if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());}
-                if(!temp1.isEmpty()){cardSlot1.push(temp1.pop());}
-                if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());}
-                if(!temp2.isEmpty()){cardSlot2.push(temp2.pop());}
-                if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());}
-                if(!temp3.isEmpty()){cardSlot3.push(temp3.pop());}
-            }
-
+            else return true;
         }
-
-        if(conty>=requirement.getYellowCardsRequired()&&contg>=requirement.getGreenCardsRequired()&&contb>=requirement.getBlueCardsRequired()&&contp>=requirement.getPurpleCardsRequired()){ return true;}
-        return false;
     }
 
 

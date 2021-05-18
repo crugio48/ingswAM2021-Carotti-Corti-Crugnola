@@ -26,15 +26,6 @@ public class PersonalDevCardSlotTest {
     }
 
 
-    @Test
-    public void testisLeaderDevCardRequirementsMet() throws EndGameException {
-        a.placeCard(card1,2);
-        a.placeCard(card2,2);
-        assertTrue(a.isLeaderDevCardRequirementsMet(req1));
-        assertTrue(a.isLeaderDevCardRequirementsMet(req2));
-        assertFalse(a.isLeaderDevCardRequirementsMet(req3));
-
-    }
 
     @Test
     public void victoryPointsTest() throws EndGameException {

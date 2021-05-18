@@ -897,7 +897,7 @@ public class MasterController {
                 }
             }
             else {
-                if (p.getPersonalDevelopmentCardSlots().isLeaderDevCardRequirementsMet(card.getCardsRequirement())) {
+                if (p.getPersonalDevelopmentCardSlots().checkIfLeaderCardsRequirementIsMet(card.getCardsRequirement())) {
                     card.activateCard();
                     if (card.getEffect().getEffectName().equals("increaseStorageEffect")){
                         p.getStorage().activateLeaderSlot(card.getEffect().getTargetResource());
