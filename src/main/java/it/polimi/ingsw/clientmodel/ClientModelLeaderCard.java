@@ -35,8 +35,9 @@ public class ClientModelLeaderCard {
         }
          String toReturn = "";
          CardDecoder cardDecoder = new CardDecoder();
-         String cardInfo = cardDecoder.printOnCliCard(this.code);
-         toReturn += cardInfo + "\n";
+
+         cardDecoder.printOnCliCard(this.code);
+         toReturn +=  "\n";
          if (this.active) toReturn += "The card is active\n";
          else{
              toReturn += "The card is not active\n";

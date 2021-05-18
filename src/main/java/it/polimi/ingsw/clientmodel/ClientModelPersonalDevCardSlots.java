@@ -85,44 +85,44 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
                 if (getFirstStack().size() == 0) printOut("First Stack is empty");
                 if (getFirstStack().size() > 0) {
                     printOut("First stack cards:");
-                    if (getFirstStack().size() == 1) printOut(cardDecoder.printOnCliCard(getFirstStackTopCardCode()));
+                    if (getFirstStack().size() == 1) cardDecoder.printOnCliCard(getFirstStackTopCardCode());
                     if (getFirstStack().size() == 2) {
-                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
-                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
+                        cardDecoder.printOnCliCard(firstStackClone.pop());
+                        cardDecoder.printOnCliCard(firstStackClone.pop());
                     }
                     if (getFirstStack().size() == 3) {
-                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
-                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
-                        printOut(cardDecoder.printOnCliCard(firstStackClone.pop()));
+                        cardDecoder.printOnCliCard(firstStackClone.pop());
+                        cardDecoder.printOnCliCard(firstStackClone.pop());
+                        cardDecoder.printOnCliCard(firstStackClone.pop());
                     }
                 }
 
                 if (getSecondStack().size() == 0) printOut("Second Stack is empty");
                 if (getSecondStack().size() > 0) {
                     printOut("Second stack cards:");
-                    if (getSecondStack().size() == 1) printOut(cardDecoder.printOnCliCard(getSecondStackTopCardCode()));
+                    if (getSecondStack().size() == 1) cardDecoder.printOnCliCard(getSecondStackTopCardCode());
                     if (getSecondStack().size() == 2) {
-                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
-                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
+                        cardDecoder.printOnCliCard(secondStackClone.pop());
+                        cardDecoder.printOnCliCard(secondStackClone.pop());
                     }
                     if (getSecondStack().size() == 3) {
-                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
-                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
-                        printOut(cardDecoder.printOnCliCard(secondStackClone.pop()));
+                        cardDecoder.printOnCliCard(secondStackClone.pop());
+                        cardDecoder.printOnCliCard(secondStackClone.pop());
+                        cardDecoder.printOnCliCard(secondStackClone.pop());
                     }
                 }
                 if (getThirdStack().size() == 0) printOut("Third Stack is empty");
                 if (getThirdStack().size() > 0) {
                     printOut("Third stack cards:");
-                    if (getThirdStack().size() == 1) printOut(cardDecoder.printOnCliCard(getThirdStackTopCardCode()));
+                    if (getThirdStack().size() == 1) cardDecoder.printOnCliCard(getThirdStackTopCardCode());
                     if (getThirdStack().size() == 2) {
-                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
-                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
+                        cardDecoder.printOnCliCard(thirdStackClone.pop());
+                        cardDecoder.printOnCliCard(thirdStackClone.pop());
                     }
                     if (getThirdStack().size() == 3) {
-                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
-                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
-                        printOut(cardDecoder.printOnCliCard(thirdStackClone.pop()));
+                        cardDecoder.printOnCliCard(thirdStackClone.pop());
+                        cardDecoder.printOnCliCard(thirdStackClone.pop());
+                        cardDecoder.printOnCliCard(thirdStackClone.pop());
                     }
                 }
             }
@@ -131,15 +131,15 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
         public void printTopCards(){
         CardDecoder cardDecoder = new CardDecoder();
         printOut("first slot: ");
-        if (!firstStack.isEmpty()) printOut(cardDecoder.printOnCliCard(firstStack.peek()));
+        if (!firstStack.isEmpty()) cardDecoder.printOnCliCard(firstStack.peek());
         else printOut("no card present");
 
         printOut("second slot: ");
-        if (!secondStack.isEmpty()) printOut(cardDecoder.printOnCliCard(secondStack.peek()));
+        if (!secondStack.isEmpty()) cardDecoder.printOnCliCard(secondStack.peek());
         else printOut("no card present");
 
         printOut("third slot: ");
-        if (!thirdStack.isEmpty()) printOut(cardDecoder.printOnCliCard(thirdStack.peek()));
+        if (!thirdStack.isEmpty()) cardDecoder.printOnCliCard(thirdStack.peek());
         else printOut("no card present");
         }
 

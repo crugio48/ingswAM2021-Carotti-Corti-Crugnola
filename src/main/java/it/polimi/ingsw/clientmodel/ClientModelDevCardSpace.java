@@ -100,31 +100,28 @@ public class ClientModelDevCardSpace extends MyObservable {
       notifyObservers();
   }
 
-  public String visualizeDevelopmentCardsSpace(){
+  public void visualizeDevelopmentCardsSpace(){
       CardDecoder cardDecoder = new CardDecoder();
-      String toReturn = "";
 
-      toReturn += "Green Cards:\n";
-      toReturn += cardDecoder.printOnCliCard(this.codeGreen3) + "\n";
-      toReturn += cardDecoder.printOnCliCard(this.codeGreen2) + "\n";
-      toReturn += cardDecoder.printOnCliCard(this.codeGreen1) + "\n";
+      System.out.println("Green Cards");
+      cardDecoder.printOnCliCard(this.codeGreen3);
+      cardDecoder.printOnCliCard(this.codeGreen2);
+      cardDecoder.printOnCliCard(this.codeGreen1);
 
-      toReturn += "Blue Cards:\n";
-      toReturn += cardDecoder.printOnCliCard(this.codeBlue3) + "\n";
-      toReturn += cardDecoder.printOnCliCard(this.codeBlue2) + "\n";
-      toReturn += cardDecoder.printOnCliCard(this.codeBlue1) + "\n";
+      System.out.println("Blue Cards");
+      cardDecoder.printOnCliCard(this.codeBlue3);
+      cardDecoder.printOnCliCard(this.codeBlue2);
+      cardDecoder.printOnCliCard(this.codeBlue1);
 
-      toReturn += "Yellow Cards:\n";
-      toReturn += cardDecoder.printOnCliCard(this.codeYellow3) + "\n";
-      toReturn += cardDecoder.printOnCliCard(this.codeYellow2) + "\n";
-      toReturn += cardDecoder.printOnCliCard(this.codeYellow1) + "\n";
+      System.out.println("Yellow Cards");
+      cardDecoder.printOnCliCard(this.codeYellow3);
+      cardDecoder.printOnCliCard(this.codeYellow2);
+      cardDecoder.printOnCliCard(this.codeYellow1);
 
-      toReturn += "Purple Cards:\n";
-      toReturn += cardDecoder.printOnCliCard(this.codePurple3) + "\n";
-      toReturn += cardDecoder.printOnCliCard(this.codePurple2) + "\n";
-      toReturn += cardDecoder.printOnCliCard(this.codePurple1) + "\n";
-
-      return toReturn;
+      System.out.println("Purple Cards");
+      cardDecoder.printOnCliCard(this.codePurple3);
+      cardDecoder.printOnCliCard(this.codePurple2);
+      cardDecoder.printOnCliCard(this.codePurple1);
   }
 
 

@@ -14,7 +14,7 @@ import java.util.Iterator;
 public class CardDecoder {
 
 
-    public String printOnCliCard(int providedCode){
+    public String printOnCliCard2(int providedCode){
         JSONParser parser = new JSONParser();
         JSONObject tempCard;
 
@@ -354,7 +354,7 @@ public class CardDecoder {
     }
 
 
-    public void printCardAscii(int providedCode){
+    public void printOnCliCard(int providedCode){
         JSONParser parser = new JSONParser();
         JSONObject tempCard;
 

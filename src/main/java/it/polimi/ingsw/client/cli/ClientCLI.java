@@ -356,7 +356,7 @@ public class ClientCLI extends Client {
 
     private void printDevelopmentCards(){
         printOut("These are the development cards:");
-        printOut(clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace());
+        clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace();
     }
 
     private void printMarket(){
@@ -907,7 +907,7 @@ public class ClientCLI extends Client {
         int costcoins= 0, coststones = 0, costshields = 0, costservants = 0;
 
         printOut("\nThese are the development cards available to buy:\n");
-        printOut(clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace());
+        clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace();
 
         printOut("Please insert the level of the card you want to buy(or 'stop' to exit):");
         while(true){
@@ -1497,16 +1497,16 @@ public class ClientCLI extends Client {
                     printOut("now you need to choose your starting leader cards between these: ");
 
                     CardDecoder cardDecoder = new CardDecoder();
-                    printOut("First Card:");
-                    printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[0]));
-                    printOut("Second Card:");
-                    printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[1]));
-                    printOut("Third Card:");
-                    printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[2]));
-                    printOut("Fourth Card:");
-                    printOut(cardDecoder.printOnCliCard(leaderCardsDrawn[3]));
+                    printOut("\nFirst Card:");
+                    cardDecoder.printOnCliCard(leaderCardsDrawn[0]);
+                    printOut("\nSecond Card:");
+                    cardDecoder.printOnCliCard(leaderCardsDrawn[1]);
+                    printOut("\nThird Card:");
+                    cardDecoder.printOnCliCard(leaderCardsDrawn[2]);
+                    printOut("\nFourth Card:");
+                    cardDecoder.printOnCliCard(leaderCardsDrawn[3]);
 
-                    printOut("you can choose only two cards,\n" +
+                    printOut("\nyou can choose only two cards,\n" +
                             "insert the code of the first one you choose: ");
                     int card1Code;
                     while (true) {
