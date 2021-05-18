@@ -69,6 +69,75 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
         notifyObservers();
         }
 
+        public void printPersonalDevCardSlots(){
+            CardDecoder cardDecoder = new CardDecoder();
+            ArrayList<Integer> popCards = new ArrayList<Integer>();
+            Stack<Integer> firstStackClone = (Stack<Integer>) getFirstStack().clone();
+            Stack<Integer> secondStackClone = (Stack<Integer>) getSecondStack().clone();
+            Stack<Integer> thirdStackClone = (Stack<Integer>) getThirdStack().clone();
+
+            int code1 = 0;
+            int code2 = 0;
+            int code3 = 0;
+            int code4 = 0;
+            int code5 = 0;
+            int code6 = 0;
+            int code7 = 0;
+            int code8 = 0;
+            int code9 = 0;
+
+            switch (firstStackClone.size()){
+                case 3:
+                    code1 = firstStackClone.pop();
+                    code4 = firstStackClone.pop();
+                    code7 = firstStackClone.pop();
+                    break;
+                case 2:
+                    code4 = firstStackClone.pop();
+                    code7 = firstStackClone.pop();
+                    break;
+                case 1:
+                    code7 = firstStackClone.pop();
+                    break;
+            }
+
+            switch (secondStackClone.size()){
+                case 3:
+                    code2 = secondStackClone.pop();
+                    code5 = secondStackClone.pop();
+                    code8 = secondStackClone.pop();
+                    break;
+                case 2:
+                    code5 = secondStackClone.pop();
+                    code8 = secondStackClone.pop();
+                    break;
+                case 1:
+                    code8 = secondStackClone.pop();
+                    break;
+            }
+
+            switch (thirdStackClone.size()){
+                case 3:
+                    code9 = thirdStackClone.pop();
+                    code6 = thirdStackClone.pop();
+                    code3 = thirdStackClone.pop();
+                    break;
+                case 2:
+                    code6 = thirdStackClone.pop();
+                    code3 = thirdStackClone.pop();
+                    break;
+                case 1:
+                    code9 = thirdStackClone.pop();
+                    break;
+            }
+
+            cardDecoder.matrixFourCardsContainer(code1, code2, code3, 0);
+            cardDecoder.matrixFourCardsContainer(code4, code5, code6, 0);
+            cardDecoder.matrixFourCardsContainer(code7, code8, code9, 0);
+
+        }
+
+
 
         public void visualizePersonalDevCardSlots(){
 

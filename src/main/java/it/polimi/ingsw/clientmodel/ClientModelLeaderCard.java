@@ -30,19 +30,18 @@ public class ClientModelLeaderCard {
     }
 
     public String visualizePersonalLeaderCard(){
-        if (this.code == 0) {
-            return "this card was discarded";
-        }
-         String toReturn = "";
-         CardDecoder cardDecoder = new CardDecoder();
+        String toReturn = "";
 
-         cardDecoder.printOnCliCard(this.code);
-         toReturn +=  "\n";
-         if (this.active) toReturn += "The card is active\n";
-         else{
-             toReturn += "The card is not active\n";
-         }
+        if (this.code == 0) {
+            return "was discarded";
+        }
+
+        if (this.active) toReturn += "is active\n";
+        else{
+            toReturn += "is not active\n";
+        }
         return toReturn;
     }
+
 
 }

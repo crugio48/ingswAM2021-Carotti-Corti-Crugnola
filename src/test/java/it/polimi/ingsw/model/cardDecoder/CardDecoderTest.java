@@ -26,19 +26,13 @@ public class CardDecoderTest {
     }
 
     @Test
-    public void cardDecoderAsciiTest(){
+    public void cardDecoderMatrixTest(){
 
-        //providing an existing card
-        /*
-        cardDecoder.printCardAscii(3);
-        cardDecoder.printCardAscii(5);
-        cardDecoder.printCardAscii(9);
-        cardDecoder.printCardAscii(14);
-        cardDecoder.printCardAscii(20);
-        cardDecoder.printCardAscii(30);
-        cardDecoder.printCardAscii(40);
+        cardDecoder.matrixFourCardsContainer(3, 8, 16, 34);
+        cardDecoder.matrixFourCardsContainer(4, 9, 17, 40);
+        cardDecoder.matrixFourCardsContainer(5, 10, 18, 58);
 
-         */
+        cardDecoder.matrixFourCardsContainer(5, 10, 0, 0);
 
 
     }

@@ -244,22 +244,28 @@ public class ClientCLI extends Client {
     }
 
     private void printPersonalBoard(){
+        CardDecoder cardDecoder = new CardDecoder();
         //print the player personal board
         printOut("you total current victory points are: " + clientModel.getTotalVictoryPointsOfPlayer(myTurnOrder));
         printOut("These are your development cards:");
-        clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+        clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().printPersonalDevCardSlots();
         printOut("These are the resources in your chest:");
         clientModel.getPlayerByTurnorder(myTurnOrder).getChest().visualizeClientModelChest();
         printOut("These are the resources in your storage:");
         clientModel.getPlayerByTurnorder(myTurnOrder).getStorage().visualizeClientModelStorage();
         printOut("This is your faithTrack:");
         clientModel.getFaithTrack().printFaithTrackAsciiArt(myTurnOrder);
+
         printOut("\nThese are your Leader Cards: ");
-        printOut("First card:\n");
-        printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
-        printOut("Second card:\n");
-        printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
+        cardDecoder.matrixFourCardsContainer(
+                clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).getCode(),
+                clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).getCode(), 0, 0);
+
+        printOut("The First card " + clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard() );
+        printOut("The Second card " + clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard() );
+
     }
+
 
     private void printAllOtherPlayersBoard() {
         for (int i = 1; i <= clientModel.getNumberOfPlayers(); i++) {
@@ -267,7 +273,7 @@ public class ClientCLI extends Client {
                 printOut("\n" + clientModel.getPlayerByTurnorder(i).getNickname() + " personal board: ");
                 printOut("current victory points: " + clientModel.getTotalVictoryPointsOfPlayer(i));
                 printOut("the development card slots are: ");
-                clientModel.getPlayerByTurnorder(i).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+                clientModel.getPlayerByTurnorder(i).getPersonalDevCardSlots().printPersonalDevCardSlots();
                 printOut("the chest is: ");
                 clientModel.getPlayerByTurnorder(i).getChest().visualizeClientModelChest();
                 printOut("the storage is: ");
@@ -306,7 +312,7 @@ public class ClientCLI extends Client {
 
                 printOut("his total current victory points are: " + clientModel.getTotalVictoryPointsOfPlayer(selectedTurnorder));
                 printOut("These are development cards:");
-                clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+                clientModel.getPlayerByTurnorder(selectedTurnorder).getPersonalDevCardSlots().printPersonalDevCardSlots();
                 printOut("These are the resources in your chest:");
                 clientModel.getPlayerByTurnorder(selectedTurnorder).getChest().visualizeClientModelChest();
                 printOut("These are the resources in your storage:");
@@ -511,13 +517,19 @@ public class ClientCLI extends Client {
     }
 
     private void printActivationLeaderCard() throws InterruptedException {
+        CardDecoder cardDecoder = new CardDecoder();
         String userInput;
         String serverResp;
         //DA FARE: activate a leader card
-        printOut("First card:\n");
-        printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
-        printOut("Second card:\n");
-        printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
+
+        cardDecoder.matrixFourCardsContainer(
+                clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).getCode(),
+                clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).getCode(), 0, 0);
+
+        printOut("The First card " + clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard() );
+        printOut("The Second card " + clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard() );
+
+
         printOut("Provide the code of the leadercard you want to activate");
 
         while (true){
@@ -550,12 +562,13 @@ public class ClientCLI extends Client {
         String userInput;
         String serverResp;
         int selectedLeaderCode = -1;
+        CardDecoder cardDecoder = new CardDecoder();
 
         printOut("Non-Active Cards:\n");
         if (!clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).isActive())
-            printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard());
+            cardDecoder.printOnCliCard(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).getCode());
         if (!clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).isActive())
-            printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
+            cardDecoder.printOnCliCard(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).getCode());
 
         printOut("Please insert the number of the card you want to discard:");
         while(true){
@@ -1031,7 +1044,7 @@ public class ClientCLI extends Client {
                     response = (Response) gson.fromJson(serverResp, Response.class);
                     if (response.isCommandWasCorrect()) {
                         printOut("Card bought successfully. Now you have to choose in which slot you want to put the card in:\n These is the slots situation :\n ");
-                        clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().visualizePersonalDevCardSlots();
+                        clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().printPersonalDevCardSlots();
                         printOut("\nSelect the slot you want to put the new Card in : (1,2,3) ");
                         while (true) {
                             userInput = stdIn.nextLine();
@@ -1497,14 +1510,9 @@ public class ClientCLI extends Client {
                     printOut("now you need to choose your starting leader cards between these: ");
 
                     CardDecoder cardDecoder = new CardDecoder();
-                    printOut("\nFirst Card:");
-                    cardDecoder.printOnCliCard(leaderCardsDrawn[0]);
-                    printOut("\nSecond Card:");
-                    cardDecoder.printOnCliCard(leaderCardsDrawn[1]);
-                    printOut("\nThird Card:");
-                    cardDecoder.printOnCliCard(leaderCardsDrawn[2]);
-                    printOut("\nFourth Card:");
-                    cardDecoder.printOnCliCard(leaderCardsDrawn[3]);
+
+                    cardDecoder.matrixFourCardsContainer(leaderCardsDrawn[0], leaderCardsDrawn[1], leaderCardsDrawn[2], leaderCardsDrawn[3]);
+
 
                     printOut("\nyou can choose only two cards,\n" +
                             "insert the code of the first one you choose: ");

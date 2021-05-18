@@ -13,16 +13,13 @@ public class clientModelPersonalDevCardSlotsTest {
     @Test
     public void clientModelPersonalDevCardSlotsTest(){
         clientModelPersonalDevCardSlots.setPersonalDevCardSlotsUpdate(20, 1);
-        clientModelPersonalDevCardSlots.setPersonalDevCardSlotsUpdate(21, 2);
-        clientModelPersonalDevCardSlots.setPersonalDevCardSlotsUpdate(24, 2);
-        clientModelPersonalDevCardSlots.setPersonalDevCardSlotsUpdate(23, 1);
 
-        clientModelPersonalDevCardSlots.visualizePersonalDevCardSlots();
+        clientModelPersonalDevCardSlots.printPersonalDevCardSlots();
     }
 
     @Test
     public void emptyDevCardSlotTest(){
-        clientModelPersonalDevCardSlots.visualizePersonalDevCardSlots();
+        //clientModelPersonalDevCardSlots.visualizePersonalDevCardSlots();
     }
 
 }

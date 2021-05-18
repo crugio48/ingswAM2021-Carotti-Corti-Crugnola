@@ -103,25 +103,10 @@ public class ClientModelDevCardSpace extends MyObservable {
   public void visualizeDevelopmentCardsSpace(){
       CardDecoder cardDecoder = new CardDecoder();
 
-      System.out.println("Green Cards");
-      cardDecoder.printOnCliCard(this.codeGreen3);
-      cardDecoder.printOnCliCard(this.codeGreen2);
-      cardDecoder.printOnCliCard(this.codeGreen1);
+      cardDecoder.matrixFourCardsContainer(this.codeGreen3,this.codeBlue3, this.codeYellow3, this.codePurple3);
+      cardDecoder.matrixFourCardsContainer(this.codeGreen2,this.codeBlue2, this.codeYellow2, this.codePurple2);
+      cardDecoder.matrixFourCardsContainer(this.codeGreen1,this.codeBlue1, this.codeYellow1, this.codePurple1);
 
-      System.out.println("Blue Cards");
-      cardDecoder.printOnCliCard(this.codeBlue3);
-      cardDecoder.printOnCliCard(this.codeBlue2);
-      cardDecoder.printOnCliCard(this.codeBlue1);
-
-      System.out.println("Yellow Cards");
-      cardDecoder.printOnCliCard(this.codeYellow3);
-      cardDecoder.printOnCliCard(this.codeYellow2);
-      cardDecoder.printOnCliCard(this.codeYellow1);
-
-      System.out.println("Purple Cards");
-      cardDecoder.printOnCliCard(this.codePurple3);
-      cardDecoder.printOnCliCard(this.codePurple2);
-      cardDecoder.printOnCliCard(this.codePurple1);
   }
 
 

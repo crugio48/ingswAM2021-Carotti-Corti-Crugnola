@@ -354,18 +354,20 @@ public class CardDecoder {
     }
 
 
-    public void printOnCliCard(int providedCode){
+
+
+
+
+
+    public String[][] printOnCliCard(int providedCode){
         JSONParser parser = new JSONParser();
         JSONObject tempCard;
 
         String ANSI_RESET = "\u001B[0m";
-        String ANSI_BLACK = "\u001B[30m";
-        String ANSI_RED = "\u001B[31m";
         String ANSI_GREEN = "\u001B[32m";
         String ANSI_YELLOW = "\u001B[33m";
         String ANSI_BLUE = "\u001B[34m";
         String ANSI_PURPLE = "\u001B[35m";
-        String ANSI_CYAN = "\u001B[36m";
         String ANSI_WHITE = "\u001B[37m";
 
         String[][] background = new String[16][19];
@@ -401,7 +403,15 @@ public class CardDecoder {
         if(providedCode >=10) background[5][8] = Character.toString(code.charAt(1));
 
         if(providedCode >=10) background[5][8] = Character.toString(code.charAt(1));
-        if (providedCode <= 0) {return;}
+        if (providedCode <= 0) {
+
+            for (int i=0; i<16;i++){
+                for (int j=0;j<19;j++){
+                    background[i][j] = " ";
+                }
+            }
+
+            return background;}
 
         else if (providedCode <= 4) {
             ///////////////////LEADER CARD EXTRA STORAGE//////////////////////////////
@@ -424,10 +434,7 @@ public class CardDecoder {
                         if(vicPoints >= 10) background[7][15] = Character.toString(vicPointsString.charAt(1));
 
                         //ascii leader card resource increase storage
-
-
                         matrixInsertionOfString(background, 4,1, "EXTRA STORAGE");
-
                         background[11][4] = "═";
                         background[11][5] = "═";
 
@@ -437,10 +444,8 @@ public class CardDecoder {
                         background[12][6] = "║";
                         background[13][4] = "═";
                         background[13][5] = "═";
-
                         background[13][6] = "╝";
                         background[13][3] = "╚";
-
                         background[11][12] = "═";
                         background[11][13] = "═";
                         background[11][11] = "╔";
@@ -451,8 +456,6 @@ public class CardDecoder {
                         background[13][13] = "═";
                         background[13][14] = "╝";
                         background[13][11] = "╚";
-
-
 
                         if (tempCard.get("target").equals("coins")){
                             matrixInsertionOfString(background, 10, 5, "COINS");
@@ -738,14 +741,7 @@ public class CardDecoder {
             }
         }
 
-        for (int i = 0; i <= 15; i++){
-            System.out.println();
-            for (int j = 0; j <= 18; j++) {
-                System.out.print(background[i][j]);
-            }
-        }
-
-        //return "the card id is not valid";
+        return background;
 
     }
 
@@ -755,6 +751,44 @@ public class CardDecoder {
             startingColumn++;
         }
 
+    }
+
+    //16x19
+    public void matrixFourCardsContainer(int code1, int code2, int code3, int code4){
+        String[][] matrixContainer = new String[17][83];
+
+        String[][] card1 = new String[16][19];
+        String[][] card2 = new String[16][19];
+        String[][] card3 = new String[16][19];
+        String[][] card4 = new String[16][19];
+
+        card1 = printOnCliCard(code1);
+        card2 = printOnCliCard(code2);
+        card3 = printOnCliCard(code3);
+        card4 = printOnCliCard(code4);
+
+        for (int i = 0; i < 16; i++){
+            for (int j = 0; j < 82; j++){
+                matrixContainer[i][j] = " ";
+            }
+        }
+
+        for (int i = 0; i < 16; i++){
+            for (int j = 0; j < 19; j++){
+                matrixContainer[i][j] = card1[i][j];
+                matrixContainer[i][j+20] = card2[i][j];
+                matrixContainer[i][j+40] = card3[i][j];
+                matrixContainer[i][j+60] = card4[i][j];
+
+            }
+        }
+
+        for (int i = 0; i < 16; i++){
+            System.out.println();
+            for (int j = 0; j < 79; j++){
+                System.out.print(matrixContainer[i][j]);
+            }
+        }
     }
 
 }
