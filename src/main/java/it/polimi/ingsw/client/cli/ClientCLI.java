@@ -261,7 +261,7 @@ public class ClientCLI extends Client {
                 clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).getCode(),
                 clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).getCode(), 0, 0);
 
-        printOut("The First card " + clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard() );
+        printOut("\nThe First card " + clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(0).visualizePersonalLeaderCard() );
         printOut("The Second card " + clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard() );
 
     }
@@ -273,7 +273,9 @@ public class ClientCLI extends Client {
                 printOut("\n" + clientModel.getPlayerByTurnorder(i).getNickname() + " personal board: ");
                 printOut("current victory points: " + clientModel.getTotalVictoryPointsOfPlayer(i));
                 printOut("the development card slots are: ");
+
                 clientModel.getPlayerByTurnorder(i).getPersonalDevCardSlots().printPersonalDevCardSlots();
+
                 printOut("the chest is: ");
                 clientModel.getPlayerByTurnorder(i).getChest().visualizeClientModelChest();
                 printOut("the storage is: ");
@@ -922,7 +924,7 @@ public class ClientCLI extends Client {
         printOut("\nThese are the development cards available to buy:\n");
         clientModel.getDevCardSpace().visualizeDevelopmentCardsSpace();
 
-        printOut("Please insert the level of the card you want to buy(or 'stop' to exit):");
+        printOut("\nPlease insert the level of the card you want to buy(or 'stop' to exit):");
         while(true){
             userInput = stdIn.nextLine();
             if (userInput.equals("stop")) break;

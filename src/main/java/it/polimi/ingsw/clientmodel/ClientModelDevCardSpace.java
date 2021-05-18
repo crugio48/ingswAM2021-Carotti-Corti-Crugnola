@@ -103,6 +103,16 @@ public class ClientModelDevCardSpace extends MyObservable {
   public void visualizeDevelopmentCardsSpace(){
       CardDecoder cardDecoder = new CardDecoder();
 
+      if(this.codeGreen3 == 0 && this.codeBlue3==0 && this.codeYellow3 == 0 && this.codePurple3 == 0 && this.codeGreen2 == 0 &&
+              this.codeBlue2 == 0 && this.codeYellow2 == 0 && this.codePurple2 == 0 &&
+              this.codeGreen1 == 0 && this.codeBlue1 == 0 && this.codeYellow1 == 0 && this.codePurple1 == 0){
+          return;
+      }
+
+
+
+
+
       cardDecoder.matrixFourCardsContainer(this.codeGreen3,this.codeBlue3, this.codeYellow3, this.codePurple3);
       cardDecoder.matrixFourCardsContainer(this.codeGreen2,this.codeBlue2, this.codeYellow2, this.codePurple2);
       cardDecoder.matrixFourCardsContainer(this.codeGreen1,this.codeBlue1, this.codeYellow1, this.codePurple1);

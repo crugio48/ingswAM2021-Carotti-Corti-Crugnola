@@ -36,9 +36,9 @@ public class ClientModelLeaderCard {
             return "was discarded";
         }
 
-        if (this.active) toReturn += "is active\n";
+        if (this.active) toReturn += "is active";
         else{
-            toReturn += "is not active\n";
+            toReturn += "is not active";
         }
         return toReturn;
     }

@@ -86,6 +86,12 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
             int code8 = 0;
             int code9 = 0;
 
+            if (firstStackClone.size() == 0 && secondStackClone.size() == 0 && thirdStackClone.size() == 0){
+                return;
+            }
+
+
+
             switch (firstStackClone.size()){
                 case 3:
                     code1 = firstStackClone.pop();
@@ -129,6 +135,17 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
                 case 1:
                     code9 = thirdStackClone.pop();
                     break;
+            }
+
+            if (firstStackClone.size() <= 1 && secondStackClone.size() <= 1 && thirdStackClone.size() <= 1){
+                cardDecoder.matrixFourCardsContainer(code7, code8, code9, 0);
+                return;
+            }
+
+            if (firstStackClone.size() <= 2 && secondStackClone.size() <= 2 && thirdStackClone.size() <= 2){
+                cardDecoder.matrixFourCardsContainer(code4, code5, code6, 0);
+                cardDecoder.matrixFourCardsContainer(code7, code8, code9, 0);
+                return;
             }
 
             cardDecoder.matrixFourCardsContainer(code1, code2, code3, 0);
