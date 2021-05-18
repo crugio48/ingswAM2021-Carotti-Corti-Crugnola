@@ -219,4 +219,12 @@ public class UpdateBroadcaster {
         broadcastMessage(outMessage);
     }
 
+
+    public void sendChatMessageOfPlayer(String playerUsername, String message) {
+        String outMessage = "{\"cmd\" : \"chatMessageUpdate\" , " +
+                "\"playerUsername\" : \"" + playerUsername + "\", " +
+                "\"resp\" : \"" + message + "\"}";
+        broadcastMessage(outMessage);
+    }
+
 }

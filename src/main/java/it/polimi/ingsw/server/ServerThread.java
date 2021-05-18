@@ -68,14 +68,34 @@ public class ServerThread implements Runnable {
                     messageSenderToMyClient.closeConnection();
                     break;
                 }
+                command = (Command) gson.fromJson(clientInput, Command.class);
+
+                //this switch is for current turn player and non current turn players
+                switch (command.getCmd()){
+                    case"sendChatMessage":
+                        updateBroadcaster.sendChatMessageOfPlayer(myClientUsername, command.getChatMessage());
+                        continue;
+
+                    case"moveOneResource":
+                        moveOneResource(command);
+                        continue;
+
+                    case"switchResourceSlots":
+                        switchResourceSlots(command);
+                        continue;
+
+                    default:
+                        break;
+                }
+
+
                 //check if it is this player current turn
                 if (masterController.getCurrentTurnOrder() != myClientTurnOrder) {
                     messageSenderToMyClient.badCommand("it's not your turn");
                     continue;
                 }
 
-                command = (Command) gson.fromJson(clientInput, Command.class);
-
+                //this switch is only for current turn players
                 switch(command.getCmd()) {
                     case"buyFromMarket":
                         buyFromMarket(command);
@@ -111,14 +131,6 @@ public class ServerThread implements Runnable {
 
                     case"discardResource":
                         discardResource(command);
-                        break;
-
-                    case"moveOneResource":
-                        moveOneResource(command);
-                        break;
-
-                    case"switchResourceSlots":
-                        switchResourceSlots(command);
                         break;
 
                     case"endPlacing":
@@ -280,8 +292,8 @@ public class ServerThread implements Runnable {
 
         updateBroadcaster.sendGameStart();
 
-        Thread.sleep(500);
-        updateBroadcaster.sendPrintOutUpdate(""); //to print the state of the game for non starting players
+        Thread.sleep(50);
+        updateBroadcaster.sendPrintOutUpdate(myClientUsername + " is the first player"); //to print the state of the game for non starting players
     }
 
     private void buyFromMarket(Command command) {
@@ -377,6 +389,7 @@ public class ServerThread implements Runnable {
     private void endTurn() {
         //check if player has done their main action
         if (masterController.checkIfMainActionWasCompleted()) { //true
+            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " ended his turn");
             if (masterController.getGameNumberOfPlayers() == 1) { //only if single player game
                 masterController.doLorenzoAction();
                 updateBroadcaster.sendLastUsedLorenzoActionUpdate();
@@ -385,7 +398,6 @@ public class ServerThread implements Runnable {
             }
             updateBroadcaster.sendEndTurnUpdate(masterController.endTurnAndGetNewCurrentPlayer());
             messageSenderToMyClient.goodCommand("");
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " ended his turn");
         }
         else { //false
             messageSenderToMyClient.badCommand("you still haven't done your main action");
@@ -470,14 +482,6 @@ public class ServerThread implements Runnable {
     }
 
     private void moveOneResource(Command command) {
-        if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
-            messageSenderToMyClient.badCommand("wrong action requested");
-            return;
-        }
-        if(masterController.getTurnInfo().getJolly() != 0) {
-            messageSenderToMyClient.badCommand("you still have to use the leader effect");
-            return;
-        }
         //here we try to execute the command
         if (masterController.moveOneResourceOfPlayer(command.getFromSlotNumber(),
                 command.getToSlotNumber(), myClientTurnOrder)) {  //true if command was correct
@@ -497,14 +501,6 @@ public class ServerThread implements Runnable {
     }
 
     private void switchResourceSlots(Command command) {
-        if (!masterController.getTurnInfo().getCurrentMainAction().equals("market")) {
-            messageSenderToMyClient.badCommand("wrong action requested");
-            return;
-        }
-        if(masterController.getTurnInfo().getJolly() != 0) {
-            messageSenderToMyClient.badCommand("you still have to use the leader effect");
-            return;
-        }
         //here we try to execute the command
         if (masterController.switchResourceSlotsOfPlayer(command.getFromSlotNumber(),
                 command.getToSlotNumber(), myClientTurnOrder)) { //true if command was correct

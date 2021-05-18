@@ -49,93 +49,102 @@ public class ClientCLI extends Client {
             String userInput;
             Response response;
             boolean isMyTurn;
+            isMyTurn = (clientModel.getCurrentPlayer() == myTurnOrder);
 
             //now the game has started and the client leads the communication
             while (true) {
-                isMyTurn = (clientModel.getCurrentPlayer() == myTurnOrder);
-
-
+                /*
                 if (isMyTurn) {
-                    printOut("\n\nit is your turn, please choose what you want to do, type:\n" +
-                            "1 for looking at your personal board");
-                    if (clientModel.getNumberOfPlayers() > 1) {
-                        printOut("2 for looking at another player personal board");
-                    } else {
-                        printOut("2 for looking at Lorenzo's last turn action and his faithTrack");
+                 */
+                printOut("\n\nPlease choose what you want to do, type(actions from 7 to 12 are valid only during your turn):\n" +
+                        "1 for looking at your personal board");
+                if (clientModel.getNumberOfPlayers() > 1) {
+                    printOut("2 for looking at another player personal board");
+                } else {
+                    printOut("2 for looking at Lorenzo's last turn action and his faithTrack");
+                }
+                printOut("3 for looking at the development card piles\n" +
+                        "4 for looking at the market\n" +
+                        "5 for managing your storage resources\n" +
+                        "6 for sending a chat message\n" +
+                        "7 to activate a leader card\n" +
+                        "8 to discard a leader card that hasn't been activated\n" +
+                        "9 to buy resources from the market\n" +
+                        "10 to buy a development card from a pile\n" +
+                        "11 to activate the production of your development cards\n" +
+                        "12 to end your turn");
+                userInput = stdIn.nextLine();
+                int selection = -1;
+                try {
+                    selection = (int)Integer.parseInt(userInput);
+                } catch (NumberFormatException e) {
+                    if (userInput.equals("easterEgg")) { //secret method to print easter egg
+                        //DA FARE: stampa easter egg
+                        continue;
                     }
-                    printOut("3 for looking at the development card piles\n" +
-                            "4 for looking at the market\n" +
-                            "5 to activate a leader card\n" +
-                            "6 to discard a leader card that hasn't been activated\n" +
-                            "7 to buy resources from the market\n" +
-                            "8 to buy a development card from a pile\n" +
-                            "9 to activate the production of your development card\n" +
-                            "10 to end your turn");
-                    userInput = stdIn.nextLine();
-                    int selection = -1;
-                    try {
-                        selection = (int)Integer.parseInt(userInput);
-                    } catch (NumberFormatException e) {
-                        if (userInput.equals("easterEgg")) { //secret method to print easter egg
-                            //DA FARE: stampa easter egg
-                            continue;
-                        }
-                        else if (userInput.equals("closeConnection")) {  //extra secret method to leave the game
-                            printOut("are you sure that you want to close the connection to the server? (yes || no)");
-                            userInput = stdIn.nextLine();
-                            if (userInput.equals("yes")) {     //this is a reminder if a player gets here by error
-                                messageSender.sendDisconnectRequest();
-                                return;
-                            }
-                        }
-                        else{
-                            printOut("please enter a valid number");
-                            continue;
+                    else if (userInput.equals("closeConnection")) {  //extra secret method to leave the game
+                        printOut("are you sure that you want to close the connection to the server? (yes || no)");
+                        userInput = stdIn.nextLine();
+                        if (userInput.equals("yes")) {     //this is a reminder if a player gets here by error
+                            messageSender.sendDisconnectRequest();
+                            return;
                         }
                     }
-                    switch (selection) {
-                        case 1:
-                            printPersonalBoard();
-                            break;
-                        case 2:
-                            if (clientModel.getNumberOfPlayers() > 1){
-                                printOtherPlayersBoard();
-                            } else {
-                                printLastUsedLorenzoAction();
-                            }
-                            break;
-                        case 3:
-                            printDevelopmentCards();
-                            break;
-                        case 4:
-                            printMarket();
-                            break;
-                        case 5:
-                            printActivationLeaderCard();
-                            break;
-                        case 6:
-                            printDiscardYourNonActiveLeader();
-                            break;
-                        case 7:
-                            printBuyResourceFromMarket();
-                            break;
-                        case 8:
-                            printBuyDevelopmentCard();
-                            break;
-                        case 9:
-                            printActivateProduction();
-                            break;
-                        case 10:
-                            askForEndTurn();
-                            break;
-                        default:
-                            printOut("please enter a valid number");
-                            break;
+                    else{
+                        printOut("please enter a valid number");
+                        continue;
                     }
+                }
+                switch (selection) {
+                    case 1:
+                        printPersonalBoard();
+                        break;
+                    case 2:
+                        if (clientModel.getNumberOfPlayers() > 1){
+                            printOtherPlayersBoard();
+                        } else {
+                            printLastUsedLorenzoAction();
+                        }
+                        break;
+                    case 3:
+                        printDevelopmentCards();
+                        break;
+                    case 4:
+                        printMarket();
+                        break;
+                    case 5:
+                        manageResourcesOfStorage();
+                        break;
+                    case 6:
+                        sendChatMessage();
+                        break;
+                    case 7:
+                        printActivationLeaderCard();
+                        break;
+                    case 8:
+                        printDiscardYourNonActiveLeader();
+                        break;
+                    case 9:
+                        printBuyResourceFromMarket();
+                        break;
+                    case 10:
+                        printBuyDevelopmentCard();
+                        break;
+                    case 11:
+                        printActivateProduction();
+                        break;
+                    case 12:
+                        askForEndTurn();
+                        break;
+                    default:
+                        printOut("please enter a valid number");
+                        break;
+                }
+                    /*
                 }
                 else {
                     notMyTurnExecution();
-                    /*
+
                     printOut("it is not currently your turn, please choose what you want to do, type:\n" +
                             "1 for looking at your personal board\n" +
                             "2 for looking at another player personal board\n" +
@@ -177,9 +186,9 @@ public class ClientCLI extends Client {
                             break;
                     }
 
-                     */
-                }
 
+                }
+*/
                 if (clientModel.isSoloGameLost() && clientModel.isEndGameActivated()){
                     //DA FARE VITTORIA PARTITA NELLO STESSO MOMENTO IN CUI LORENZO AVREBBE VINTO
                 }
@@ -189,6 +198,7 @@ public class ClientCLI extends Client {
                 else if (clientModel.isEndGameActivated()) {
                     // DA FARE FINE PARTITA
                 }
+
             }
 
 
@@ -202,17 +212,13 @@ public class ClientCLI extends Client {
 
     }
 
-    /**
-     * queue method to refresh non current players terminal
-     */
+    /*
+
     public synchronized void reprint() {
         notifyAll();
     }
 
-    /**
-     * waiting to reprint after a player move
-     * @throws InterruptedException
-     */
+
     public synchronized void waitForReprint() throws InterruptedException {
         wait();
     }
@@ -230,6 +236,8 @@ public class ClientCLI extends Client {
         printOut("\nthe market is: ");
         printMarket();
     }
+
+     */
 
     public void printOut(String toPrint) {
         System.out.println(toPrint);
@@ -358,6 +366,150 @@ public class ClientCLI extends Client {
         clientModel.getMarket().printMarketAsciiArt();
     }
 
+
+    private void manageResourcesOfStorage() throws InterruptedException {
+        int selectedSlot;
+        String serverResp;
+        Response response;
+        String userInput;
+        boolean loop = true;
+        while(loop) {
+            printOut("choose what you want to do(or enter \"stop\" to go back to main menu): \n" +
+                    "1 to move a resource from a slot to another\n" +
+                    "2 to switch the resources of two normal storage slots");
+            userInput = stdIn.nextLine();
+            switch (userInput) {
+                case "1":
+                    printOut("Choose from which slot you want to move: (1, 2, 3, leaderSlot1, leaderSlot2)");
+                    while (true) {
+                        userInput = stdIn.nextLine();
+                        switch (userInput) {
+                            case "1":
+                                selectedSlot = 1;
+                                break;
+                            case "2":
+                                selectedSlot = 2;
+                                break;
+                            case "3":
+                                selectedSlot = 3;
+                                break;
+                            case "leaderSlot1":
+                                selectedSlot = 4;
+                                break;
+                            case "leaderSlot2":
+                                selectedSlot = 5;
+                                break;
+                            default:
+                                printOut("please input a valid slot");
+                                continue;
+                        }
+                        break;
+                    }
+                    printOut("Choose to which slot you want to move: (1, 2, 3, leaderSlot1, leaderSlot2)");
+                    while (true) {
+                        userInput = stdIn.nextLine();
+                        switch (userInput) {
+                            case "1":
+                                if (selectedSlot >= 4) {
+                                    messageSender.moveOneResource(selectedSlot, 1);
+                                } else {
+                                    messageSender.switchResourceSlot(selectedSlot, 1);
+                                }
+                                break;
+                            case "2":
+                                if (selectedSlot >= 4) {
+                                    messageSender.moveOneResource(selectedSlot, 2);
+                                } else {
+                                    messageSender.switchResourceSlot(selectedSlot, 2);
+                                }
+                                break;
+                            case "3":
+                                if (selectedSlot >= 4) {
+                                    messageSender.moveOneResource(selectedSlot, 3);
+                                } else {
+                                    messageSender.switchResourceSlot(selectedSlot, 3);
+                                }
+                                break;
+                            case "leaderSlot1":
+                                messageSender.moveOneResource(selectedSlot, 4);
+                                break;
+                            case "leaderSlot2":
+                                messageSender.moveOneResource(selectedSlot, 5);
+                                break;
+                            default:
+                                printOut("please input a valid slot");
+                                continue;
+                        }
+                        break;
+                    }
+
+                    serverResp = stringBuffer.readMessage();
+                    response = (Response) gson.fromJson(serverResp, Response.class);
+                    if (!response.isCommandWasCorrect()) printOut("Command was incorrect");
+                    break;
+
+
+                case "2":
+                    printOut("Switch the resources of two normal slots:");
+                    printOut("Choose first slot (1, 2, 3)");
+                    while (true) {
+                        userInput = stdIn.nextLine();
+                        switch (userInput) {
+                            case "1":
+                                selectedSlot = 1;
+                                break;
+                            case "2":
+                                selectedSlot = 2;
+                                break;
+                            case "3":
+                                selectedSlot = 3;
+                                break;
+                            default:
+                                printOut("please choose a valid slot");
+                                continue;
+                        }
+                        break;
+                    }
+                    printOut("Choose second slot: (1, 2, 3)");
+                    while (true) {
+                        userInput = stdIn.nextLine();
+                        switch (userInput) {
+                            case "1":
+                                messageSender.switchResourceSlot(selectedSlot, 1);
+                                break;
+                            case "2":
+                                messageSender.switchResourceSlot(selectedSlot, 2);
+                                break;
+                            case "3":
+                                messageSender.switchResourceSlot(selectedSlot, 3);
+                                break;
+                            default:
+                                printOut("please choose a valid slot");
+                                continue;
+                        }
+                        break;
+                    }
+                    serverResp = stringBuffer.readMessage();
+                    response = (Response) gson.fromJson(serverResp, Response.class);
+                    if (!response.isCommandWasCorrect()) printOut("Command was incorrect");
+                    break;
+
+                case "stop":
+                    loop = false;
+                    break;
+                default:
+                    printOut("wrong input\n");
+                    break;
+            }
+        }
+    }
+
+    private void sendChatMessage() {
+        printOut("please enter the message you want to send: ");
+        String message = stdIn.nextLine();
+        messageSender.sendChatMessage(message);
+    }
+
     private void printActivationLeaderCard() throws InterruptedException {
         String userInput;
         String serverResp;
@@ -405,8 +557,8 @@ public class ClientCLI extends Client {
         if (!clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).isActive())
             printOut(clientModel.getPlayerByTurnorder(myTurnOrder).getLeaderCard(1).visualizePersonalLeaderCard());
 
+        printOut("Please insert the number of the card you want to discard:");
         while(true){
-            printOut("Please insert the number of the card you want to discard:");
             userInput = stdIn.nextLine();
             if (userInput.equals("stop")) break;
             try {
@@ -442,8 +594,8 @@ public class ClientCLI extends Client {
         //printOut(clientModel.getMarket().visualizeMarket());
         clientModel.getMarket().printMarketAsciiArt();
 
+        printOut("Please insert the number of the place you want to insert new marble in:");
         while (true) {
-            printOut("Please insert the number of the place you want to insert new marble in:");
             userInput = stdIn.nextLine();
             if (userInput.equals("stop")) break;
             try {
@@ -960,7 +1112,7 @@ public class ClientCLI extends Client {
         printOut("you also have the possibility to activate the base production that is: \n" +
                 "input: 2 resources of your choice\n" +
                 "output: 1 resource of your choice\n");
-        printOut("now you have to select all production you want to activate");
+        printOut("now you have to select which production you want to activate:");
         if (!clientModel.getPlayerByTurnorder(myTurnOrder).getPersonalDevCardSlots().getFirstStack().isEmpty()) {
             printOut("do you want to activate the card in the first slot (yes || no):");
             while (true) {

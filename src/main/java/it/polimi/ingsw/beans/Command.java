@@ -41,6 +41,7 @@ public class Command {
     char devCardColour;
     int devCardLevel;
     int leaderCode;
+    String chatMessage;
     //updated all getters and setters up to this variable
 
 
@@ -206,7 +207,9 @@ public class Command {
         return leaderCode;
     }
 
-
+    public String getChatMessage() {
+        return chatMessage;
+    }
 
     //  here start all the setters  /////////////////////////////////////////////////////////////////
 
@@ -368,5 +371,9 @@ public class Command {
 
     public void setLeaderCode(int leaderCode) {
         this.leaderCode = leaderCode;
+    }
+
+    public void setChatMessage(String chatMessage) {
+        this.chatMessage = chatMessage;
     }
 }

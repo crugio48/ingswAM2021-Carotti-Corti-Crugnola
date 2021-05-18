@@ -190,6 +190,13 @@ public class MessageSender {
     }
 
 
+    public void sendChatMessage(String message){
+        String outMessage = "{\"cmd\" : \"sendChatMessage\"" + ",\"chatMessage\" : \"" + message + "\"}";
+        out.println(outMessage);
+        out.flush();
+    }
+
+
 
 
 }

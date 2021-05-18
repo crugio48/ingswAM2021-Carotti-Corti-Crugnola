@@ -93,9 +93,21 @@ public class ClientConnectionThread extends Thread {
                         break;
                     case"lorenzoActionUpdate":
                         client.clientModel.setLastUsedActionCardCode(response.getLastActionCardUsedCode());
+                        if (client instanceof ClientCLI) {
+                            System.out.println(ANSI_RED + "Lorenzo did his turn" + ANSI_RESET);
+                        }
+                        else {
+                            //DA FARE gui printout
+                        }
                         break;
                     case"endTurnUpdate":
                         client.clientModel.setCurrentPlayer(response.getNewCurrentPlayer());
+                        if (client instanceof ClientCLI) {
+                            System.out.println(ANSI_RED + "it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnorder(response.getNewCurrentPlayer()).getNickname() + ANSI_RESET);
+                        }
+                        else {
+                            //DA FARE gui printout
+                        }
                         break;
                     case"endGameUpdate":
                         client.clientModel.setEndGameActivated(true);
@@ -115,10 +127,18 @@ public class ClientConnectionThread extends Thread {
                             //DA FARE gui printout
                         }
                         break;
+                    case"chatMessageUpdate":
+                        if (client instanceof ClientCLI) {
+                            System.out.println(ANSI_BLUE + response.getPlayerUsername()+ ": " + response.getResp() + ANSI_RESET);
+                        }
+                        else {
+                            //DA FARE gui printout (solo messaggio)
+                        }
+                        break;
+
                     case"printOutUpdate":
                         if (client instanceof ClientCLI) {
                             System.out.println(ANSI_RED + response.getResp() + ANSI_RESET);
-                            ((ClientCLI) client).reprint();
                         }
                         else {
                             //DA FARE gui printout (solo messaggio)
