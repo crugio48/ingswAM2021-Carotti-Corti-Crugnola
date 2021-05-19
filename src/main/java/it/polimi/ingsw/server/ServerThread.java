@@ -75,6 +75,11 @@ public class ServerThread implements Runnable {
                     updateBroadcaster.aClientHasDisconnected();
                     break;
                 }
+
+                if(clientInput.equals("gameEnded")){
+                    break;
+                }
+
                 command = (Command) gson.fromJson(clientInput, Command.class);
 
                 //this switch is for current turn player and non current turn players

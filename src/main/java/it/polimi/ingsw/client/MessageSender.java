@@ -197,6 +197,11 @@ public class MessageSender {
     }
 
 
+    public void sendGameEnded(){
+        String outMessage = "gameEnded";
+        out.println(outMessage);
+        out.flush();
+    }
 
 
 }

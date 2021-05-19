@@ -69,15 +69,16 @@ public class ClientCLI extends Client {
                 userInput = stdIn.nextLine();
 
                 if (clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
-                    //LOGICA ENDGAME
+                    printOutYellow("you won the game at the same time as lorenzo");
+                    printOutYellow("your score is: " + clientModel.getTotalVictoryPointsOfPlayer(myTurnOrder));
                     break;
                 }
                 if (clientModel.isGameEnded()) {
-                    //LOGICA ENDGAME
+                    printLeaderBoards();
                     break;
                 }
                 if (clientModel.isSoloGameLost()) {
-                    //LOGICA ENDGAME
+                    printOutYellow("you lost because lorenzo won the game, better luck next time");
                     break;
                 }
 
@@ -94,7 +95,8 @@ public class ClientCLI extends Client {
                         userInput = stdIn.nextLine();
                         if (userInput.equals("yes")) {     //this is a reminder if a player gets here by error
                             messageSender.sendDisconnectRequest();
-                            break;
+                            socket.close();
+                            System.exit(1);
                         }
                     }
                     else{
@@ -150,7 +152,7 @@ public class ClientCLI extends Client {
 
             }
 
-            messageSender.sendDisconnectRequest();
+            messageSender.sendGameEnded();
             socket.close();
 
         } catch (UnknownHostException e) {
@@ -159,6 +161,56 @@ public class ClientCLI extends Client {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private void printLeaderBoards() {
+        int player1Points, player2Points, player3Points, player4Points;
+        int player1ResourceQuantity, player2ResourceQuantity, player3ResourceQuantity, player4ResourceQuantity;
+        switch (clientModel.getNumberOfPlayers()){
+            case 1:
+                player1Points = clientModel.getTotalVictoryPointsOfPlayer(myTurnOrder);
+                printOutYellow("congrats, you won the game with a total score of: " + player1Points + " victory points");
+                break;
+            case 2:
+                printOutYellow("here is the scoreboard: ");
+                player1Points = clientModel.getTotalVictoryPointsOfPlayer(1);
+                player2Points = clientModel.getTotalVictoryPointsOfPlayer(2);
+                if (player1Points < player2Points) {
+                    printOutYellow("1) player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points");
+                    printOutYellow("2) player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points");
+                }
+                else if (player1Points > player2Points) {
+                    printOutYellow("1) player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points");
+                    printOutYellow("2) player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points");
+                }
+                else {  //the two players have the same amount of victory points
+                    player1ResourceQuantity = clientModel.getPlayerByTurnOrder(1).getTotalResourcesQuantity();
+                    player2ResourceQuantity = clientModel.getPlayerByTurnOrder(2).getTotalResourcesQuantity();
+                    if (player1ResourceQuantity < player2ResourceQuantity) {
+                        printOutYellow("1) player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points and " + player2ResourceQuantity + " current resources");
+                        printOutYellow("2) player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points and " + player1ResourceQuantity + " current resources");
+                    }
+                    else if (player1ResourceQuantity > player2ResourceQuantity){
+                        printOutYellow("1) player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points and " + player1ResourceQuantity + " current resources");
+                        printOutYellow("2) player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points and " + player2ResourceQuantity + " current resources");
+                    }
+                    else { //its a tie
+                        printOut("it is a total tie: ");
+                        printOutYellow("- player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points and " + player2ResourceQuantity + " current resources");
+                        printOutYellow("- player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points and " + player1ResourceQuantity + " current resources");
+                    }
+                }
+                break;
+            case 3:
+                //da fare
+                break;
+            case 4:
+                //DA FARE
+                break;
+            default:
+                break;
         }
     }
 
