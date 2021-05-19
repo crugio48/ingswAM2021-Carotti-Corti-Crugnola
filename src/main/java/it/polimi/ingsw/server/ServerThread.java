@@ -42,7 +42,13 @@ public class ServerThread implements Runnable {
             }
 
             //inserting username, trying to register to game, if game is full then notify and close connection
-            askForUsername();
+            try {
+                askForUsername();
+            } catch (GameAlreadyFullException e) {
+                messageSenderToMyClient.tellGameIsAlreadyFull("sorry game is already full");
+                socket.close();
+                return;
+            }
 
             //distribution of leaderCards
             handOutLeaderCards();
@@ -64,8 +70,9 @@ public class ServerThread implements Runnable {
             //now the game can start
             while (true) {
                 clientInput = in.readLine();
-                if (clientInput.equals("rageQuit")) {
-                    messageSenderToMyClient.closeConnection();
+                if (clientInput.equals("closeConnection")) {
+                    updateBroadcaster.removeMySocket(myClientTurnOrder);
+                    updateBroadcaster.aClientHasDisconnected();
                     break;
                 }
                 command = (Command) gson.fromJson(clientInput, Command.class);
@@ -165,11 +172,19 @@ public class ServerThread implements Runnable {
                 }
             }
 
-
-            in.close();
             socket.close();
-        } catch (IOException | InterruptedException e) {
-            System.err.println(e.getMessage());
+        } catch (IOException e) {
+            updateBroadcaster.removeMySocket(myClientTurnOrder);
+            updateBroadcaster.aClientHasDisconnected();
+
+            try {
+                socket.close();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -190,7 +205,7 @@ public class ServerThread implements Runnable {
 
     }
 
-    private void askForUsername() throws IOException {
+    private void askForUsername() throws IOException, GameAlreadyFullException {
         messageSenderToMyClient.askForInitialUsername(null);
         while (true) {
             String clientInput = in.readLine();
@@ -199,17 +214,12 @@ public class ServerThread implements Runnable {
                 if (masterController.addPlayerToGame(command.getUsername())) {
                     this.myClientUsername = command.getUsername();
                     this.myClientTurnOrder = masterController.getPlayerTurnOrder(myClientUsername);
-                    this.updateBroadcaster.registerClient(this.socket); //registering the client socket to the broadcaster
+                    this.updateBroadcaster.registerClient(this.socket, myClientTurnOrder); //registering the client socket to the broadcaster
                     break;
                 }
                 else {
                     messageSenderToMyClient.askForInitialUsername("sorry username already exists, please try again");
                 }
-            } catch (GameAlreadyFullException e) {
-                messageSenderToMyClient.tellGameIsAlreadyFull(e.getMessage());
-                in.close();
-                socket.close();
-                return;
             } catch (GameStillNotInitialized e) {
                 messageSenderToMyClient.askForInitialUsername(e.getMessage());
             }

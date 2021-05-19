@@ -8,35 +8,41 @@ import it.polimi.ingsw.model.market.MarbleContainer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 
 public class UpdateBroadcaster {
-    HashSet<PrintWriter> clientsSocketsOut;
-    Game game;
+    private HashMap<Integer, PrintWriter> clientsSocketsOut;
+    private Game game;
 
     public UpdateBroadcaster() {
-        this.clientsSocketsOut = new HashSet<>();
+        this.clientsSocketsOut = new HashMap<>();
     }
 
-    public synchronized void registerClient(Socket socket) {
+    public synchronized void registerClient(Socket socket, int clientTurnOrder) {
         try {
             PrintWriter out = new PrintWriter(socket.getOutputStream());
 
-            clientsSocketsOut.add(out);
+            clientsSocketsOut.put(clientTurnOrder,out);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public synchronized void removeMySocket(int myClientTurnOrder){
+        clientsSocketsOut.remove(myClientTurnOrder);
+    }
+
     private void broadcastMessage(String message) {
-        //for each printwriter in the hashset (so for each client registered in the hashset) we
+        //for each printWriter in the hashmap (so for each client registered in the hashmap) we
         //send the message passed in the out: each server will send a message to the corresponding client
-        for(PrintWriter out: clientsSocketsOut) {
-            out.println(message);
-            out.flush();
+        PrintWriter out;
+        for(int i = 1; i<=4; i++) {
+            out = clientsSocketsOut.get(i);
+            if (out != null) {
+                out.println(message);
+                out.flush();
+            }
         }
     }
 
@@ -225,11 +231,15 @@ public class UpdateBroadcaster {
     }
 
 
-    public void sendChatMessageOfPlayer(String playerUsername, String message) {
+    public synchronized void sendChatMessageOfPlayer(String playerUsername, String message) {
         String outMessage = "{\"cmd\" : \"chatMessageUpdate\" , " +
                 "\"playerUsername\" : \"" + playerUsername + "\", " +
                 "\"resp\" : \"" + message + "\"}";
         broadcastMessage(outMessage);
     }
 
+    public synchronized void aClientHasDisconnected() {
+        String outMessage = "{\"cmd\" : \"aClientHasDisconnected\"}";
+        broadcastMessage(outMessage);
+    }
 }

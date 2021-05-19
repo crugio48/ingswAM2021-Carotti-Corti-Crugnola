@@ -211,5 +211,4 @@ public class MessageSenderToMyClient {
         out.println(outMessage);
         out.flush();
     }
-    
 }

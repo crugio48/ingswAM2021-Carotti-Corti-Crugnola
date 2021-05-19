@@ -6,6 +6,7 @@ import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
 import it.polimi.ingsw.client.MessageSender;
+import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,6 +16,7 @@ import java.util.Scanner;
 public class ClientCLI extends Client {
 
     private Scanner stdIn;
+    private Socket socket;
     //here we add the view as a variable
     private String myUsername;
     private int myTurnOrder;
@@ -31,13 +33,13 @@ public class ClientCLI extends Client {
 
     public void beginning(String hostName, int portNumber) {
         try {
-            Socket socket = new Socket(hostName, portNumber);
+            socket = new Socket(hostName, portNumber);
 
             this.messageSender = new MessageSender(socket); //this is the object to use to send messages to the server
 
             ClientConnectionThread clientConnectionThread = new ClientConnectionThread(this, socket);
 
-            clientConnectionThread.setDaemon(true);
+            //clientConnectionThread.setDaemon(true);
             clientConnectionThread.start();
 
 
@@ -68,12 +70,15 @@ public class ClientCLI extends Client {
 
                 if (clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
                     //LOGICA ENDGAME
+                    break;
                 }
                 if (clientModel.isGameEnded()) {
                     //LOGICA ENDGAME
+                    break;
                 }
                 if (clientModel.isSoloGameLost()) {
                     //LOGICA ENDGAME
+                    break;
                 }
 
                 int selection = -1;
@@ -89,7 +94,7 @@ public class ClientCLI extends Client {
                         userInput = stdIn.nextLine();
                         if (userInput.equals("yes")) {     //this is a reminder if a player gets here by error
                             messageSender.sendDisconnectRequest();
-                            return;
+                            break;
                         }
                     }
                     else{
@@ -144,6 +149,10 @@ public class ClientCLI extends Client {
                 }
 
             }
+
+            messageSender.sendDisconnectRequest();
+            socket.close();
+
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -151,7 +160,6 @@ public class ClientCLI extends Client {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 
     public void printOut(String toPrint) {
@@ -1339,7 +1347,7 @@ public class ClientCLI extends Client {
         printOut(response.getResp());
     }
 
-    private void initialSetup() throws InterruptedException {
+    private void initialSetup() throws InterruptedException, IOException {
         String userInput;
         String serverResp;
         Response response;
@@ -1394,8 +1402,9 @@ public class ClientCLI extends Client {
                     break;
 
                 case"sorryGameAlreadyFull":
-                    printOut(response.getResp());
-                    return;
+                    System.out.println(response.getResp());
+                    socket.close();
+                    System.exit(1);
 
                 case"leaderDistribution":
                     int[] leaderCardsDrawn = response.getLeaderCardsDrawn();

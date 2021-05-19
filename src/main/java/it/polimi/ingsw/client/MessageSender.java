@@ -47,7 +47,7 @@ public class MessageSender {
     }
 
     public void sendDisconnectRequest() {
-        out.println("rageQuit");
+        out.println("closeConnection");
         out.flush();
     }
 
