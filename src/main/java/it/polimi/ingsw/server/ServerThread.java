@@ -119,6 +119,7 @@ public class ServerThread implements Runnable {
 
                     case"endTurn":
                         endTurn();
+                        maybeGameEnded();
                         break;
 
                     case"chosenResourcesToBuy":
@@ -401,6 +402,13 @@ public class ServerThread implements Runnable {
         }
         else { //false
             messageSenderToMyClient.badCommand("you still haven't done your main action");
+        }
+    }
+
+    private void maybeGameEnded() {
+        if (masterController.isEndGameActivated() && myClientTurnOrder == masterController.getGameNumberOfPlayers()){
+            //we get here if the last player of the last turn cycle has ended his turn
+            updateBroadcaster.gameEnded();
         }
     }
 

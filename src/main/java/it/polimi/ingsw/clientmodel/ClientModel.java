@@ -13,7 +13,7 @@ public class ClientModel {
     private ClientModelFaithTrack faithTrack;
     private ClientModelDevCardSpace devCardSpace;
     private ArrayList<ClientModelPlayer> players;
-    private boolean endGameActivated;
+    private boolean gameEnded;
     private boolean soloGameLost;
 
 
@@ -25,16 +25,16 @@ public class ClientModel {
         this.faithTrack = new ClientModelFaithTrack();
         this.devCardSpace = new ClientModelDevCardSpace();
         this.players = new ArrayList<>();
-        this.endGameActivated = false;
+        this.gameEnded = false;
         this.soloGameLost = false;
     }
 
-    public synchronized void setEndGameActivated(boolean endGameActivated) {
-        this.endGameActivated = endGameActivated;
+    public synchronized void setGameEnded(boolean gameEnded) {
+        this.gameEnded = gameEnded;
     }
 
-    public synchronized boolean isEndGameActivated() {
-        return endGameActivated;
+    public synchronized boolean isGameEnded() {
+        return gameEnded;
     }
 
     public synchronized void setSoloGameLost(boolean soloGameLost) {
@@ -53,7 +53,7 @@ public class ClientModel {
         return numberOfPlayers;
     }
 
-    public int getLastUsedActionCardCode() {
+    public synchronized int getLastUsedActionCardCode() {
         return lastUsedActionCardCode;
     }
 
@@ -76,7 +76,7 @@ public class ClientModel {
         return toReturn.toString();
     }
 
-    public ClientModelPlayer getPlayerByTurnorder(int turnOrder){
+    public synchronized ClientModelPlayer getPlayerByTurnOrder(int turnOrder){
         for (ClientModelPlayer player : players){
             if (player.getTurnOrder() == turnOrder){
                 return player;
@@ -95,11 +95,11 @@ public class ClientModel {
 
     }
 
-    public String printAllOtherPlayersAndNicknames(int myTurnOrder){
+    public String getAllOtherPlayersAndNicknames(int myTurnOrder){
         StringBuilder toReturn = new StringBuilder();
         for (int i = 1; i <= numberOfPlayers; i++){
             if (i == myTurnOrder) continue;
-            ClientModelPlayer p = getPlayerByTurnorder(i);
+            ClientModelPlayer p = getPlayerByTurnOrder(i);
 
             toReturn.append("Player[").append(i).append(", ").append(p.getNickname()).append("] ");
 
@@ -115,25 +115,12 @@ public class ClientModel {
         this.currentPlayer = currentPlayer;
     }
 
-    public void setNumberOfPlayers(int numberOfPlayer) {
-        this.numberOfPlayers = numberOfPlayer;
-    }
-
-    public void setLastUsedActionCardCode(int lastUsedActionCardCode) {
+    public synchronized void setLastUsedActionCardCode(int lastUsedActionCardCode) {
         this.lastUsedActionCardCode = lastUsedActionCardCode;
     }
 
     public void setMarket(ClientModelMarket market) {
         this.market = market;
-    }
-
-    public void setFaithTrack(ClientModelFaithTrack faithTrack) {
-        this.faithTrack = faithTrack;
-    }
-
-
-    public void setDevCardSpace(ClientModelDevCardSpace devCardSpace) {
-        this.devCardSpace = devCardSpace;
     }
 
     public synchronized void setSetupUpdate(String[] nicknames) {
@@ -170,16 +157,16 @@ public class ClientModel {
         if (getFaithTrack().getActiveThirdPapalFavourCard()[playerTurnOrder - 1]) total += 4;
 
         //this is calculating leaderCards points
-        ClientModelLeaderCard card = getPlayerByTurnorder(playerTurnOrder).getLeaderCard(0);
+        ClientModelLeaderCard card = getPlayerByTurnOrder(playerTurnOrder).getLeaderCard(0);
         if (card.getCode() != 0 && card.isActive()) total += cardDecoder.getVictoryPointsOfCard(card.getCode());
-        card = getPlayerByTurnorder(playerTurnOrder).getLeaderCard(1);
+        card = getPlayerByTurnOrder(playerTurnOrder).getLeaderCard(1);
         if (card.getCode() != 0 && card.isActive()) total += cardDecoder.getVictoryPointsOfCard(card.getCode());
 
         //this is calculating the total victory points of the devCards
-        total += getPlayerByTurnorder(playerTurnOrder).getPersonalDevCardSlots().getTotalVictoryPointsOfPersonalDevCards();
+        total += getPlayerByTurnOrder(playerTurnOrder).getPersonalDevCardSlots().getTotalVictoryPointsOfPersonalDevCards();
 
         //this is calculating the victory points gained by the resources the player currently has
-        int resourcesQuantity = getPlayerByTurnorder(playerTurnOrder).getTotalResourcesQuantity();
+        int resourcesQuantity = getPlayerByTurnOrder(playerTurnOrder).getTotalResourcesQuantity();
         total += Math.floorDiv(resourcesQuantity, 5);
 
         return total;

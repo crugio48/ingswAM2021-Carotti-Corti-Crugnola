@@ -216,18 +216,19 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
 
         public void printTopCards(){
         CardDecoder cardDecoder = new CardDecoder();
-        printOut("first slot: ");
-        if (!firstStack.isEmpty()) cardDecoder.printOnCliCard(firstStack.peek());
-        else printOut("no card present");
+        int cardCode1, cardCode2, cardCode3;
 
-        printOut("second slot: ");
-        if (!secondStack.isEmpty()) cardDecoder.printOnCliCard(secondStack.peek());
-        else printOut("no card present");
+        if (!firstStack.isEmpty()) cardCode1 = firstStack.peek();
+        else cardCode1 = 0;
 
-        printOut("third slot: ");
-        if (!thirdStack.isEmpty()) cardDecoder.printOnCliCard(thirdStack.peek());
-        else printOut("no card present");
-        }
+        if (!secondStack.isEmpty()) cardCode2 = secondStack.peek();
+        else cardCode2 = 0;
+
+        if (!thirdStack.isEmpty()) cardCode3 = thirdStack.peek();
+        else cardCode3 = 0;
+
+            cardDecoder.matrixFourCardsContainer(cardCode1, cardCode2, cardCode3, 0);
+    }
 
 
     public int getTotalVictoryPointsOfPersonalDevCards() {

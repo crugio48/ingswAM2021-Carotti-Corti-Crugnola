@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.cli.ClientCLI;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -94,7 +93,7 @@ public class ClientConnectionThread extends Thread {
                     case"lorenzoActionUpdate":
                         client.clientModel.setLastUsedActionCardCode(response.getLastActionCardUsedCode());
                         if (client instanceof ClientCLI) {
-                            System.out.println(ANSI_RED + "Lorenzo did his turn" + ANSI_RESET);
+                            ((ClientCLI) client).printOutRed("Lorenzo did his turn");
                         }
                         else {
                             //DA FARE gui printout
@@ -103,25 +102,36 @@ public class ClientConnectionThread extends Thread {
                     case"endTurnUpdate":
                         client.clientModel.setCurrentPlayer(response.getNewCurrentPlayer());
                         if (client instanceof ClientCLI) {
-                            System.out.println(ANSI_RED + "it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnorder(response.getNewCurrentPlayer()).getNickname() + ANSI_RESET);
+                            ((ClientCLI) client).printOutRed("it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnOrder(response.getNewCurrentPlayer()).getNickname());
                         }
                         else {
                             //DA FARE gui printout
                         }
                         break;
                     case"endGameUpdate":
-                        client.clientModel.setEndGameActivated(true);
+                        if (client.clientModel.isGameEnded()) break;
                         if (client instanceof ClientCLI) {
-                            System.out.println("The endGame has started, at the end of this turn cycle the game will finish");
+                            ((ClientCLI) client).printOutYellow("EndGame started reminder, at the end of this turn cycle the game will finish");
                         }
                         else {
                             //DA FARE gui printout
                         }
                         break;
+
+                    case"gameEnded":
+                        client.clientModel.setGameEnded(true);
+                        if (client instanceof ClientCLI) {
+                            ((ClientCLI) client).printOutYellow("The game ended, input anything and you will se the final scores");
+                        }
+                        else {
+                            //DA FARE gui printout
+                        }
+                        break;
+
                     case"soloGameLostUpdate":
                         client.clientModel.setSoloGameLost(true);
                         if (client instanceof ClientCLI) {
-                            System.out.println("lorenzo has finished the game");
+                            ((ClientCLI) client).printOutYellow("lorenzo has finished the game");
                         }
                         else {
                             //DA FARE gui printout
@@ -129,7 +139,7 @@ public class ClientConnectionThread extends Thread {
                         break;
                     case"chatMessageUpdate":
                         if (client instanceof ClientCLI) {
-                            System.out.println(ANSI_BLUE + response.getPlayerUsername()+ ": " + response.getResp() + ANSI_RESET);
+                            ((ClientCLI) client).printOutBlue(response.getPlayerUsername()+ ": " + response.getResp());
                         }
                         else {
                             //DA FARE gui printout (solo messaggio)
@@ -138,7 +148,7 @@ public class ClientConnectionThread extends Thread {
 
                     case"printOutUpdate":
                         if (client instanceof ClientCLI) {
-                            System.out.println(ANSI_RED + response.getResp() + ANSI_RESET);
+                            ((ClientCLI) client).printOutRed(response.getResp());
                         }
                         else {
                             //DA FARE gui printout (solo messaggio)

@@ -54,6 +54,11 @@ public class UpdateBroadcaster {
         broadcastMessage(outMessage);
     }
 
+    public synchronized void gameEnded() {
+        String outMessage = "{\"cmd\" : \"gameEnded\"}";
+        broadcastMessage(outMessage);
+    }
+
     public synchronized void sendSoloGameLostUpdate(){
         String outMessage = "{\"cmd\" : \"soloGameLostUpdate\"}";
         broadcastMessage(outMessage);
