@@ -39,7 +39,7 @@ public class ClientCLI extends Client {
 
             ClientConnectionThread clientConnectionThread = new ClientConnectionThread(this, socket);
 
-            //clientConnectionThread.setDaemon(true);
+            clientConnectionThread.setDaemon(true);
             clientConnectionThread.start();
 
 
