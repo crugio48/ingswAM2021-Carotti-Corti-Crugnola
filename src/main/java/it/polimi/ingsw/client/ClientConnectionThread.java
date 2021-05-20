@@ -164,10 +164,13 @@ public class ClientConnectionThread extends Thread {
                 }
             }
         } catch (SocketException e) {
-            if (client instanceof ClientCLI) {
-                ((ClientCLI) client).printOutRed("the server stopped working, closing the game");
-            } else {
-                //DA FARE gui printout (solo messaggio)
+            if (!client.clientModel.isGameEnded()) {
+                if (client instanceof ClientCLI) {
+                    ((ClientCLI) client).printOutRed("the server stopped working, closing the game");
+
+                } else {
+                    //DA FARE gui printout (solo messaggio)
+                }
             }
 
             try {

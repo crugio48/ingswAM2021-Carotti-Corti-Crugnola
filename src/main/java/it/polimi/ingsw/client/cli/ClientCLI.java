@@ -77,7 +77,7 @@ public class ClientCLI extends Client {
                     printLeaderBoards();
                     break;
                 }
-                if (clientModel.isSoloGameLost()) {
+                if (clientModel.isSoloGameLost() && clientModel.getNumberOfPlayers() == 1) {
                     printOutYellow("you lost because lorenzo won the game, better luck next time");
                     break;
                 }
@@ -154,7 +154,6 @@ public class ClientCLI extends Client {
 
             messageSender.sendGameEnded();
             socket.close();
-
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
