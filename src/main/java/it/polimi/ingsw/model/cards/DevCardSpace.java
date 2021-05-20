@@ -11,9 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -55,7 +53,9 @@ public class DevCardSpace {
         JSONParser parser = new JSONParser();
 
         try {
-            Object obj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
+            Object obj = parser.parse(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/DevCards.json"))));
+
+            //Object obj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
             JSONObject jsonObject = (JSONObject) obj;
             JSONArray cards = (JSONArray) jsonObject.get("cards");
             Iterator<JSONObject> cardsIterator = cards.iterator();

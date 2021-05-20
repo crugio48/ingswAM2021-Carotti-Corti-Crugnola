@@ -4,16 +4,14 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Iterator;
 
 
 public class CardDecoder {
 
-
+/*
     public String printOnCliCard2(int providedCode){
         JSONParser parser = new JSONParser();
         JSONObject tempCard;
@@ -212,6 +210,9 @@ public class CardDecoder {
 
     }
 
+ */
+
+    /*
     public void printLeaderEffect(int cardCode) {
         JSONParser parser = new JSONParser();
         JSONObject tempCard;
@@ -286,6 +287,10 @@ public class CardDecoder {
         }
     }
 
+     */
+
+
+
 
     public int getVictoryPointsOfCard(int cardCode) {
         JSONParser parser = new JSONParser();
@@ -295,7 +300,9 @@ public class CardDecoder {
             return 0;
         } else if (cardCode <= 4) {
             try {
-                Object leaderResourceObj = parser.parse(new FileReader("src/main/resources/LeaderCardsResource.json"));
+                Object leaderResourceObj = parser.parse(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/LeaderCardsResource.json"))));
+
+                //Object leaderResourceObj = parser.parse(new FileReader("src/main/resources/LeaderCardsResource.json"));
                 JSONObject leaderResourceJsonObj = (JSONObject) leaderResourceObj;
                 JSONArray leaderResourceArrayCards = (JSONArray) leaderResourceJsonObj.get("cards");
                 Iterator<JSONObject> leaderResourceIterator = leaderResourceArrayCards.iterator();
@@ -312,7 +319,9 @@ public class CardDecoder {
             }
         } else if (cardCode <= 16) {
             try {
-                Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
+                Object leaderDevObj = parser.parse(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/LeaderCardsDevelopment.json"))));
+
+                //Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
                 JSONObject leaderDevJsonObj = (JSONObject) leaderDevObj;
                 JSONArray leaderDevArrayCards = (JSONArray) leaderDevJsonObj.get("cards");
                 Iterator<JSONObject> leaderDevIterator = leaderDevArrayCards.iterator();
@@ -329,7 +338,9 @@ public class CardDecoder {
             }
         } else if (cardCode <= 64) {
             try {
-                Object devObj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
+                Object devObj = parser.parse(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/DevCards.json"))));
+
+                //Object devObj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
                 JSONObject devJsonObj = (JSONObject) devObj;
                 JSONArray devArrayCards = (JSONArray) devJsonObj.get("cards");
                 Iterator<JSONObject> devIterator = devArrayCards.iterator();
@@ -416,7 +427,9 @@ public class CardDecoder {
         else if (providedCode <= 4) {
             ///////////////////LEADER CARD EXTRA STORAGE//////////////////////////////
             try {
-                Object leaderResourceObj = parser.parse(new FileReader("src/main/resources/LeaderCardsResource.json"));
+                Object leaderResourceObj = parser.parse(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/LeaderCardsResource.json"))));
+
+                //Object leaderResourceObj = parser.parse(new FileReader("src/main/resources/LeaderCardsResource.json"));
                 JSONObject leaderResourceJsonObj = (JSONObject) leaderResourceObj;
                 JSONArray leaderResourceArrayCards = (JSONArray) leaderResourceJsonObj.get("cards");
                 Iterator<JSONObject> leaderResourceIterator = leaderResourceArrayCards.iterator();
@@ -527,7 +540,8 @@ public class CardDecoder {
 
         else if (providedCode <= 16) {
             try {
-                Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
+                Object leaderDevObj = parser.parse(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/LeaderCardsDevelopment.json"))));
+                //Object leaderDevObj = parser.parse(new FileReader("src/main/resources/LeaderCardsDevelopment.json"));
                 JSONObject leaderDevJsonObj = (JSONObject) leaderDevObj;
                 JSONArray leaderDevArrayCards = (JSONArray) leaderDevJsonObj.get("cards");
                 Iterator<JSONObject> leaderDevIterator = leaderDevArrayCards.iterator();
@@ -618,7 +632,9 @@ public class CardDecoder {
 
         else if (providedCode <= 64) {
             try {
-                Object devObj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
+                Object devObj = parser.parse(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/DevCards.json"))));
+
+                //Object devObj = parser.parse(new FileReader("src/main/resources/DevCards.json"));
                 JSONObject devJsonObj = (JSONObject) devObj;
                 JSONArray devArrayCards = (JSONArray) devJsonObj.get("cards");
                 Iterator<JSONObject> devIterator = devArrayCards.iterator();
