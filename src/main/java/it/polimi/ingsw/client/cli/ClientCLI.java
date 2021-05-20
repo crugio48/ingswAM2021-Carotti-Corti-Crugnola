@@ -275,7 +275,7 @@ public class ClientCLI extends Client {
         if (clientModel.getLastUsedActionCardCode() == 0) {
             printOut("lorenzo still hasn't done anything, this is your first turn");
             printOut("lorenzo's faithTrack: ");
-            // DA FARE
+            printFaithTrackOfPlayer(5);
             return;
         }
         printOut("last turn lorenzo did this action: ");
@@ -302,7 +302,7 @@ public class ClientCLI extends Client {
                 break;
         }
         printOut("lorenzo's faithTrack: ");
-        //DA FARE print del faith track di lorenzo
+        printFaithTrackOfPlayer(5);
     }
 
     private void showDevelopmentCardsSpace(){
@@ -530,7 +530,7 @@ public class ClientCLI extends Client {
         String userInput;
         String serverResp;
         Response response;
-        String res1 = null, res2 = null;
+        String res1 = null;
         int selectedRow = 0, selectedslot =0;
         String[] jollyresource;
         int coins, stones, shields, jolly, servants;

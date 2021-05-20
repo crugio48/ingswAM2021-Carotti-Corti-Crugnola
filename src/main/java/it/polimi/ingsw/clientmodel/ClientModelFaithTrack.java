@@ -81,6 +81,7 @@ public class ClientModelFaithTrack extends MyObservable {
         String ANSI_RED = "\u001B[31m";
         String ANSI_GREEN = "\u001B[32m";
         String ANSI_YELLOW = "\u001B[33m";
+        String ANSI_BLACK = "\u001B[30m";
         String marker = ANSI_GREEN + "\u2716" + ANSI_RESET;
         int point = 0;
 
@@ -162,12 +163,20 @@ public class ClientModelFaithTrack extends MyObservable {
         table[4][125] = ANSI_RED + "╝" + ANSI_RESET;
         table[4][110] = ANSI_RED + "4" + ANSI_RESET;
 
-        point= (getPlayerPositions()[turnOrder-1]*5)+3;
-        table[0][point]= marker;
+        if(turnOrder==5){
+            point=(blackCrossPosition*5)+3;
+            table[0][point]= ANSI_BLACK + "\u2716" + ANSI_RESET;
+            System.out.println("(BlackCross Position = " + ANSI_BLACK + "\u2716" + ANSI_RESET + "   Vatican Report Section = " + ANSI_RED + "╚═╝"+ ANSI_RESET+")" );
 
+        }
+        else {point= (getPlayerPositions()[turnOrder-1]*5)+3;
+        table[0][point]= marker;
         System.out.println("(Current Position = " + marker + "   Vatican Report Section = " + ANSI_RED + "╚═╝"+ ANSI_RESET+")" );
+        }
+
+
         System.out.println("(Pope Spaces = " +ANSI_RED + "8,16,24"+ ANSI_RESET + "  Pope Favor Tiles Points = "+ANSI_RED + "═3═"+ ANSI_RESET+")");
-        System.out.println("(Victory Points = " + ANSI_YELLOW + "1,2,4,6,...." + ANSI_RESET +")");
+        System.out.println("(Victory Points = " + ANSI_YELLOW + "1,2,4,6,9,12,16,20" + ANSI_RESET +")");
 
         for (int i = 0; i <= 5; i++){
             System.out.println();
