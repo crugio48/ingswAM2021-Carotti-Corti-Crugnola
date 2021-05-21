@@ -18,7 +18,6 @@ public class ClientMain {
         String mode = args[2];
 
 
-
         //String hostName = "127.0.0.1";
         //int portNumber = 1234;
 

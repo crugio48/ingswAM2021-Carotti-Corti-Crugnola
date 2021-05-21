@@ -603,18 +603,30 @@ public class CardDecoder {
                         if (greenReq > 0)  {
                             background[1][2] = ANSI_GREEN + "█" + ANSI_RESET;
                             background[2][2] = ANSI_GREEN + "█" + ANSI_RESET;
+                            if (greenReq > 1){
+                                matrixInsertionOfString(background, 2, 10, "TWO G");
+                            }
                         }
                         if (purpleReq > 0) {
                             background[1][4] = ANSI_PURPLE + "█" + ANSI_RESET;
                             background[2][4] = ANSI_PURPLE + "█" + ANSI_RESET;
+                            if (purpleReq > 1){
+                                matrixInsertionOfString(background, 2, 10, "TWO P");
+                            }
                         }
                         if (blueReq > 0) {
                             background[1][6] = ANSI_BLUE + "█" + ANSI_RESET;
                             background[2][6] = ANSI_BLUE + "█" + ANSI_RESET;
+                            if (blueReq > 1){
+                                matrixInsertionOfString(background, 2, 10, "TWO B");
+                            }
                         }
                         if (yellowReq > 0) {
                             background[1][8] = ANSI_YELLOW + "█" + ANSI_RESET;
                             background[2][8] = ANSI_YELLOW + "█" + ANSI_RESET;
+                            if (yellowReq > 1){
+                                matrixInsertionOfString(background, 2, 10, "TWO Y");
+                            }
                         }
                         if (lvlTwoReq){
                             matrixInsertionOfString(background, 1,10, "LV.2");
