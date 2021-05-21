@@ -254,6 +254,8 @@ public class DevCardSpace {
 
         if(!tempStack.isEmpty()) {   //if tempStack is still not empty then do second discard and return
             tempStack.pop();
+            tempStack = selectstack(3, colour);
+            if (tempStack.isEmpty()) throw new SoloGameLostException(colour + "development cards are finished"); //cards of that colour are finished
             return;
         }
 
@@ -269,6 +271,9 @@ public class DevCardSpace {
         }
         //now surely tempStack is not empty
         tempStack.pop();      //second discard
+
+        tempStack = selectstack(3, colour);
+        if (tempStack.isEmpty()) throw new SoloGameLostException(colour + "development cards are finished"); //cards of that colour are finished
     }
 
 }

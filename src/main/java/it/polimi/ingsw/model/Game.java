@@ -201,7 +201,6 @@ public class Game {
      * this method is used to get the actionCard from the actionCards' deck, add
      * the action card to the other deck (the one containing only the used actionCards)
      * and activating the effect of the action card by passing the entire Game
-     * @return the update string of lorenzo action
      */
     public void drawAndExecuteActionCard() throws SoloGameLostException {
         ActionCard topCard = (ActionCard) actionCardDeck.getLastCardAndDiscard();

@@ -172,7 +172,7 @@ public class ServerThread implements Runnable {
                     updateBroadcaster.sendEndGameUpdate();
                 }
 
-                if (masterController.isSoloGameLost()) {
+                if (masterController.isSoloGameLost() && masterController.getGameNumberOfPlayers() == 1) {
                     updateBroadcaster.sendSoloGameLostUpdate();
                 }
             }

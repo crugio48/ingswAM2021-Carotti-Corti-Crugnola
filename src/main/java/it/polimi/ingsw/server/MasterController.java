@@ -204,7 +204,6 @@ public class MasterController {
     /**
      * this is the method that the serverThread calls, before calling the end turn method, if their client requested the endTurn
      * and if they checked that the game is a single player game
-     * @return
      */
     public void doLorenzoAction() {
         if(game.getNumOfPlayers() != 1) {
@@ -262,18 +261,18 @@ public class MasterController {
             turnInfo.setJolly(bought.getResourceQuantity("jolly"));
             turnInfo.setTargetResources(game.getPlayerByTurnOrder(playerTurnOrder).getActiveMarketEffectResourceNames());
         }
-        this.giveFaithPointsToOnePlayer(bought.getResourceQuantity("faith"), playerTurnOrder );
-
+        try {
+            this.giveFaithPointsToOnePlayer(bought.getResourceQuantity("faith"), playerTurnOrder);
+        } catch (EndGameException e) {
+            endGameActivated = true;
+            return true;
+        }
         return true;
     }
 
-    public void giveFaithPointsToOnePlayer(int numberOfPoints, int playerTurnOrder) {
+    public void giveFaithPointsToOnePlayer(int numberOfPoints, int playerTurnOrder) throws EndGameException {
         for (int i = numberOfPoints; i > 0; i--) {
-            try {
-                game.getFaithTrack().moveForward(playerTurnOrder);
-            } catch (EndGameException e) {
-                endGameActivated = true;
-            }
+            game.getFaithTrack().moveForward(playerTurnOrder);
         }
     }
 
@@ -745,9 +744,14 @@ public class MasterController {
         playerChest.addResource(new Shields(productionOutput.getResourceQuantity("shields")));
         playerChest.addResource(new Servants(productionOutput.getResourceQuantity("servants")));
         playerChest.addResource(new Stones(productionOutput.getResourceQuantity("stones")));
-        this.giveFaithPointsToOnePlayer(productionOutput.getResourceQuantity("faith"), playerTurnOrder);
 
         turnInfo.setActionCompleted(true);
+
+        try {
+            this.giveFaithPointsToOnePlayer(productionOutput.getResourceQuantity("faith"), playerTurnOrder);
+        } catch (EndGameException e) {
+            endGameActivated = true;
+        }
 
         return true;
     }
@@ -921,7 +925,11 @@ public class MasterController {
             if (card.isDiscarded()) return false;
             if (card.isActive()) return false;
 
-            this.giveFaithPointsToOnePlayer(1,playerTurnOrder);
+            try {
+                this.giveFaithPointsToOnePlayer(1, playerTurnOrder);
+            } catch (EndGameException e) {
+                endGameActivated = true;
+            }
             card.discardCard();
             return true;
         }

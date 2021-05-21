@@ -17,11 +17,12 @@ public class FaithEffect extends ActionEffect{
     public void doAction(Game game) throws SoloGameLostException {
         int i = this.positionIncrement;
 
+        if (this.needMixing) game.mixActionCards();
+
         while (i > 0) {
             game.getFaithTrack().moveBlackCrossForward();
             i--;
         }
 
-        if (this.needMixing) game.mixActionCards();
     }
 }
