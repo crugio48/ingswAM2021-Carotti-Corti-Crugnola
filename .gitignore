@@ -1,2 +1,5 @@
 # Project exclude paths
-/target/classes/manifest
+/target
+/.idea/artifacts
+/out/artifacts
+/src/main/resources/manifests
