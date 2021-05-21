@@ -32,6 +32,7 @@ public class FaithTrack {
      * @param playerNum is the player number of the player that has to advance
      */
     public void moveForward(int playerNum) throws EndGameException {
+        if (playerPositions[playerNum - 1] == 24) return;
         playerPositions[playerNum - 1]++;
 
         if (isInPopeSpaceCell(playerNum - 1)) {
@@ -57,10 +58,26 @@ public class FaithTrack {
      * @param player4 true if player 4 has to move
      */
     public void moveForwardMultiplePLayers(boolean player1, boolean player2, boolean player3, boolean player4) throws EndGameException {
-        if (player1) playerPositions[0]++;
-        if (player2) playerPositions[1]++;
-        if (player3) playerPositions[2]++;
-        if (player4) playerPositions[3]++;
+        if (player1) {
+            if (!(playerPositions[0] == 24)){
+                playerPositions[0]++;
+            }
+        }
+        if (player2) {
+            if (!(playerPositions[1] == 24)){
+                playerPositions[1]++;
+            }
+        }
+        if (player3) {
+            if (!(playerPositions[2] == 24)){
+                playerPositions[2]++;
+            }
+        }
+        if (player4) {
+            if (!(playerPositions[3] == 24)){
+                playerPositions[3]++;
+            }
+        }
 
         if (isInPopeSpaceCell(0) || isInPopeSpaceCell(1) || isInPopeSpaceCell(2) || isInPopeSpaceCell(3)) {
             if (isInVaticanRelationSpace(0)) papalFavourCards[lastCheckedPopeSpaceCell].activateCardForPlayer(0);
@@ -125,6 +142,7 @@ public class FaithTrack {
      * this method moves forward the black cross of the single player mode and checks if black cross reached the next pope space cell
      */
     public void moveBlackCrossForward() throws SoloGameLostException {
+        if (blackCrossPosition == 24) return;
         blackCrossPosition++;
 
         if (isBlackCrossInPopeSpaceCell()) {
