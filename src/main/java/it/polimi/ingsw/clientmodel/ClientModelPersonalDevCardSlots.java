@@ -227,7 +227,12 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
         if (!thirdStack.isEmpty()) cardCode3 = thirdStack.peek();
         else cardCode3 = 0;
 
-            cardDecoder.matrixFourCardsContainer(cardCode1, cardCode2, cardCode3, 0);
+        if (cardCode1 == 0 && cardCode2 == 0 && cardCode3 == 0){
+            printOut("you still haven't bought any development card");
+            return;
+        }
+
+        cardDecoder.matrixFourCardsContainer(cardCode1, cardCode2, cardCode3, 0);
     }
 
 
