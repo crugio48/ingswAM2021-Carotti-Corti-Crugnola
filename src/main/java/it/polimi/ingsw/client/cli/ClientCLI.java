@@ -128,22 +128,52 @@ public class ClientCLI extends Client {
                         sendChatMessage();
                         break;
                     case 7:
-                        activateLeaderCard();
+                        if(clientModel.getCurrentPlayer()==myTurnOrder){
+                            activateLeaderCard();
+                        }
+                        else{
+                            printOutBlue("There's a time and place for everything but not now!");
+                        }
                         break;
                     case 8:
-                        discardYourNonActiveLeader();
+                        if(clientModel.getCurrentPlayer()==myTurnOrder){
+                            discardYourNonActiveLeader();
+                        }
+                        else{
+                            printOutBlue("There's a time and place for everything but not now!");
+                        }
                         break;
                     case 9:
-                        buyResourceFromMarket();
+                        if(clientModel.getCurrentPlayer()==myTurnOrder){
+                            buyResourceFromMarket();
+                        }
+                        else{
+                            printOutBlue("There's a time and place for everything but not now!");
+                        }
                         break;
                     case 10:
-                        buyDevelopmentCard();
+                        if(clientModel.getCurrentPlayer()==myTurnOrder){
+                            buyDevelopmentCard();
+                        }
+                        else{
+                            printOutBlue("There's a time and place for everything but not now!");
+                        }
                         break;
                     case 11:
-                        activateProduction();
+                        if(clientModel.getCurrentPlayer()==myTurnOrder){
+                            activateProduction();
+                        }
+                        else{
+                            printOutBlue("There's a time and place for everything but not now!");
+                        }
                         break;
                     case 12:
-                        askForEndTurn();
+                        if(clientModel.getCurrentPlayer()==myTurnOrder){
+                            askForEndTurn();
+                        }
+                        else{
+                            printOutBlue("There's a time and place for everything but not now!");
+                        }
                         break;
                     default:
                         printOut("please enter a valid number");
@@ -1060,7 +1090,7 @@ public class ClientCLI extends Client {
                 break;
             }
             else {
-                printOut("\ninvalid chosen resources to pay, please try again\n");
+                printOutBlue("\ninvalid chosen resources to pay, please try again\n");
             }
         }
         //if we get here then the action was correct
@@ -1080,7 +1110,7 @@ public class ClientCLI extends Client {
                     messageSender.chosenSlotNumberForDevCard(3);
                     break;
                 } else {
-                    printOut("Wrong selection, please insert a valid selection: (1,2,3)");
+                    printOutBlue("Wrong selection, please insert a valid selection: (1,2,3)");
                 }
             }
             serverResp = stringBuffer.readMessage();
@@ -1088,7 +1118,7 @@ public class ClientCLI extends Client {
             if (response.isCommandWasCorrect()) {
                 break;
             } else {
-                printOut("\nthe selected slot is invalid, choose another one:\n");
+                printOutBlue("\nthe selected slot is invalid, choose another one:\n");
             }
         }
     }
