@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 
 import it.polimi.ingsw.client.cli.ClientCLI;
+import it.polimi.ingsw.client.gui.ClientGUI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class ClientMain {
                 new ClientCLI(stdIn).beginning(hostName, portNumber);
                 break;
             } else if (mode.equals("gui")) {
-                //here we start the GUI flow execution
+                new ClientGUI();
                 break;
             }
             else {

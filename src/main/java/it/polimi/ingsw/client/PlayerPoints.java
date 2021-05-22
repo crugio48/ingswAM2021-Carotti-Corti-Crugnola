@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.cli;
+package it.polimi.ingsw.client;
 
 public class PlayerPoints {
     private int victoryPoints;

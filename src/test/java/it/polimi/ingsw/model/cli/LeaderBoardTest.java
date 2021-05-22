@@ -1,10 +1,8 @@
 package it.polimi.ingsw.model.cli;
 
-import it.polimi.ingsw.CardDecoder.CardDecoder;
-import it.polimi.ingsw.client.cli.PlayerPoints;
+import it.polimi.ingsw.client.PlayerPoints;
 import it.polimi.ingsw.clientmodel.ClientModel;
 import org.junit.jupiter.api.Test;
-import it.polimi.ingsw.client.cli.*;
 
 import java.util.ArrayList;
 import java.util.List;

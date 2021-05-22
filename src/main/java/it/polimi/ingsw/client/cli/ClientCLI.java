@@ -6,7 +6,7 @@ import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
 import it.polimi.ingsw.client.MessageSender;
-import it.polimi.ingsw.exceptions.GameAlreadyFullException;
+import it.polimi.ingsw.client.PlayerPoints;
 
 import java.io.*;
 import java.net.Socket;
