@@ -241,7 +241,7 @@ public class ClientModelStorage extends MyObservable {
                 table[i][22] = "║";
                 table[i][32] = "║";
             }
-            table[1][34] = "Leader Slot 1";
+            table[1][34] = "First Leader Activated Slot";
             table[2][34] = "2 spaces for " + resourceTypeOfLeaderSlot1;
             if(quantityOfLeaderSlot1==1){
                 switch (resourceTypeOfLeaderSlot1){
@@ -280,7 +280,7 @@ public class ClientModelStorage extends MyObservable {
                 table[i][22] = "║";
                 table[i][32] = "║";
             }
-            table[6][34] = "Leader Slot 2";
+            table[6][34] = "Second Leader Activated slot";
             table[7][34] = "2 spaces for " + resourceTypeOfLeaderSlot2;
             if(quantityOfLeaderSlot2==1){
                 switch (resourceTypeOfLeaderSlot2){

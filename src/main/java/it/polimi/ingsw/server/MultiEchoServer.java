@@ -33,6 +33,7 @@ public class MultiEchoServer {
                 Socket socket = serverSocket.accept();
                 //from this moment we have a thread associated with the client that establishes the connection
                 executor.submit(new ServerThread(socket, this.masterController, this.updateBroadcaster));
+                System.out.println("Client joined");
             } catch(IOException e) {
                 break; // Entrerei qui se serverSocket venisse chiuso
             }

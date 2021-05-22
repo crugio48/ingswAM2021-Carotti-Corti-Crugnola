@@ -701,7 +701,7 @@ public class ClientCLI extends Client {
                         }
                         break;
                     }
-                    printOut("Choose slot: (1,2,3)");
+                    printOut("Choose slot: (1, 2, 3, 4. FirstLeadeActivatedSlot,  5. SecondLeaderActivatedSlot)");
                     while (true ) {
                         userInput = stdIn.nextLine();
                         switch (userInput) {
@@ -713,6 +713,12 @@ public class ClientCLI extends Client {
                                 break;
                             case "3":
                                 messageSender.placeResourceInSlot(res1, 3);
+                                break;
+                            case "4":
+                                messageSender.placeResourceInSlot(res1, 4);
+                                break;
+                            case "5":
+                                messageSender.placeResourceInSlot(res1, 5);
                                 break;
                             default:
                                 printOut("please input a valid number");

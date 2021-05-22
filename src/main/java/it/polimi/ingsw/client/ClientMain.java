@@ -27,10 +27,10 @@ public class ClientMain {
 
         String input;
         while (true) {
-            if (args[2].equals("cli")) {
+            if (mode.equals("cli")) {
                 new ClientCLI(stdIn).beginning(hostName, portNumber);
                 break;
-            } else if (args[2].equals("gui")) {
+            } else if (mode.equals("gui")) {
                 //here we start the GUI flow execution
                 break;
             }
