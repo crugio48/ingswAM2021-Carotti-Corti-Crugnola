@@ -769,6 +769,10 @@ public class MasterController {
     public boolean buyDevCard(char devCardColour, int devCardLevel, int playerTurnOrder) {
         Player p = game.getPlayerByTurnOrder(playerTurnOrder);
 
+        if (game.getDevCardSpace().peekTopCard(devCardLevel,devCardColour) == null) {
+            return false;
+        }
+
         if (!game.getDevCardSpace().isBuyable(devCardLevel, devCardColour, p)){
             return false;
         }

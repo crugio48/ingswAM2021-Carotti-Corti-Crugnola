@@ -128,19 +128,82 @@ public class UpdateBroadcaster {
 
     public synchronized void sendDevCardSpaceUpdate() {
         DevCardSpace d = game.getDevCardSpace();
+        int green1, green2, green3, purple1, purple2, purple3, blue1, blue2, blue3, yellow1, yellow2, yellow3;
+
+        try {
+            green1 = d.peekTopCard(1, 'g').getCode();
+        } catch (NullPointerException e) {
+            green1 = 0;
+        }
+        try {
+            green2 = d.peekTopCard(2, 'g').getCode();
+        } catch (NullPointerException e) {
+            green2 = 0;
+        }
+        try {
+            green3 = d.peekTopCard(3, 'g').getCode();
+        } catch (NullPointerException e) {
+            green3 = 0;
+        }
+        try {
+            purple1 = d.peekTopCard(1, 'p').getCode();
+        } catch (NullPointerException e) {
+            purple1 = 0;
+        }
+        try {
+            purple2 = d.peekTopCard(2, 'p').getCode();
+        } catch (NullPointerException e) {
+            purple2 = 0;
+        }
+        try {
+            purple3 = d.peekTopCard(3, 'p').getCode();
+        } catch (NullPointerException e) {
+            purple3 = 0;
+        }
+        try {
+            blue1 = d.peekTopCard(1, 'b').getCode();
+        } catch (NullPointerException e) {
+            blue1 = 0;
+        }
+        try {
+            blue2 = d.peekTopCard(2, 'b').getCode();
+        } catch (NullPointerException e) {
+            blue2 = 0;
+        }
+        try {
+            blue3 = d.peekTopCard(3, 'b').getCode();
+        } catch (NullPointerException e) {
+            blue3 = 0;
+        }
+        try {
+            yellow1 = d.peekTopCard(1, 'y').getCode();
+        } catch (NullPointerException e) {
+            yellow1 = 0;
+        }
+        try {
+            yellow2 = d.peekTopCard(2, 'y').getCode();
+        } catch (NullPointerException e) {
+            yellow2 = 0;
+        }
+        try {
+            yellow3 = d.peekTopCard(3, 'y').getCode();
+        } catch (NullPointerException e) {
+            yellow3 = 0;
+        }
+
         String outMessage = "{\"cmd\" : \"devCardSpaceUpdate\", " +
-                "\"newGreen1\" : " + d.peekTopCard(1,'g').getCode() + ", " +
-                "\"newGreen2\" : " + d.peekTopCard(2,'g').getCode() + ", " +
-                "\"newGreen3\" : " + d.peekTopCard(3,'g').getCode() + ", " +
-                "\"newPurple1\" : " + d.peekTopCard(1,'p').getCode() + ", " +
-                "\"newPurple2\" : " + d.peekTopCard(2,'p').getCode() + ", " +
-                "\"newPurple3\" : " + d.peekTopCard(3,'p').getCode() + ", " +
-                "\"newBlue1\" : " + d.peekTopCard(1,'b').getCode() + ", " +
-                "\"newBlue2\" : " + d.peekTopCard(2,'b').getCode() + ", " +
-                "\"newBlue3\" : " + d.peekTopCard(3,'b').getCode() + ", " +
-                "\"newYellow1\" : " + d.peekTopCard(1,'y').getCode() + ", " +
-                "\"newYellow2\" : " + d.peekTopCard(2,'y').getCode() + ", " +
-                "\"newYellow3\" : " + d.peekTopCard(3,'y').getCode() + "}";
+                "\"newGreen1\" : " + green1 + ", " +
+                "\"newGreen2\" : " + green2 + ", " +
+                "\"newGreen3\" : " + green3 + ", " +
+                "\"newPurple1\" : " + purple1 + ", " +
+                "\"newPurple2\" : " + purple2 + ", " +
+                "\"newPurple3\" : " + purple3 + ", " +
+                "\"newBlue1\" : " + blue1 + ", " +
+                "\"newBlue2\" : " + blue2 + ", " +
+                "\"newBlue3\" : " + blue3 + ", " +
+                "\"newYellow1\" : " + yellow1 + ", " +
+                "\"newYellow2\" : " + yellow2 + ", " +
+                "\"newYellow3\" : " + yellow3 + "}";
         broadcastMessage(outMessage);
     }
 
