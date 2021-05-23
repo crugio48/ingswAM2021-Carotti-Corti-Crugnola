@@ -14,8 +14,9 @@ public class UpdateBroadcaster {
     private HashMap<Integer, PrintWriter> clientsSocketsOut;
     private Game game;
 
-    public UpdateBroadcaster() {
+    public UpdateBroadcaster(Game game) {
         this.clientsSocketsOut = new HashMap<>();
+        this.game = game;
     }
 
     public synchronized void registerClient(Socket socket, int clientTurnOrder) {
@@ -44,10 +45,6 @@ public class UpdateBroadcaster {
                 out.flush();
             }
         }
-    }
-
-    public synchronized void setGame(Game game) {
-        this.game = game;
     }
 
     public synchronized void sendGameStart() {

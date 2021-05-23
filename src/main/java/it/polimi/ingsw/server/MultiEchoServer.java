@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.server.lobby.LobbyAdder;
+import it.polimi.ingsw.server.lobby.LobbyManager;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,16 +11,16 @@ import java.util.concurrent.Executors;
 
 public class MultiEchoServer {
     private int port;
-    private MasterController masterController;
-    private UpdateBroadcaster updateBroadcaster;
+
 
     public MultiEchoServer(int port) {
         this.port = port;
-        this.masterController = new MasterController();
-        this.updateBroadcaster = new UpdateBroadcaster();
-
     }
     public void startServer() {
+        LobbyManager lobbyManager = new LobbyManager();
+        lobbyManager.setDaemon(true);
+        lobbyManager.start();               //starting the lobby manager thread
+
         ExecutorService executor = Executors.newCachedThreadPool();
         ServerSocket serverSocket;
         try {
@@ -32,7 +35,7 @@ public class MultiEchoServer {
             try {
                 Socket socket = serverSocket.accept();
                 //from this moment we have a thread associated with the client that establishes the connection
-                executor.submit(new ServerThread(socket, this.masterController, this.updateBroadcaster));
+                executor.submit(new LobbyAdder(lobbyManager, socket));
                 System.out.println("Client joined");
             } catch(IOException e) {
                 break; // Entrerei qui se serverSocket venisse chiuso

@@ -3,6 +3,7 @@ package it.polimi.ingsw.beans;
 public class Command {
     String cmd;
     int numOfPlayers;
+    String password;
     String username;
     int chosenLeader1;
     int chosenLeader2;
@@ -53,6 +54,10 @@ public class Command {
 
     public int getNumOfPlayers() {
         return numOfPlayers;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getUsername() {
@@ -219,6 +224,10 @@ public class Command {
 
     public void setNumOfPlayers(int numOfPlayers) {
         this.numOfPlayers = numOfPlayers;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setUsername(String username) {

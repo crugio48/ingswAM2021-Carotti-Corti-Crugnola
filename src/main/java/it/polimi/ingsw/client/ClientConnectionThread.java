@@ -155,6 +155,7 @@ public class ClientConnectionThread extends Thread {
                         } else {
                             //DA FARE gui printout (solo messaggio)
                         }
+                        client.messageSender.sendGameEnded();
                         socket.close();
                         System.exit(1);
 

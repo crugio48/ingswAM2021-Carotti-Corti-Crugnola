@@ -8,27 +8,25 @@ import it.polimi.ingsw.exceptions.GameStillNotInitialized;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Socket;
 
-public class ServerThread implements Runnable {
-    private Socket socket;
+public class ServerThread extends Thread {
+    private VirtualClient virtualClient;
     private MasterController masterController;
     private UpdateBroadcaster updateBroadcaster;
     private MessageSenderToMyClient messageSenderToMyClient;
     private BufferedReader in;
     private Gson gson;
-    private String myClientUsername;
-    private int myClientTurnOrder;
 
-    public ServerThread(Socket socket, MasterController masterController, UpdateBroadcaster updateBroadcaster) throws IOException {
-        this.socket = socket;
+    public ServerThread(VirtualClient virtualClient, MasterController masterController, UpdateBroadcaster updateBroadcaster) throws IOException {
+        this.virtualClient = virtualClient;
         this.masterController = masterController;
         this.updateBroadcaster = updateBroadcaster;
-        this.messageSenderToMyClient = new MessageSenderToMyClient(socket); //used to send messages only to our client
+        this.messageSenderToMyClient = new MessageSenderToMyClient(virtualClient.getSocket()); //used to send messages only to our client
         this.gson = new Gson();
-        this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.in = new BufferedReader(new InputStreamReader(virtualClient.getSocket().getInputStream()));
     }
 
+    @Override
     public void run() {
         Gson gson = new Gson();
         try {
@@ -36,18 +34,12 @@ public class ServerThread implements Runnable {
             Command command;
 
             //here the initial setup starts with the server leading the flow
-            //only the first client to connect will choose the amount of players in the game
-            if (masterController.checkIfIAmTheFirstToConnect()) {
-                askForInitialNumberOfPlayers();
-            }
 
             //inserting username, trying to register to game, if game is full then notify and close connection
             try {
                 askForUsername();
-            } catch (GameAlreadyFullException e) {
-                messageSenderToMyClient.tellGameIsAlreadyFull("sorry game is already full");
-                socket.close();
-                return;
+            } catch (GameStillNotInitialized | GameAlreadyFullException e) {
+                // it should never throw this anymore
             }
 
             //distribution of leaderCards
@@ -63,7 +55,7 @@ public class ServerThread implements Runnable {
             masterController.endedConfiguration();
 
             //now only the thread associated to the client with turn order 1 broadcasts the initial updates to everyone
-            if (myClientTurnOrder == 1) {
+            if (virtualClient.getTurnOrder() == 1) {
                 sendInitialUpdates();
             }
 
@@ -71,7 +63,7 @@ public class ServerThread implements Runnable {
             while (true) {
                 clientInput = in.readLine();
                 if (clientInput.equals("closeConnection")) {
-                    updateBroadcaster.removeMySocket(myClientTurnOrder);
+                    updateBroadcaster.removeMySocket(virtualClient.getTurnOrder());
                     updateBroadcaster.aClientHasDisconnected();
                     break;
                 }
@@ -85,7 +77,7 @@ public class ServerThread implements Runnable {
                 //this switch is for current turn player and non current turn players
                 switch (command.getCmd()){
                     case"sendChatMessage":
-                        updateBroadcaster.sendChatMessageOfPlayer(myClientUsername, command.getChatMessage());
+                        updateBroadcaster.sendChatMessageOfPlayer(virtualClient.getNickname(), command.getChatMessage());
                         continue;
 
                     case"moveOneResource":
@@ -102,7 +94,7 @@ public class ServerThread implements Runnable {
 
 
                 //check if it is this player current turn
-                if (masterController.getCurrentTurnOrder() != myClientTurnOrder) {
+                if (masterController.getCurrentTurnOrder() != virtualClient.getTurnOrder()) {
                     messageSenderToMyClient.badCommand("it's not your turn");
                     continue;
                 }
@@ -177,13 +169,13 @@ public class ServerThread implements Runnable {
                 }
             }
 
-            socket.close();
+            virtualClient.getSocket().close();
         } catch (IOException e) {
-            updateBroadcaster.removeMySocket(myClientTurnOrder);
+            updateBroadcaster.removeMySocket(virtualClient.getTurnOrder());
             updateBroadcaster.aClientHasDisconnected();
 
             try {
-                socket.close();
+                virtualClient.getSocket().close();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -194,6 +186,7 @@ public class ServerThread implements Runnable {
     }
 
 
+    /*
     private void askForInitialNumberOfPlayers() throws IOException {
         messageSenderToMyClient.askForInitialNumberOfPLayers(null);
         while (true) {
@@ -209,25 +202,24 @@ public class ServerThread implements Runnable {
         }
 
     }
+     */
 
-    private void askForUsername() throws IOException, GameAlreadyFullException {
+    private void askForUsername() throws IOException, GameAlreadyFullException, GameStillNotInitialized {
         messageSenderToMyClient.askForInitialUsername(null);
         while (true) {
             String clientInput = in.readLine();
             Command command = (Command) gson.fromJson(clientInput, Command.class);
-            try {
-                if (masterController.addPlayerToGame(command.getUsername())) {
-                    this.myClientUsername = command.getUsername();
-                    this.myClientTurnOrder = masterController.getPlayerTurnOrder(myClientUsername);
-                    this.updateBroadcaster.registerClient(this.socket, myClientTurnOrder); //registering the client socket to the broadcaster
-                    break;
-                }
-                else {
-                    messageSenderToMyClient.askForInitialUsername("sorry username already exists, please try again");
-                }
-            } catch (GameStillNotInitialized e) {
-                messageSenderToMyClient.askForInitialUsername(e.getMessage());
+
+            if (masterController.addPlayerToGame(command.getUsername())) {
+                this.virtualClient.setNickname(command.getUsername());
+                this.virtualClient.setTurnOrder(masterController.getPlayerTurnOrder(virtualClient.getNickname()));
+                this.updateBroadcaster.registerClient(virtualClient.getSocket(), virtualClient.getTurnOrder()); //registering the client socket to the broadcaster
+                break;
             }
+            else {
+                messageSenderToMyClient.askForInitialUsername("sorry username already exists, please try again");
+            }
+
         }
     }
 
@@ -238,7 +230,7 @@ public class ServerThread implements Runnable {
             String clientInput = in.readLine();
             Command command = (Command) gson.fromJson(clientInput, Command.class);
 
-            if (masterController.giveLeaderCardsToPLayer(command.getChosenLeader1(), command.getChosenLeader2(), this.myClientUsername)) {
+            if (masterController.giveLeaderCardsToPLayer(command.getChosenLeader1(), command.getChosenLeader2(), virtualClient.getNickname())) {
                 break;
             }
             else {
@@ -249,7 +241,7 @@ public class ServerThread implements Runnable {
     }
 
     private void handOutInitialResources() throws IOException {
-        switch (myClientTurnOrder) {
+        switch (virtualClient.getTurnOrder()) {
             case 2:
             case 3:
                 messageSenderToMyClient.distributionOfInitialResources(1,null);
@@ -257,7 +249,7 @@ public class ServerThread implements Runnable {
                     String clientInput = in.readLine();
                     Command command = (Command) gson.fromJson(clientInput, Command.class);
 
-                    if(masterController.giveInitialResourcesToPlayer(command.getChosenResource1(), null,myClientUsername)) {
+                    if(masterController.giveInitialResourcesToPlayer(command.getChosenResource1(), null, virtualClient.getNickname())) {
                         break;
                     }
                     else {
@@ -273,7 +265,7 @@ public class ServerThread implements Runnable {
                     Command command = (Command) gson.fromJson(clientInput, Command.class);
 
                     if(masterController.giveInitialResourcesToPlayer(command.getChosenResource1(), command.getChosenResource2(),
-                            myClientUsername)) {
+                            virtualClient.getNickname())) {
                         break;
                     }
                     else {
@@ -308,8 +300,8 @@ public class ServerThread implements Runnable {
 
         updateBroadcaster.sendGameStart();
 
-        Thread.sleep(50);
-        updateBroadcaster.sendPrintOutUpdate(myClientUsername + " is the first player"); //to print the state of the game for non starting players
+        Thread.sleep(200);
+        updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " is the first player"); //to print the state of the game for non starting players
     }
 
     private void buyFromMarket(Command command) {
@@ -319,7 +311,7 @@ public class ServerThread implements Runnable {
             return;
         }
         //here we execute the command
-        if (masterController.buyFromMarket(command.getMarketPosition(), myClientTurnOrder)) {  //if true then action was correct
+        if (masterController.buyFromMarket(command.getMarketPosition(), virtualClient.getTurnOrder())) {  //if true then action was correct
             updateBroadcaster.sendMarketUpdate();  //market update
             updateBroadcaster.sendFaithTrackUpdate(); //faithTrack update
             messageSenderToMyClient.goodBuyFromMarket(masterController.getTurnInfo().getStones(),
@@ -328,7 +320,7 @@ public class ServerThread implements Runnable {
                     masterController.getTurnInfo().getCoins(),
                     masterController.getTurnInfo().getJolly(),
                     masterController.getTurnInfo().getTargetResources());
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " bought from the market");
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " bought from the market");
         }
         else {  //if false then the action was not correct
             messageSenderToMyClient.badCommand("invalid market position requested");
@@ -345,7 +337,7 @@ public class ServerThread implements Runnable {
                 command.isSlot3Activation(), command.isBaseProductionActivation(), command.getBaseInputResource1(),
                 command.getBaseInputResource2(), command.getBaseOutputResource(), command.isLeader1SlotActivation(),
                 command.getLeader1Code(), command.getLeader1ConvertedResource(), command.isLeader2SlotActivation(),
-                command.getLeader2Code(), command.getLeader2ConvertedResource(), myClientTurnOrder)) {  //if this is true then we already have everything saved and done
+                command.getLeader2Code(), command.getLeader2ConvertedResource(), virtualClient.getTurnOrder())) {  //if this is true then we already have everything saved and done
             messageSenderToMyClient.goodProductionActivation(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getShields(),
                     masterController.getTurnInfo().getCoins(),
@@ -363,11 +355,12 @@ public class ServerThread implements Runnable {
         }
         // here we try to execute the command
         if (masterController.buyDevCard(command.getDevCardColour(), command.getDevCardLevel(),
-                myClientTurnOrder)){
+                virtualClient.getTurnOrder())){
             messageSenderToMyClient.goodDevCardBuyAction(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getShields(),
                     masterController.getTurnInfo().getCoins(),
                     masterController.getTurnInfo().getServants());
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " is buying a development card");
         }
         else {
             messageSenderToMyClient.badCommand("you can't buy that card");
@@ -377,11 +370,11 @@ public class ServerThread implements Runnable {
     private void activateLeader(Command command) {
         //maybe add a check for main action in progress
         //here we try to execute the command
-        if (masterController.activateLeader(command.getLeaderCode(), myClientTurnOrder)){
-            updateBroadcaster.sendLeaderCardsUpdateOfPlayer(myClientTurnOrder);
-            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
+        if (masterController.activateLeader(command.getLeaderCode(), virtualClient.getTurnOrder())){
+            updateBroadcaster.sendLeaderCardsUpdateOfPlayer(virtualClient.getTurnOrder());
+            updateBroadcaster.sendStorageUpdateOfPlayer(virtualClient.getTurnOrder());
             messageSenderToMyClient.goodCommand("the leader has been activated");
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " activated a leader");
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " activated a leader");
         }
         else {
             messageSenderToMyClient.badCommand("the leader requirement wasn't met");
@@ -391,11 +384,11 @@ public class ServerThread implements Runnable {
     private void discardLeader(Command command) {
         //maybe add a check for main action in progress
         //here we try to execute the command
-        if (masterController.discardLeader(command.getLeaderCode(), myClientTurnOrder)) {
+        if (masterController.discardLeader(command.getLeaderCode(), virtualClient.getTurnOrder())) {
             updateBroadcaster.sendFaithTrackUpdate();
-            updateBroadcaster.sendLeaderCardsUpdateOfPlayer(myClientTurnOrder);
+            updateBroadcaster.sendLeaderCardsUpdateOfPlayer(virtualClient.getTurnOrder());
             messageSenderToMyClient.goodCommand("the leader has been discarded");
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " discarded a leader");
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " discarded a leader");
         }
         else {
             messageSenderToMyClient.badCommand("you can't discard this leader");
@@ -405,7 +398,7 @@ public class ServerThread implements Runnable {
     private void endTurn() {
         //check if player has done their main action
         if (masterController.checkIfMainActionWasCompleted()) { //true
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " ended his turn");
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " ended his turn");
             if (masterController.getGameNumberOfPlayers() == 1) { //only if single player game
                 masterController.doLorenzoAction();
                 updateBroadcaster.sendLastUsedLorenzoActionUpdate();
@@ -421,7 +414,7 @@ public class ServerThread implements Runnable {
     }
 
     private void maybeGameEnded() {
-        if (masterController.isEndGameActivated() && myClientTurnOrder == masterController.getGameNumberOfPlayers()){
+        if (masterController.isEndGameActivated() && virtualClient.getTurnOrder() == masterController.getGameNumberOfPlayers()){
             //we get here if the last player of the last turn cycle has ended his turn
             updateBroadcaster.gameEnded();
         }
@@ -434,7 +427,7 @@ public class ServerThread implements Runnable {
         }
         //here we try to execute the command
         if (masterController.checkAndRefactorRequestedResourcesToBuyFromMarket(command.getStones(),
-                command.getShields(), command.getServants(), command.getCoins(), myClientTurnOrder)) {   //true if client request was good
+                command.getShields(), command.getServants(), command.getCoins(), virtualClient.getTurnOrder())) {   //true if client request was good
             messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
@@ -460,13 +453,13 @@ public class ServerThread implements Runnable {
         }
         //here we try to execute the command
         if (masterController.placeResourceOfPlayerInSlot(command.getSlotNumber(),
-                command.getResourceType(), myClientTurnOrder)) { //true if all went correctly
-            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
+                command.getResourceType(), virtualClient.getTurnOrder())) { //true if all went correctly
+            updateBroadcaster.sendStorageUpdateOfPlayer(virtualClient.getTurnOrder());
             messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
                     masterController.getTurnInfo().getCoins());
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " placed a bought resource");
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " placed a bought resource");
         }
         else { //false if wrong action decided by the client
             messageSenderToMyClient.badMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
@@ -487,13 +480,13 @@ public class ServerThread implements Runnable {
             return;
         }
         //here we try to execute the command
-        if (masterController.discardOneResourceAndGiveFaithPoints(command.getResourceType(), myClientTurnOrder)) { //true if command was correct
+        if (masterController.discardOneResourceAndGiveFaithPoints(command.getResourceType(), virtualClient.getTurnOrder())) { //true if command was correct
             updateBroadcaster.sendFaithTrackUpdate();
             messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
                     masterController.getTurnInfo().getCoins());
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " discarded a bought resource");
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " discarded a bought resource");
         }
         else {  //false if command wasn't correct
             messageSenderToMyClient.badMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
@@ -507,8 +500,8 @@ public class ServerThread implements Runnable {
     private void moveOneResource(Command command) {
         //here we try to execute the command
         if (masterController.moveOneResourceOfPlayer(command.getFromSlotNumber(),
-                command.getToSlotNumber(), myClientTurnOrder)) {  //true if command was correct
-            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
+                command.getToSlotNumber(), virtualClient.getTurnOrder())) {  //true if command was correct
+            updateBroadcaster.sendStorageUpdateOfPlayer(virtualClient.getTurnOrder());
             messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
@@ -526,8 +519,8 @@ public class ServerThread implements Runnable {
     private void switchResourceSlots(Command command) {
         //here we try to execute the command
         if (masterController.switchResourceSlotsOfPlayer(command.getFromSlotNumber(),
-                command.getToSlotNumber(), myClientTurnOrder)) { //true if command was correct
-            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
+                command.getToSlotNumber(), virtualClient.getTurnOrder())) { //true if command was correct
+            updateBroadcaster.sendStorageUpdateOfPlayer(virtualClient.getTurnOrder());
             messageSenderToMyClient.goodMarketBuyActionMidTurn(masterController.getTurnInfo().getStones(),
                     masterController.getTurnInfo().getServants(),
                     masterController.getTurnInfo().getShields(),
@@ -552,10 +545,10 @@ public class ServerThread implements Runnable {
             return;
         }
         //now we try to execute the command
-        masterController.discardAllRemainingResourcesAndGiveFaithPoints(myClientTurnOrder);
+        masterController.discardAllRemainingResourcesAndGiveFaithPoints(virtualClient.getTurnOrder());
         updateBroadcaster.sendFaithTrackUpdate();
         messageSenderToMyClient.goodCommand("you have ended the placing of your resources");
-        updateBroadcaster.sendPrintOutUpdate(myClientUsername + " ended placing his resources (and might have discarded the remaining resources he had to place)");
+        updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " ended placing his resources (and might have discarded the remaining resources he had to place)");
     }
 
     private void chosenResourcesToPayForProduction(Command command) {
@@ -567,12 +560,12 @@ public class ServerThread implements Runnable {
         if (masterController.executeProductionIfPlayerPayedTheCorrectAmountOfResources(command.getChestCoins(),
                 command.getChestStones(), command.getChestServants(), command.getChestShields(),
                 command.getStorageCoins(), command.getStorageStones(), command.getStorageServants(),
-                command.getStorageShields(), myClientTurnOrder)) {  //true if action is viable
+                command.getStorageShields(), virtualClient.getTurnOrder())) {  //true if action is viable
             updateBroadcaster.sendFaithTrackUpdate();
-            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
-            updateBroadcaster.sendChestUpdateOfPlayer(myClientTurnOrder);
+            updateBroadcaster.sendStorageUpdateOfPlayer(virtualClient.getTurnOrder());
+            updateBroadcaster.sendChestUpdateOfPlayer(virtualClient.getTurnOrder());
             messageSenderToMyClient.goodCommand(null);
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " activated his production");
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " activated his production");
         }
         else {
             messageSenderToMyClient.badProductionExecution(masterController.getTurnInfo().getStones(),
@@ -591,11 +584,11 @@ public class ServerThread implements Runnable {
         if (masterController.buyDevCardIfPlayerPayedTheCorrectAmountOfResources(command.getChestCoins(),
                 command.getChestStones(), command.getChestServants(), command.getChestShields(),
                 command.getStorageCoins(), command.getStorageStones(), command.getStorageServants(),
-                command.getStorageShields(), myClientTurnOrder)) {
-            updateBroadcaster.sendChestUpdateOfPlayer(myClientTurnOrder);
-            updateBroadcaster.sendStorageUpdateOfPlayer(myClientTurnOrder);
+                command.getStorageShields(), virtualClient.getTurnOrder())) {
+            updateBroadcaster.sendChestUpdateOfPlayer(virtualClient.getTurnOrder());
+            updateBroadcaster.sendStorageUpdateOfPlayer(virtualClient.getTurnOrder());
             messageSenderToMyClient.goodCommand(null);
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " bought a development card but still hasn't placed it");
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " bought a development card but still hasn't placed it");
         }
         else {
             messageSenderToMyClient.badDevCardBuyChoosingPayement(masterController.getTurnInfo().getStones(),
@@ -611,11 +604,11 @@ public class ServerThread implements Runnable {
             return;
         }
         //now we try to execute the command
-        if (masterController.placeDevCard(command.getSlotNumber(), myClientTurnOrder)) { //if true
-            updateBroadcaster.sendPersonalDevCardSlotUpdateOfPlayer(command.getSlotNumber(), myClientTurnOrder);
+        if (masterController.placeDevCard(command.getSlotNumber(), virtualClient.getTurnOrder())) { //if true
+            updateBroadcaster.sendPersonalDevCardSlotUpdateOfPlayer(command.getSlotNumber(), virtualClient.getTurnOrder());
             updateBroadcaster.sendDevCardSpaceUpdate();
             messageSenderToMyClient.goodCommand("you bought the card successfully");
-            updateBroadcaster.sendPrintOutUpdate(myClientUsername + " placed the bought development card");
+            updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " placed the bought development card");
         }
         else {// if false
             messageSenderToMyClient.badCommand("it wasn't possible to place the card in that slot");

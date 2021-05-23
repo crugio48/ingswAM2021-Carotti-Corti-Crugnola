@@ -33,17 +33,10 @@ public class ClientCLI extends Client {
 
     public void beginning(String hostName, int portNumber) {
         try {
-            socket = new Socket(hostName, portNumber);
+            // setups the lobby on the server
+            askLobbySetup(hostName, portNumber);
 
-            this.messageSender = new MessageSender(socket); //this is the object to use to send messages to the server
-
-            ClientConnectionThread clientConnectionThread = new ClientConnectionThread(this, socket);
-
-            clientConnectionThread.setDaemon(true);
-            clientConnectionThread.start();
-
-
-            //this method does all the setup
+            //this method does all the setup for the game once the lobby on the server is started
             initialSetup();
 
             String userInput;
@@ -1492,6 +1485,72 @@ public class ClientCLI extends Client {
         printOut(response.getResp());
     }
 
+    private void askLobbySetup(String hostName, int portNumber) throws IOException {
+        String userInput;
+        int numOfPlayers;
+        String password;
+        printOut("specify the number of players of the game you want to play(1-4): ");
+        while (true) {
+            userInput = stdIn.nextLine();
+            try {
+                numOfPlayers = Integer.parseInt(userInput);
+            } catch (NumberFormatException e) {
+                printOut("please enter an integer number between 1 and 4: ");
+                continue;
+            }
+            if (numOfPlayers < 1 || numOfPlayers > 4) {
+                printOut("please enter an integer number between 1 and 4: ");
+                continue;
+            }
+            break;
+        }
+
+        if (numOfPlayers > 1) {  // multiplayer game
+            printOut("do you want to play a private match with friends or with random people? (friends || random)");
+            while(true){
+                userInput = stdIn.nextLine();
+                if (!userInput.equals("friends") && !userInput.equals("random")) {
+                    printOut("please input a valid answer (friends || random");
+                    continue;
+                }
+                break;
+            }
+
+            if (userInput.equals("random")){
+                password = null;
+            }
+            else{  //userInput == friends
+                printOut("please input the password for the private game: ");
+                while (true) {
+                    userInput = stdIn.nextLine();
+                    if (userInput.equals("") || userInput.contains(" ")) {
+                        printOut("please insert a valid password with no blank spaces");
+                        continue;
+                    }
+                    break;
+                }
+                password = userInput;
+            }
+        }
+        else {  //solo game
+            password = null;
+        }
+
+        this.socket = new Socket(hostName, portNumber);
+
+        this.messageSender = new MessageSender(socket); //this is the object to use to send messages to the server
+
+        ClientConnectionThread clientConnectionThread = new ClientConnectionThread(this, socket);
+        clientConnectionThread.setDaemon(true);
+        clientConnectionThread.start();   //starts the readingFromServer thread
+
+        messageSender.sendInitialLobbyMessage(numOfPlayers, password);
+
+        if (numOfPlayers > 1) {
+            printOut("you joined a lobby, the game will start once the lobby is full");
+        }
+    }
+
     private void initialSetup() throws InterruptedException, IOException {
         String userInput;
         String serverResp;
@@ -1505,28 +1564,6 @@ public class ClientCLI extends Client {
             if (response.getCmd().equals("gameStart")) break; //this signals that all initial setup is done
 
             switch (response.getCmd()) {
-                case"defineNumberOfPlayers":
-                    if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
-                    printOut("you are the first one to connect,\n" +
-                            "please input the number of players for the game(1-4): ");
-                    int num;
-                    while (true) {
-                        userInput = stdIn.nextLine();
-                        try {
-                            num = Integer.parseInt(userInput);
-                        } catch (NumberFormatException e) {
-                            printOut("please enter an integer number between 1 and 4: ");
-                            continue;
-                        }
-                        if (num < 1 || num > 4) {
-                            printOut("please enter an integer number between 1 and 4: ");
-                            continue;
-                        }
-                        break;
-                    }
-                    messageSender.sendInitialNumOfPlayers(num);
-                    break;
-
                 case"insertUsername":
                     if (response.getResp() != null) printOut(response.getResp());  //resp is not null only from the hypothetical second time we get here
                     printOut("enter your nickname: ");
@@ -1545,11 +1582,6 @@ public class ClientCLI extends Client {
                     messageSender.sendUsername(userInput);
                     temporaryUsername = userInput;
                     break;
-
-                case"sorryGameAlreadyFull":
-                    System.out.println(response.getResp());
-                    socket.close();
-                    System.exit(1);
 
                 case"leaderDistribution":
                     int[] leaderCardsDrawn = response.getLeaderCardsDrawn();

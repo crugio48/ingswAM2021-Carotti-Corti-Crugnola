@@ -16,6 +16,13 @@ public class MessageSender {
 
     //here we write all methods to send messages to the server
 
+    public void sendInitialLobbyMessage(int numOfPlayers, String password) {
+        String outMessage = "{\"numOfPlayers\" : " + numOfPlayers + ", " +
+                "\"password\" : \"" + password + "\"}";
+        out.println(outMessage);
+        out.flush();
+    }
+
     public void sendInitialNumOfPlayers(int numOfPlayers) {
         String outMessage = "{\"numOfPlayers\" : " + numOfPlayers + "}";
         out.println(outMessage);
