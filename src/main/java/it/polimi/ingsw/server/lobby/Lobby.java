@@ -47,5 +47,6 @@ public class Lobby {
             serverThread.setDaemon(true);
             serverThread.start();
         }
+        System.out.println("game started");
     }
 }

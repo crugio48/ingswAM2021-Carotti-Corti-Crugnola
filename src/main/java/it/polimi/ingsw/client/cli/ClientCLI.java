@@ -1547,7 +1547,7 @@ public class ClientCLI extends Client {
         messageSender.sendInitialLobbyMessage(numOfPlayers, password);
 
         if (numOfPlayers > 1) {
-            printOut("you joined a lobby, the game will start once the lobby is full");
+            printOut("you joined a lobby, the game will start once the lobby is full, please don't input anything");
         }
     }
 
