@@ -22,7 +22,7 @@ public class MarketPanel extends JPanel implements MyObserver {
 
         this.setLayout(null);
 
-        chatComponent.setBounds(450, 200, 200, 300);
+        chatComponent.setBounds(450, 200, 250, 330);
         add(chatComponent);
 
         JLabel extraMarble = new JLabel();
@@ -33,6 +33,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         add(extraMarble);
 
         JButton pos1 = new JButton("\u2190");//left arrow
+        pos1.setToolTipText("press this to buy from market from this row");
         JButton pos2 = new JButton("\u2190");
         JButton pos3 = new JButton("\u2190");
         JButton pos4 = new JButton("\u2191");//up arrow

@@ -37,6 +37,19 @@ public class MarketPanelTest {
         clientModelMarket.setMarketUpdate(test2, test3, test1, "grey");
 
         chatComponent.writeChatMessage("Piero: ola");
+        chatComponent.writeChatMessage("cru: ahhahhaha");
+        chatComponent.writeChatMessage("Piero: ola");
+        chatComponent.writeChatMessage("cru: ahhahhaha");
+        chatComponent.writeChatMessage("Piero: ola");
+        chatComponent.writeChatMessage("cru: ahhahhaha");
+        chatComponent.writeChatMessage("Piero: ola");
+        chatComponent.writeChatMessage("cru: ahhahhaha");
+        chatComponent.writeChatMessage("Piero: ola");
+        chatComponent.writeChatMessage("cru: ahhahhaha");
+        chatComponent.writeChatMessage("/////////////");
+        chatComponent.writeChatMessage("///////////////");
+        chatComponent.writeChatMessage("/////////////");
+        chatComponent.writeChatMessage("///////////////");
         chatComponent.writeLogMessage("log");
 
         Thread.sleep(3*1000);
