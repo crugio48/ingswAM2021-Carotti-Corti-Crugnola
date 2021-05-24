@@ -9,33 +9,33 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
-public class ClientGUI extends Client {
-    private String myUsername;
-    private int myTurnOrder;
+    public class ClientGUI extends Client {
+        private String myUsername;
+        private int myTurnOrder;
 
-    public ClientGUI(){
-        super();
-    }
-
-
-    public void beginning(String hostname, int portnumber) throws InterruptedException {
+        public ClientGUI(){
+            super();
+        }
 
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    createAndShowGUI();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        public void beginning(String hostname, int portnumber) throws InterruptedException {
+
+
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    try {
+                        createAndShowGUI();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        });
+            });
 
+
+        }
+
+        private void createAndShowGUI() throws IOException {
+            JFrame panelContainer = new PanelContainer(clientModel, myTurnOrder, myUsername);
+        }
 
     }
-
-    private void createAndShowGUI() throws IOException {
-        JFrame panelContainer = new PanelContainer(clientModel, myTurnOrder, myUsername);
-    }
-
-}
