@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
+import it.polimi.ingsw.client.gui.ChatComponent;
 import it.polimi.ingsw.clientmodel.ClientModelMarket;
 
 import javax.imageio.ImageIO;
@@ -15,11 +16,14 @@ import java.io.InputStream;
 public class MarketPanel extends JPanel implements MyObserver {
     private ClientModelMarket market;
 
-    public MarketPanel (ClientModelMarket market) {
+    public MarketPanel (ClientModelMarket market, ChatComponent chatComponent) {
         this.market = market;
         market.addObserver(this);
 
         this.setLayout(null);
+
+        chatComponent.setBounds(450, 200, 200, 300);
+        add(chatComponent);
 
         JLabel extraMarble = new JLabel();
         extraMarble.setText("Extra marble:");
@@ -53,8 +57,8 @@ public class MarketPanel extends JPanel implements MyObserver {
 
 
 
-        this.setPreferredSize(new Dimension(800, 517));
-        this.setBackground(Color.BLACK);
+        this.setPreferredSize(new Dimension(700, 517));
+        this.setBackground(new Color(145,136,115));
     }
 
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
+import it.polimi.ingsw.client.gui.ChatComponent;
 import it.polimi.ingsw.clientmodel.ClientModelMarket;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,8 @@ import java.io.IOException;
 
 public class MarketPanelTest {
     ClientModelMarket clientModelMarket = new ClientModelMarket();
-    MarketPanel marketPanel = new MarketPanel(clientModelMarket);
+    ChatComponent chatComponent = new ChatComponent();
+    MarketPanel marketPanel = new MarketPanel(clientModelMarket, chatComponent);
 
     @Test
     public void guiTest() throws InterruptedException {
@@ -33,6 +35,9 @@ public class MarketPanelTest {
         Thread.sleep(7 * 1000);
 
         clientModelMarket.setMarketUpdate(test2, test3, test1, "grey");
+
+        chatComponent.writeChatMessage("Piero: ola");
+        chatComponent.writeLogMessage("log");
 
         Thread.sleep(3*1000);
     }
