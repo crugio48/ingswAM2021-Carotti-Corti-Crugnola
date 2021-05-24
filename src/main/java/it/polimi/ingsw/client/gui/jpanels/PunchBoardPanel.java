@@ -19,10 +19,27 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
         setLayout(null);
 
+        JButton activateExtraProductionButton = new JButton("Activate Extra Production");
+        JButton activateFirstProductionButton = new JButton("Activate First Production");
+        JButton activateSecondProductionButton = new JButton("Activate Second Production");
+        JButton activateThirdProductionButton = new JButton("Activate Third Production");
+
+        JButton selectChestButton = new JButton("Chest");
+        JButton selectStorageButton = new JButton("Storage");
+
+        JButton switchTwoResourcesButton = new JButton("Switch Resources");
+        JButton moveOneResourceButton = new JButton("Move One Resource");
+
+        activateExtraProductionButton.setBounds(0,0,300, 300);
+        add(activateExtraProductionButton);
+
+
+
         this.myTurnOrder = myTurnOrder;
         clientModelFaithTrack.addObserver(this);
         this.observedClientModelFaithTrack = clientModelFaithTrack;
-        setPreferredSize(new Dimension(1500, 900));
+        this.setPreferredSize(new Dimension(1500, 900));
+        this.setBackground(new Color(145,136,115));
     }
 
 
@@ -33,8 +50,8 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
 
     @Override
-    public void paint(Graphics g) {
-        super.paint(g);
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
         //myDrawImagePNG(g, observedClientModelDevCardSpace.getCodeBlue1());
         //devo passargli la posizione sul faithtrack

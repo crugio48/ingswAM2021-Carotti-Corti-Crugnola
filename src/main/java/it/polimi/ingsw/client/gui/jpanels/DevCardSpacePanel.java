@@ -47,21 +47,21 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
     private void drawDevCardSpace(Graphics g, int codeLv1Purple, int codeLv2Purple, int codeLv3Purple, int codeLv1Green, int codeLv2Green, int codeLv3Green, int codeLv1Yellow, int codeLv2Yellow, int codeLv3Yellow, int codeLv1Blue, int codeLv2Blue, int codeLv3Blue){
         ClassLoader cl = this.getClass().getClassLoader();
 
-        String cardUrlToPrintLv1Purple = "cards/" + String.valueOf(codeLv1Purple) + ".png";
-        String cardUrlToPrintLv2Purple = "cards/" + String.valueOf(codeLv2Purple) + ".png";
-        String cardUrlToPrintLv3Purple = "cards/" + String.valueOf(codeLv3Purple) + ".png";
+        String cardUrlToPrintLv1Purple = "cards/" + codeLv1Purple + ".png";
+        String cardUrlToPrintLv2Purple = "cards/" + codeLv2Purple + ".png";
+        String cardUrlToPrintLv3Purple = "cards/" + codeLv3Purple + ".png";
 
-        String cardUrlToPrintLv1Green = "cards/" + String.valueOf(codeLv1Green) + ".png";
-        String cardUrlToPrintLv2Green = "cards/" + String.valueOf(codeLv2Green) + ".png";
-        String cardUrlToPrintLv3Green = "cards/" + String.valueOf(codeLv3Green) + ".png";
+        String cardUrlToPrintLv1Green = "cards/" + codeLv1Green + ".png";
+        String cardUrlToPrintLv2Green = "cards/" + codeLv2Green + ".png";
+        String cardUrlToPrintLv3Green = "cards/" + codeLv3Green + ".png";
 
-        String cardUrlToPrintLv1Yellow = "cards/" + String.valueOf(codeLv1Yellow) + ".png";
-        String cardUrlToPrintLv2Yellow = "cards/" + String.valueOf(codeLv2Yellow) + ".png";
-        String cardUrlToPrintLv3Yellow = "cards/" + String.valueOf(codeLv3Yellow) + ".png";
+        String cardUrlToPrintLv1Yellow = "cards/" + codeLv1Yellow + ".png";
+        String cardUrlToPrintLv2Yellow = "cards/" + codeLv2Yellow + ".png";
+        String cardUrlToPrintLv3Yellow = "cards/" + codeLv3Yellow + ".png";
 
-        String cardUrlToPrintLv1Blue = "cards/" + String.valueOf(codeLv1Blue) + ".png";
-        String cardUrlToPrintLv2Blue = "cards/" + String.valueOf(codeLv2Blue) + ".png";
-        String cardUrlToPrintLv3Blue = "cards/" + String.valueOf(codeLv3Blue) + ".png";
+        String cardUrlToPrintLv1Blue = "cards/" + codeLv1Blue + ".png";
+        String cardUrlToPrintLv2Blue = "cards/" + codeLv2Blue + ".png";
+        String cardUrlToPrintLv3Blue = "cards/" + codeLv3Blue + ".png";
 
         InputStream url1 = cl.getResourceAsStream(cardUrlToPrintLv1Purple);
         InputStream url2 = cl.getResourceAsStream(cardUrlToPrintLv2Purple);

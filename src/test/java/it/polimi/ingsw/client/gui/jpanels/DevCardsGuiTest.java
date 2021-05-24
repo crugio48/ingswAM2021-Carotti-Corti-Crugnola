@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.gui;
+package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.client.gui.jpanels.DevCardSpacePanel;
 import it.polimi.ingsw.clientmodel.ClientModelDevCardSpace;
