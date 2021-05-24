@@ -22,8 +22,8 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     private int myTurnOrder;
 
     public PunchBoardPanel(ClientModelPersonalDevCardSlots devCardSlots,ClientModelFaithTrack clientModelFaithTrack, ClientModelStorage storage, ClientModelChest chest, int myTurnOrder){
-
         setLayout(null);
+        setOpaque(true);
 
         JButton activateExtraProductionButton = new JButton("Activate Extra Production");
         JButton activateFirstProductionButton = new JButton("Activate First Production");
@@ -61,6 +61,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
     @Override
     public void paintComponent(Graphics g) {
+       int i=0;
         super.paintComponent(g);
 
 
@@ -107,6 +108,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     }
 
     private void drawChestResources(Graphics g, ClientModelChest chest){
+
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url10 = cl.getResourceAsStream("components/coin.png");
         InputStream url20 = cl.getResourceAsStream("servant.png");
@@ -123,15 +125,86 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             return;
         }
 
-        g.drawImage(coin,40,610,40,40,null);
+       /* g.drawImage(coin,40,610,40,40,null);
         g.drawImage(stone,120,610,40,40,null);
         g.drawImage(shield,40,680,40,40,null);
-        g.drawImage(servant,120,680,40,40,null);
+        g.drawImage(servant,120,680,40,40,null);*/
 
 
-        JLabel quantitycoins = new JLabel();
+        if(chest.getCoinsQuantity()>=1)g.drawImage(coin,30,600,15,15,null);
+        if(chest.getCoinsQuantity()>=2)g.drawImage(coin,50,600,15,15,null);
+        if(chest.getCoinsQuantity()>=3)g.drawImage(coin,70,600,15,15,null);
+        if(chest.getCoinsQuantity()>=4)g.drawImage(coin,90,600,15,15,null);
+        if(chest.getCoinsQuantity()>=5)g.drawImage(coin,30,620,15,15,null);
+        if(chest.getCoinsQuantity()>=6)g.drawImage(coin,50,620,15,15,null);
+        if(chest.getCoinsQuantity()>=7)g.drawImage(coin,70,620,15,15,null);
+        if(chest.getCoinsQuantity()>=8)g.drawImage(coin,90,620,15,15,null);
+        if(chest.getCoinsQuantity()>=9)g.drawImage(coin,30,640,15,15,null);
+        if(chest.getCoinsQuantity()>=10)g.drawImage(coin,50,640,15,15,null);
+        if(chest.getCoinsQuantity()>=11)g.drawImage(coin,70,640,15,15,null);
+        if(chest.getCoinsQuantity()>=12)g.drawImage(coin,90,640,15,15,null);
+        if(chest.getCoinsQuantity()>=13)g.drawImage(coin,30,660,15,15,null);
+        if(chest.getCoinsQuantity()>=14)g.drawImage(coin,50,660,15,15,null);
+        if(chest.getCoinsQuantity()>=15)g.drawImage(coin,70,660,15,15,null);
+        if(chest.getCoinsQuantity()>=16)g.drawImage(coin,90,660,15,15,null);
+
+        if(chest.getShieldsQuantity()>=1)g.drawImage(shield,30,680,15,15,null);
+        if(chest.getShieldsQuantity()>=2)g.drawImage(shield,50,680,15,15,null);
+        if(chest.getShieldsQuantity()>=3)g.drawImage(shield,70,680,15,15,null);
+        if(chest.getShieldsQuantity()>=4)g.drawImage(shield,90,680,15,15,null);
+        if(chest.getShieldsQuantity()>=5)g.drawImage(shield,30,700,15,15,null);
+        if(chest.getShieldsQuantity()>=6)g.drawImage(shield,50,700,15,15,null);
+        if(chest.getShieldsQuantity()>=7)g.drawImage(shield,70,700,15,15,null);
+        if(chest.getShieldsQuantity()>=8)g.drawImage(shield,90,700,15,15,null);
+        if(chest.getShieldsQuantity()>=9)g.drawImage(shield,30,720,15,15,null);
+        if(chest.getShieldsQuantity()>=10)g.drawImage(shield,50,720,15,15,null);
+        if(chest.getShieldsQuantity()>=11)g.drawImage(shield,70,720,15,15,null);
+        if(chest.getShieldsQuantity()>=12)g.drawImage(shield,90,720,15,15,null);
+        if(chest.getShieldsQuantity()>=13)g.drawImage(shield,30,740,15,15,null);
+        if(chest.getShieldsQuantity()>=14)g.drawImage(shield,50,740,15,15,null);
+        if(chest.getShieldsQuantity()>=15)g.drawImage(shield,70,740,15,15,null);
+        if(chest.getShieldsQuantity()>=16)g.drawImage(shield,90,740,15,15,null);
+
+        if(chest.getStonesQuantity()>=1)g.drawImage(stone,120,600,15,15,null);
+        if(chest.getStonesQuantity()>=2)g.drawImage(stone,140,600,15,15,null);
+        if(chest.getStonesQuantity()>=3)g.drawImage(stone,160,600,15,15,null);
+        if(chest.getStonesQuantity()>=4)g.drawImage(stone,180,600,15,15,null);
+        if(chest.getStonesQuantity()>=5)g.drawImage(stone,120,620,15,15,null);
+        if(chest.getStonesQuantity()>=6)g.drawImage(stone,140,620,15,15,null);
+        if(chest.getStonesQuantity()>=7)g.drawImage(stone,160,620,15,15,null);
+        if(chest.getStonesQuantity()>=8)g.drawImage(stone,180,620,15,15,null);
+        if(chest.getStonesQuantity()>=9)g.drawImage(stone,120,640,15,15,null);
+        if(chest.getStonesQuantity()>=10)g.drawImage(stone,140,640,15,15,null);
+        if(chest.getStonesQuantity()>=11)g.drawImage(stone,160,640,15,15,null);
+        if(chest.getStonesQuantity()>=12)g.drawImage(stone,180,640,15,15,null);
+        if(chest.getStonesQuantity()>=13)g.drawImage(stone,120,660,15,15,null);
+        if(chest.getStonesQuantity()>=14)g.drawImage(stone,140,660,15,15,null);
+        if(chest.getStonesQuantity()>=15)g.drawImage(stone,160,660,15,15,null);
+        if(chest.getStonesQuantity()>=16)g.drawImage(stone,180,660,15,15,null);
+
+        if(chest.getServantsQuantity()>=1)g.drawImage(servant,120,680,15,15,null);
+        if(chest.getServantsQuantity()>=2)g.drawImage(servant,140,680,15,15,null);
+        if(chest.getServantsQuantity()>=3)g.drawImage(servant,160,680,15,15,null);
+        if(chest.getServantsQuantity()>=4)g.drawImage(servant,180,680,15,15,null);
+        if(chest.getServantsQuantity()>=5)g.drawImage(servant,120,700,15,15,null);
+        if(chest.getServantsQuantity()>=6)g.drawImage(servant,140,700,15,15,null);
+        if(chest.getServantsQuantity()>=7)g.drawImage(servant,160,700,15,15,null);
+        if(chest.getServantsQuantity()>=8)g.drawImage(servant,180,700,15,15,null);
+        if(chest.getServantsQuantity()>=9)g.drawImage(servant,120,720,15,15,null);
+        if(chest.getServantsQuantity()>=10)g.drawImage(servant,140,720,15,15,null);
+        if(chest.getServantsQuantity()>=11)g.drawImage(servant,160,720,15,15,null);
+        if(chest.getServantsQuantity()>=12)g.drawImage(servant,180,720,15,15,null);
+        if(chest.getServantsQuantity()>=13)g.drawImage(servant,120,740,15,15,null);
+        if(chest.getServantsQuantity()>=14)g.drawImage(servant,140,740,15,15,null);
+        if(chest.getServantsQuantity()>=15)g.drawImage(servant,160,740,15,15,null);
+        if(chest.getServantsQuantity()>=16)g.drawImage(servant,180,740,15,15,null);
+
+
+        /*JLabel quantitycoins = new JLabel();
+        quantitycoins.setOpaque(true);
         quantitycoins.setText(String.valueOf(chest.getCoinsQuantity()));
-        quantitycoins.setBounds(90,610,40,40);
+
+        quantitycoins.setBounds(90,610,20,40);
         quantitycoins.setFont(new Font("Consolas", Font.BOLD, 20));
         quantitycoins.setForeground(Color.yellow);
         add(quantitycoins);
@@ -140,7 +213,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         quantitystones.setText(String.valueOf(chest.getStonesQuantity()));
         quantitystones.setBounds(170,610,40,40);
         quantitystones.setFont(new Font("Consolas", Font.BOLD, 20));
-        quantitystones.setForeground(Color.darkGray);
+        quantitystones.setForeground(Color.lightGray);
         add(quantitystones);
 
         JLabel quantityshields = new JLabel();
@@ -155,7 +228,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         quantityservants.setBounds(170,680,40,40);
         quantityservants.setFont(new Font("Consolas", Font.BOLD, 20));
         quantityservants.setForeground(Color.magenta);
-        add(quantityservants);
+        add(quantityservants);*/
 
 
 

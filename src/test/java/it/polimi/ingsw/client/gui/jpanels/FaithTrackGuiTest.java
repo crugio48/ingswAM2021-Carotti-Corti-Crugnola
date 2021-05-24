@@ -35,7 +35,7 @@ public class FaithTrackGuiTest {
         devCardSlots.setPersonalDevCardSlotsUpdate(1,3);
 
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
-        chest.setClientModelChestUpdate(1,1,1,1);
+        chest.setClientModelChestUpdate(2,1,8,1);
         storage.setClientModelStorageUpdate(0,0,1,2,3,"shields","stones","servants","","");
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -47,13 +47,13 @@ public class FaithTrackGuiTest {
         playerPositions[0] = 10;
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
         storage.setClientModelStorageUpdate(0,0,1,2,3,"stones","coins","stones","","");
-        chest.setClientModelChestUpdate(2,2,2,2);
+        chest.setClientModelChestUpdate(8,8,8,8);
         Thread.sleep(4 * 1000);
         devCardSlots.setPersonalDevCardSlotsUpdate(2,1);
         devCardSlots.setPersonalDevCardSlotsUpdate(2,2);
         devCardSlots.setPersonalDevCardSlotsUpdate(2,3);
         playerPositions[0] = 11;
-        chest.setClientModelChestUpdate(3,3,3,3);
+        chest.setClientModelChestUpdate(16,16,16,16);
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
         storage.setClientModelStorageUpdate(0,0,1,2,3,"coins","shields","shields","","");
         Thread.sleep(4 * 1000);
