@@ -66,6 +66,11 @@ public class GameFrame{
         choosingStartingStuffPanel.setLeadersDrawn(leadersDrawn);
     }
 
+    public void nicknameAlreadyChosen() {
+        choosingStartingStuffPanel.nicknameAlreadyChosen();
+    }
+
+
 
 
 

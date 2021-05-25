@@ -11,6 +11,7 @@ public class LobbySetupPanel extends JPanel {
     private boolean randomGame = true;
     private String password = null;
     private boolean submitted = false;
+    JLabel firstLabel;
     JButton onePlayerGame;
     JButton twoPlayerGame;
     JButton threePlayerGame;
@@ -32,7 +33,8 @@ public class LobbySetupPanel extends JPanel {
 
         gbc.gridy = 0;
         gbc.gridx = 0;
-        add(new JLabel("Select the number of players of the game you want to play:"), gbc);
+        firstLabel = new JLabel("Select the number of players of the game you want to play:");
+        add(firstLabel, gbc);
 
         gbc.gridy = 0;
         gbc.gridx = 1;
@@ -173,6 +175,8 @@ public class LobbySetupPanel extends JPanel {
                 random.setVisible(false);
                 reset.setVisible(false);
                 submit.setVisible(false);
+                selection.setVisible(false);
+                firstLabel.setVisible(false);
                 errorLabel.setText("you joined a lobby, the game will start once the lobby is complete");
             }
         });

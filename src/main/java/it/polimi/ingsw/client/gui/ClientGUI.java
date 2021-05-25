@@ -51,6 +51,27 @@ public class ClientGUI extends Client {
             serverIn = stringBuffer.readMessage();  //this is the first message from the server that the game has started
             gameFrame.goToChoosingStartingStuff();
 
+            while (true){  //the choosing starting stuff loop
+                serverIn = stringBuffer.readMessage();  //this is the first message from the server that the game has started
+                response = (Response) gson.fromJson(serverIn, Response.class);
+
+                if (response.getCmd().equals("gameStart")) break; //this signals that all initial setup is done
+
+                switch (response.getCmd()){
+                    case"insertUsername":
+                        //if we get here it means that the nickname was already picked by another player
+                        gameFrame.nicknameAlreadyChosen();
+                        break;
+                    case"leaderDistribution":
+                        gameFrame.setLeadersDrawn(response.getLeaderCardsDrawn());
+                        break;
+                    case"giveInitialResources":
+                    case "waitingForOtherPlayersCommunication":
+                    case "waitingForSinglePlayerGameCommunication":
+                    default:
+                        break;
+                }
+            }
 
 
 
@@ -87,5 +108,7 @@ public class ClientGUI extends Client {
         }
     }
 
-
+    public void setMyUsername(String myUsername) {
+        this.myUsername = myUsername;
+    }
 }
