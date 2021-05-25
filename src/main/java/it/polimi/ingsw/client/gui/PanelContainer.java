@@ -21,8 +21,6 @@ public class PanelContainer extends JFrame {
         //add(devCardSpacePanel, BorderLayout.EAST);
         //setLayout(new GridLayout(0, 3));
         //add(devCardSpacePanel);
-
-
         //JPanel faithTrackPanel = new FaithTrackPanel(clientModel.getFaithTrack(), myTurnOrder);
         //faithTrackPanel.setBackground(Color.GRAY);
         //add(faithTrackPanel);

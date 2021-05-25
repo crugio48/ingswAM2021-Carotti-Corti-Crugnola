@@ -2,7 +2,9 @@ package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
+import it.polimi.ingsw.clientmodel.ClientModelChest;
 import it.polimi.ingsw.clientmodel.ClientModelFaithTrack;
+import it.polimi.ingsw.clientmodel.ClientModelPlayer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -10,19 +12,22 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Stack;
 
 public class PunchBoardPanel extends JPanel implements MyObserver {
     private ClientModelFaithTrack observedClientModelFaithTrack;
+    private ClientModelPlayer observedClientModelPlayer;
     private int myTurnOrder;
 
-    public PunchBoardPanel(ClientModelFaithTrack clientModelFaithTrack, int myTurnOrder){
+    public PunchBoardPanel(ClientModelFaithTrack clientModelFaithTrack, ClientModelPlayer clientModelPlayer){
 
+        this.myTurnOrder = clientModelPlayer.getTurnOrder();
         setLayout(null);
 
         JButton activateExtraProductionButton = new JButton("Activate Extra Production");
-        JButton activateFirstProductionButton = new JButton("Activate First Production");
-        JButton activateSecondProductionButton = new JButton("Activate Second Production");
-        JButton activateThirdProductionButton = new JButton("Activate Third Production");
+        JButton activateFirstProductionButton = new JButton("Activate Production 1");
+        JButton activateSecondProductionButton = new JButton("Activate Production 2");
+        JButton activateThirdProductionButton = new JButton("Activate Production 3");
 
         JButton selectChestButton = new JButton("Chest");
         JButton selectStorageButton = new JButton("Storage");
@@ -30,14 +35,43 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         JButton switchTwoResourcesButton = new JButton("Switch Resources");
         JButton moveOneResourceButton = new JButton("Move One Resource");
 
-        activateExtraProductionButton.setBounds(0,0,300, 300);
+        selectChestButton.setBounds(1000,100,180, 50);
+        add(selectChestButton);
+
+        selectStorageButton.setBounds(1000,150,180, 50);
+        add(selectStorageButton);
+
+        switchTwoResourcesButton.setBounds(1000,200,180, 50);
+        add(switchTwoResourcesButton);
+
+        moveOneResourceButton.setBounds(1000,250,180, 50);
+        add(moveOneResourceButton);
+
+        activateFirstProductionButton.setBounds(1000,400,180, 50);
+        add(activateFirstProductionButton);
+
+        activateSecondProductionButton.setBounds(1000,450,180, 50);
+        add(activateSecondProductionButton);
+
+        activateThirdProductionButton.setBounds(1000,500,180, 50);
+        add(activateThirdProductionButton);
+
+        activateExtraProductionButton.setBounds(1000,550,180, 50);
         add(activateExtraProductionButton);
 
+        //Icon icon = new ImageIcon("src/main/resources/components/indicator.png");
+        //JButton button7 = new JButton(icon);
+        //button7.setBounds(0,0,100, 100);
+        //add(button7);
 
 
-        this.myTurnOrder = myTurnOrder;
+
         clientModelFaithTrack.addObserver(this);
         this.observedClientModelFaithTrack = clientModelFaithTrack;
+
+        clientModelPlayer.addObserver(this);
+        this.observedClientModelPlayer = clientModelPlayer;
+
         this.setPreferredSize(new Dimension(1500, 900));
         this.setBackground(new Color(145,136,115));
     }
@@ -53,14 +87,128 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        //myDrawImagePNG(g, observedClientModelDevCardSpace.getCodeBlue1());
-        //devo passargli la posizione sul faithtrack
         drawMyBoard(g, observedClientModelFaithTrack.getPlayerPositions(), observedClientModelFaithTrack.getBlackCrossPosition(),
                 observedClientModelFaithTrack.getActiveFirstPapalFavourCard(), observedClientModelFaithTrack.getActiveSecondPapalFavourCard(),
                 observedClientModelFaithTrack.getActiveThirdPapalFavourCard());
+
+        drawPersonalDevCardSlot(g, (Stack<Integer>)  observedClientModelPlayer.getPersonalDevCardSlots().getFirstStack().clone(),
+                (Stack<Integer>) observedClientModelPlayer.getPersonalDevCardSlots().getSecondStack().clone(),
+                (Stack<Integer>) observedClientModelPlayer.getPersonalDevCardSlots().getSecondStack().clone()
+                );
+        repaint();
     }
 
 
+    //public ClientModelPlayer getObservedClientModelPlayer(){
+    //    return this.observedClientModelPlayer;
+    //}
+
+
+    private void drawPersonalDevCardSlot(Graphics g, Stack<Integer> firstStack, Stack<Integer> secondStack, Stack<Integer> thirdStack){
+        Stack<Integer> firstStackClone = firstStack;
+        Stack<Integer> secondStackClone = secondStack;
+        Stack<Integer> thirdStackClone = thirdStack;
+        int codeBottomCard = 0;
+        int codeMiddleCard = 0;
+        int codeUpperCard = 0;
+
+        switch (firstStackClone.size()){
+            case 1:
+                codeBottomCard = firstStackClone.pop();
+                drawMyCard(g, 400, 480, codeBottomCard);
+                firstStackClone.push(codeBottomCard);
+                break;
+            case 2:
+                codeMiddleCard = firstStackClone.pop();
+                codeBottomCard = firstStackClone.pop();
+                drawMyCard(g, 400,480, codeBottomCard);
+                drawMyCard(g, 400,430, codeMiddleCard);
+                firstStackClone.push(codeBottomCard);
+                firstStackClone.push(codeMiddleCard);
+                break;
+            case 3:
+                codeUpperCard = firstStackClone.pop();
+                codeMiddleCard = firstStackClone.pop();
+                codeBottomCard = firstStackClone.pop();
+                drawMyCard(g, 400, 480, codeBottomCard);
+                drawMyCard(g, 400, 430, codeMiddleCard);
+                drawMyCard(g, 400, 380, codeUpperCard);
+                firstStackClone.push(codeBottomCard);
+                firstStackClone.push(codeMiddleCard);
+                firstStackClone.push(codeUpperCard);
+
+                break;
+        }
+        switch (secondStackClone.size()){
+            case 1:
+                codeBottomCard = secondStackClone.pop();
+                drawMyCard(g, 590, 480, codeBottomCard);
+                secondStackClone.push(codeBottomCard);
+                break;
+            case 2:
+                codeMiddleCard = secondStackClone.pop();
+                codeBottomCard = secondStackClone.pop();
+                drawMyCard(g, 590,480, codeBottomCard);
+                drawMyCard(g, 590,430, codeMiddleCard);
+                secondStackClone.push(codeBottomCard);
+                secondStackClone.push(codeMiddleCard);
+
+                break;
+            case 3:
+                codeUpperCard = secondStackClone.pop();
+                codeMiddleCard = secondStackClone.pop();
+                codeBottomCard = secondStackClone.pop();
+                drawMyCard(g, 590, 480, codeBottomCard);
+                drawMyCard(g, 590, 430, codeMiddleCard);
+                drawMyCard(g, 590, 380, codeUpperCard);
+                secondStackClone.push(codeBottomCard);
+                secondStackClone.push(codeMiddleCard);
+                secondStackClone.push(codeUpperCard);
+                break;
+        }
+        repaint();
+        switch (thirdStackClone.size()){
+            case 1:
+                codeBottomCard = thirdStackClone.pop();
+                drawMyCard(g, 790, 480, codeBottomCard);
+                thirdStackClone.push(codeBottomCard);
+                break;
+            case 2:
+                codeMiddleCard = thirdStackClone.pop();
+                codeBottomCard = thirdStackClone.pop();
+                drawMyCard(g, 790,480, codeBottomCard);
+                drawMyCard(g, 790,430, codeMiddleCard);
+                thirdStackClone.push(codeBottomCard);
+                thirdStackClone.push(codeMiddleCard);
+                break;
+            case 3:
+                codeUpperCard = thirdStackClone.pop();
+                codeMiddleCard = thirdStackClone.pop();
+                codeBottomCard = thirdStackClone.pop();
+                drawMyCard(g, 790, 480, codeBottomCard);
+                drawMyCard(g, 790, 430, codeMiddleCard);
+                drawMyCard(g, 790, 380, codeUpperCard);
+                thirdStackClone.push(codeBottomCard);
+                thirdStackClone.push(codeMiddleCard);
+                thirdStackClone.push(codeUpperCard);
+                break;
+        }
+
+    }
+
+    private void drawMyCard(Graphics g, int x, int y, int codeCard){
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url;
+        BufferedImage cardImage = null;
+        url = cl.getResourceAsStream("cards/" + codeCard + ".png");
+        try {
+            cardImage = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(cardImage, x,y, 150,250, null);
+    }
 
     private void drawMyBoard(Graphics g, int[] playerPositions, int blackCrossPosition,
                              boolean[] activeFirstPapalFavourCard,
