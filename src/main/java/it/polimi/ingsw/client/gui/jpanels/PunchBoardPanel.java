@@ -107,19 +107,19 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         }
 
         if(!devCardSlots.getFirstStack().isEmpty()){
-            g.drawImage(slot11,370,500,170,257,null);
-            if(devCardSlots.getFirstStack().size()>1)g.drawImage(slot12,420,425,170,257,null);
-            if(devCardSlots.getFirstStack().size()>2)g.drawImage(slot13,470,350,170,257,null);
+            g.drawImage(slot11,390,475,170,257,null);
+            if(devCardSlots.getFirstStack().size()>1)g.drawImage(slot12,390,400,170,257,null);
+            if(devCardSlots.getFirstStack().size()>2)g.drawImage(slot13,390,325,170,257,null);
         }
         if(!devCardSlots.getSecondStack().isEmpty()){
-            g.drawImage(slot21,670,500,170,257,null);
-            if(devCardSlots.getSecondStack().size()>1)g.drawImage(slot22,720,425,170,257,null);
-            if(devCardSlots.getSecondStack().size()>2)g.drawImage(slot23,770,350,170,257,null);
+            g.drawImage(slot21,580,475,170,257,null);
+            if(devCardSlots.getSecondStack().size()>1)g.drawImage(slot22,580,400,170,257,null);
+            if(devCardSlots.getSecondStack().size()>2)g.drawImage(slot23,580,325,170,257,null);
         }
         if(!devCardSlots.getThirdStack().isEmpty()){
-            g.drawImage(slot31,970,500,170,257,null);
-            if(devCardSlots.getThirdStack().size()>1)g.drawImage(slot32,1020,425,170,257,null);
-            if(devCardSlots.getThirdStack().size()>2)g.drawImage(slot33,1070,350,170,257,null);
+            g.drawImage(slot31,780,475,170,257,null);
+            if(devCardSlots.getThirdStack().size()>1)g.drawImage(slot32,780,400,170,257,null);
+            if(devCardSlots.getThirdStack().size()>2)g.drawImage(slot33,780,325,170,257,null);
         }
 
 
