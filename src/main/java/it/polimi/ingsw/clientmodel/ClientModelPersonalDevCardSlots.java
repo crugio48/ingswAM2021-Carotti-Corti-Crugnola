@@ -47,6 +47,53 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
         return (firstStack.size() + secondStack.size() + thirdStack.size());
     }
 
+
+    public int getFirstStackCardsCode(int pos){
+        Stack<Integer> firstStackClone = (Stack<Integer>) getFirstStack().clone();
+
+        if(firstStackClone.size()>0&&pos==1) return firstStackClone.peek();
+        else if(firstStackClone.size()>1&&pos==2){
+            firstStackClone.pop();
+            return firstStackClone.peek();
+        }
+        else if (firstStackClone.size()>2&&pos==3){
+            firstStackClone.pop();
+            firstStackClone.pop();
+            return firstStackClone.peek();
+        }
+        else{return 0;}
+    }
+
+    public int getSecondStackCardsCode(int pos){
+        Stack<Integer> secondStackClone = (Stack<Integer>) getSecondStack().clone();
+        if(secondStackClone.size()>0&&pos==1) return secondStackClone.peek();
+        else if(secondStackClone.size()>1&&pos==2){
+            secondStackClone.pop();
+            return secondStackClone.peek();
+        }
+        else if (secondStackClone.size()>0&&pos==3){
+            secondStackClone.pop();
+            secondStackClone.pop();
+            return secondStackClone.peek();
+        }
+        else{return 0;}
+    }
+    public int getThirdStackCardsCode(int pos){
+        Stack<Integer> thirdStackClone = (Stack<Integer>) getThirdStack().clone();
+        if(thirdStackClone.size()>0&&pos==1) return thirdStackClone.peek();
+        else if(thirdStackClone.size()>1&&pos==2){
+            thirdStackClone.pop();
+            return thirdStackClone.peek();
+        }
+        else if (thirdStackClone.size()>2&&pos==3){
+            thirdStackClone.pop();
+            thirdStackClone.pop();
+            return thirdStackClone.peek();
+        }
+        else{return 0;}
+    }
+
+
     /**
      * this is the method to call when we receive a personal dev card slot update
      * @param newDevCardCode

@@ -80,27 +80,46 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
     private void devCardSlot(Graphics g, ClientModelPersonalDevCardSlots devCardSlots){
         ClassLoader cl = this.getClass().getClassLoader();
-        InputStream url10 = cl.getResourceAsStream("cards/"+devCardSlots.getFirstStackTopCardCode()+".png");
-        InputStream url20 = cl.getResourceAsStream("cards/"+devCardSlots.getSecondStackTopCardCode()+".png");
-        InputStream url30 = cl.getResourceAsStream("cards/"+devCardSlots.getThirdStackTopCardCode()+".png");
-        BufferedImage slot1= null,slot2=null,slot3=null;
+        InputStream url11=null,url21=null,url31=null,url12=null,url22=null,url32=null,url13=null,url23=null,url33=null;
+        if(devCardSlots.getFirstStack().size()>0)url11 = cl.getResourceAsStream("cards/"+devCardSlots.getFirstStackCardsCode(1)+".png");
+        if(devCardSlots.getSecondStack().size()>0) url21 = cl.getResourceAsStream("cards/"+devCardSlots.getSecondStackCardsCode(1)+".png");
+        if(devCardSlots.getThirdStack().size()>0) url31 = cl.getResourceAsStream("cards/"+devCardSlots.getThirdStackCardsCode(1)+".png");
+        if(devCardSlots.getFirstStack().size()>1) url12 = cl.getResourceAsStream("cards/"+devCardSlots.getFirstStackCardsCode(2)+".png");
+        if(devCardSlots.getSecondStack().size()>1)  url22 = cl.getResourceAsStream("cards/"+devCardSlots.getSecondStackCardsCode(2)+".png");
+        if(devCardSlots.getThirdStack().size()>1) url32 = cl.getResourceAsStream("cards/"+devCardSlots.getThirdStackCardsCode(2)+".png");
+        if(devCardSlots.getFirstStack().size()>2) url13 = cl.getResourceAsStream("cards/"+devCardSlots.getFirstStackCardsCode(3)+".png");
+        if(devCardSlots.getSecondStack().size()>2) url23 = cl.getResourceAsStream("cards/"+devCardSlots.getSecondStackCardsCode(3)+".png");
+        if(devCardSlots.getThirdStack().size()>2)url33 = cl.getResourceAsStream("cards/"+devCardSlots.getThirdStackCardsCode(3)+".png");
+        BufferedImage slot11= null,slot21=null,slot31=null,slot12=null,slot22=null,slot32=null,slot13=null,slot23=null,slot33=null;
         try {
-            slot1 = ImageIO.read(url10);
-            slot2 = ImageIO.read(url20);
-            slot3 = ImageIO.read(url30);
+            if(devCardSlots.getFirstStack().size()>0) slot11 = ImageIO.read(url11);
+            if(devCardSlots.getSecondStack().size()>0) slot21= ImageIO.read(url21);
+            if(devCardSlots.getThirdStack().size()>0) slot31 = ImageIO.read(url31);
+            if(devCardSlots.getFirstStack().size()>1)slot12 = ImageIO.read(url12);
+            if(devCardSlots.getSecondStack().size()>1)slot22= ImageIO.read(url22);
+            if(devCardSlots.getThirdStack().size()>1)slot32 = ImageIO.read(url32);
+            if(devCardSlots.getFirstStack().size()>2) slot13 = ImageIO.read(url13);
+            if(devCardSlots.getSecondStack().size()>2)slot23= ImageIO.read(url23);
+            if(devCardSlots.getThirdStack().size()>2)slot33 = ImageIO.read(url33);
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
         if(!devCardSlots.getFirstStack().isEmpty()){
-            g.drawImage(slot1,390,350,170,257,null);
+            g.drawImage(slot11,370,500,170,257,null);
+            if(devCardSlots.getFirstStack().size()>1)g.drawImage(slot12,420,425,170,257,null);
+            if(devCardSlots.getFirstStack().size()>2)g.drawImage(slot13,470,350,170,257,null);
         }
         if(!devCardSlots.getSecondStack().isEmpty()){
-            g.drawImage(slot2,580,350,170,257,null);
+            g.drawImage(slot21,670,500,170,257,null);
+            if(devCardSlots.getSecondStack().size()>1)g.drawImage(slot22,720,425,170,257,null);
+            if(devCardSlots.getSecondStack().size()>2)g.drawImage(slot23,770,350,170,257,null);
         }
         if(!devCardSlots.getThirdStack().isEmpty()){
-            g.drawImage(slot3,770,350,170,257,null);
+            g.drawImage(slot31,970,500,170,257,null);
+            if(devCardSlots.getThirdStack().size()>1)g.drawImage(slot32,1020,425,170,257,null);
+            if(devCardSlots.getThirdStack().size()>2)g.drawImage(slot33,1070,350,170,257,null);
         }
 
 

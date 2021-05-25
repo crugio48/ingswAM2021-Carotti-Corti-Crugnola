@@ -57,7 +57,10 @@ public class FaithTrackGuiTest {
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
         storage.setClientModelStorageUpdate(0,0,1,2,3,"coins","shields","shields","","");
         Thread.sleep(4 * 1000);
-
+        devCardSlots.setPersonalDevCardSlotsUpdate(1,1);
+        devCardSlots.setPersonalDevCardSlotsUpdate(1,2);
+        devCardSlots.setPersonalDevCardSlotsUpdate(1,3);
+        Thread.sleep(20 * 1000);
 
     }
 
