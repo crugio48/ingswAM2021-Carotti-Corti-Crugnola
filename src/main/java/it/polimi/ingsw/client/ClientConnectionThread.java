@@ -3,6 +3,7 @@ package it.polimi.ingsw.client;
 import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.cli.ClientCLI;
+import it.polimi.ingsw.client.gui.ClientGUI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -136,16 +137,16 @@ public class ClientConnectionThread extends Thread {
                     case "chatMessageUpdate":
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutBlue(response.getPlayerUsername() + ": " + response.getResp());
-                        } else {
-                            //DA FARE gui printout (solo messaggio)
+                        } else if (client instanceof ClientGUI){
+                            ((ClientGUI) client).getChatComponent().writeChatMessage(response.getPlayerUsername() + ": " + response.getResp());
                         }
                         break;
 
                     case "printOutUpdate":
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutRed(response.getResp());
-                        } else {
-                            //DA FARE gui printout (solo messaggio)
+                        } else if (client instanceof ClientGUI){
+                            ((ClientGUI) client).getChatComponent().writeLogMessage(response.getResp());
                         }
                         break;
 

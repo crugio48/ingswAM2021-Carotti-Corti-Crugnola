@@ -67,7 +67,7 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
                 break;
         }
         notifyObservers();
-        }
+    }
 
         public void printPersonalDevCardSlots(){
             CardDecoder cardDecoder = new CardDecoder();

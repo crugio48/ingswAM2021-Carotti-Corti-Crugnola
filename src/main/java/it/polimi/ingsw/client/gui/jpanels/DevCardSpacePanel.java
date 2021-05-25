@@ -20,7 +20,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
 
         clientModelDevCardSpace.addObserver(this);
         this.observedClientModelDevCardSpace = clientModelDevCardSpace;
-
+        setPreferredSize(new Dimension(800,800));
     }
 
 

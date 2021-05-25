@@ -15,5 +15,15 @@ public abstract class Client {
         this.clientModel = new ClientModel();
     }
 
+    public ClientModel getClientModel() {
+        return clientModel;
+    }
 
+    public MessageSender getMessageSender() {
+        return messageSender;
+    }
+
+    public CustomStringBuffer getStringBuffer() {
+        return stringBuffer;
+    }
 }
