@@ -14,11 +14,11 @@ public class ChatComponent extends JLabel {
     JTextArea jTextAreaChat = new JTextArea();
     MessageSender messageSender;
 
-    public ChatComponent(/*MessageSender messageSender*/) {
+    public ChatComponent(MessageSender messageSender) {
         setLayout(null);
         setPreferredSize(new Dimension(250, 330));
 
-        /*this.messageSender = messageSender;*/
+        this.messageSender = messageSender;
 
         JLabel jLabel = new JLabel("chat: ");
         jLabel.setBounds(0,0, 250, 30);
@@ -30,7 +30,7 @@ public class ChatComponent extends JLabel {
         jTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //messageSender.sendChatMessage(e.getActionCommand());
+                messageSender.sendChatMessage(jTextField.getText());
                 jTextField.setText("");
             }
         });

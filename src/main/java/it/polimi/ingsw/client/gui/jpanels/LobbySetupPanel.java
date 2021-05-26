@@ -11,19 +11,20 @@ public class LobbySetupPanel extends JPanel {
     private boolean randomGame = true;
     private String password = null;
     private boolean submitted = false;
-    JLabel firstLabel;
-    JButton onePlayerGame;
-    JButton twoPlayerGame;
-    JButton threePlayerGame;
-    JButton fourPLayersGame;
-    JLabel selection;
-    JButton random;
-    JButton friends;
-    JTextField passwordField;
-    JLabel errorLabel;
-    JButton reset;
-    JButton submit;
-    ClientGUI clientGUI;
+    private final Object lock = new Object();
+    private JLabel firstLabel;
+    private JButton onePlayerGame;
+    private JButton twoPlayerGame;
+    private JButton threePlayerGame;
+    private JButton fourPLayersGame;
+    private JLabel selection;
+    private JButton random;
+    private JButton friends;
+    private JTextField passwordField;
+    private JLabel errorLabel;
+    private JButton reset;
+    private JButton submit;
+    private ClientGUI clientGUI;
 
     public LobbySetupPanel(ClientGUI clientGUI) {
         this.clientGUI = clientGUI;
@@ -156,28 +157,30 @@ public class LobbySetupPanel extends JPanel {
         submit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (numOfPlayers == 0) {
-                    errorLabel.setText("please select the number of players");
-                    return;
-                } else if (password == null && !randomGame) {
-                    errorLabel.setText("please choose a password for the game");
-                    return;
-                } else if (submitted) {
-                    return;
+                synchronized (lock) {
+                    if (numOfPlayers == 0) {
+                        errorLabel.setText("please select the number of players");
+                        return;
+                    } else if (password == null && !randomGame) {
+                        errorLabel.setText("please choose a password for the game");
+                        return;
+                    } else if (submitted) {
+                        return;
+                    }
+                    submitted = true;
+                    clientGUI.openConnection(numOfPlayers, randomGame, password);
+                    onePlayerGame.setVisible(false);
+                    twoPlayerGame.setVisible(false);
+                    threePlayerGame.setVisible(false);
+                    fourPLayersGame.setVisible(false);
+                    friends.setVisible(false);
+                    random.setVisible(false);
+                    reset.setVisible(false);
+                    submit.setVisible(false);
+                    selection.setVisible(false);
+                    firstLabel.setVisible(false);
+                    errorLabel.setText("you joined a lobby, the game will start once the lobby is complete");
                 }
-                submitted = true;
-                clientGUI.openConnection(numOfPlayers, randomGame, password);
-                onePlayerGame.setVisible(false);
-                twoPlayerGame.setVisible(false);
-                threePlayerGame.setVisible(false);
-                fourPLayersGame.setVisible(false);
-                friends.setVisible(false);
-                random.setVisible(false);
-                reset.setVisible(false);
-                submit.setVisible(false);
-                selection.setVisible(false);
-                firstLabel.setVisible(false);
-                errorLabel.setText("you joined a lobby, the game will start once the lobby is complete");
             }
         });
         add(submit, gbc);
