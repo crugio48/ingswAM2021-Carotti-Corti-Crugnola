@@ -1,9 +1,10 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.client.gui.jpanels.PunchBoardPanel;
-import it.polimi.ingsw.clientmodel.ClientModel;
+import it.polimi.ingsw.clientmodel.ClientModelChest;
 import it.polimi.ingsw.clientmodel.ClientModelFaithTrack;
-import it.polimi.ingsw.clientmodel.ClientModelPlayer;
+import it.polimi.ingsw.clientmodel.ClientModelPersonalDevCardSlots;
+import it.polimi.ingsw.clientmodel.ClientModelStorage;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
@@ -11,16 +12,13 @@ import java.io.IOException;
 
 public class FaithTrackGuiTest {
     ClientModelFaithTrack clientModelFaithTrack = new ClientModelFaithTrack();
-    ClientModelPlayer clientModelPlayer = new ClientModelPlayer("andi", 1);
-
-
-    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(clientModelFaithTrack,clientModelPlayer);
-
+    ClientModelStorage storage = new ClientModelStorage();
+    ClientModelChest chest = new ClientModelChest();
+    ClientModelPersonalDevCardSlots devCardSlots = new ClientModelPersonalDevCardSlots();
+    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(devCardSlots,clientModelFaithTrack,storage,chest, 1);
 
     @Test
     public void GuiTest() throws InterruptedException, IOException {
-
-
         int[] playerPositions = new int[4];
         playerPositions[0] = 0;
         playerPositions[1] = 0;
@@ -32,31 +30,37 @@ public class FaithTrackGuiTest {
         activeFirstPapalFavorCard[2] = true;
         activeFirstPapalFavorCard[3] = true;
 
+        devCardSlots.setPersonalDevCardSlotsUpdate(1,1);
+        devCardSlots.setPersonalDevCardSlotsUpdate(1,2);
+        devCardSlots.setPersonalDevCardSlotsUpdate(1,3);
+
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
-
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,1);
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,2);
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,3);
-
-
+        chest.setClientModelChestUpdate(2,1,8,1);
+        storage.setClientModelStorageUpdate(0,0,1,2,3,"shields","stones","servants","","");
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI(punchBoardPanel);
             }
         });
-
-
         Thread.sleep(4 * 1000);
         playerPositions[0] = 10;
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
-
+        storage.setClientModelStorageUpdate(0,0,1,2,3,"stones","coins","stones","","");
+        chest.setClientModelChestUpdate(8,8,8,8);
         Thread.sleep(4 * 1000);
+        devCardSlots.setPersonalDevCardSlotsUpdate(2,1);
+        devCardSlots.setPersonalDevCardSlotsUpdate(2,2);
+        devCardSlots.setPersonalDevCardSlotsUpdate(2,3);
         playerPositions[0] = 11;
+        chest.setClientModelChestUpdate(16,16,16,16);
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
-
-
-
+        storage.setClientModelStorageUpdate(0,0,1,2,3,"coins","shields","shields","","");
+        Thread.sleep(4 * 1000);
+        devCardSlots.setPersonalDevCardSlotsUpdate(1,1);
+        devCardSlots.setPersonalDevCardSlotsUpdate(1,2);
+        devCardSlots.setPersonalDevCardSlotsUpdate(1,3);
+        Thread.sleep(20 * 1000);
 
     }
 

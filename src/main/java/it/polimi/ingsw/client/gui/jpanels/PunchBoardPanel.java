@@ -4,7 +4,8 @@ import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.clientmodel.ClientModelChest;
 import it.polimi.ingsw.clientmodel.ClientModelFaithTrack;
-import it.polimi.ingsw.clientmodel.ClientModelPlayer;
+import it.polimi.ingsw.clientmodel.ClientModelPersonalDevCardSlots;
+import it.polimi.ingsw.clientmodel.ClientModelStorage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -12,22 +13,22 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Stack;
 
 public class PunchBoardPanel extends JPanel implements MyObserver {
     private ClientModelFaithTrack observedClientModelFaithTrack;
-    private ClientModelPlayer observedClientModelPlayer;
+    private ClientModelStorage clientModelStorage;
+    private ClientModelChest chest;
+    private ClientModelPersonalDevCardSlots devCardSlots;
     private int myTurnOrder;
 
-    public PunchBoardPanel(ClientModelFaithTrack clientModelFaithTrack, ClientModelPlayer clientModelPlayer){
-
-        this.myTurnOrder = clientModelPlayer.getTurnOrder();
+    public PunchBoardPanel(ClientModelPersonalDevCardSlots devCardSlots,ClientModelFaithTrack clientModelFaithTrack, ClientModelStorage storage, ClientModelChest chest, int myTurnOrder){
         setLayout(null);
+        setOpaque(true);
 
         JButton activateExtraProductionButton = new JButton("Activate Extra Production");
-        JButton activateFirstProductionButton = new JButton("Activate Production 1");
-        JButton activateSecondProductionButton = new JButton("Activate Production 2");
-        JButton activateThirdProductionButton = new JButton("Activate Production 3");
+        JButton activateFirstProductionButton = new JButton("Activate First Production");
+        JButton activateSecondProductionButton = new JButton("Activate Second Production");
+        JButton activateThirdProductionButton = new JButton("Activate Third Production");
 
         JButton selectChestButton = new JButton("Chest");
         JButton selectStorageButton = new JButton("Storage");
@@ -35,43 +36,18 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         JButton switchTwoResourcesButton = new JButton("Switch Resources");
         JButton moveOneResourceButton = new JButton("Move One Resource");
 
-        selectChestButton.setBounds(1000,100,180, 50);
-        add(selectChestButton);
-
-        selectStorageButton.setBounds(1000,150,180, 50);
-        add(selectStorageButton);
-
-        switchTwoResourcesButton.setBounds(1000,200,180, 50);
-        add(switchTwoResourcesButton);
-
-        moveOneResourceButton.setBounds(1000,250,180, 50);
-        add(moveOneResourceButton);
-
-        activateFirstProductionButton.setBounds(1000,400,180, 50);
-        add(activateFirstProductionButton);
-
-        activateSecondProductionButton.setBounds(1000,450,180, 50);
-        add(activateSecondProductionButton);
-
-        activateThirdProductionButton.setBounds(1000,500,180, 50);
-        add(activateThirdProductionButton);
-
-        activateExtraProductionButton.setBounds(1000,550,180, 50);
+        activateExtraProductionButton.setBounds(0,0,50, 50);
         add(activateExtraProductionButton);
 
-        //Icon icon = new ImageIcon("src/main/resources/components/indicator.png");
-        //JButton button7 = new JButton(icon);
-        //button7.setBounds(0,0,100, 100);
-        //add(button7);
-
-
-
+        this.devCardSlots=devCardSlots;
+        devCardSlots.addObserver(this);
+        this.chest=chest;
+        chest.addObserver(this);
+        this.clientModelStorage = storage;
+        clientModelStorage.addObserver(this);
+        this.myTurnOrder = myTurnOrder;
         clientModelFaithTrack.addObserver(this);
         this.observedClientModelFaithTrack = clientModelFaithTrack;
-
-        clientModelPlayer.addObserver(this);
-        this.observedClientModelPlayer = clientModelPlayer;
-
         this.setPreferredSize(new Dimension(1500, 900));
         this.setBackground(new Color(145,136,115));
     }
@@ -85,130 +61,246 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
     @Override
     public void paintComponent(Graphics g) {
+        int i=0;
         super.paintComponent(g);
 
+
+        //myDrawImagePNG(g, observedClientModelDevCardSpace.getCodeBlue1());
+        //devo passargli la posizione sul faithtrack
         drawMyBoard(g, observedClientModelFaithTrack.getPlayerPositions(), observedClientModelFaithTrack.getBlackCrossPosition(),
                 observedClientModelFaithTrack.getActiveFirstPapalFavourCard(), observedClientModelFaithTrack.getActiveSecondPapalFavourCard(),
                 observedClientModelFaithTrack.getActiveThirdPapalFavourCard());
-
-        drawPersonalDevCardSlot(g, (Stack<Integer>)  observedClientModelPlayer.getPersonalDevCardSlots().getFirstStack().clone(),
-                (Stack<Integer>) observedClientModelPlayer.getPersonalDevCardSlots().getSecondStack().clone(),
-                (Stack<Integer>) observedClientModelPlayer.getPersonalDevCardSlots().getSecondStack().clone()
-                );
-        repaint();
-    }
+        drawStorageResources(g,clientModelStorage);
+        drawChestResources(g,chest);
+        devCardSlot(g,devCardSlots);
 
 
-    //public ClientModelPlayer getObservedClientModelPlayer(){
-    //    return this.observedClientModelPlayer;
-    //}
-
-
-    private void drawPersonalDevCardSlot(Graphics g, Stack<Integer> firstStack, Stack<Integer> secondStack, Stack<Integer> thirdStack){
-        Stack<Integer> firstStackClone = firstStack;
-        Stack<Integer> secondStackClone = secondStack;
-        Stack<Integer> thirdStackClone = thirdStack;
-        int codeBottomCard = 0;
-        int codeMiddleCard = 0;
-        int codeUpperCard = 0;
-
-        switch (firstStackClone.size()){
-            case 1:
-                codeBottomCard = firstStackClone.pop();
-                drawMyCard(g, 400, 480, codeBottomCard);
-                firstStackClone.push(codeBottomCard);
-                break;
-            case 2:
-                codeMiddleCard = firstStackClone.pop();
-                codeBottomCard = firstStackClone.pop();
-                drawMyCard(g, 400,480, codeBottomCard);
-                drawMyCard(g, 400,430, codeMiddleCard);
-                firstStackClone.push(codeBottomCard);
-                firstStackClone.push(codeMiddleCard);
-                break;
-            case 3:
-                codeUpperCard = firstStackClone.pop();
-                codeMiddleCard = firstStackClone.pop();
-                codeBottomCard = firstStackClone.pop();
-                drawMyCard(g, 400, 480, codeBottomCard);
-                drawMyCard(g, 400, 430, codeMiddleCard);
-                drawMyCard(g, 400, 380, codeUpperCard);
-                firstStackClone.push(codeBottomCard);
-                firstStackClone.push(codeMiddleCard);
-                firstStackClone.push(codeUpperCard);
-
-                break;
-        }
-        switch (secondStackClone.size()){
-            case 1:
-                codeBottomCard = secondStackClone.pop();
-                drawMyCard(g, 590, 480, codeBottomCard);
-                secondStackClone.push(codeBottomCard);
-                break;
-            case 2:
-                codeMiddleCard = secondStackClone.pop();
-                codeBottomCard = secondStackClone.pop();
-                drawMyCard(g, 590,480, codeBottomCard);
-                drawMyCard(g, 590,430, codeMiddleCard);
-                secondStackClone.push(codeBottomCard);
-                secondStackClone.push(codeMiddleCard);
-
-                break;
-            case 3:
-                codeUpperCard = secondStackClone.pop();
-                codeMiddleCard = secondStackClone.pop();
-                codeBottomCard = secondStackClone.pop();
-                drawMyCard(g, 590, 480, codeBottomCard);
-                drawMyCard(g, 590, 430, codeMiddleCard);
-                drawMyCard(g, 590, 380, codeUpperCard);
-                secondStackClone.push(codeBottomCard);
-                secondStackClone.push(codeMiddleCard);
-                secondStackClone.push(codeUpperCard);
-                break;
-        }
-        repaint();
-        switch (thirdStackClone.size()){
-            case 1:
-                codeBottomCard = thirdStackClone.pop();
-                drawMyCard(g, 790, 480, codeBottomCard);
-                thirdStackClone.push(codeBottomCard);
-                break;
-            case 2:
-                codeMiddleCard = thirdStackClone.pop();
-                codeBottomCard = thirdStackClone.pop();
-                drawMyCard(g, 790,480, codeBottomCard);
-                drawMyCard(g, 790,430, codeMiddleCard);
-                thirdStackClone.push(codeBottomCard);
-                thirdStackClone.push(codeMiddleCard);
-                break;
-            case 3:
-                codeUpperCard = thirdStackClone.pop();
-                codeMiddleCard = thirdStackClone.pop();
-                codeBottomCard = thirdStackClone.pop();
-                drawMyCard(g, 790, 480, codeBottomCard);
-                drawMyCard(g, 790, 430, codeMiddleCard);
-                drawMyCard(g, 790, 380, codeUpperCard);
-                thirdStackClone.push(codeBottomCard);
-                thirdStackClone.push(codeMiddleCard);
-                thirdStackClone.push(codeUpperCard);
-                break;
-        }
 
     }
 
-    private void drawMyCard(Graphics g, int x, int y, int codeCard){
+    private void devCardSlot(Graphics g, ClientModelPersonalDevCardSlots devCardSlots){
         ClassLoader cl = this.getClass().getClassLoader();
-        InputStream url;
-        BufferedImage cardImage = null;
-        url = cl.getResourceAsStream("cards/" + codeCard + ".png");
+        InputStream url11=null,url21=null,url31=null,url12=null,url22=null,url32=null,url13=null,url23=null,url33=null;
+        if(devCardSlots.getFirstStack().size()>0)url11 = cl.getResourceAsStream("cards/"+devCardSlots.getFirstStackCardsCode(1)+".png");
+        if(devCardSlots.getSecondStack().size()>0) url21 = cl.getResourceAsStream("cards/"+devCardSlots.getSecondStackCardsCode(1)+".png");
+        if(devCardSlots.getThirdStack().size()>0) url31 = cl.getResourceAsStream("cards/"+devCardSlots.getThirdStackCardsCode(1)+".png");
+        if(devCardSlots.getFirstStack().size()>1) url12 = cl.getResourceAsStream("cards/"+devCardSlots.getFirstStackCardsCode(2)+".png");
+        if(devCardSlots.getSecondStack().size()>1)  url22 = cl.getResourceAsStream("cards/"+devCardSlots.getSecondStackCardsCode(2)+".png");
+        if(devCardSlots.getThirdStack().size()>1) url32 = cl.getResourceAsStream("cards/"+devCardSlots.getThirdStackCardsCode(2)+".png");
+        if(devCardSlots.getFirstStack().size()>2) url13 = cl.getResourceAsStream("cards/"+devCardSlots.getFirstStackCardsCode(3)+".png");
+        if(devCardSlots.getSecondStack().size()>2) url23 = cl.getResourceAsStream("cards/"+devCardSlots.getSecondStackCardsCode(3)+".png");
+        if(devCardSlots.getThirdStack().size()>2)url33 = cl.getResourceAsStream("cards/"+devCardSlots.getThirdStackCardsCode(3)+".png");
+        BufferedImage slot11= null,slot21=null,slot31=null,slot12=null,slot22=null,slot32=null,slot13=null,slot23=null,slot33=null;
         try {
-            cardImage = ImageIO.read(url);
+            if(devCardSlots.getFirstStack().size()>0) slot11 = ImageIO.read(url11);
+            if(devCardSlots.getSecondStack().size()>0) slot21= ImageIO.read(url21);
+            if(devCardSlots.getThirdStack().size()>0) slot31 = ImageIO.read(url31);
+            if(devCardSlots.getFirstStack().size()>1)slot12 = ImageIO.read(url12);
+            if(devCardSlots.getSecondStack().size()>1)slot22= ImageIO.read(url22);
+            if(devCardSlots.getThirdStack().size()>1)slot32 = ImageIO.read(url32);
+            if(devCardSlots.getFirstStack().size()>2) slot13 = ImageIO.read(url13);
+            if(devCardSlots.getSecondStack().size()>2)slot23= ImageIO.read(url23);
+            if(devCardSlots.getThirdStack().size()>2)slot33 = ImageIO.read(url33);
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
-        g.drawImage(cardImage, x,y, 150,250, null);
+        //  ciaooooooo <3
+
+
+        if(!devCardSlots.getFirstStack().isEmpty()){
+            g.drawImage(slot11,390,475,170,257,null);
+            if(devCardSlots.getFirstStack().size()>1)g.drawImage(slot12,390,400,170,257,null);
+            if(devCardSlots.getFirstStack().size()>2)g.drawImage(slot13,390,325,170,257,null);
+        }
+        if(!devCardSlots.getSecondStack().isEmpty()){
+            g.drawImage(slot21,580,475,170,257,null);
+            if(devCardSlots.getSecondStack().size()>1)g.drawImage(slot22,580,400,170,257,null);
+            if(devCardSlots.getSecondStack().size()>2)g.drawImage(slot23,580,325,170,257,null);
+        }
+        if(!devCardSlots.getThirdStack().isEmpty()){
+            g.drawImage(slot31,780,475,170,257,null);
+            if(devCardSlots.getThirdStack().size()>1)g.drawImage(slot32,780,400,170,257,null);
+            if(devCardSlots.getThirdStack().size()>2)g.drawImage(slot33,780,325,170,257,null);
+        }
+
+
+
     }
+
+    private void drawChestResources(Graphics g, ClientModelChest chest){
+
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url10 = cl.getResourceAsStream("components/coin.png");
+        InputStream url20 = cl.getResourceAsStream("servant.png");
+        InputStream url30 = cl.getResourceAsStream("shield.png");
+        InputStream url40 = cl.getResourceAsStream("stone.png");
+        BufferedImage coin= null,servant=null,shield=null,stone=null;
+        try {
+            coin = ImageIO.read(url10);
+            servant = ImageIO.read(url20);
+            shield = ImageIO.read(url30);
+            stone = ImageIO.read(url40);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+       /* g.drawImage(coin,40,610,40,40,null);
+        g.drawImage(stone,120,610,40,40,null);
+        g.drawImage(shield,40,680,40,40,null);
+        g.drawImage(servant,120,680,40,40,null);*/
+
+
+        if(chest.getCoinsQuantity()>=1)g.drawImage(coin,30,600,15,15,null);
+        if(chest.getCoinsQuantity()>=2)g.drawImage(coin,50,600,15,15,null);
+        if(chest.getCoinsQuantity()>=3)g.drawImage(coin,70,600,15,15,null);
+        if(chest.getCoinsQuantity()>=4)g.drawImage(coin,90,600,15,15,null);
+        if(chest.getCoinsQuantity()>=5)g.drawImage(coin,30,620,15,15,null);
+        if(chest.getCoinsQuantity()>=6)g.drawImage(coin,50,620,15,15,null);
+        if(chest.getCoinsQuantity()>=7)g.drawImage(coin,70,620,15,15,null);
+        if(chest.getCoinsQuantity()>=8)g.drawImage(coin,90,620,15,15,null);
+        if(chest.getCoinsQuantity()>=9)g.drawImage(coin,30,640,15,15,null);
+        if(chest.getCoinsQuantity()>=10)g.drawImage(coin,50,640,15,15,null);
+        if(chest.getCoinsQuantity()>=11)g.drawImage(coin,70,640,15,15,null);
+        if(chest.getCoinsQuantity()>=12)g.drawImage(coin,90,640,15,15,null);
+        if(chest.getCoinsQuantity()>=13)g.drawImage(coin,30,660,15,15,null);
+        if(chest.getCoinsQuantity()>=14)g.drawImage(coin,50,660,15,15,null);
+        if(chest.getCoinsQuantity()>=15)g.drawImage(coin,70,660,15,15,null);
+        if(chest.getCoinsQuantity()>=16)g.drawImage(coin,90,660,15,15,null);
+
+        if(chest.getShieldsQuantity()>=1)g.drawImage(shield,30,680,15,15,null);
+        if(chest.getShieldsQuantity()>=2)g.drawImage(shield,50,680,15,15,null);
+        if(chest.getShieldsQuantity()>=3)g.drawImage(shield,70,680,15,15,null);
+        if(chest.getShieldsQuantity()>=4)g.drawImage(shield,90,680,15,15,null);
+        if(chest.getShieldsQuantity()>=5)g.drawImage(shield,30,700,15,15,null);
+        if(chest.getShieldsQuantity()>=6)g.drawImage(shield,50,700,15,15,null);
+        if(chest.getShieldsQuantity()>=7)g.drawImage(shield,70,700,15,15,null);
+        if(chest.getShieldsQuantity()>=8)g.drawImage(shield,90,700,15,15,null);
+        if(chest.getShieldsQuantity()>=9)g.drawImage(shield,30,720,15,15,null);
+        if(chest.getShieldsQuantity()>=10)g.drawImage(shield,50,720,15,15,null);
+        if(chest.getShieldsQuantity()>=11)g.drawImage(shield,70,720,15,15,null);
+        if(chest.getShieldsQuantity()>=12)g.drawImage(shield,90,720,15,15,null);
+        if(chest.getShieldsQuantity()>=13)g.drawImage(shield,30,740,15,15,null);
+        if(chest.getShieldsQuantity()>=14)g.drawImage(shield,50,740,15,15,null);
+        if(chest.getShieldsQuantity()>=15)g.drawImage(shield,70,740,15,15,null);
+        if(chest.getShieldsQuantity()>=16)g.drawImage(shield,90,740,15,15,null);
+
+        if(chest.getStonesQuantity()>=1)g.drawImage(stone,120,600,15,15,null);
+        if(chest.getStonesQuantity()>=2)g.drawImage(stone,140,600,15,15,null);
+        if(chest.getStonesQuantity()>=3)g.drawImage(stone,160,600,15,15,null);
+        if(chest.getStonesQuantity()>=4)g.drawImage(stone,180,600,15,15,null);
+        if(chest.getStonesQuantity()>=5)g.drawImage(stone,120,620,15,15,null);
+        if(chest.getStonesQuantity()>=6)g.drawImage(stone,140,620,15,15,null);
+        if(chest.getStonesQuantity()>=7)g.drawImage(stone,160,620,15,15,null);
+        if(chest.getStonesQuantity()>=8)g.drawImage(stone,180,620,15,15,null);
+        if(chest.getStonesQuantity()>=9)g.drawImage(stone,120,640,15,15,null);
+        if(chest.getStonesQuantity()>=10)g.drawImage(stone,140,640,15,15,null);
+        if(chest.getStonesQuantity()>=11)g.drawImage(stone,160,640,15,15,null);
+        if(chest.getStonesQuantity()>=12)g.drawImage(stone,180,640,15,15,null);
+        if(chest.getStonesQuantity()>=13)g.drawImage(stone,120,660,15,15,null);
+        if(chest.getStonesQuantity()>=14)g.drawImage(stone,140,660,15,15,null);
+        if(chest.getStonesQuantity()>=15)g.drawImage(stone,160,660,15,15,null);
+        if(chest.getStonesQuantity()>=16)g.drawImage(stone,180,660,15,15,null);
+
+        if(chest.getServantsQuantity()>=1)g.drawImage(servant,120,680,15,15,null);
+        if(chest.getServantsQuantity()>=2)g.drawImage(servant,140,680,15,15,null);
+        if(chest.getServantsQuantity()>=3)g.drawImage(servant,160,680,15,15,null);
+        if(chest.getServantsQuantity()>=4)g.drawImage(servant,180,680,15,15,null);
+        if(chest.getServantsQuantity()>=5)g.drawImage(servant,120,700,15,15,null);
+        if(chest.getServantsQuantity()>=6)g.drawImage(servant,140,700,15,15,null);
+        if(chest.getServantsQuantity()>=7)g.drawImage(servant,160,700,15,15,null);
+        if(chest.getServantsQuantity()>=8)g.drawImage(servant,180,700,15,15,null);
+        if(chest.getServantsQuantity()>=9)g.drawImage(servant,120,720,15,15,null);
+        if(chest.getServantsQuantity()>=10)g.drawImage(servant,140,720,15,15,null);
+        if(chest.getServantsQuantity()>=11)g.drawImage(servant,160,720,15,15,null);
+        if(chest.getServantsQuantity()>=12)g.drawImage(servant,180,720,15,15,null);
+        if(chest.getServantsQuantity()>=13)g.drawImage(servant,120,740,15,15,null);
+        if(chest.getServantsQuantity()>=14)g.drawImage(servant,140,740,15,15,null);
+        if(chest.getServantsQuantity()>=15)g.drawImage(servant,160,740,15,15,null);
+        if(chest.getServantsQuantity()>=16)g.drawImage(servant,180,740,15,15,null);
+
+
+        /*JLabel quantitycoins = new JLabel();
+        quantitycoins.setOpaque(true);
+        quantitycoins.setText(String.valueOf(chest.getCoinsQuantity()));
+        quantitycoins.setBounds(90,610,20,40);
+        quantitycoins.setFont(new Font("Consolas", Font.BOLD, 20));
+        quantitycoins.setForeground(Color.yellow);
+        add(quantitycoins);
+        JLabel quantitystones = new JLabel();
+        quantitystones.setText(String.valueOf(chest.getStonesQuantity()));
+        quantitystones.setBounds(170,610,40,40);
+        quantitystones.setFont(new Font("Consolas", Font.BOLD, 20));
+        quantitystones.setForeground(Color.lightGray);
+        add(quantitystones);
+        JLabel quantityshields = new JLabel();
+        quantityshields.setText(String.valueOf(chest.getShieldsQuantity()));
+        quantityshields.setBounds(90,680,40,40);
+        quantityshields.setFont(new Font("Consolas", Font.BOLD, 20));
+        quantityshields.setForeground(Color.blue);
+        add(quantityshields);
+        JLabel quantityservants = new JLabel();
+        quantityservants.setText(String.valueOf(chest.getServantsQuantity()));
+        quantityservants.setBounds(170,680,40,40);
+        quantityservants.setFont(new Font("Consolas", Font.BOLD, 20));
+        quantityservants.setForeground(Color.magenta);
+        add(quantityservants);*/
+
+
+
+    }
+
+    private void drawStorageResources(Graphics g, ClientModelStorage storage){
+        final int myIndicatorWidth = 40;
+        final int myIndicatorHeight = 40;
+
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url10 = cl.getResourceAsStream("components/coin.png");
+        InputStream url20 = cl.getResourceAsStream("servant.png");
+        InputStream url30 = cl.getResourceAsStream("shield.png");
+        InputStream url40 = cl.getResourceAsStream("stone.png");
+        BufferedImage coin= null,servant=null,shield=null,stone=null;
+        try {
+            coin = ImageIO.read(url10);
+            servant = ImageIO.read(url20);
+            shield = ImageIO.read(url30);
+            stone = ImageIO.read(url40);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+
+        if(storage.getQuantityOfSlot1()!=0){
+            switch (storage.getResourceOfSlot1()){
+                case "coins":g.drawImage(coin,110,340,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "stones":g.drawImage(stone,110,340,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "shields":g.drawImage(shield,110,340,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "servants":g.drawImage(servant,110,340,myIndicatorWidth,myIndicatorHeight,null);break;
+                default:break;
+            }
+        }
+        if(storage.getQuantityOfSlot2()!=0){
+            switch (storage.getResourceOfSlot2()){
+                case "coins":g.drawImage(coin,80,420,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,135,420,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "stones":g.drawImage(stone,80,420,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,135,420,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "shields":g.drawImage(shield,80,420,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,135,420,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "servants":g.drawImage(servant,80,420,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,135,420,myIndicatorWidth,myIndicatorHeight,null);break;}
+                default:break;
+            }
+        }
+        if(storage.getQuantityOfSlot3()!=0){
+            switch (storage.getResourceOfSlot3()){
+                case "coins":g.drawImage(coin,60,480,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(coin,110,480,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(coin,160,480,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "stones":g.drawImage(stone,60,480,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(stone,110,480,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(stone,160,480,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "shields":g.drawImage(shield,60,480,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(shield,110,480,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(shield,160,480,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "servants":g.drawImage(servant,60,480,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,110,480,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,160,480,myIndicatorHeight,myIndicatorWidth,null);}break;
+                default:break;
+            }
+        }
+    }
+
 
     private void drawMyBoard(Graphics g, int[] playerPositions, int blackCrossPosition,
                              boolean[] activeFirstPapalFavourCard,

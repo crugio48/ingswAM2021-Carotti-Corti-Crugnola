@@ -1,9 +1,7 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.client.gui.jpanels.PunchBoardPanel;
-import it.polimi.ingsw.clientmodel.ClientModel;
-import it.polimi.ingsw.clientmodel.ClientModelFaithTrack;
-import it.polimi.ingsw.clientmodel.ClientModelPlayer;
+import it.polimi.ingsw.clientmodel.*;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
@@ -12,7 +10,10 @@ import java.io.IOException;
 public class PersonalDevCardSlotTest {
     ClientModelFaithTrack clientModelFaithTrack = new ClientModelFaithTrack();
     ClientModelPlayer clientModelPlayer = new ClientModelPlayer("andi", 1);
-    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(clientModelFaithTrack,clientModelPlayer);
+    ClientModelPersonalDevCardSlots clientModelPersonalDevCardSlots = new ClientModelPersonalDevCardSlots();
+    ClientModelStorage clientModelStorage = new ClientModelStorage();
+    ClientModelChest clientModelChest = new ClientModelChest();
+    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(clientModelPersonalDevCardSlots,clientModelFaithTrack,clientModelStorage,clientModelChest, 1);
 
 
     @Test
@@ -23,11 +24,14 @@ public class PersonalDevCardSlotTest {
         clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,3);
 
 
+
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI(punchBoardPanel);
             }
         });
+
+
 
         Thread.sleep(4 * 1000);
 
