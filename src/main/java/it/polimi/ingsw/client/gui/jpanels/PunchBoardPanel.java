@@ -105,6 +105,8 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             e.printStackTrace();
             return;
         }
+      //  ciaooooooo <3
+
 
         if(!devCardSlots.getFirstStack().isEmpty()){
             g.drawImage(slot11,390,475,170,257,null);
