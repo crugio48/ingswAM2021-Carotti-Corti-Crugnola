@@ -9,14 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ChatComponent extends JLabel {
-    JTextField jTextField = new JTextField();
-    JTextArea jTextAreaLog = new JTextArea();
-    JTextArea jTextAreaChat = new JTextArea();
-    MessageSender messageSender;
+    private JTextField jTextField = new JTextField();
+    private JTextArea jTextAreaLog = new JTextArea();
+    private JTextArea jTextAreaChat = new JTextArea();
+    private JTextArea jTextAreaPlayerInstruction = new JTextArea();
+    private MessageSender messageSender;
 
     public ChatComponent(MessageSender messageSender) {
         setLayout(null);
-        setPreferredSize(new Dimension(250, 330));
+        setPreferredSize(new Dimension(250, 430));
 
         this.messageSender = messageSender;
 
@@ -26,7 +27,7 @@ public class ChatComponent extends JLabel {
 
         jTextField.setBounds(0,30,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
-        jTextField.setBorder(new BevelBorder(1));
+        jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,17 +39,24 @@ public class ChatComponent extends JLabel {
 
         jTextAreaChat.setEditable(false);
         jTextAreaChat.setToolTipText("this is the chat log");
-        jTextAreaChat.setBorder(new BevelBorder(1));
+        jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         jTextAreaChat.setBounds(0,80,250,150);
         add(jTextAreaChat);
 
         jTextAreaLog.setEditable(false);
         jTextAreaLog.setToolTipText("this is the game events log");
-        jTextAreaLog.setBorder(new BevelBorder(1));
+        jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         jTextAreaLog.setBounds(0,230,250,100);
         add(jTextAreaLog);
+
+        jTextAreaPlayerInstruction.setEditable(false);
+        jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
+        jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaPlayerInstruction.setForeground(Color.green);
+        jTextAreaPlayerInstruction.setBounds(0,330,250,100);
+        add(jTextAreaPlayerInstruction);
     }
 
     public void writeLogMessage(String message){
@@ -59,5 +67,8 @@ public class ChatComponent extends JLabel {
         jTextAreaChat.insert(message + "\n", 0);
     }
 
+    public void writeInstructionMessage(String message) {
+        jTextAreaPlayerInstruction.insert(message + "\n", 0);
+    }
 
 }

@@ -24,7 +24,7 @@ public class MarketPanel extends JPanel implements MyObserver {
 
         this.setLayout(null);
 
-        chatComponent.setBounds(450, 200, 250, 330);
+        chatComponent.setBounds(450, 100, 250, 430);
         add(chatComponent);
 
         JLabel extraMarble = new JLabel();
