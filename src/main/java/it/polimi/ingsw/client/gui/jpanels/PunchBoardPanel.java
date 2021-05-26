@@ -61,7 +61,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
     @Override
     public void paintComponent(Graphics g) {
-        int i=0;
+       int i=0;
         super.paintComponent(g);
 
 
@@ -105,7 +105,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             e.printStackTrace();
             return;
         }
-        //  ciaooooooo <3
+      //  ciaooooooo <3
 
 
         if(!devCardSlots.getFirstStack().isEmpty()){
@@ -224,22 +224,26 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         /*JLabel quantitycoins = new JLabel();
         quantitycoins.setOpaque(true);
         quantitycoins.setText(String.valueOf(chest.getCoinsQuantity()));
+
         quantitycoins.setBounds(90,610,20,40);
         quantitycoins.setFont(new Font("Consolas", Font.BOLD, 20));
         quantitycoins.setForeground(Color.yellow);
         add(quantitycoins);
+
         JLabel quantitystones = new JLabel();
         quantitystones.setText(String.valueOf(chest.getStonesQuantity()));
         quantitystones.setBounds(170,610,40,40);
         quantitystones.setFont(new Font("Consolas", Font.BOLD, 20));
         quantitystones.setForeground(Color.lightGray);
         add(quantitystones);
+
         JLabel quantityshields = new JLabel();
         quantityshields.setText(String.valueOf(chest.getShieldsQuantity()));
         quantityshields.setBounds(90,680,40,40);
         quantityshields.setFont(new Font("Consolas", Font.BOLD, 20));
         quantityshields.setForeground(Color.blue);
         add(quantityshields);
+
         JLabel quantityservants = new JLabel();
         quantityservants.setText(String.valueOf(chest.getServantsQuantity()));
         quantityservants.setBounds(170,680,40,40);

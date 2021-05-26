@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
+import it.polimi.ingsw.client.MessageSender;
 import it.polimi.ingsw.client.gui.ChatComponent;
 import it.polimi.ingsw.clientmodel.ClientModelMarket;
 import org.junit.jupiter.api.Test;

@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,12 +36,24 @@ public class MarketPanel extends JPanel implements MyObserver {
 
         JButton pos1 = new JButton("\u2190");//left arrow
         pos1.setToolTipText("press this to buy from market from this row");
+        pos1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         JButton pos2 = new JButton("\u2190");
+        pos1.setToolTipText("press this to buy from market from this row");
         JButton pos3 = new JButton("\u2190");
+        pos1.setToolTipText("press this to buy from market from this row");
         JButton pos4 = new JButton("\u2191");//up arrow
+        pos1.setToolTipText("press this to buy from market from this column");
         JButton pos5 = new JButton("\u2191");
+        pos1.setToolTipText("press this to buy from market from this column");
         JButton pos6 = new JButton("\u2191");
+        pos1.setToolTipText("press this to buy from market from this column");
         JButton pos7 = new JButton("\u2191");
+        pos1.setToolTipText("press this to buy from market from this column");
 
         pos1.setBounds(340,80,55, 40);
         add(pos1);
@@ -58,7 +72,7 @@ public class MarketPanel extends JPanel implements MyObserver {
 
 
 
-        this.setPreferredSize(new Dimension(700, 517));
+        this.setPreferredSize(new Dimension(800, 600));
         this.setBackground(new Color(145,136,115));
     }
 

@@ -62,7 +62,7 @@ public class ServerThread extends Thread {
             //now the game can start
             while (true) {
                 clientInput = in.readLine();
-                if (clientInput.equals("closeConnection")) {
+                if (clientInput == null || clientInput.equals("closeConnection")) {
                     updateBroadcaster.removeMySocket(virtualClient.getTurnOrder());
                     updateBroadcaster.aClientHasDisconnected();
                     break;

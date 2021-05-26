@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class ClientMain {
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
 
         if(args.length!=3){System.out.println("\u001B[35m" + "Arguments ERROR insert 3 args: IP PORT MODE(cli or gui)" +"\u001B[0m");}
 
