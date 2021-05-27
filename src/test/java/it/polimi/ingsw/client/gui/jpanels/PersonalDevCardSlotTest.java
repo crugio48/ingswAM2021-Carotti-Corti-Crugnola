@@ -19,9 +19,9 @@ public class PersonalDevCardSlotTest {
     @Test
     public void GuiTest() throws InterruptedException, IOException {
 
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,1);
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,2);
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,3);
+        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(17,1);
+        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(17,2);
+        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(17,3);
 
 
 
@@ -35,18 +35,18 @@ public class PersonalDevCardSlotTest {
 
         Thread.sleep(4 * 1000);
 
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(1,1);
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(1,2);
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(1,3);
+        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(19,1);
+        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(19,2);
+        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(19,3);
 
         //System.out.println(punchBoardPanel.getObservedClientModelPlayer().getPersonalDevCardSlots().getFirstStack());
         //System.out.println(punchBoardPanel.getObservedClientModelPlayer().getPersonalDevCardSlots().getSecondStack());
 
         Thread.sleep(4 * 1000);
 
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,1);
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,2);
-        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(2,3);
+        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,1);
+        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,2);
+        clientModelPlayer.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,3);
 
         Thread.sleep(8 * 1000);
 

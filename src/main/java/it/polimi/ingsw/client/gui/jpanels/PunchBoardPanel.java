@@ -132,9 +132,9 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url10 = cl.getResourceAsStream("components/coin.png");
-        InputStream url20 = cl.getResourceAsStream("servant.png");
-        InputStream url30 = cl.getResourceAsStream("shield.png");
-        InputStream url40 = cl.getResourceAsStream("stone.png");
+        InputStream url20 = cl.getResourceAsStream("components/servant.png");
+        InputStream url30 = cl.getResourceAsStream("components/shield.png");
+        InputStream url40 = cl.getResourceAsStream("components/stone.png");
         BufferedImage coin= null,servant=null,shield=null,stone=null;
         try {
             coin = ImageIO.read(url10);
@@ -261,9 +261,9 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url10 = cl.getResourceAsStream("components/coin.png");
-        InputStream url20 = cl.getResourceAsStream("servant.png");
-        InputStream url30 = cl.getResourceAsStream("shield.png");
-        InputStream url40 = cl.getResourceAsStream("stone.png");
+        InputStream url20 = cl.getResourceAsStream("components/servant.png");
+        InputStream url30 = cl.getResourceAsStream("components/shield.png");
+        InputStream url40 = cl.getResourceAsStream("components/stone.png");
         BufferedImage coin= null,servant=null,shield=null,stone=null;
         try {
             coin = ImageIO.read(url10);
