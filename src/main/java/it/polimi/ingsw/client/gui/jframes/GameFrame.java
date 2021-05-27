@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class GameFrame{
     ClientGUI clientGUI;
+    JFrame jFrame;
     JPanel panelContainer;
     CardLayout cl;
     LobbySetupPanel lobbySetupPanel;
@@ -26,7 +27,7 @@ public class GameFrame{
 
     public GameFrame(ClientGUI clientGUI) {
         this.clientGUI = clientGUI;
-        JFrame jFrame = new JFrame("Masters of Renaissance");
+        jFrame = new JFrame("Masters of Renaissance");
         panelContainer = new JPanel();
         cl = new CardLayout();
         panelContainer.setLayout(cl);
@@ -41,18 +42,16 @@ public class GameFrame{
 
         cl.show(panelContainer, "lobby");
 
-/*
         tabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                setSize(tabbedPane.getSelectedComponent().getPreferredSize());
+                jFrame.setSize(tabbedPane.getSelectedComponent().getPreferredSize());
             }
         });
-        add(tabbedPane);
- */
+
         jFrame.add(panelContainer);
         jFrame.pack();
-        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setVisible(true);
     }
 
@@ -60,7 +59,6 @@ public class GameFrame{
     public void goToChoosingStartingStuff(){
         cl.show(panelContainer, "choosing");
     }
-
 
     public void setLeadersDrawn(int[] leadersDrawn){
         choosingStartingStuffPanel.setLeadersDrawn(leadersDrawn);
@@ -70,8 +68,19 @@ public class GameFrame{
         choosingStartingStuffPanel.nicknameAlreadyChosen();
     }
 
+    public void setInitialResources(int numOfInitialResources) {choosingStartingStuffPanel.setInitialResources(numOfInitialResources);}
+
+    public void setStartingMessage(String message) {choosingStartingStuffPanel.setStartingGameMessage(message);}
+
+    public void goToGamePanel(){
+        marketPanel = new MarketPanel(clientGUI.getClientModel().getMarket(), clientGUI.getChatComponent());
 
 
+        ////////////////// DA COMPLETARE CON L'AGGIUNTA DI TUTTI I PANEL DEL GIOCO
 
-
+        tabbedPane.add(marketPanel, 0);
+        tabbedPane.setTitleAt(0, "Market");
+        cl.show(panelContainer, "gamePanel");
+        jFrame.setSize(tabbedPane.getSelectedComponent().getPreferredSize());
+    }
 }

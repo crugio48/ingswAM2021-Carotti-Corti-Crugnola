@@ -25,7 +25,6 @@ public class ClientGUI extends Client {
 
     public ClientGUI(){
         super();
-        chatComponent = new ChatComponent();
         guiInfo = new GuiInfo();
     }
 
@@ -66,13 +65,25 @@ public class ClientGUI extends Client {
                         gameFrame.setLeadersDrawn(response.getLeaderCardsDrawn());
                         break;
                     case"giveInitialResources":
+                        gameFrame.setInitialResources(response.getNumOfInitialResources());
+                        break;
                     case "waitingForOtherPlayersCommunication":
+                        gameFrame.setStartingMessage("you have ended your initial setup,\n" +
+                                "please wait for the other players to finish");
+                        break;
                     case "waitingForSinglePlayerGameCommunication":
+                        gameFrame.setStartingMessage("you have ended your initial setup,\n" +
+                                "the game will start in a few seconds");
+                        break;
                     default:
                         break;
                 }
             }
 
+            //game started
+            this.myTurnOrder = clientModel.getPlayerByNickname(myUsername).getTurnOrder();
+            chatComponent = new ChatComponent(messageSender);
+            gameFrame.goToGamePanel();
 
 
 
@@ -106,6 +117,14 @@ public class ClientGUI extends Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void buyFromMarket(int position){
+        messageSender.buyResourceFromMarket(position);
+
+
+
     }
 
     public void setMyUsername(String myUsername) {

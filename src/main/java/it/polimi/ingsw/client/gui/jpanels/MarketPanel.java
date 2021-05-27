@@ -24,7 +24,7 @@ public class MarketPanel extends JPanel implements MyObserver {
 
         this.setLayout(null);
 
-        chatComponent.setBounds(450, 200, 250, 330);
+        chatComponent.setBounds(450, 100, 250, 430);
         add(chatComponent);
 
         JLabel extraMarble = new JLabel();
@@ -35,7 +35,6 @@ public class MarketPanel extends JPanel implements MyObserver {
         add(extraMarble);
 
         JButton pos1 = new JButton("\u2190");//left arrow
-        pos1.setToolTipText("press this to buy from market from this row");
         pos1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -43,17 +42,11 @@ public class MarketPanel extends JPanel implements MyObserver {
             }
         });
         JButton pos2 = new JButton("\u2190");
-        pos1.setToolTipText("press this to buy from market from this row");
         JButton pos3 = new JButton("\u2190");
-        pos1.setToolTipText("press this to buy from market from this row");
         JButton pos4 = new JButton("\u2191");//up arrow
-        pos1.setToolTipText("press this to buy from market from this column");
         JButton pos5 = new JButton("\u2191");
-        pos1.setToolTipText("press this to buy from market from this column");
         JButton pos6 = new JButton("\u2191");
-        pos1.setToolTipText("press this to buy from market from this column");
         JButton pos7 = new JButton("\u2191");
-        pos1.setToolTipText("press this to buy from market from this column");
 
         pos1.setBounds(340,80,55, 40);
         add(pos1);

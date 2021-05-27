@@ -30,9 +30,9 @@ public class FaithTrackGuiTest {
         activeFirstPapalFavorCard[2] = true;
         activeFirstPapalFavorCard[3] = true;
 
-        devCardSlots.setPersonalDevCardSlotsUpdate(1,1);
-        devCardSlots.setPersonalDevCardSlotsUpdate(1,2);
-        devCardSlots.setPersonalDevCardSlotsUpdate(1,3);
+        devCardSlots.setPersonalDevCardSlotsUpdate(35,1);
+        devCardSlots.setPersonalDevCardSlotsUpdate(40,2);
+        devCardSlots.setPersonalDevCardSlotsUpdate(32,3);
 
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
         chest.setClientModelChestUpdate(2,1,8,1);
@@ -49,17 +49,17 @@ public class FaithTrackGuiTest {
         storage.setClientModelStorageUpdate(0,0,1,2,3,"stones","coins","stones","","");
         chest.setClientModelChestUpdate(8,8,8,8);
         Thread.sleep(4 * 1000);
-        devCardSlots.setPersonalDevCardSlotsUpdate(2,1);
-        devCardSlots.setPersonalDevCardSlotsUpdate(2,2);
-        devCardSlots.setPersonalDevCardSlotsUpdate(2,3);
+        devCardSlots.setPersonalDevCardSlotsUpdate(18,1);
+        devCardSlots.setPersonalDevCardSlotsUpdate(21,2);
+        devCardSlots.setPersonalDevCardSlotsUpdate(19,3);
         playerPositions[0] = 11;
         chest.setClientModelChestUpdate(16,16,16,16);
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
         storage.setClientModelStorageUpdate(0,0,1,2,3,"coins","shields","shields","","");
         Thread.sleep(4 * 1000);
-        devCardSlots.setPersonalDevCardSlotsUpdate(1,1);
-        devCardSlots.setPersonalDevCardSlotsUpdate(1,2);
-        devCardSlots.setPersonalDevCardSlotsUpdate(1,3);
+        devCardSlots.setPersonalDevCardSlotsUpdate(60,1);
+        devCardSlots.setPersonalDevCardSlotsUpdate(61,2);
+        devCardSlots.setPersonalDevCardSlotsUpdate(62,3);
         Thread.sleep(20 * 1000);
 
     }
