@@ -14,11 +14,11 @@ public class StorageAndChestChoicePanelTest {
     StorageAndChestChoicePanel storageAndChestChoicePanel = new StorageAndChestChoicePanel(clientModelStorage, clientModelChest, 3,3,3,3);
 
 
-
     @Test
     public void GuiTest() throws InterruptedException, IOException {
 
-
+        clientModelStorage.setClientModelStorageUpdate(0,0,1,2,3,"stones","coins","stones","","");
+        clientModelChest.setClientModelChestUpdate(4,3,5,2);
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -27,7 +27,10 @@ public class StorageAndChestChoicePanelTest {
         });
 
 
-        Thread.sleep(8 * 1000);
+        Thread.sleep(4 * 1000);
+        clientModelStorage.setClientModelStorageUpdate(0,0,1,2,3,"coins","stones","shields","","");
+        clientModelChest.setClientModelChestUpdate(1,14,9,11);
+        Thread.sleep(12 * 1000);
 
 
     }

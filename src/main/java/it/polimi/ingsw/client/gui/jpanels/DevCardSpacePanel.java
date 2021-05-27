@@ -20,7 +20,58 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
 
         clientModelDevCardSpace.addObserver(this);
         this.observedClientModelDevCardSpace = clientModelDevCardSpace;
-        setPreferredSize(new Dimension(800,800));
+        setLayout(null);
+
+        JButton lv1BlueButton = new JButton("Buy");
+        JButton lv2BlueButton = new JButton("Buy");
+        JButton lv3BlueButton = new JButton("Buy");
+
+        JButton lv1YellowButton = new JButton("Buy");
+        JButton lv2YellowButton = new JButton("Buy");
+        JButton lv3YellowButton = new JButton("Buy");
+
+        JButton lv1GreenButton = new JButton("Buy");
+        JButton lv2GreenButton = new JButton("Buy");
+        JButton lv3GreenButton = new JButton("Buy");
+
+        JButton lv1PurpleButton = new JButton("Buy");
+        JButton lv2PurpleButton = new JButton("Buy");
+        JButton lv3PurpleButton = new JButton("Buy");
+
+        lv3GreenButton.setBounds(10,210,100,30);
+        lv3BlueButton.setBounds(190,210,100,30);
+        lv3YellowButton.setBounds(370,210,100,30);
+        lv3PurpleButton.setBounds(550, 210, 100, 30);
+
+        lv2GreenButton.setBounds(10,460,100,30);
+        lv2BlueButton.setBounds(190,460,100,30);
+        lv2YellowButton.setBounds(370,460,100,30);
+        lv2PurpleButton.setBounds(550,460,100,30);
+
+        lv1GreenButton.setBounds(10, 710, 100, 30);
+        lv1BlueButton.setBounds(190,710,100,30);
+        lv1YellowButton.setBounds(370,710,100,30);
+        lv1PurpleButton.setBounds(550,710,100,30);
+
+        add(lv1BlueButton);
+        add(lv2BlueButton);
+        add(lv3BlueButton);
+
+        add(lv1YellowButton);
+        add(lv2YellowButton);
+        add(lv3YellowButton);
+
+        add(lv1GreenButton);
+        add(lv2GreenButton);
+        add(lv3GreenButton);
+
+        add(lv1PurpleButton);
+        add(lv2PurpleButton);
+        add(lv3PurpleButton);
+
+        this.setPreferredSize(new Dimension(1500, 900));
+        this.setBackground(new Color(145,136,115));
+
     }
 
 
@@ -46,6 +97,17 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
 
     private void drawDevCardSpace(Graphics g, int codeLv1Purple, int codeLv2Purple, int codeLv3Purple, int codeLv1Green, int codeLv2Green, int codeLv3Green, int codeLv1Yellow, int codeLv2Yellow, int codeLv3Yellow, int codeLv1Blue, int codeLv2Blue, int codeLv3Blue){
         ClassLoader cl = this.getClass().getClassLoader();
+
+        final int cardHeight = 200;
+        final int cardWidth = 125;
+        final int firstRowPixelFromTop = 0;
+        final int secondRowPixelFromTop = 250;
+        final int thirdRowPixelFromTop = 500;
+        final int firstColumnFromLeft = 0;
+        final int secondColumnFromLeft = 180;
+        final int thirdColumnFromLeft = 360;
+        final int fourthColumnFromLeft = 540;
+
 
         String cardUrlToPrintLv1Purple = "cards/" + codeLv1Purple + ".png";
         String cardUrlToPrintLv2Purple = "cards/" + codeLv2Purple + ".png";
@@ -111,20 +173,20 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
             return;
         }
 
-        g.drawImage(img1, 0,0, 60,90, null);
-        g.drawImage(img2, 80,0, 60,90, null);
-        g.drawImage(img3, 160,0, 60,90, null);
-        g.drawImage(img4, 240,0, 60,90, null);
+        g.drawImage(img1, firstColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img2, secondColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img3, thirdColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img4, fourthColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
 
-        g.drawImage(img5, 0,120, 60,90, null);
-        g.drawImage(img6, 80,120, 60,90, null);
-        g.drawImage(img7, 160,120, 60,90, null);
-        g.drawImage(img8, 240,120, 60,90, null);
+        g.drawImage(img5, firstColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img6, secondColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img7, thirdColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img8, fourthColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
 
-        g.drawImage(img9, 0,240, 60,90, null);
-        g.drawImage(img10, 80,240, 60,90, null);
-        g.drawImage(img11, 160,240, 60,90, null);
-        g.drawImage(img12, 240,240, 60,90, null);
+        g.drawImage(img9, firstColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img10, secondColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img11, thirdColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img12, fourthColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
 
     }
 

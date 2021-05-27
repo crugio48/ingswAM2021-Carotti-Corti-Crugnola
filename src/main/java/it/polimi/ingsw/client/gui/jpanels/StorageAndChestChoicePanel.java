@@ -220,8 +220,25 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         drawRemaining(g, shieldsLeftToPlace, 320,140);
         drawRemaining(g,stonesLeftToPlace, 430,140);
         drawRemaining(g, servantsLeftToPlace, 540,140);
+
+        drawStorageResources(g, clientModelStorage);
+
+        drawChestResources(g, clientModelChest);
     }
 
+    private void drawChestResources(Graphics g, ClientModelChest clientModelChest){
+
+        drawMyImg(g, "components/coin.png", 610,260, 30,30);
+        drawMyImg(g, "components/shield.png",610,300,30,30);
+        drawMyImg(g, "components/stone.png",610,340,30,30);
+        drawMyImg(g, "components/servant.png",610,380,30,30);
+
+        drawRemaining(g, clientModelChest.getCoinsQuantity(),650,285);
+        drawRemaining(g, clientModelChest.getShieldsQuantity(), 650,325);
+        drawRemaining(g,clientModelChest.getStonesQuantity(), 650,365);
+        drawRemaining(g, clientModelChest.getServantsQuantity(), 650,405);
+
+    }
 
     private void drawRemaining(Graphics g, int remainingResource, int x, int y){
         g.setFont(new Font("Consolas", Font.BOLD, 20));
@@ -239,6 +256,56 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             return;
         }
         g.drawImage(img,x,y,width,height,null);
+    }
+
+    private void drawStorageResources(Graphics g, ClientModelStorage storage){
+        final int myIndicatorWidth = 20;
+        final int myIndicatorHeight = 20;
+
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url10 = cl.getResourceAsStream("components/coin.png");
+        InputStream url20 = cl.getResourceAsStream("components/servant.png");
+        InputStream url30 = cl.getResourceAsStream("components/shield.png");
+        InputStream url40 = cl.getResourceAsStream("components/stone.png");
+        BufferedImage coin= null,servant=null,shield=null,stone=null;
+        try {
+            coin = ImageIO.read(url10);
+            servant = ImageIO.read(url20);
+            shield = ImageIO.read(url30);
+            stone = ImageIO.read(url40);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+
+        if(storage.getQuantityOfSlot1()!=0){
+            switch (storage.getResourceOfSlot1()){
+                case "coins":g.drawImage(coin,230,300,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "stones":g.drawImage(stone,230,300,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "shields":g.drawImage(shield,230,300,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "servants":g.drawImage(servant,230,300,myIndicatorWidth,myIndicatorHeight,null);break;
+                default:break;
+            }
+        }
+        if(storage.getQuantityOfSlot2()!=0){
+            switch (storage.getResourceOfSlot2()){
+                case "coins":g.drawImage(coin,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,245,340,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "stones":g.drawImage(stone,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,245,340,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "shields":g.drawImage(shield,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,245,340,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "servants":g.drawImage(servant,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,245,340,myIndicatorWidth,myIndicatorHeight,null);break;}
+                default:break;
+            }
+        }
+        if(storage.getQuantityOfSlot3()!=0){
+            switch (storage.getResourceOfSlot3()){
+                case "coins":g.drawImage(coin,200,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(coin,225,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(coin,255,370,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "stones":g.drawImage(stone,200,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(stone,225,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(stone,255,370,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "shields":g.drawImage(shield,200,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(shield,225,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(shield,255,370,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "servants":g.drawImage(servant,200,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,225,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,255,370,myIndicatorHeight,myIndicatorWidth,null);}break;
+                default:break;
+            }
+        }
     }
 
 
