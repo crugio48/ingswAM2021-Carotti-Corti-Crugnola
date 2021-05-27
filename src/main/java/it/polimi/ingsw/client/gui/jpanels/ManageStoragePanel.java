@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.jpanels;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
+import it.polimi.ingsw.client.gui.ChatComponent;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,7 +15,7 @@ import java.io.InputStream;
 public class ManageStoragePanel extends JPanel implements MyObserver {
     private ClientModelStorage storage;
 
-    public ManageStoragePanel(ClientModelStorage storage){
+    public ManageStoragePanel(ClientModelStorage storage, ChatComponent chat){
         this.storage=storage;
         storage.addObserver(this);
 
@@ -23,18 +24,18 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         JLabel text = new JLabel();
         text.setText("Switch between slots:");
         text.setFont(new Font("Consolas", Font.BOLD, 15));
-        text.setBounds(10,350,250,40);
+        text.setBounds(375,20,250,40);
         add(text);
 
         JButton but1 = new JButton("1<->2");
         JButton but2 = new JButton("1<->3");
         JButton but3 = new JButton("2<->3");
 
-        but1.setBounds(30,400,100,20);
+        but1.setBounds(415,80,100,20);
         add(but1);
-        but2.setBounds(30,430,100,20);
+        but2.setBounds(415,110,100,20);
         add(but2);
-        but3.setBounds(30,460,100,20);
+        but3.setBounds(415,140,100,20);
         add(but3);
 
         JLabel resources = new JLabel();
@@ -42,29 +43,41 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         JLabel resources3 = new JLabel();
         resources.setText("You have to place these resources:\n");
         resources2.setText("0 coins , 0 stones , 0 shields , 0 servants");
-        resources3.setText("Where do you want to put this :  ");
-        resources2.setFont(new Font("Consolas", Font.BOLD, 10));
-        resources.setFont(new Font("Consolas", Font.BOLD, 10));
-        resources3.setFont(new Font("Consolas", Font.BOLD, 10));
-        resources.setBounds(300,10,250,10);
-        resources2.setBounds(300,30,250,10);
-        resources3.setBounds(300,50,250,10);
+        resources3.setText("Where do you want to put this : SERVANT");
+        resources2.setFont(new Font("Consolas", Font.BOLD, 15));
+        resources.setFont(new Font("Consolas", Font.BOLD, 15));
+        resources3.setFont(new Font("Consolas", Font.BOLD, 15));
+        resources.setBounds(10,10,350,20);
+        resources2.setBounds(10,50,350,20);
+        resources3.setBounds(10,90,350,20);
         add(resources);
         add(resources2);
         add(resources3);
         JButton but4 = new JButton("Slot 1");
         JButton but5 = new JButton("Slot 2");
         JButton but6 = new JButton("Slot 3");
-        JButton but7 = new JButton("Discard");
+        JButton but7 = new JButton("DISCARD");
 
-        but4.setBounds(320,70,120,20);
+        but4.setBounds(10,130,120,20);
         add(but4);
-        but5.setBounds(460,70,120,20);
+        but5.setBounds(150,130,120,20);
         add(but5);
-        but6.setBounds(320,110,120,20);
+        but6.setBounds(10,170,120,20);
         add(but6);
-        but7.setBounds(460,110,120,20);
+        but7.setBounds(150,170,120,20);
         add(but7);
+
+        JButton but8 = new JButton("Leader1Slot");
+        JButton but9 = new JButton("Leader2Slot");
+        but8.setBounds(10,210,120,20);
+        but9.setBounds(150, 210,120,20);
+        add(but8);
+        add(but9);
+        but8.setVisible(false);
+        but9.setVisible(false);
+
+        chat.setBounds(320, 170, 250, 430);
+        add(chat);
 
 
 
@@ -80,6 +93,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         drawStorage(g,storage);
+        g.drawLine(370,10,370, 180);
 
     }
 
@@ -93,7 +107,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             e.printStackTrace();
             return;
         }
-        g.drawImage(img,0,0,291,343,null);
+        g.drawImage(img,10,250,291,343,null);
 
         final int myIndicatorWidth = 40;
         final int myIndicatorHeight = 40;
@@ -116,28 +130,28 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
 
         if(storage.getQuantityOfSlot1()!=0){
             switch (storage.getResourceOfSlot1()){
-                case "coins":g.drawImage(coin,140,100,myIndicatorWidth,myIndicatorHeight,null);break;
-                case "stones":g.drawImage(stone,140,100,myIndicatorWidth,myIndicatorHeight,null);break;
-                case "shields":g.drawImage(shield,140,100,myIndicatorWidth,myIndicatorHeight,null);break;
-                case "servants":g.drawImage(servant,140,100,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "coins":g.drawImage(coin,140,350,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "stones":g.drawImage(stone,140,350,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "shields":g.drawImage(shield,140,350,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "servants":g.drawImage(servant,140,350,myIndicatorWidth,myIndicatorHeight,null);break;
                 default:break;
             }
         }
         if(storage.getQuantityOfSlot2()!=0){
             switch (storage.getResourceOfSlot2()){
-                case "coins":g.drawImage(coin,105,180,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,165,180,myIndicatorWidth,myIndicatorHeight,null);break;}
-                case "stones":g.drawImage(stone,105,180,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,165,180,myIndicatorWidth,myIndicatorHeight,null);break;}
-                case "shields":g.drawImage(shield,105,180,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,165,180,myIndicatorWidth,myIndicatorHeight,null);break;}
-                case "servants":g.drawImage(servant,105,180,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,165,180,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "coins":g.drawImage(coin,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,165,430,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "stones":g.drawImage(stone,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,165,430,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "shields":g.drawImage(shield,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,165,430,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "servants":g.drawImage(servant,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,165,430,myIndicatorWidth,myIndicatorHeight,null);break;}
                 default:break;
             }
         }
         if(storage.getQuantityOfSlot3()!=0){
             switch (storage.getResourceOfSlot3()){
-                case "coins":g.drawImage(coin,85,260,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(coin,135,260,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(coin,185,260,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "stones":g.drawImage(stone,85,260,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(stone,135,260,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(stone,185,260,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "shields":g.drawImage(shield,85,260,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(shield,135,260,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(shield,185,260,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "servants":g.drawImage(servant,85,260,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,135,260,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,185,260,myIndicatorHeight,myIndicatorWidth,null);}break;
+                case "coins":g.drawImage(coin,85,510,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(coin,135,510,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(coin,185,510,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "stones":g.drawImage(stone,85,510,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(stone,135,510,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(stone,185,510,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "shields":g.drawImage(shield,85,510,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(shield,135,510,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(shield,185,510,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "servants":g.drawImage(servant,85,510,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,135,510,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,185,510,myIndicatorHeight,myIndicatorWidth,null);}break;
                 default:break;
             }
         }

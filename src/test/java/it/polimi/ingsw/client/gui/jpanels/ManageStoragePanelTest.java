@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
+import it.polimi.ingsw.client.gui.ChatComponent;
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
 import org.junit.jupiter.api.Test;
 
@@ -8,8 +10,11 @@ import javax.swing.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManageStoragePanelTest {
+        ClientGUI clientGUI = new ClientGUI();
         ClientModelStorage storage = new ClientModelStorage();
-        ManageStoragePanel panel = new ManageStoragePanel(storage);
+         ChatComponent chat = new ChatComponent(clientGUI.getMessageSender());
+        ManageStoragePanel panel = new ManageStoragePanel(storage,chat);
+
 
     @Test
     void name() throws InterruptedException {
