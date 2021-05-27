@@ -1,10 +1,7 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.client.gui.jpanels.PunchBoardPanel;
-import it.polimi.ingsw.clientmodel.ClientModelChest;
-import it.polimi.ingsw.clientmodel.ClientModelFaithTrack;
-import it.polimi.ingsw.clientmodel.ClientModelPersonalDevCardSlots;
-import it.polimi.ingsw.clientmodel.ClientModelStorage;
+import it.polimi.ingsw.clientmodel.*;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
@@ -15,10 +12,14 @@ public class FaithTrackGuiTest {
     ClientModelStorage storage = new ClientModelStorage();
     ClientModelChest chest = new ClientModelChest();
     ClientModelPersonalDevCardSlots devCardSlots = new ClientModelPersonalDevCardSlots();
-    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(devCardSlots,clientModelFaithTrack,storage,chest, 1);
+    ClientModelPlayer clientModelPlayer = new ClientModelPlayer("andi", 1);
+    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(devCardSlots,clientModelFaithTrack,storage,chest, 1, clientModelPlayer);
 
     @Test
     public void GuiTest() throws InterruptedException, IOException {
+
+        clientModelPlayer.setLeaderCardsUpdate(20,true, 22,false);
+
         int[] playerPositions = new int[4];
         playerPositions[0] = 0;
         playerPositions[1] = 0;
@@ -48,10 +49,12 @@ public class FaithTrackGuiTest {
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
         storage.setClientModelStorageUpdate(0,0,1,2,3,"stones","coins","stones","","");
         chest.setClientModelChestUpdate(8,8,8,8);
+        clientModelPlayer.setLeaderCardsUpdate(23,false, 24,true);
         Thread.sleep(4 * 1000);
         devCardSlots.setPersonalDevCardSlotsUpdate(18,1);
         devCardSlots.setPersonalDevCardSlotsUpdate(21,2);
         devCardSlots.setPersonalDevCardSlotsUpdate(19,3);
+        clientModelPlayer.setLeaderCardsUpdate(0,false, 0,true);
         playerPositions[0] = 11;
         chest.setClientModelChestUpdate(16,16,16,16);
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);

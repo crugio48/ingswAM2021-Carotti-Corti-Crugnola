@@ -2,10 +2,8 @@ package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
-import it.polimi.ingsw.clientmodel.ClientModelChest;
-import it.polimi.ingsw.clientmodel.ClientModelFaithTrack;
-import it.polimi.ingsw.clientmodel.ClientModelPersonalDevCardSlots;
-import it.polimi.ingsw.clientmodel.ClientModelStorage;
+import it.polimi.ingsw.client.gui.ClientGUI;
+import it.polimi.ingsw.clientmodel.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,24 +18,25 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     private ClientModelChest chest;
     private ClientModelPersonalDevCardSlots devCardSlots;
     private int myTurnOrder;
+    private ClientModelPlayer clientModelPlayer;
 
-    public PunchBoardPanel(ClientModelPersonalDevCardSlots devCardSlots,ClientModelFaithTrack clientModelFaithTrack, ClientModelStorage storage, ClientModelChest chest, int myTurnOrder){
+    public PunchBoardPanel(ClientModelPersonalDevCardSlots devCardSlots, ClientModelFaithTrack clientModelFaithTrack, ClientModelStorage storage, ClientModelChest chest, int myTurnOrder, ClientModelPlayer clientModelPlayer){
         setLayout(null);
         setOpaque(true);
 
-        JButton activateExtraProductionButton = new JButton("Activate Extra Production");
-        JButton activateFirstProductionButton = new JButton("Activate First Production");
-        JButton activateSecondProductionButton = new JButton("Activate Second Production");
-        JButton activateThirdProductionButton = new JButton("Activate Third Production");
+        JButton placeInFirstSlotButton = new JButton("Place in slot 1");
+        JButton placeInSecondSlotButton = new JButton("Place in slot 2");
+        JButton placeInThirdSlotButton = new JButton("Place in slot 3");
 
-        JButton selectChestButton = new JButton("Chest");
-        JButton selectStorageButton = new JButton("Storage");
+        placeInFirstSlotButton.setBounds(390,750,160,30);
+        add(placeInFirstSlotButton);
+        placeInSecondSlotButton.setBounds(590,750,160,30);
+        add(placeInSecondSlotButton);
+        placeInThirdSlotButton.setBounds(790,750,160,30);
+        add(placeInThirdSlotButton);
 
-        JButton switchTwoResourcesButton = new JButton("Switch Resources");
-        JButton moveOneResourceButton = new JButton("Move One Resource");
-
-        activateExtraProductionButton.setBounds(0,0,50, 50);
-        add(activateExtraProductionButton);
+        this.clientModelPlayer = clientModelPlayer;
+        clientModelPlayer.addObserver(this);
 
         this.devCardSlots=devCardSlots;
         devCardSlots.addObserver(this);
@@ -50,6 +49,72 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         this.observedClientModelFaithTrack = clientModelFaithTrack;
         this.setPreferredSize(new Dimension(1500, 900));
         this.setBackground(new Color(145,136,115));
+    }
+
+    private void drawLeaders(Graphics g, ClientModelPlayer clientModelPlayer){
+        int codeFirstLeader = 0;
+        int codeSecondLeader = 0;
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url1=null;
+        InputStream url2=null;
+        BufferedImage ldr1= null;
+        BufferedImage ldr2= null;
+
+        codeFirstLeader = clientModelPlayer.getLeaderCard(0).getCode();
+        codeSecondLeader = clientModelPlayer.getLeaderCard(1).getCode();
+
+        if (codeFirstLeader!=0){
+            url1 = cl.getResourceAsStream("cards/"+codeFirstLeader+".png");
+            try {
+                ldr1 = ImageIO.read(url1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            g.drawImage(ldr1, 1300,20,130,200,null);
+        }
+
+        if (codeSecondLeader!=0){
+            url2 = cl.getResourceAsStream("cards/"+codeSecondLeader+".png");
+            try {
+                ldr2 = ImageIO.read(url2);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            g.drawImage(ldr2, 1050,20,130,200, null);
+        }
+
+        g.setFont(new Font("Consolas", Font.BOLD, 16));
+
+        if(clientModelPlayer.getLeaderCard(0).isActive() && codeFirstLeader!= 0){
+            g.setColor(Color.GREEN);
+            g.drawString("ACTIVE", 1070,240);
+        }
+        else if(!clientModelPlayer.getLeaderCard(0).isActive() && codeFirstLeader!= 0) {
+            g.setColor(Color.black);
+            g.drawString("NOT ACTIVE", 1070,240);
+        }
+        else if(codeFirstLeader == 0){
+            g.setColor(Color.RED);
+            g.drawString("LEADER DISCARDED", 1070, 120);
+        }
+
+        if(clientModelPlayer.getLeaderCard(1).isActive() && codeSecondLeader!= 0){
+            g.setColor(Color.GREEN);
+            g.drawString("ACTIVE", 1320,240);
+        }
+        else if(!clientModelPlayer.getLeaderCard(1).isActive() && codeSecondLeader!= 0) {
+            g.setColor(Color.black);
+            g.drawString("NOT ACTIVE", 1320,240);
+        }
+        else if(codeFirstLeader == 0){
+            g.setColor(Color.RED);
+            g.drawString("LEADER DISCARDED", 1290, 120);
+        }
+
+
+
     }
 
 
@@ -73,9 +138,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         drawStorageResources(g,clientModelStorage);
         drawChestResources(g,chest);
         devCardSlot(g,devCardSlots);
-
-
-
+        drawLeaders(g, clientModelPlayer);
     }
 
     private void devCardSlot(Graphics g, ClientModelPersonalDevCardSlots devCardSlots){

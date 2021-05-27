@@ -13,7 +13,7 @@ public class PersonalDevCardSlotTest {
     ClientModelPersonalDevCardSlots clientModelPersonalDevCardSlots = new ClientModelPersonalDevCardSlots();
     ClientModelStorage clientModelStorage = new ClientModelStorage();
     ClientModelChest clientModelChest = new ClientModelChest();
-    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(clientModelPersonalDevCardSlots,clientModelFaithTrack,clientModelStorage,clientModelChest, 1);
+    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(clientModelPersonalDevCardSlots,clientModelFaithTrack,clientModelStorage,clientModelChest, 1, clientModelPlayer);
 
 
     @Test
