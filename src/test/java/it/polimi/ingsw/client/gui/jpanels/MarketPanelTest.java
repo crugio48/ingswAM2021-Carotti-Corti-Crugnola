@@ -26,12 +26,7 @@ public class MarketPanelTest {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    createAndShowGUI(marketPanel);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+                createAndShowGUI(marketPanel);
             }
         });
 
@@ -58,7 +53,7 @@ public class MarketPanelTest {
         Thread.sleep(3*1000);
     }
 
-    private void createAndShowGUI(MarketPanel marketPanel) throws IOException {
+    private void createAndShowGUI(MarketPanel marketPanel) {
         JFrame f = new JFrame();
         f.getContentPane().add(marketPanel);
 

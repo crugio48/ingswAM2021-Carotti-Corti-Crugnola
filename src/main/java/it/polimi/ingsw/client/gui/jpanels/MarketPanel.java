@@ -35,12 +35,6 @@ public class MarketPanel extends JPanel implements MyObserver {
         add(extraMarble);
 
         JButton pos1 = new JButton("\u2190");//left arrow
-        pos1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         JButton pos2 = new JButton("\u2190");
         JButton pos3 = new JButton("\u2190");
         JButton pos4 = new JButton("\u2191");//up arrow

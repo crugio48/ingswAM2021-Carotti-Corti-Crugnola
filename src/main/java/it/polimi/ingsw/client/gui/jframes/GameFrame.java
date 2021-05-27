@@ -2,10 +2,7 @@ package it.polimi.ingsw.client.gui.jframes;
 
 import it.polimi.ingsw.client.gui.ChatComponent;
 import it.polimi.ingsw.client.gui.ClientGUI;
-import it.polimi.ingsw.client.gui.jpanels.ChoosingStartingStuffPanel;
-import it.polimi.ingsw.client.gui.jpanels.DevCardSpacePanel;
-import it.polimi.ingsw.client.gui.jpanels.LobbySetupPanel;
-import it.polimi.ingsw.client.gui.jpanels.MarketPanel;
+import it.polimi.ingsw.client.gui.jpanels.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -82,5 +79,34 @@ public class GameFrame{
         tabbedPane.setTitleAt(0, "Market");
         cl.show(panelContainer, "gamePanel");
         jFrame.setSize(tabbedPane.getSelectedComponent().getPreferredSize());
+    }
+
+    public void addActivateProductionPanel(){
+        int index = 0;
+        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
+            case 1:
+                //index = .....
+            case 2:
+            case 3:
+            case 4:
+            default:
+                break;
+        }
+        tabbedPane.add(new ActivateProductionPanel(clientGUI), index);
+        tabbedPane.setTitleAt(index, "Activate Production");
+    }
+
+    public void removeActivateProductionPanel(){
+        int index = 0;
+        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
+            case 1:
+                //index = .....
+            case 2:
+            case 3:
+            case 4:
+            default:
+                break;
+        }
+        tabbedPane.removeTabAt(index);
     }
 }

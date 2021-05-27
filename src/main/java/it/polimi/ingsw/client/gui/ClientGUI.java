@@ -127,7 +127,35 @@ public class ClientGUI extends Client {
 
     }
 
+    public void activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
+                                   boolean baseProdActivation, String baseInput1, String baseInput2, String baseOutput,
+                                   boolean leader1Activation, int leader1Code, String leader1ConvertedResource,
+                                   boolean leader2Activation, int leader2Code, String leader2ConvertedResource){
+        try {
+            messageSender.activateProduction(slot1Activation, slot2Activation, slot3Activation, baseProdActivation, baseInput1,
+                    baseInput2, baseOutput, leader1Activation, leader1Code, leader1ConvertedResource, leader2Activation, leader2Code, leader2ConvertedResource);
+            String serverIn = stringBuffer.readMessage();
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setMyUsername(String myUsername) {
         this.myUsername = myUsername;
     }
+
+    public int getMyTurnOrder() {
+        return myTurnOrder;
+    }
+
+    public String getMyUsername() {
+        return myUsername;
+    }
+
+    public GameFrame getGameFrame() {
+        return gameFrame;
+    }
+
 }

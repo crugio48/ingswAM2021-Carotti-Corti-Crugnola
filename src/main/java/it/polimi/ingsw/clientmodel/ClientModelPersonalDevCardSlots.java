@@ -32,14 +32,17 @@ public class ClientModelPersonalDevCardSlots extends MyObservable {
     }
 
     public int getFirstStackTopCardCode() {
+        if (firstStack.isEmpty()) return 0;
         return firstStack.peek();
     }
 
     public int getSecondStackTopCardCode() {
+        if (secondStack.isEmpty()) return 0;
         return secondStack.peek();
     }
 
     public int getThirdStackTopCardCode() {
+        if (thirdStack.isEmpty()) return 0;
         return thirdStack.peek();
     }
 
