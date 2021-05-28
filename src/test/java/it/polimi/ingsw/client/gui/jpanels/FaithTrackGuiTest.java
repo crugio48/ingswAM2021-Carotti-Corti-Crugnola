@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.jpanels;
-
+/*
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.gui.jpanels.PunchBoardPanel;
 import it.polimi.ingsw.clientmodel.*;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,8 @@ public class FaithTrackGuiTest {
     ClientModelChest chest = new ClientModelChest();
     ClientModelPersonalDevCardSlots devCardSlots = new ClientModelPersonalDevCardSlots();
     ClientModelPlayer clientModelPlayer = new ClientModelPlayer("andi", 1);
-    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(devCardSlots,clientModelFaithTrack,storage,chest, 1, clientModelPlayer);
+    ClientGUI clientGUI = new ClientGUI();
+    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(clientGUI);
 
     @Test
     public void GuiTest() throws InterruptedException, IOException {
@@ -75,4 +77,4 @@ public class FaithTrackGuiTest {
         f.setVisible(true);
         f.setResizable(false);
     }
-}
+}*/

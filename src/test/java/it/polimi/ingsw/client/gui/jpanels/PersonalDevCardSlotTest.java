@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.jpanels;
-
+/*
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.gui.jpanels.PunchBoardPanel;
 import it.polimi.ingsw.clientmodel.*;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,8 @@ public class PersonalDevCardSlotTest {
     ClientModelPersonalDevCardSlots clientModelPersonalDevCardSlots = new ClientModelPersonalDevCardSlots();
     ClientModelStorage clientModelStorage = new ClientModelStorage();
     ClientModelChest clientModelChest = new ClientModelChest();
-    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(clientModelPersonalDevCardSlots,clientModelFaithTrack,clientModelStorage,clientModelChest, 1, clientModelPlayer);
+    ClientGUI clientGUI = new ClientGUI();
+    PunchBoardPanel punchBoardPanel = new PunchBoardPanel(clientGUI);
 
 
     @Test
@@ -62,3 +64,4 @@ public class PersonalDevCardSlotTest {
         f.setResizable(false);
     }
 }
+*/
