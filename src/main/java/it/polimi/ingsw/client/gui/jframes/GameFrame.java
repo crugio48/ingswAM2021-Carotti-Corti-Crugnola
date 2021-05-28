@@ -121,6 +121,9 @@ public class GameFrame{
 
         cl.show(panelContainer, "gamePanel");
         jFrame.setSize(tabbedPane.getSelectedComponent().getPreferredSize());
+        if (clientGUI.getMyTurnOrder() != clientGUI.getClientModel().getCurrentPlayer()){
+            disableAllActionButtons();
+        }
     }
 
     private int[] getAllOtherPlayersTurnOrders(int numOfPlayers) {
@@ -176,6 +179,7 @@ public class GameFrame{
         }
         tabbedPane.add(new ActivateProductionPanel(clientGUI), index);
         tabbedPane.setTitleAt(index, "Activate Production");
+        tabbedPane.setSelectedIndex(index);
     }
 
     public void removeActivateProductionPanel(){
@@ -197,5 +201,22 @@ public class GameFrame{
                 break;
         }
         tabbedPane.removeTabAt(index);
+        tabbedPane.setSelectedIndex(2);  //my punchBoard panel
+    }
+
+    public void enableAllActionButtons(){
+        marketPanel.enableActionButtons();
+        devCardSpacePanel.enableActionButtons();
+        myPunchBoardPanel.enableActionButtons();
+    }
+
+    public void disableAllActionButtons(){
+        marketPanel.disableActionButtons();
+        devCardSpacePanel.disableActionButtons();
+        myPunchBoardPanel.disableActionButtons();
+    }
+
+    public void enableLeaderButtons(){
+        myPunchBoardPanel.enableLeaderButtons();
     }
 }

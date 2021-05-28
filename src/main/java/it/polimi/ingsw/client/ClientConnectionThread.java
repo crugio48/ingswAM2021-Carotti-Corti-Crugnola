@@ -104,8 +104,14 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setCurrentPlayer(response.getNewCurrentPlayer());
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutRed("it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnOrder(response.getNewCurrentPlayer()).getNickname());
-                        } else {
-                            //DA FARE gui printout
+                        } else if (client instanceof ClientGUI){
+                            ((ClientGUI) client).getChatComponent().writeLogMessage("it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnOrder(response.getNewCurrentPlayer()).getNickname());
+
+                            if (((ClientGUI) client).getMyTurnOrder() == response.getNewCurrentPlayer()){
+                                ((ClientGUI) client).getGameFrame().enableAllActionButtons();
+                            } else {
+                                ((ClientGUI) client).getGameFrame().disableAllActionButtons();
+                            }
                         }
                         break;
                     case "endGameUpdate":

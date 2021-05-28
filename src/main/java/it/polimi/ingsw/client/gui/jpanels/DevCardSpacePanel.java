@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.jpanels;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
+import it.polimi.ingsw.client.gui.actionListeners.BuyDevCardAction;
 import it.polimi.ingsw.clientmodel.ClientModelDevCardSpace;
 
 import javax.imageio.ImageIO;
@@ -19,6 +20,23 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
     private ClientModelDevCardSpace observedClientModelDevCardSpace;
     private ClientGUI clientGUI;
 
+    private JButton buyDevCardActionButton;
+    private JButton stopBuyingDevCard;
+    private JLabel errorLabel;
+
+    private JButton lv1BlueButton;
+    private JButton lv2BlueButton;
+    private JButton lv3BlueButton;
+    private JButton lv1YellowButton;
+    private JButton lv2YellowButton;
+    private JButton lv3YellowButton;
+    private JButton lv1GreenButton;
+    private JButton lv2GreenButton;
+    private JButton lv3GreenButton;
+    private JButton lv1PurpleButton;
+    private JButton lv2PurpleButton;
+    private JButton lv3PurpleButton;
+
 
     private JTextField jTextField = new JTextField();
     private JTextArea jTextAreaLog = new JTextArea();
@@ -27,7 +45,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
 
     public DevCardSpacePanel(ClientGUI clientGUI){
 
-        this.setPreferredSize(new Dimension(1500, 900));
+        this.setPreferredSize(new Dimension(1100, 900));
         this.setBackground(new Color(145,136,115));
 
         this.clientGUI = clientGUI;
@@ -35,36 +53,121 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         observedClientModelDevCardSpace.addObserver(this);
         setLayout(null);
 
-        JButton lv1BlueButton = new JButton("Buy");
-        JButton lv2BlueButton = new JButton("Buy");
-        JButton lv3BlueButton = new JButton("Buy");
 
-        JButton lv1YellowButton = new JButton("Buy");
-        JButton lv2YellowButton = new JButton("Buy");
-        JButton lv3YellowButton = new JButton("Buy");
+        errorLabel = new JLabel("");
+        errorLabel.setBounds(700, 80, 300, 20);
+        errorLabel.setVisible(false);
+        add(errorLabel);
 
-        JButton lv1GreenButton = new JButton("Buy");
-        JButton lv2GreenButton = new JButton("Buy");
-        JButton lv3GreenButton = new JButton("Buy");
+        buyDevCardActionButton = new JButton("Buy a development card");
+        buyDevCardActionButton.setBounds(700, 20, 250,50);
+        buyDevCardActionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lv1BlueButton.setVisible(true);
+                lv2BlueButton.setVisible(true);
+                lv3BlueButton.setVisible(true);
+                lv1GreenButton.setVisible(true);
+                lv2GreenButton.setVisible(true);
+                lv3GreenButton.setVisible(true);
+                lv1YellowButton.setVisible(true);
+                lv2YellowButton.setVisible(true);
+                lv3YellowButton.setVisible(true);
+                lv1PurpleButton.setVisible(true);
+                lv2PurpleButton.setVisible(true);
+                lv3PurpleButton.setVisible(true);
+                errorLabel.setVisible(false);
+                clientGUI.getGameFrame().disableAllActionButtons();
+                stopBuyingDevCard.setVisible(true);
+            }
+        });
+        add(buyDevCardActionButton);
 
-        JButton lv1PurpleButton = new JButton("Buy");
-        JButton lv2PurpleButton = new JButton("Buy");
-        JButton lv3PurpleButton = new JButton("Buy");
+        stopBuyingDevCard = new JButton("Stop buying Development card");
+        stopBuyingDevCard.setBounds(700,80, 250, 50);
+        stopBuyingDevCard.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lv1BlueButton.setVisible(false);
+                lv2BlueButton.setVisible(false);
+                lv3BlueButton.setVisible(false);
+                lv1GreenButton.setVisible(false);
+                lv2GreenButton.setVisible(false);
+                lv3GreenButton.setVisible(false);
+                lv1YellowButton.setVisible(false);
+                lv2YellowButton.setVisible(false);
+                lv3YellowButton.setVisible(false);
+                lv1PurpleButton.setVisible(false);
+                lv2PurpleButton.setVisible(false);
+                lv3PurpleButton.setVisible(false);
+                errorLabel.setVisible(false);
+                clientGUI.getGameFrame().enableAllActionButtons();
+                stopBuyingDevCard.setVisible(false);
+            }
+        });
+        stopBuyingDevCard.setVisible(false);
+        add(stopBuyingDevCard);
 
-        lv3GreenButton.setBounds(10,210,100,30);
-        lv3BlueButton.setBounds(190,210,100,30);
-        lv3YellowButton.setBounds(370,210,100,30);
-        lv3PurpleButton.setBounds(550, 210, 100, 30);
 
-        lv2GreenButton.setBounds(10,460,100,30);
-        lv2BlueButton.setBounds(190,460,100,30);
-        lv2YellowButton.setBounds(370,460,100,30);
-        lv2PurpleButton.setBounds(550,460,100,30);
+        lv1BlueButton = new JButton("buy lv1 blue");
+        lv2BlueButton = new JButton("buy lv2 blue");
+        lv3BlueButton = new JButton("buy lv3 blue");
 
-        lv1GreenButton.setBounds(10, 710, 100, 30);
-        lv1BlueButton.setBounds(190,710,100,30);
-        lv1YellowButton.setBounds(370,710,100,30);
-        lv1PurpleButton.setBounds(550,710,100,30);
+        lv1YellowButton = new JButton("buy lv1 yellow");
+        lv2YellowButton = new JButton("buy lv2 yellow");
+        lv3YellowButton = new JButton("buy lv3 yellow");
+
+        lv1GreenButton = new JButton("buy lv1 green");
+        lv2GreenButton = new JButton("buy lv2 green");
+        lv3GreenButton = new JButton("buy lv3 green");
+
+        lv1PurpleButton = new JButton("buy lv1 purple");
+        lv2PurpleButton = new JButton("buy lv2 purple");
+        lv3PurpleButton = new JButton("buy lv3 purple");
+
+        lv3GreenButton.setBounds(10,210,120,30);
+        lv3BlueButton.setBounds(190,210,120,30);
+        lv3YellowButton.setBounds(370,210,120,30);
+        lv3PurpleButton.setBounds(550, 210, 120, 30);
+
+        lv2GreenButton.setBounds(10,460,120,30);
+        lv2BlueButton.setBounds(190,460,120,30);
+        lv2YellowButton.setBounds(370,460,120,30);
+        lv2PurpleButton.setBounds(550,460,120,30);
+
+        lv1GreenButton.setBounds(10, 710, 120, 30);
+        lv1BlueButton.setBounds(190,710,120,30);
+        lv1YellowButton.setBounds(370,710,120,30);
+        lv1PurpleButton.setBounds(550,710,120,30);
+
+        lv1BlueButton.setVisible(false);
+        lv2BlueButton.setVisible(false);
+        lv3BlueButton.setVisible(false);
+        lv1GreenButton.setVisible(false);
+        lv2GreenButton.setVisible(false);
+        lv3GreenButton.setVisible(false);
+        lv1YellowButton.setVisible(false);
+        lv2YellowButton.setVisible(false);
+        lv3YellowButton.setVisible(false);
+        lv1PurpleButton.setVisible(false);
+        lv2PurpleButton.setVisible(false);
+        lv3PurpleButton.setVisible(false);
+
+        lv1BlueButton.addActionListener(new BuyDevCardAction(clientGUI, 1, 'b'));
+        lv2BlueButton.addActionListener(new BuyDevCardAction(clientGUI, 2, 'b'));
+        lv3BlueButton.addActionListener(new BuyDevCardAction(clientGUI, 3, 'b'));
+
+        lv1YellowButton.addActionListener(new BuyDevCardAction(clientGUI, 1, 'y'));
+        lv2YellowButton.addActionListener(new BuyDevCardAction(clientGUI, 2, 'y'));
+        lv3YellowButton.addActionListener(new BuyDevCardAction(clientGUI, 3, 'y'));
+
+        lv1GreenButton.addActionListener(new BuyDevCardAction(clientGUI, 1, 'g'));
+        lv2GreenButton.addActionListener(new BuyDevCardAction(clientGUI, 2, 'g'));
+        lv3GreenButton.addActionListener(new BuyDevCardAction(clientGUI, 3, 'g'));
+
+        lv1PurpleButton.addActionListener(new BuyDevCardAction(clientGUI, 1, 'p'));
+        lv2PurpleButton.addActionListener(new BuyDevCardAction(clientGUI, 2, 'p'));
+        lv3PurpleButton.addActionListener(new BuyDevCardAction(clientGUI, 3, 'p'));
 
         add(lv1BlueButton);
         add(lv2BlueButton);
@@ -231,21 +334,35 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
             return;
         }
 
-        g.drawImage(img1, firstColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
-        g.drawImage(img2, secondColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
-        g.drawImage(img3, thirdColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
-        g.drawImage(img4, fourthColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img1, fourthColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img2, fourthColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img3, fourthColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
 
+        g.drawImage(img4, firstColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
         g.drawImage(img5, firstColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
-        g.drawImage(img6, secondColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
-        g.drawImage(img7, thirdColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
-        g.drawImage(img8, fourthColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img6, firstColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
 
-        g.drawImage(img9, firstColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img7, thirdColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img8, thirdColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img9, thirdColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
+
         g.drawImage(img10, secondColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
-        g.drawImage(img11, thirdColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
-        g.drawImage(img12, fourthColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img11, secondColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
+        g.drawImage(img12, secondColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);
 
     }
 
+
+    public void enableActionButtons(){
+        buyDevCardActionButton.setEnabled(true);
+    }
+
+    public void disableActionButtons(){
+        buyDevCardActionButton.setEnabled(false);
+    }
+
+    public void setErrorMessage(String message) {
+        errorLabel.setText(message);
+        errorLabel.setVisible(true);
+    }
 }

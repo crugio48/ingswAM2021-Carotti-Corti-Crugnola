@@ -6,6 +6,7 @@ import it.polimi.ingsw.clientmodel.ClientModelPlayer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,25 +44,25 @@ public class ActivateProductionPanel extends JPanel {
 
     private JLabel errorLabel;
 
+    private JTextField jTextField = new JTextField();
+    private JTextArea jTextAreaLog = new JTextArea();
+    private JTextArea jTextAreaChat = new JTextArea();
+    private JTextArea jTextAreaPlayerInstruction = new JTextArea();
+
 
     public ActivateProductionPanel(ClientGUI clientGUI) {
         myPlayer = clientGUI.getClientModel().getPlayerByNickname(clientGUI.getMyUsername());
         setLayout(null);
-        setPreferredSize(new Dimension(1200, 800));
+        setPreferredSize(new Dimension(1500, 900));
         setBackground(new Color(183,177,142));
 
-        /*
-        ChatComponent chatComponent = clientGUI.getChatComponent();
-        chatComponent.setBounds(940,350,250,430);
-        add(chatComponent);
 
-         */
-
-        goBackButton = new JButton("Go Back");
-        goBackButton.setBounds(1050, 20, 120, 50);
+        goBackButton = new JButton("Stop producing");
+        goBackButton.setBounds(1050, 20, 150, 50);
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                clientGUI.getGameFrame().enableAllActionButtons();
                 clientGUI.getGameFrame().removeActivateProductionPanel();
             }
         });
@@ -334,6 +335,54 @@ public class ActivateProductionPanel extends JPanel {
         errorLabel.setBounds(950, 170, 200,50);
         errorLabel.setVisible(false);
         add(errorLabel);
+
+        //here are the chat components
+        JLabel jLabel = new JLabel("chat: ");
+        jLabel.setBounds(1210,290, 250, 30);
+        add(jLabel);
+
+        jTextField.setBounds(1210,320,250,50);
+        jTextField.setToolTipText("insert here the message and press enter");
+        jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().sendChatMessage(jTextField.getText());
+                jTextField.setText("");
+            }
+        });
+        add(jTextField);
+
+        jTextAreaChat.setDocument(clientGUI.getChatComponent().getChatDoc());
+        jTextAreaChat.setLineWrap(true);
+        jTextAreaChat.setEditable(false);
+        jTextAreaChat.setToolTipText("this is the chat log");
+        jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaChat.setForeground(Color.blue);
+        JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        chatScrollPane.setBounds(1210,370,250,150);
+        add(chatScrollPane);
+
+        jTextAreaLog.setDocument(clientGUI.getChatComponent().getLogDoc());
+        jTextAreaLog.setLineWrap(true);
+        jTextAreaLog.setEditable(false);
+        jTextAreaLog.setToolTipText("this is the game events log");
+        jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaLog.setForeground(Color.red);
+        JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        logScrollPane.setBounds(1210,525,250,150);
+        add(logScrollPane);
+
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatComponent().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setLineWrap(true);
+        jTextAreaPlayerInstruction.setEditable(false);
+        jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
+        jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaPlayerInstruction.setForeground(Color.green);
+        JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        playerInstructionsScrollPane.setBounds(1210,680,250,150);
+        add(playerInstructionsScrollPane);
+        //here finish the chat components
     }
 
 

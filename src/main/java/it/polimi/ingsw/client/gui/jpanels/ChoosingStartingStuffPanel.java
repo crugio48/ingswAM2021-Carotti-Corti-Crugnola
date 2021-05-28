@@ -307,8 +307,8 @@ public class ChoosingStartingStuffPanel extends JPanel {
         coin.setVisible(true);
         servant.setVisible(true);
         this.numOfInitialResources = numOfInitialResources;
-        errorMessage.setText("you need to choose " + numOfInitialResources + " starting resources\n" +
-                "please click on the resources you want");
+        errorMessage.setText("<html>you need to choose " + numOfInitialResources + " starting resources<br>" + //html and br to write on two lines
+                "please click on the resources you want</html>");
 
         revalidate();
         repaint();

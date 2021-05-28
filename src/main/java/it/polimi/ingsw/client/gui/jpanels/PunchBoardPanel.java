@@ -7,28 +7,72 @@ import it.polimi.ingsw.clientmodel.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.Buffer;
 
 public class PunchBoardPanel extends JPanel implements MyObserver {
+    private ClientGUI clientGUI;
     private ClientModelFaithTrack observedClientModelFaithTrack;
-    private ClientModelStorage clientModelStorage;
+    private ClientModelStorage storage;
     private ClientModelChest chest;
     private ClientModelPersonalDevCardSlots devCardSlots;
     private int myTurnOrder;
     private ClientModelPlayer clientModelPlayer;
     private ClientModel clientModel;
 
+    private JButton activateLeader1Button;
+    private JButton discardLeader1Button;
+
+    private JButton activateLeader2Button;
+    private JButton discardLeader2Button;
+
+    private JButton activateProductionButton;
+
+    private JButton placeInFirstSlotButton;
+    private JButton placeInSecondSlotButton;
+    private JButton placeInThirdSlotButton;
+
+    private JTextField jTextField = new JTextField();
+    private JTextArea jTextAreaLog = new JTextArea();
+    private JTextArea jTextAreaChat = new JTextArea();
+    private JTextArea jTextAreaPlayerInstruction = new JTextArea();
+
+
     public PunchBoardPanel(ClientGUI clientGUI){
         setLayout(null);
         setOpaque(true);
+        this.setPreferredSize(new Dimension(1500, 900));
+        this.setBackground(new Color(145,136,115));
 
-        JButton placeInFirstSlotButton = new JButton("Place in slot 1");
-        JButton placeInSecondSlotButton = new JButton("Place in slot 2");
-        JButton placeInThirdSlotButton = new JButton("Place in slot 3");
+        this.clientGUI = clientGUI;
+        this.clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
+        clientModelPlayer.addObserver(this);
+        this.myTurnOrder = clientGUI.getMyTurnOrder();
+        this.devCardSlots=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots();
+        devCardSlots.addObserver(this);
+        this.chest=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getChest();
+        chest.addObserver(this);
+        this.storage = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getStorage();
+        storage.addObserver(this);
+        this.observedClientModelFaithTrack = clientGUI.getClientModel().getFaithTrack();
+        observedClientModelFaithTrack.addObserver(this);
+        this.clientModel = clientGUI.getClientModel();
+        clientModel.addObserver(this);
+
+
+        placeInFirstSlotButton = new JButton("Place in slot 1");
+        placeInSecondSlotButton = new JButton("Place in slot 2");
+        placeInThirdSlotButton = new JButton("Place in slot 3");
+
+        placeInFirstSlotButton.setVisible(false);
+        placeInSecondSlotButton.setVisible(false);
+        placeInThirdSlotButton.setVisible(false);
 
         placeInFirstSlotButton.setBounds(390,750,160,30);
         add(placeInFirstSlotButton);
@@ -37,26 +81,89 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         placeInThirdSlotButton.setBounds(790,750,160,30);
         add(placeInThirdSlotButton);
 
-        this.clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
-        clientModelPlayer.addObserver(this);
-        this.myTurnOrder = clientGUI.getMyTurnOrder();
-        this.devCardSlots=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots();
-        devCardSlots.addObserver(this);
-        this.chest=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getChest();
-        chest.addObserver(this);
-        this.clientModelStorage = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getStorage();
-        clientModelStorage.addObserver(this);
-        this.observedClientModelFaithTrack = clientGUI.getClientModel().getFaithTrack();
-        observedClientModelFaithTrack.addObserver(this);
-        this.clientModel = clientGUI.getClientModel();
-        clientModel.addObserver(this);
 
-        this.setPreferredSize(new Dimension(1500, 900));
-        this.setBackground(new Color(145,136,115));
+        activateLeader1Button = new JButton("Activate");
+        activateLeader1Button.setBounds(1040, 250, 90, 30);
+        add(activateLeader1Button);
+
+        discardLeader1Button = new JButton("Discard");
+        discardLeader1Button.setBounds(1135, 250, 90, 30);
+        add(discardLeader1Button);
+
+        activateLeader2Button = new JButton("Activate");
+        activateLeader2Button.setBounds(1290, 250, 90, 30);
+        add(activateLeader2Button);
+
+        discardLeader2Button = new JButton("Discard");
+        discardLeader2Button.setBounds(1385, 250, 90, 30);
+        add(discardLeader2Button);
+
+
+        activateProductionButton = new JButton("<html>Activate<br>Production</hmtl>"); //html and br to make text multiline
+        activateProductionButton.setBounds(1010, 500, 150, 100);
+        activateProductionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGameFrame().addActivateProductionPanel();
+                clientGUI.getGameFrame().disableAllActionButtons();
+            }
+        });
+        add(activateProductionButton);
+
+
+
+
+        //here are the chat components
+        JLabel jLabel = new JLabel("chat: ");
+        jLabel.setBounds(1210,290, 250, 30);
+        add(jLabel);
+
+        jTextField.setBounds(1210,320,250,50);
+        jTextField.setToolTipText("insert here the message and press enter");
+        jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().sendChatMessage(jTextField.getText());
+                jTextField.setText("");
+            }
+        });
+        add(jTextField);
+
+        jTextAreaChat.setDocument(clientGUI.getChatComponent().getChatDoc());
+        jTextAreaChat.setLineWrap(true);
+        jTextAreaChat.setEditable(false);
+        jTextAreaChat.setToolTipText("this is the chat log");
+        jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaChat.setForeground(Color.blue);
+        JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        chatScrollPane.setBounds(1210,370,250,150);
+        add(chatScrollPane);
+
+        jTextAreaLog.setDocument(clientGUI.getChatComponent().getLogDoc());
+        jTextAreaLog.setLineWrap(true);
+        jTextAreaLog.setEditable(false);
+        jTextAreaLog.setToolTipText("this is the game events log");
+        jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaLog.setForeground(Color.red);
+        JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        logScrollPane.setBounds(1210,525,250,150);
+        add(logScrollPane);
+
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatComponent().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setLineWrap(true);
+        jTextAreaPlayerInstruction.setEditable(false);
+        jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
+        jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaPlayerInstruction.setForeground(Color.green);
+        JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        playerInstructionsScrollPane.setBounds(1210,680,250,150);
+        add(playerInstructionsScrollPane);
+        //here finish the chat components
     }
 
 
-    private void drawLastUsedActionCard(Graphics g, ClientModel clientModel){
+    private void drawLastUsedActionCard(Graphics g){
         int codeLastUsedActionCard = 0;
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url = null;
@@ -75,7 +182,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         }
     }
 
-    private void drawLeaders(Graphics g, ClientModelPlayer clientModelPlayer){
+    private void drawLeaders(Graphics g){
         int codeFirstLeader = 0;
         int codeSecondLeader = 0;
         ClassLoader cl = this.getClass().getClassLoader();
@@ -95,7 +202,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
                 e.printStackTrace();
                 return;
             }
-            g.drawImage(ldr1, 1300,20,130,200,null);
+            g.drawImage(ldr1, 1050,20,130,200,null);
         }
 
         if (codeSecondLeader!=0){
@@ -106,7 +213,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
                 e.printStackTrace();
                 return;
             }
-            g.drawImage(ldr2, 1050,20,130,200, null);
+            g.drawImage(ldr2, 1300,20,130,200, null);
         }
 
         g.setFont(new Font("Consolas", Font.BOLD, 16));
@@ -160,14 +267,14 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         drawMyBoard(g, observedClientModelFaithTrack.getPlayerPositions(), observedClientModelFaithTrack.getBlackCrossPosition(),
                 observedClientModelFaithTrack.getActiveFirstPapalFavourCard(), observedClientModelFaithTrack.getActiveSecondPapalFavourCard(),
                 observedClientModelFaithTrack.getActiveThirdPapalFavourCard());
-        drawStorageResources(g,clientModelStorage);
-        drawChestResources(g,chest);
-        devCardSlot(g,devCardSlots);
-        drawLeaders(g, clientModelPlayer);
-        drawLastUsedActionCard(g, clientModel);
+        drawStorageResources(g);
+        drawChestResources(g);
+        devCardSlot(g);
+        drawLeaders(g);
+        drawLastUsedActionCard(g);
     }
 
-    private void devCardSlot(Graphics g, ClientModelPersonalDevCardSlots devCardSlots){
+    private void devCardSlot(Graphics g){
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url11=null,url21=null,url31=null,url12=null,url22=null,url32=null,url13=null,url23=null,url33=null;
         if(devCardSlots.getFirstStack().size()>0)url11 = cl.getResourceAsStream("cards/"+devCardSlots.getFirstStackCardsCode(1)+".png");
@@ -217,7 +324,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
     }
 
-    private void drawChestResources(Graphics g, ClientModelChest chest){
+    private void drawChestResources(Graphics g){
 
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url10 = cl.getResourceAsStream("components/coin.png");
@@ -344,7 +451,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
     }
 
-    private void drawStorageResources(Graphics g, ClientModelStorage storage){
+    private void drawStorageResources(Graphics g){
         final int myIndicatorWidth = 40;
         final int myIndicatorHeight = 40;
 
@@ -604,6 +711,30 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             }
         }
 
+    }
+
+
+    public void enableActionButtons(){
+        activateLeader1Button.setEnabled(true);
+        activateLeader2Button.setEnabled(true);
+        discardLeader1Button.setEnabled(true);
+        discardLeader2Button.setEnabled(true);
+        activateProductionButton.setEnabled(true);
+    }
+
+    public void disableActionButtons() {
+        activateLeader1Button.setEnabled(false);
+        activateLeader2Button.setEnabled(false);
+        discardLeader1Button.setEnabled(false);
+        discardLeader2Button.setEnabled(false);
+        activateProductionButton.setEnabled(false);
+    }
+
+    public void enableLeaderButtons(){
+        activateLeader1Button.setEnabled(true);  //IMPORTANT: enable doesn't mean that it will turn back to be visible
+        activateLeader2Button.setEnabled(true);  //this is good for the behaviour
+        discardLeader1Button.setEnabled(true);
+        discardLeader2Button.setEnabled(true);
     }
 
 

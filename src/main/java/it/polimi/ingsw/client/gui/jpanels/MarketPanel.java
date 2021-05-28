@@ -19,12 +19,28 @@ public class MarketPanel extends JPanel implements MyObserver {
     private ClientModelMarket market;
     private ClientGUI clientGUI;
 
+    private JButton buyFromMarketButton;
+    private JButton stopBuyingFromMarket;
+
+    private JLabel errorLabel;
+
+    private JButton pos1;
+    private JButton pos2;
+    private JButton pos3;
+    private JButton pos4;
+    private JButton pos5;
+    private JButton pos6;
+    private JButton pos7;
+
     private JTextField jTextField = new JTextField();
     private JTextArea jTextAreaLog = new JTextArea();
     private JTextArea jTextAreaChat = new JTextArea();
     private JTextArea jTextAreaPlayerInstruction = new JTextArea();
 
     public MarketPanel (ClientGUI clientGUI) {
+        this.setPreferredSize(new Dimension(1000, 800));
+        this.setBackground(new Color(145,136,115));
+
         this.market = clientGUI.getClientModel().getMarket();
         market.addObserver(this);
 
@@ -38,13 +54,66 @@ public class MarketPanel extends JPanel implements MyObserver {
         extraMarble.setBounds(5,10,150,40);
         add(extraMarble);
 
-        JButton pos1 = new JButton("\u2190");//left arrow
-        JButton pos2 = new JButton("\u2190");
-        JButton pos3 = new JButton("\u2190");
-        JButton pos4 = new JButton("\u2191");//up arrow
-        JButton pos5 = new JButton("\u2191");
-        JButton pos6 = new JButton("\u2191");
-        JButton pos7 = new JButton("\u2191");
+
+        errorLabel = new JLabel("");
+        errorLabel.setVisible(false);
+        errorLabel.setBounds(450, 80, 300,20);
+        add(errorLabel);
+
+        buyFromMarketButton = new JButton("Buy from market");
+        buyFromMarketButton.setBounds(450,20, 150, 50);
+        buyFromMarketButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pos1.setVisible(true);
+                pos2.setVisible(true);
+                pos3.setVisible(true);
+                pos4.setVisible(true);
+                pos5.setVisible(true);
+                pos6.setVisible(true);
+                pos7.setVisible(true);
+                stopBuyingFromMarket.setVisible(true);
+                errorLabel.setVisible(false);
+                clientGUI.getGameFrame().disableAllActionButtons();
+            }
+        });
+        add(buyFromMarketButton);
+
+        stopBuyingFromMarket = new JButton("stop buying from market");
+        stopBuyingFromMarket.setBounds(620,20,200,50);
+        stopBuyingFromMarket.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pos1.setVisible(false);
+                pos2.setVisible(false);
+                pos3.setVisible(false);
+                pos4.setVisible(false);
+                pos5.setVisible(false);
+                pos6.setVisible(false);
+                pos7.setVisible(false);
+                stopBuyingFromMarket.setVisible(false);
+                errorLabel.setVisible(false);
+                clientGUI.getGameFrame().enableAllActionButtons();
+            }
+        });
+        stopBuyingFromMarket.setVisible(false);
+        add(stopBuyingFromMarket);
+
+        pos1 = new JButton("\u2190");//left arrow
+        pos2 = new JButton("\u2190");
+        pos3 = new JButton("\u2190");
+        pos4 = new JButton("\u2191");//up arrow
+        pos5 = new JButton("\u2191");
+        pos6 = new JButton("\u2191");
+        pos7 = new JButton("\u2191");
+
+        pos1.setVisible(false);
+        pos2.setVisible(false);
+        pos3.setVisible(false);
+        pos4.setVisible(false);
+        pos5.setVisible(false);
+        pos6.setVisible(false);
+        pos7.setVisible(false);
 
         pos1.setBounds(340,80,55, 40);
         add(pos1);
@@ -63,16 +132,13 @@ public class MarketPanel extends JPanel implements MyObserver {
 
 
 
-        this.setPreferredSize(new Dimension(800, 700));
-        this.setBackground(new Color(145,136,115));
-
 
         //here are the chat components
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(450,70, 250, 30);
+        jLabel.setBounds(450,100, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(450,100,250,50);
+        jTextField.setBounds(450,130,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -91,7 +157,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(450,150,250,150);
+        chatScrollPane.setBounds(450,180,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatComponent().getLogDoc());
@@ -101,7 +167,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(450,305,250,150);
+        logScrollPane.setBounds(450,335,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatComponent().getPlayerInstructionsDoc());
@@ -111,7 +177,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
         JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(450,460,250,150);
+        playerInstructionsScrollPane.setBounds(450,490,250,150);
         add(playerInstructionsScrollPane);
         //here finish the chat components
     }
@@ -199,5 +265,18 @@ public class MarketPanel extends JPanel implements MyObserver {
                 break;
         }
         g.fillOval(x, y, 26, 26);
+    }
+
+    public void enableActionButtons(){
+        buyFromMarketButton.setEnabled(true);
+    }
+
+    public void disableActionButtons(){
+        buyFromMarketButton.setEnabled(false);
+    }
+
+    public void setErrorMessage(String message){
+        errorLabel.setText(message);
+        errorLabel.setVisible(true);
     }
 }

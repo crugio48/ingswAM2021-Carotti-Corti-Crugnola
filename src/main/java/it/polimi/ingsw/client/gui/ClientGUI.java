@@ -67,12 +67,12 @@ public class ClientGUI extends Client {
                         gameFrame.setInitialResources(response.getNumOfInitialResources());
                         break;
                     case "waitingForOtherPlayersCommunication":
-                        gameFrame.setStartingMessage("you have ended your initial setup,\n" +
-                                "please wait for the other players to finish");
+                        gameFrame.setStartingMessage("<html>you have ended your initial setup<br>" +  //html and br to write on two lines
+                                "please wait for the other players to finish</html>");
                         break;
                     case "waitingForSinglePlayerGameCommunication":
-                        gameFrame.setStartingMessage("you have ended your initial setup,\n" +
-                                "the game will start in a few seconds");
+                        gameFrame.setStartingMessage("<html>you have ended your initial setup<br>" +  //html and br to write on two lines
+                                "the game will start in a few seconds</html>");
                         break;
                     default:
                         break;
@@ -117,22 +117,59 @@ public class ClientGUI extends Client {
 
 
     public void buyFromMarket(int position){
-        messageSender.buyResourceFromMarket(position);
+        Gson gson = new Gson();
+        try {
+            messageSender.buyResourceFromMarket(position);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+
+            if (response.isCommandWasCorrect()){
+                ////////////////////////////////////
+            } else{
+                //////////////////////////////
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
+    public void buyDevCard(int lvl, char colour){
+        Gson gson = new Gson();
+        try {
+            messageSender.buyDevelopmentCard(lvl, colour);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
 
+            if (response.isCommandWasCorrect()){
+                ////////////////////////////
+            } else{
+                ////////////////////////////
+            }
+
+        } catch (InterruptedException e) {
+                e.printStackTrace();
+        }
     }
 
     public void activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
                                    boolean baseProdActivation, String baseInput1, String baseInput2, String baseOutput,
                                    boolean leader1Activation, int leader1Code, String leader1ConvertedResource,
                                    boolean leader2Activation, int leader2Code, String leader2ConvertedResource){
+        Gson gson = new Gson();
         try {
             messageSender.activateProduction(slot1Activation, slot2Activation, slot3Activation, baseProdActivation, baseInput1,
                     baseInput2, baseOutput, leader1Activation, leader1Code, leader1ConvertedResource, leader2Activation, leader2Code, leader2ConvertedResource);
             String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
 
-            //DA FINIRE
+            if (response.isCommandWasCorrect()){
+                ///////////////////////////////
+            } else {
+                ///////////////////////////////
+            }
 
 
         } catch (InterruptedException e) {
