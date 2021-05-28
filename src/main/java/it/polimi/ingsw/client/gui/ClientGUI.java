@@ -158,4 +158,24 @@ public class ClientGUI extends Client {
         return gameFrame;
     }
 
+    public void sendResourcesFromChestAndStorageSelected( int coinsFromStorageSelected, int shieldsFromStorageSelected,
+             int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
+                                                         int servantsFromChestSelected, int stonesFromChestSelected){
+        try {
+            messageSender.chosenResourcesToPayForDevCard(
+                    coinsFromChestSelected,
+                    stonesFromChestSelected,
+                    shieldsFromChestSelected,
+                    servantsFromChestSelected,
+                    coinsFromStorageSelected,
+                    stonesFromStorageSelected,
+                    shieldsFromStorageSelected,
+                    servantsFromStorageSelected);
+            String serverIn = stringBuffer.readMessage();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

@@ -188,7 +188,16 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                clientGUI.sendResourcesFromChestAndStorageSelected(
+                        coinsFromStorageSelected,
+                        shieldsFromStorageSelected,
+                        servantsFromStorageSelected,
+                        stonesFromStorageSelected,
+                        coinsFromChestSelected,
+                        shieldsFromChestSelected,
+                        servantsFromChestSelected,
+                        stonesFromChestSelected
+                        );
             }
         });
         submitButton.setBounds(330, 600, 100,40);
