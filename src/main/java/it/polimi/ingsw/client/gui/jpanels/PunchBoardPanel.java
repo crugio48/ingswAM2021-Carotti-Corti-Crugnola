@@ -64,7 +64,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         codeSecondLeader = clientModelPlayer.getLeaderCard(1).getCode();
 
         if (codeFirstLeader!=0){
-            url1 = cl.getResourceAsStream("cards/"+codeFirstLeader+".png");
+            url1 = cl.getResourceAsStream("cards/leader"+codeFirstLeader+".png");
             try {
                 ldr1 = ImageIO.read(url1);
             } catch (IOException e) {
@@ -75,7 +75,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         }
 
         if (codeSecondLeader!=0){
-            url2 = cl.getResourceAsStream("cards/"+codeSecondLeader+".png");
+            url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
             try {
                 ldr2 = ImageIO.read(url2);
             } catch (IOException e) {

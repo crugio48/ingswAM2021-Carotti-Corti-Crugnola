@@ -2,9 +2,8 @@ package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
-import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
-import it.polimi.ingsw.client.gui.ChatComponent;
+import it.polimi.ingsw.client.gui.ChatDocuments;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,10 +14,9 @@ import java.io.InputStream;
 
 public class ManageStoragePanel extends JPanel implements MyObserver {
     private ClientModelStorage storage;
-    private ChatComponent chat;
 
-    public ManageStoragePanel(ClientGUI clientGUI){
-        this.storage= clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getStorage();
+    public ManageStoragePanel(ClientModelStorage storage, ChatDocuments chat){
+        this.storage=storage;
         storage.addObserver(this);
 
         this.setLayout(null);
@@ -78,9 +76,11 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         but8.setVisible(false);
         but9.setVisible(false);
 
-       this.chat =  clientGUI.getChatComponent();
+        /*
         chat.setBounds(320, 170, 250, 430);
         add(chat);
+
+         */
 
 
 

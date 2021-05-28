@@ -1,20 +1,17 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
-import it.polimi.ingsw.client.MessageSender;
-import it.polimi.ingsw.client.gui.ChatComponent;
+import it.polimi.ingsw.client.gui.ChatDocuments;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelMarket;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
 
 public class MarketPanelTest {
     ClientGUI clientGUI = new ClientGUI();
     ClientModelMarket clientModelMarket = new ClientModelMarket();
-    ChatComponent chatComponent = new ChatComponent(clientGUI.getMessageSender());
-    MarketPanel marketPanel = new MarketPanel(clientModelMarket, chatComponent);
+    ChatDocuments chatDocuments = new ChatDocuments(clientGUI.getMessageSender());
+    MarketPanel marketPanel = new MarketPanel(clientGUI);
 
     @Test
     public void guiTest() throws InterruptedException {
@@ -34,21 +31,21 @@ public class MarketPanelTest {
 
         clientModelMarket.setMarketUpdate(test2, test3, test1, "grey");
 
-        chatComponent.writeChatMessage("Piero: ola");
-        chatComponent.writeChatMessage("cru: ahhahhaha");
-        chatComponent.writeChatMessage("Piero: ola");
-        chatComponent.writeChatMessage("cru: ahhahhaha");
-        chatComponent.writeChatMessage("Piero: ola");
-        chatComponent.writeChatMessage("cru: ahhahhaha");
-        chatComponent.writeChatMessage("Piero: ola");
-        chatComponent.writeChatMessage("cru: ahhahhaha");
-        chatComponent.writeChatMessage("Piero: ola");
-        chatComponent.writeChatMessage("cru: ahhahhaha");
-        chatComponent.writeChatMessage("/////////////");
-        chatComponent.writeChatMessage("///////////////");
-        chatComponent.writeChatMessage("/////////////");
-        chatComponent.writeChatMessage("///////////////");
-        chatComponent.writeLogMessage("log");
+        chatDocuments.writeChatMessage("Piero: ola");
+        chatDocuments.writeChatMessage("cru: ahhahhaha");
+        chatDocuments.writeChatMessage("Piero: ola");
+        chatDocuments.writeChatMessage("cru: ahhahhaha");
+        chatDocuments.writeChatMessage("Piero: ola");
+        chatDocuments.writeChatMessage("cru: ahhahhaha");
+        chatDocuments.writeChatMessage("Piero: ola");
+        chatDocuments.writeChatMessage("cru: ahhahhaha");
+        chatDocuments.writeChatMessage("Piero: ola");
+        chatDocuments.writeChatMessage("cru: ahhahhaha");
+        chatDocuments.writeChatMessage("/////////////");
+        chatDocuments.writeChatMessage("///////////////");
+        chatDocuments.writeChatMessage("/////////////");
+        chatDocuments.writeChatMessage("///////////////");
+        chatDocuments.writeLogMessage("log");
 
         Thread.sleep(3*1000);
     }

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.io.IOException;
 
+/*
 public class DevCardsGuiTest {
     ClientModelDevCardSpace clientModelDevCardSpace = new ClientModelDevCardSpace();
     DevCardSpacePanel devCardSpacePanel = new DevCardSpacePanel(clientModelDevCardSpace);
@@ -44,3 +45,5 @@ public class DevCardsGuiTest {
         f.setVisible(true);
     }
 }
+
+ */

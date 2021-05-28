@@ -4,26 +4,29 @@ import it.polimi.ingsw.client.MessageSender;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ChatComponent extends JLabel {
-    private JTextField jTextField = new JTextField();
-    private JTextArea jTextAreaLog = new JTextArea();
-    private JTextArea jTextAreaChat = new JTextArea();
-    private JTextArea jTextAreaPlayerInstruction = new JTextArea();
-    private MessageSender messageSender;
+public class ChatDocuments {
+    private DefaultStyledDocument chatDoc;
+    private DefaultStyledDocument logDoc;
+    private DefaultStyledDocument playerInstructionsDoc;
 
-    public ChatComponent(MessageSender messageSender) {
+    public ChatDocuments(MessageSender messageSender) {
+        /*
         setLayout(null);
         setPreferredSize(new Dimension(250, 430));
-
         this.messageSender = messageSender;
 
         JLabel jLabel = new JLabel("chat: ");
         jLabel.setBounds(0,0, 250, 30);
         add(jLabel);
+
+
+
 
         jTextField.setBounds(0,30,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
@@ -57,18 +60,46 @@ public class ChatComponent extends JLabel {
         jTextAreaPlayerInstruction.setForeground(Color.green);
         jTextAreaPlayerInstruction.setBounds(0,330,250,100);
         add(jTextAreaPlayerInstruction);
+
+         */
+        chatDoc = new DefaultStyledDocument();
+        logDoc = new DefaultStyledDocument();
+        playerInstructionsDoc = new DefaultStyledDocument();
     }
 
     public void writeLogMessage(String message){
-        jTextAreaLog.insert(message + "\n", 0);
+        try {
+            logDoc.insertString(0, message + "\n", null);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
 
     public void writeChatMessage(String message){
-        jTextAreaChat.insert(message + "\n", 0);
+        try {
+            chatDoc.insertString(0, message + "\n", null);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
 
     public void writeInstructionMessage(String message) {
-        jTextAreaPlayerInstruction.insert(message + "\n", 0);
+        try {
+            playerInstructionsDoc.insertString(0, message + "\n", null);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        }
     }
 
+    public DefaultStyledDocument getChatDoc() {
+        return chatDoc;
+    }
+
+    public DefaultStyledDocument getLogDoc() {
+        return logDoc;
+    }
+
+    public DefaultStyledDocument getPlayerInstructionsDoc() {
+        return playerInstructionsDoc;
+    }
 }
