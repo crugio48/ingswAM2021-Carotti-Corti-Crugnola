@@ -20,7 +20,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     private int myTurnOrder;
     private ClientModelPlayer clientModelPlayer;
 
-    public PunchBoardPanel(ClientModelPersonalDevCardSlots devCardSlots, ClientModelFaithTrack clientModelFaithTrack, ClientModelStorage storage, ClientModelChest chest, int myTurnOrder, ClientModelPlayer clientModelPlayer){
+    public PunchBoardPanel(ClientGUI clientGUI){
         setLayout(null);
         setOpaque(true);
 
@@ -35,18 +35,18 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         placeInThirdSlotButton.setBounds(790,750,160,30);
         add(placeInThirdSlotButton);
 
-        this.clientModelPlayer = clientModelPlayer;
+        this.clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
         clientModelPlayer.addObserver(this);
-
-        this.devCardSlots=devCardSlots;
+        this.myTurnOrder = clientGUI.getMyTurnOrder();
+        this.devCardSlots=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots();
         devCardSlots.addObserver(this);
-        this.chest=chest;
+        this.chest=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getChest();
         chest.addObserver(this);
-        this.clientModelStorage = storage;
+        this.clientModelStorage = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getStorage();
         clientModelStorage.addObserver(this);
-        this.myTurnOrder = myTurnOrder;
-        clientModelFaithTrack.addObserver(this);
-        this.observedClientModelFaithTrack = clientModelFaithTrack;
+        this.observedClientModelFaithTrack = clientGUI.getClientModel().getFaithTrack();
+        observedClientModelFaithTrack.addObserver(this);
+
         this.setPreferredSize(new Dimension(1500, 900));
         this.setBackground(new Color(145,136,115));
     }
