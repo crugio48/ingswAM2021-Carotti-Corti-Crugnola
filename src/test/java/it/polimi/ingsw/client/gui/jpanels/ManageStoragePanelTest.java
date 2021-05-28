@@ -10,7 +10,7 @@ import javax.swing.*;
 class ManageStoragePanelTest {
         ClientGUI clientGUI = new ClientGUI();
         ClientModelStorage storage = new ClientModelStorage();
-         ChatDocuments chat = new ChatDocuments(clientGUI.getMessageSender());
+         ChatDocuments chat = new ChatDocuments();
         ManageStoragePanel panel = new ManageStoragePanel(storage,chat);
 
 

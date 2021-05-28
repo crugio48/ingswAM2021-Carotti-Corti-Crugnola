@@ -83,23 +83,77 @@ public class GameFrame{
         tabbedPane.add(myPunchBoardPanel, 2);
         tabbedPane.setTitleAt(2, "Your PunchBoard");
 
+        int[] otherPlayersTurnOrders;
         switch (clientGUI.getClientModel().getNumberOfPlayers()) {
             case 2:
-
+                otherPlayersTurnOrders = getAllOtherPlayersTurnOrders(2);
+                p2Panel = new PunchBoardOtherPlayersPanel(clientGUI,otherPlayersTurnOrders[0]);
+                tabbedPane.add(p2Panel,3);
+                tabbedPane.setTitleAt(3, clientGUI.getClientModel().getPlayerByTurnOrder(otherPlayersTurnOrders[0]).getNickname() + "'s PunchBoard");
                 break;
             case 3:
+                otherPlayersTurnOrders = getAllOtherPlayersTurnOrders(3);
+                p2Panel = new PunchBoardOtherPlayersPanel(clientGUI,otherPlayersTurnOrders[0]);
+                tabbedPane.add(p2Panel,3);
+                tabbedPane.setTitleAt(3, clientGUI.getClientModel().getPlayerByTurnOrder(otherPlayersTurnOrders[0]).getNickname() + "'s PunchBoard");
 
+                p3Panel = new PunchBoardOtherPlayersPanel(clientGUI, otherPlayersTurnOrders[1]);
+                tabbedPane.add(p3Panel, 4);
+                tabbedPane.setTitleAt(4, clientGUI.getClientModel().getPlayerByTurnOrder(otherPlayersTurnOrders[1]).getNickname() + "'s PunchBoard");
                 break;
             case 4:
+                otherPlayersTurnOrders = getAllOtherPlayersTurnOrders(4);
+                p2Panel = new PunchBoardOtherPlayersPanel(clientGUI,otherPlayersTurnOrders[0]);
+                tabbedPane.add(p2Panel,3);
+                tabbedPane.setTitleAt(3, clientGUI.getClientModel().getPlayerByTurnOrder(otherPlayersTurnOrders[0]).getNickname() + "'s PunchBoard");
 
+                p3Panel = new PunchBoardOtherPlayersPanel(clientGUI, otherPlayersTurnOrders[1]);
+                tabbedPane.add(p3Panel, 4);
+                tabbedPane.setTitleAt(4, clientGUI.getClientModel().getPlayerByTurnOrder(otherPlayersTurnOrders[1]).getNickname() + "'s PunchBoard");
+
+                p4Panel = new PunchBoardOtherPlayersPanel(clientGUI, otherPlayersTurnOrders[2]);
+                tabbedPane.add(p3Panel, 5);
+                tabbedPane.setTitleAt(5, clientGUI.getClientModel().getPlayerByTurnOrder(otherPlayersTurnOrders[2]).getNickname() + "'s PunchBoard");
                 break;
             default:
                 break;
         }
 
-
         cl.show(panelContainer, "gamePanel");
         jFrame.setSize(tabbedPane.getSelectedComponent().getPreferredSize());
+    }
+
+    private int[] getAllOtherPlayersTurnOrders(int numOfPlayers) {
+        int myTurnOrder = clientGUI.getMyTurnOrder();
+
+        switch (numOfPlayers) {
+            case 2:
+                if (myTurnOrder == 1) {
+                    return new int[] {2};
+                } else {
+                    return new int[] {1};
+                }
+            case 3:
+                if (myTurnOrder == 1) {
+                    return new int[] {2,3};
+                } else if (myTurnOrder == 2) {
+                    return new int[] {1,3};
+                } else {
+                    return new int[] {1,2};
+                }
+            case 4:
+                if (myTurnOrder == 1) {
+                    return new int[] {2,3,4};
+                } else if (myTurnOrder == 2) {
+                    return new int[] {1,3,4};
+                } else if (myTurnOrder == 3){
+                    return new int[] {1,2,4};
+                } else {
+                    return new int[] {1,2,3};
+                }
+            default:
+                return new int[] {0};
+        }
     }
 
     public void addActivateProductionPanel(){

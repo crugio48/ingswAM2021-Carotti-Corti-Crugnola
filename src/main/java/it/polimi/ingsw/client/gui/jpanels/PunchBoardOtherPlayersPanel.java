@@ -20,20 +20,20 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
     private int myTurnOrder;
     private ClientModelPlayer clientModelPlayer;
 
-    public PunchBoardOtherPlayersPanel(ClientGUI clientGUI){
+    public PunchBoardOtherPlayersPanel(ClientGUI clientGUI, int playerTurnOrder){
         setLayout(null);
         setOpaque(true);
 
-        this.clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
+        this.clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(playerTurnOrder);
         clientModelPlayer.addObserver(this);
 
-        this.devCardSlots=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots();
+        this.devCardSlots=clientGUI.getClientModel().getPlayerByTurnOrder(playerTurnOrder).getPersonalDevCardSlots();
         devCardSlots.addObserver(this);
-        this.chest=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getChest();
+        this.chest=clientGUI.getClientModel().getPlayerByTurnOrder(playerTurnOrder).getChest();
         chest.addObserver(this);
-        this.clientModelStorage = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getStorage();
+        this.clientModelStorage = clientGUI.getClientModel().getPlayerByTurnOrder(playerTurnOrder).getStorage();
         clientModelStorage.addObserver(this);
-        this.myTurnOrder = clientGUI.getMyTurnOrder();
+        this.myTurnOrder = playerTurnOrder;
         this.observedClientModelFaithTrack = clientGUI.getClientModel().getFaithTrack();
         observedClientModelFaithTrack.addObserver(this);
         this.setPreferredSize(new Dimension(1500, 900));
@@ -103,10 +103,10 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
                 return;
             }
             if (clientModelPlayer.getLeaderCard(0).isActive()){
-                g.drawImage(ldr1, 1000,20,130,200,null);
+                g.drawImage(ldr1, 1050,20,130,200,null);
             }
             else{
-                g.drawImage(ldrBack, 1000,20,130,200,null);
+                g.drawImage(ldrBack, 1050,20,130,200,null);
             }
 
         }

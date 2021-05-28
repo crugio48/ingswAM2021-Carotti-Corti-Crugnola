@@ -81,7 +81,7 @@ public class ClientGUI extends Client {
 
             //game started
             this.myTurnOrder = clientModel.getPlayerByNickname(myUsername).getTurnOrder();
-            chatDocuments = new ChatDocuments(messageSender);
+            chatDocuments = new ChatDocuments();
             gameFrame.goToGamePanel();
 
         } catch (InterruptedException e) {

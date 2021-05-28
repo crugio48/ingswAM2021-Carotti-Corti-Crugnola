@@ -83,11 +83,12 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         add(lv3PurpleButton);
 
 
+        //here are the chat components
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(800,170, 250, 30);
+        jLabel.setBounds(700,170, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(800,200,250,50);
+        jTextField.setBounds(700,200,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -100,28 +101,35 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         add(jTextField);
 
         jTextAreaChat.setDocument(clientGUI.getChatComponent().getChatDoc());
+        jTextAreaChat.setLineWrap(true);
         jTextAreaChat.setEditable(false);
         jTextAreaChat.setToolTipText("this is the chat log");
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
-        jTextAreaChat.setBounds(800,250,250,150);
-        add(jTextAreaChat);
+        JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        chatScrollPane.setBounds(700,250,250,150);
+        add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatComponent().getLogDoc());
+        jTextAreaLog.setLineWrap(true);
         jTextAreaLog.setEditable(false);
         jTextAreaLog.setToolTipText("this is the game events log");
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
-        jTextAreaLog.setBounds(800,400,250,100);
-        add(jTextAreaLog);
+        JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        logScrollPane.setBounds(700,405,250,150);
+        add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatComponent().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setLineWrap(true);
         jTextAreaPlayerInstruction.setEditable(false);
         jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
-        jTextAreaPlayerInstruction.setBounds(800,500,250,100);
-        add(jTextAreaPlayerInstruction);
+        JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        playerInstructionsScrollPane.setBounds(700,560,250,150);
+        add(playerInstructionsScrollPane);
+        //here finish the chat components
     }
 
 

@@ -119,7 +119,7 @@ public class ClientModelStorage extends MyObservable {
         setResourceOfSlot3(sl3);
         setResourceTypeOfLeaderSlot1(ls1);
         setResourceTypeOfLeaderSlot2(ls2);
-
+        notifyObservers();
     }
 
     public void visualizeClientModelStorage(){

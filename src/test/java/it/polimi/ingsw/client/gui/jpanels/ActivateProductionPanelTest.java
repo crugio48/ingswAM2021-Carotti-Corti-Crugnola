@@ -17,7 +17,7 @@ public class ActivateProductionPanelTest {
     public void testGUI() throws InterruptedException {
         clientGUI.getClientModel().setSetupUpdate(new String[] {"cru", null, null, null});
         clientGUI.setMyUsername("cru");
-        clientGUI.chatDocuments = new ChatDocuments(clientGUI.getMessageSender());
+        clientGUI.chatDocuments = new ChatDocuments();
         player = clientGUI.getClientModel().getPlayerByNickname("cru");
         player.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(24,1);
         player.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(32,3);

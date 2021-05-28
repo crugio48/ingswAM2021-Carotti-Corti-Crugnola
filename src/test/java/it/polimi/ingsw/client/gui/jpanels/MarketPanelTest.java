@@ -10,7 +10,7 @@ import javax.swing.*;
 public class MarketPanelTest {
     ClientGUI clientGUI = new ClientGUI();
     ClientModelMarket clientModelMarket = new ClientModelMarket();
-    ChatDocuments chatDocuments = new ChatDocuments(clientGUI.getMessageSender());
+    ChatDocuments chatDocuments = new ChatDocuments();
     MarketPanel marketPanel = new MarketPanel(clientGUI);
 
     @Test
