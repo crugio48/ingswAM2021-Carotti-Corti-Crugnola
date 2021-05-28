@@ -1,8 +1,6 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
-import it.polimi.ingsw.client.gui.ChatComponent;
 import it.polimi.ingsw.client.gui.ClientGUI;
-import it.polimi.ingsw.client.gui.jframes.GameFrame;
 import it.polimi.ingsw.clientmodel.ClientModelLeaderCard;
 import it.polimi.ingsw.clientmodel.ClientModelPlayer;
 
@@ -52,9 +50,12 @@ public class ActivateProductionPanel extends JPanel {
         setPreferredSize(new Dimension(1200, 800));
         setBackground(new Color(183,177,142));
 
+        /*
         ChatComponent chatComponent = clientGUI.getChatComponent();
         chatComponent.setBounds(940,350,250,430);
         add(chatComponent);
+
+         */
 
         goBackButton = new JButton("Go Back");
         goBackButton.setBounds(1050, 20, 120, 50);

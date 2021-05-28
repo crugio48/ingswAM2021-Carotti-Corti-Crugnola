@@ -1,8 +1,7 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
-import it.polimi.ingsw.client.gui.ChatComponent;
+import it.polimi.ingsw.client.gui.ChatDocuments;
 import it.polimi.ingsw.client.gui.ClientGUI;
-import it.polimi.ingsw.client.gui.jframes.GameFrame;
 import it.polimi.ingsw.clientmodel.ClientModelPlayer;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +17,7 @@ public class ActivateProductionPanelTest {
     public void testGUI() throws InterruptedException {
         clientGUI.getClientModel().setSetupUpdate(new String[] {"cru", null, null, null});
         clientGUI.setMyUsername("cru");
-        clientGUI.chatComponent = new ChatComponent(clientGUI.getMessageSender());
+        clientGUI.chatDocuments = new ChatDocuments(clientGUI.getMessageSender());
         player = clientGUI.getClientModel().getPlayerByNickname("cru");
         player.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(24,1);
         player.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(32,3);

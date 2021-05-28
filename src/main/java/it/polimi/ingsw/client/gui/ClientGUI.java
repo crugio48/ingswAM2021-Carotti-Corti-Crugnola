@@ -6,7 +6,6 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
 import it.polimi.ingsw.client.MessageSender;
 import it.polimi.ingsw.client.gui.jframes.GameFrame;
-import it.polimi.ingsw.client.gui.jpanels.LobbySetupPanel;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -15,7 +14,7 @@ import java.net.Socket;
 public class ClientGUI extends Client {
     private String myUsername;
     private int myTurnOrder;
-    public ChatComponent chatComponent;
+    public ChatDocuments chatDocuments;
     GameFrame gameFrame;
     Socket socket;
     String hostName;
@@ -28,8 +27,8 @@ public class ClientGUI extends Client {
         guiInfo = new GuiInfo();
     }
 
-    public ChatComponent getChatComponent() {
-        return chatComponent;
+    public ChatDocuments getChatComponent() {
+        return chatDocuments;
     }
 
     public void beginning(String hostName, int portNumber) {
@@ -82,11 +81,8 @@ public class ClientGUI extends Client {
 
             //game started
             this.myTurnOrder = clientModel.getPlayerByNickname(myUsername).getTurnOrder();
-            chatComponent = new ChatComponent(messageSender);
+            chatDocuments = new ChatDocuments(messageSender);
             gameFrame.goToGamePanel();
-
-
-
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -135,6 +131,8 @@ public class ClientGUI extends Client {
             messageSender.activateProduction(slot1Activation, slot2Activation, slot3Activation, baseProdActivation, baseInput1,
                     baseInput2, baseOutput, leader1Activation, leader1Code, leader1ConvertedResource, leader2Activation, leader2Code, leader2ConvertedResource);
             String serverIn = stringBuffer.readMessage();
+
+            //DA FINIRE
 
 
         } catch (InterruptedException e) {

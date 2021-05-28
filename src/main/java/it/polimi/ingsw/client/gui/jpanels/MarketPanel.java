@@ -2,12 +2,12 @@ package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
-import it.polimi.ingsw.client.gui.ChatComponent;
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelMarket;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicButtonListener;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,15 +17,19 @@ import java.io.InputStream;
 
 public class MarketPanel extends JPanel implements MyObserver {
     private ClientModelMarket market;
+    private ClientGUI clientGUI;
 
-    public MarketPanel (ClientModelMarket market, ChatComponent chatComponent) {
-        this.market = market;
+    private JTextField jTextField = new JTextField();
+    private JTextArea jTextAreaLog = new JTextArea();
+    private JTextArea jTextAreaChat = new JTextArea();
+    private JTextArea jTextAreaPlayerInstruction = new JTextArea();
+
+    public MarketPanel (ClientGUI clientGUI) {
+        this.market = clientGUI.getClientModel().getMarket();
         market.addObserver(this);
 
         this.setLayout(null);
 
-        chatComponent.setBounds(450, 100, 250, 430);
-        add(chatComponent);
 
         JLabel extraMarble = new JLabel();
         extraMarble.setText("Extra marble:");
@@ -61,6 +65,49 @@ public class MarketPanel extends JPanel implements MyObserver {
 
         this.setPreferredSize(new Dimension(800, 600));
         this.setBackground(new Color(145,136,115));
+
+
+        JLabel jLabel = new JLabel("chat: ");
+        jLabel.setBounds(450,70, 250, 30);
+        add(jLabel);
+
+        jTextField.setBounds(450,100,250,50);
+        jTextField.setToolTipText("insert here the message and press enter");
+        jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().sendChatMessage(jTextField.getText());
+                jTextField.setText("");
+            }
+        });
+        add(jTextField);
+
+        jTextAreaChat.setDocument(clientGUI.getChatComponent().getChatDoc());
+        jTextAreaChat.setEditable(false);
+        jTextAreaChat.setToolTipText("this is the chat log");
+        jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaChat.setForeground(Color.blue);
+        jTextAreaChat.setBounds(450,150,250,150);
+        add(jTextAreaChat);
+
+        jTextAreaLog.setDocument(clientGUI.getChatComponent().getLogDoc());
+        jTextAreaLog.setEditable(false);
+        jTextAreaLog.setToolTipText("this is the game events log");
+        jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaLog.setForeground(Color.red);
+        jTextAreaLog.setBounds(450,300,250,100);
+        add(jTextAreaLog);
+
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatComponent().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setEditable(false);
+        jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
+        jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaPlayerInstruction.setForeground(Color.green);
+        jTextAreaPlayerInstruction.setBounds(450,400,250,100);
+        add(jTextAreaPlayerInstruction);
+
+
     }
 
 
