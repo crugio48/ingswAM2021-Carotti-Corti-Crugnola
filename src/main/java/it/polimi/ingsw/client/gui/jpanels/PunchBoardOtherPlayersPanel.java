@@ -49,30 +49,14 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
         BufferedImage ldr1= null;
         BufferedImage ldr2= null;
 
+        InputStream url3=null;
+        BufferedImage ldrBack= null;
+
+
         codeFirstLeader = clientModelPlayer.getLeaderCard(0).getCode();
         codeSecondLeader = clientModelPlayer.getLeaderCard(1).getCode();
 
-        if (codeFirstLeader!=0){
-            url1 = cl.getResourceAsStream("cards/leader"+codeFirstLeader+".png");
-            try {
-                ldr1 = ImageIO.read(url1);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-            g.drawImage(ldr1, 1300,20,130,200,null);
-        }
 
-        if (codeSecondLeader!=0){
-            url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
-            try {
-                ldr2 = ImageIO.read(url2);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-            g.drawImage(ldr2, 1050,20,130,200, null);
-        }
 
         g.setFont(new Font("Consolas", Font.BOLD, 16));
 
@@ -101,7 +85,48 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
             g.setColor(Color.RED);
             g.drawString("LEADER DISCARDED", 1290, 120);
         }
+        url3 = cl.getResourceAsStream("cards/leaderBack.png");
 
+        try {
+            ldrBack = ImageIO.read(url3);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        if (codeFirstLeader!=0){
+            url1 = cl.getResourceAsStream("cards/leader"+codeFirstLeader+".png");
+            try {
+                ldr1 = ImageIO.read(url1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            if (clientModelPlayer.getLeaderCard(0).isActive()){
+                g.drawImage(ldr1, 1300,20,130,200,null);
+            }
+            else{
+                g.drawImage(ldrBack, 1300,20,130,200,null);
+            }
+
+        }
+
+        if (codeSecondLeader!=0){
+            url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
+            try {
+                ldr2 = ImageIO.read(url2);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            if (clientModelPlayer.getLeaderCard(1).isActive()){
+                g.drawImage(ldr2, 1300,20,130,200,null);
+            }
+            else{
+                g.drawImage(ldrBack, 1300,20,130,200,null);
+            }
+        }
 
 
     }
