@@ -103,10 +103,10 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
                 return;
             }
             if (clientModelPlayer.getLeaderCard(0).isActive()){
-                g.drawImage(ldr1, 1300,20,130,200,null);
+                g.drawImage(ldr1, 1000,20,130,200,null);
             }
             else{
-                g.drawImage(ldrBack, 1300,20,130,200,null);
+                g.drawImage(ldrBack, 1000,20,130,200,null);
             }
 
         }
