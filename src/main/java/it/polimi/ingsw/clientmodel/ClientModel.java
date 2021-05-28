@@ -2,10 +2,11 @@ package it.polimi.ingsw.clientmodel;
 
 
 import it.polimi.ingsw.CardDecoder.CardDecoder;
+import it.polimi.ingsw.MyObservable;
 
 import java.util.ArrayList;
 
-public class ClientModel {
+public class ClientModel extends MyObservable {
     private int currentPlayer;
     private int numberOfPlayers;
     private int lastUsedActionCardCode;
@@ -117,6 +118,7 @@ public class ClientModel {
 
     public synchronized void setLastUsedActionCardCode(int lastUsedActionCardCode) {
         this.lastUsedActionCardCode = lastUsedActionCardCode;
+        notifyObservers();
     }
 
     public void setMarket(ClientModelMarket market) {

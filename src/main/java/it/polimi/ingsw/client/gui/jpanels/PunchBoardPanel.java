@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.Buffer;
 
 public class PunchBoardPanel extends JPanel implements MyObserver {
     private ClientModelFaithTrack observedClientModelFaithTrack;
@@ -19,6 +20,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     private ClientModelPersonalDevCardSlots devCardSlots;
     private int myTurnOrder;
     private ClientModelPlayer clientModelPlayer;
+    private ClientModel clientModel;
 
     public PunchBoardPanel(ClientGUI clientGUI){
         setLayout(null);
@@ -46,9 +48,31 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         clientModelStorage.addObserver(this);
         this.observedClientModelFaithTrack = clientGUI.getClientModel().getFaithTrack();
         observedClientModelFaithTrack.addObserver(this);
+        this.clientModel = clientGUI.getClientModel();
+        clientModel.addObserver(this);
 
         this.setPreferredSize(new Dimension(1500, 900));
         this.setBackground(new Color(145,136,115));
+    }
+
+
+    private void drawLastUsedActionCard(Graphics g, ClientModel clientModel){
+        int codeLastUsedActionCard = 0;
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = null;
+        BufferedImage img = null;
+
+        codeLastUsedActionCard = clientModel.getLastUsedActionCardCode();
+        if(codeLastUsedActionCard!=0){
+            url = cl.getResourceAsStream("actionCards/" + codeLastUsedActionCard + ".png");
+            try {
+                img = ImageIO.read(url);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            g.drawImage(img, 1050,260,60,60,null);
+        }
     }
 
     private void drawLeaders(Graphics g, ClientModelPlayer clientModelPlayer){
@@ -117,9 +141,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
     }
 
-    private void drawActionCards(){
 
-    }
 
     @Override
     public void update(MyObservable observable, Object arg) {
@@ -142,6 +164,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         drawChestResources(g,chest);
         devCardSlot(g,devCardSlots);
         drawLeaders(g, clientModelPlayer);
+        drawLastUsedActionCard(g, clientModel);
     }
 
     private void devCardSlot(Graphics g, ClientModelPersonalDevCardSlots devCardSlots){
