@@ -20,22 +20,22 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
     private int myTurnOrder;
     private ClientModelPlayer clientModelPlayer;
 
-    public PunchBoardOtherPlayersPanel(ClientModelPersonalDevCardSlots devCardSlots, ClientModelFaithTrack clientModelFaithTrack, ClientModelStorage storage, ClientModelChest chest, int myTurnOrder, ClientModelPlayer clientModelPlayer){
+    public PunchBoardOtherPlayersPanel(ClientGUI clientGUI){
         setLayout(null);
         setOpaque(true);
 
-        this.clientModelPlayer = clientModelPlayer;
+        this.clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
         clientModelPlayer.addObserver(this);
 
-        this.devCardSlots=devCardSlots;
+        this.devCardSlots=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots();
         devCardSlots.addObserver(this);
-        this.chest=chest;
+        this.chest=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getChest();
         chest.addObserver(this);
-        this.clientModelStorage = storage;
+        this.clientModelStorage = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getStorage();
         clientModelStorage.addObserver(this);
-        this.myTurnOrder = myTurnOrder;
-        clientModelFaithTrack.addObserver(this);
-        this.observedClientModelFaithTrack = clientModelFaithTrack;
+        this.myTurnOrder = clientGUI.getMyTurnOrder();
+        this.observedClientModelFaithTrack = clientGUI.getClientModel().getFaithTrack();
+        observedClientModelFaithTrack.addObserver(this);
         this.setPreferredSize(new Dimension(1500, 900));
         this.setBackground(new Color(145,136,115));
     }
@@ -53,7 +53,7 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
         codeSecondLeader = clientModelPlayer.getLeaderCard(1).getCode();
 
         if (codeFirstLeader!=0){
-            url1 = cl.getResourceAsStream("cards/"+codeFirstLeader+".png");
+            url1 = cl.getResourceAsStream("cards/leader"+codeFirstLeader+".png");
             try {
                 ldr1 = ImageIO.read(url1);
             } catch (IOException e) {
@@ -64,7 +64,7 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
         }
 
         if (codeSecondLeader!=0){
-            url2 = cl.getResourceAsStream("cards/"+codeSecondLeader+".png");
+            url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
             try {
                 ldr2 = ImageIO.read(url2);
             } catch (IOException e) {

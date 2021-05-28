@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelChest;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
 
@@ -32,16 +33,18 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
     private int servantsFromChestSelected;
     private int stonesFromChestSelected;
 
-    public StorageAndChestChoicePanel (ClientModelStorage clientModelStorage, ClientModelChest clientModelChest, int inputCoins, int inputStones, int inputShields, int inputServants) {
+    public StorageAndChestChoicePanel (ClientModelStorage clientModelStorage, ClientModelChest clientModelChest, int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
         this.coinsLeftToPlace = inputCoins;
         this.shieldsLeftToPlace = inputShields;
         this.servantsLeftToPlace = inputServants;
         this.stonesLeftToPlace = inputStones;
 
-        this.clientModelChest = clientModelChest;
+        this.clientModelChest = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getChest();
+        //this.clientModelChest = clientModelChest;
         clientModelChest.addObserver(this);
 
-        this.clientModelStorage = clientModelStorage;
+        this.clientModelStorage = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getStorage();
+        //this.clientModelStorage = clientModelStorage;
         clientModelStorage.addObserver(this);
 
         this.setLayout(null);

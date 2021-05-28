@@ -13,7 +13,7 @@ public class PunchBoardOtherPlayersPanelTest {
     ClientModelChest chest = new ClientModelChest();
     ClientModelPersonalDevCardSlots devCardSlots = new ClientModelPersonalDevCardSlots();
     ClientModelPlayer clientModelPlayer = new ClientModelPlayer("andi", 1);
-    PunchBoardOtherPlayersPanel punchBoardOtherPlayersPanel = new PunchBoardOtherPlayersPanel(devCardSlots,clientModelFaithTrack,storage,chest, 1, clientModelPlayer);
+    //PunchBoardOtherPlayersPanel punchBoardOtherPlayersPanel = new PunchBoardOtherPlayersPanel(devCardSlots,clientModelFaithTrack,storage,chest, 1, clientModelPlayer);
 
     @Test
     public void GuiTest() throws InterruptedException, IOException {
@@ -39,11 +39,14 @@ public class PunchBoardOtherPlayersPanelTest {
         chest.setClientModelChestUpdate(2,1,8,1);
         storage.setClientModelStorageUpdate(0,0,1,2,3,"shields","stones","servants","","");
 
+        /*
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI(punchBoardOtherPlayersPanel);
             }
         });
+
+         */
         Thread.sleep(4 * 1000);
         playerPositions[0] = 10;
         clientModelFaithTrack.setFaithTrackUpdate(playerPositions, 0, activeFirstPapalFavorCard, activeFirstPapalFavorCard, activeFirstPapalFavorCard);
