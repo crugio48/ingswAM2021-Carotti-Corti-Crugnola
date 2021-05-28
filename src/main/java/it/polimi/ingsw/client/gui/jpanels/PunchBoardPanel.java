@@ -117,6 +117,9 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
     }
 
+    private void drawActionCards(){
+
+    }
 
     @Override
     public void update(MyObservable observable, Object arg) {

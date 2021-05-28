@@ -198,6 +198,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
                         servantsFromChestSelected,
                         stonesFromChestSelected
                         );
+
             }
         });
         submitButton.setBounds(330, 600, 100,40);
