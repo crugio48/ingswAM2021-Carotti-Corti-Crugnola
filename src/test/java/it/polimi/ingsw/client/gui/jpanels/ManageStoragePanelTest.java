@@ -1,5 +1,5 @@
 package it.polimi.ingsw.client.gui.jpanels;
-
+/*
 import it.polimi.ingsw.client.gui.ChatDocuments;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
@@ -11,11 +11,12 @@ class ManageStoragePanelTest {
         ClientGUI clientGUI = new ClientGUI();
         ClientModelStorage storage = new ClientModelStorage();
          ChatDocuments chat = new ChatDocuments();
-        ManageStoragePanel panel = new ManageStoragePanel(storage,chat);
+        ManageStoragePanel panel = new ManageStoragePanel(clientGUI,0,1,1,1);
 
 
     @Test
     void name() throws InterruptedException {
+        this.storage=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getStorage();
         storage.setClientModelStorageUpdate(0,0,1,2,3,"coins","stones","servants","","");
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -42,4 +43,4 @@ class ManageStoragePanelTest {
 
 
 
-}
+}*/

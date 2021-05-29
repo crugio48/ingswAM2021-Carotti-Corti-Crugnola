@@ -2,21 +2,37 @@ package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
 import it.polimi.ingsw.client.gui.ChatDocuments;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class ManageStoragePanel extends JPanel implements MyObserver {
     private ClientModelStorage storage;
+    private ClientGUI clientGUI;
+    private JTextField jTextField = new JTextField();
+    private JTextArea jTextAreaLog = new JTextArea();
+    private JTextArea jTextAreaChat = new JTextArea();
+    private JTextArea jTextAreaPlayerInstruction = new JTextArea();
+    private int myTurnOrder=0;
+    private int coins=0;
+    private int stones=0;
+    private int shields=0;
+    private int servants = 0;
 
-    public ManageStoragePanel(ClientModelStorage storage, ChatDocuments chat){
-        this.storage=storage;
+    public ManageStoragePanel(ClientGUI clientGUI, int coins , int stones , int shields , int servants){
+        this.clientGUI= clientGUI;
+        this.myTurnOrder=clientGUI.getMyTurnOrder();
+        this.storage=clientGUI.getClientModel().getPlayerByTurnOrder(myTurnOrder).getStorage();
         storage.addObserver(this);
 
         this.setLayout(null);
@@ -38,11 +54,45 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         but3.setBounds(415,140,100,20);
         add(but3);
 
+        JLabel text1 = new JLabel();
+        text1.setText("Move one resource from:    to:");
+        text1.setFont(new Font("Consolas", Font.BOLD, 15));
+        text1.setBounds(615,20,250,40);
+        add(text1);
+
+        JButton but10 = new JButton("1 --> Leader 1 Slot");
+        JButton but11 = new JButton("2 --> Leader 1 Slot");
+        JButton but12 = new JButton("3 --> Leader 1 Slot");
+
+        but10.setBounds(530,80,150,20);
+        add(but10);
+        but11.setBounds(530,110,150,20);
+        add(but11);
+        but12.setBounds(530,140,150,20);
+        add(but12);
+
+        JButton but13 = new JButton("1 --> Leader 2 Slot");
+        JButton but14 = new JButton("2 --> Leader 2 Slot");
+        JButton but15 = new JButton("3 --> Leader 2 Slot");
+
+        but13.setBounds(700,80,150,20);
+        add(but13);
+        but14.setBounds(700,110,150,20);
+        add(but14);
+        but15.setBounds(700,140,150,20);
+        add(but15);
+      /*  but10.setVisible(false);
+        but11.setVisible(false);
+        but12.setVisible(false);
+        but13.setVisible(false);
+        but14.setVisible(false);
+        but15.setVisible(false); */
+
         JLabel resources = new JLabel();
         JLabel resources2 = new JLabel();
         JLabel resources3 = new JLabel();
         resources.setText("You have to place these resources:\n");
-        resources2.setText("0 coins , 0 stones , 0 shields , 0 servants");
+        resources2.setText(coins + " coins , 0 stones , 0 shields , 0 servants");
         resources3.setText("Where do you want to put this : SERVANT");
         resources2.setFont(new Font("Consolas", Font.BOLD, 15));
         resources.setFont(new Font("Consolas", Font.BOLD, 15));
@@ -53,6 +103,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         add(resources);
         add(resources2);
         add(resources3);
+
+
         JButton but4 = new JButton("Slot 1");
         JButton but5 = new JButton("Slot 2");
         JButton but6 = new JButton("Slot 3");
@@ -76,16 +128,61 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         but8.setVisible(false);
         but9.setVisible(false);
 
-        /*
-        chat.setBounds(320, 170, 250, 430);
-        add(chat);
 
-         */
+       //CHAT COMPONENTS
+        JLabel jLabel = new JLabel("chat: ");
+        jLabel.setBounds(320,170, 250, 30);
+        add(jLabel);
+
+        jTextField.setBounds(320,200,250,50);
+        jTextField.setToolTipText("insert here the message and press enter");
+        jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().sendChatMessage(jTextField.getText());
+                jTextField.setText("");
+            }
+        });
+        add(jTextField);
+
+        jTextAreaChat.setDocument(clientGUI.getChatDocuments().getChatDoc());
+        jTextAreaChat.setLineWrap(true);
+        jTextAreaChat.setEditable(false);
+        jTextAreaChat.setToolTipText("this is the chat log");
+        jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaChat.setForeground(Color.blue);
+        JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        chatScrollPane.setBounds(320,250,250,150);
+        add(chatScrollPane);
+
+        jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
+        jTextAreaLog.setLineWrap(true);
+        jTextAreaLog.setEditable(false);
+        jTextAreaLog.setToolTipText("this is the game events log");
+        jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaLog.setForeground(Color.red);
+        JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        logScrollPane.setBounds(320,405,250,150);
+        add(logScrollPane);
+
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setLineWrap(true);
+        jTextAreaPlayerInstruction.setEditable(false);
+        jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
+        jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaPlayerInstruction.setForeground(Color.green);
+        JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        playerInstructionsScrollPane.setBounds(320,560,250,150);
+        add(playerInstructionsScrollPane);
+        //END CHAT COMPONETS
 
 
 
 
-        this.setPreferredSize(new Dimension(600, 600));
+
+
+        this.setPreferredSize(new Dimension(900, 900));
         this.setBackground(new Color(102,255,153));
     }
 
@@ -97,6 +194,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         super.paintComponent(g);
         drawStorage(g,storage);
         g.drawLine(370,10,370, 180);
+        g.drawLine(520,10,520, 180);
 
     }
 
@@ -142,10 +240,10 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         }
         if(storage.getQuantityOfSlot2()!=0){
             switch (storage.getResourceOfSlot2()){
-                case "coins":g.drawImage(coin,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,165,430,myIndicatorWidth,myIndicatorHeight,null);break;}
-                case "stones":g.drawImage(stone,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,165,430,myIndicatorWidth,myIndicatorHeight,null);break;}
-                case "shields":g.drawImage(shield,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,165,430,myIndicatorWidth,myIndicatorHeight,null);break;}
-                case "servants":g.drawImage(servant,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,165,430,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "coins":g.drawImage(coin,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,165,430,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "stones":g.drawImage(stone,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,165,430,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "shields":g.drawImage(shield,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,165,430,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "servants":g.drawImage(servant,105,430,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,165,430,myIndicatorWidth,myIndicatorHeight,null);}break;
                 default:break;
             }
         }
