@@ -223,7 +223,16 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
                             stonesFromChestSelected
                     );
                 } else {
-                    //sendResourcesToPayForDevCard
+                    clientGUI.sendResourcesToPayFromChestAndStorageSelectedForDevCard(
+                            coinsFromStorageSelected,
+                            shieldsFromStorageSelected,
+                            servantsFromStorageSelected,
+                            stonesFromStorageSelected,
+                            coinsFromChestSelected,
+                            shieldsFromChestSelected,
+                            servantsFromChestSelected,
+                            stonesFromChestSelected
+                    );
                 }
             }
         });

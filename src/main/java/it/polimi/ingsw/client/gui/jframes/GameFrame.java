@@ -308,4 +308,9 @@ public class GameFrame{
         activateProductionPanel.resetSubmittedVariable();
     }
 
+    public void enableDevCardPlacement(){
+        ///////////////////////////////
+        tabbedPane.setSelectedIndex(2); //myPunchBoard
+    }
+
 }

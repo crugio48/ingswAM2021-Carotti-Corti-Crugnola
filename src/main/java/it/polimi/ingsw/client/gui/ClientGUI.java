@@ -163,8 +163,8 @@ public class ClientGUI extends Client {
 
             if (response.isCommandWasCorrect()){
                 chatDocuments.writeInstructionMessage("You bought the card, you now need to choose from where to pay the card cost");
-                gameFrame.setInvisibleDevCardButtons();
                 gameFrame.addStorageAndChestChoicePanel(false, response.getCoins(), response.getShields(), response.getServants(), response.getStones());
+                gameFrame.setInvisibleDevCardButtons();
             } else{
                 chatDocuments.writeInstructionMessage("You don't have enough resources for that card");
             }
@@ -236,7 +236,7 @@ public class ClientGUI extends Client {
             Response response = (Response) gson.fromJson(serverIn, Response.class);
 
             if (response.isCommandWasCorrect()){
-                chatDocuments.writeInstructionMessage("You successfully paid");
+                chatDocuments.writeInstructionMessage("You paid successfully");
                 gameFrame.removeStorageAndChestPanel();
                 gameFrame.enableLeaderButtonsAndEndTurn();
             }
@@ -244,6 +244,40 @@ public class ClientGUI extends Client {
                 chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
                 gameFrame.resetStorageAndChestPanel();
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendResourcesToPayFromChestAndStorageSelectedForDevCard(int coinsFromStorageSelected, int shieldsFromStorageSelected,
+    int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
+    int servantsFromChestSelected, int stonesFromChestSelected){
+        Gson gson = new Gson();
+        try {
+            messageSender.chosenResourcesToPayForDevCard(
+                    coinsFromStorageSelected,
+                    shieldsFromStorageSelected,
+                    servantsFromStorageSelected,
+                    stonesFromStorageSelected,
+                    coinsFromChestSelected,
+                    shieldsFromChestSelected,
+                    servantsFromChestSelected,
+                    stonesFromChestSelected
+            );
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+
+            if (response.isCommandWasCorrect()) {
+                chatDocuments.writeInstructionMessage("You paid successfully, now select where to place the card");
+                gameFrame.removeStorageAndChestPanel();
+                gameFrame.enableDevCardPlacement();
+            }
+            else {
+                chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
+                gameFrame.resetStorageAndChestPanel();
+            }
+
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
