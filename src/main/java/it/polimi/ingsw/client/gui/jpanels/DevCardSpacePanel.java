@@ -365,4 +365,20 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         errorLabel.setText(message);
         errorLabel.setVisible(true);
     }
+
+    public void setInvisibleBuyButtons(){
+        lv1BlueButton.setVisible(false);
+        lv2BlueButton.setVisible(false);
+        lv3BlueButton.setVisible(false);
+        lv1GreenButton.setVisible(false);
+        lv2GreenButton.setVisible(false);
+        lv3GreenButton.setVisible(false);
+        lv1YellowButton.setVisible(false);
+        lv2YellowButton.setVisible(false);
+        lv3YellowButton.setVisible(false);
+        lv1PurpleButton.setVisible(false);
+        lv2PurpleButton.setVisible(false);
+        lv3PurpleButton.setVisible(false);
+        stopBuyingDevCard.setVisible(false);
+    }
 }
