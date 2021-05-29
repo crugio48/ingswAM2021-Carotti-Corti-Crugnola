@@ -375,10 +375,10 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         }
         if(storage.getQuantityOfSlot2()!=0){
             switch (storage.getResourceOfSlot2()){
-                case "coins":g.drawImage(coin,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,245,340,myIndicatorWidth,myIndicatorHeight,null);break;}
-                case "stones":g.drawImage(stone,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,245,340,myIndicatorWidth,myIndicatorHeight,null);break;}
-                case "shields":g.drawImage(shield,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,245,340,myIndicatorWidth,myIndicatorHeight,null);break;}
-                case "servants":g.drawImage(servant,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,245,340,myIndicatorWidth,myIndicatorHeight,null);break;}
+                case "coins":g.drawImage(coin,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,245,340,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "stones":g.drawImage(stone,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,245,340,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "shields":g.drawImage(shield,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,245,340,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "servants":g.drawImage(servant,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,245,340,myIndicatorWidth,myIndicatorHeight,null);}break;
                 default:break;
             }
         }
