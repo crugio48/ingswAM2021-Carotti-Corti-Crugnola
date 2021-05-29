@@ -162,9 +162,11 @@ public class ClientGUI extends Client {
             Response response = (Response) gson.fromJson(serverIn, Response.class);
 
             if (response.isCommandWasCorrect()){
-                ////////////////////////////
+                chatDocuments.writeInstructionMessage("You bought the card, you now need to choose from where to pay the card cost");
+                gameFrame.setInvisibleDevCardButtons();
+                gameFrame.addStorageAndChestChoicePanel(false, response.getCoins(), response.getShields(), response.getServants(), response.getStones());
             } else{
-                ////////////////////////////
+                chatDocuments.writeInstructionMessage("You don't have enough resources for that card");
             }
 
         } catch (InterruptedException e) {
@@ -236,6 +238,7 @@ public class ClientGUI extends Client {
             if (response.isCommandWasCorrect()){
                 chatDocuments.writeInstructionMessage("You successfully paid");
                 gameFrame.removeStorageAndChestPanel();
+                gameFrame.enableLeaderButtonsAndEndTurn();
             }
             else{
                 chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");

@@ -296,6 +296,10 @@ public class GameFrame{
         marketPanel.setInvisiblePositionButtons();
     }
 
+    public void setInvisibleDevCardButtons() {
+        devCardSpacePanel.setInvisibleBuyButtons();
+    }
+
     public void resetStorageAndChestPanel(){
         storageAndChestChoicePanel.resetResourcesToPay();
     }
