@@ -104,8 +104,9 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setCurrentPlayer(response.getNewCurrentPlayer());
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutRed("it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnOrder(response.getNewCurrentPlayer()).getNickname());
-                        } else if (client instanceof ClientGUI){
-                            ((ClientGUI) client).getChatComponent().writeLogMessage("it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnOrder(response.getNewCurrentPlayer()).getNickname());
+                        }
+                        else if (client instanceof ClientGUI){
+                            ((ClientGUI) client).getChatDocuments().writeLogMessage("it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnOrder(response.getNewCurrentPlayer()).getNickname());
 
                             if (((ClientGUI) client).getMyTurnOrder() == response.getNewCurrentPlayer()){
                                 ((ClientGUI) client).getGameFrame().enableAllActionButtons();
@@ -144,7 +145,7 @@ public class ClientConnectionThread extends Thread {
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutBlue(response.getPlayerUsername() + ": " + response.getResp());
                         } else if (client instanceof ClientGUI){
-                            ((ClientGUI) client).getChatComponent().writeChatMessage(response.getPlayerUsername() + ": " + response.getResp());
+                            ((ClientGUI) client).getChatDocuments().writeChatMessage(response.getPlayerUsername() + ": " + response.getResp());
                         }
                         break;
 
@@ -152,7 +153,7 @@ public class ClientConnectionThread extends Thread {
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutRed(response.getResp());
                         } else if (client instanceof ClientGUI){
-                            ((ClientGUI) client).getChatComponent().writeLogMessage(response.getResp());
+                            ((ClientGUI) client).getChatDocuments().writeLogMessage(response.getResp());
                         }
                         break;
 

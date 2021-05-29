@@ -205,6 +205,29 @@ public class GameFrame{
         tabbedPane.setSelectedIndex(2);  //my punchBoard panel
     }
 
+    public void addManageStoragePanel(int coins, int servants, int stones, int shields) {
+        int index = 0;
+        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
+            case 1:
+                index = 3;
+                break;
+            case 2:
+                index = 4;
+                break;
+            case 3:
+                index = 5;
+                break;
+            case 4:
+                index = 6;
+                break;
+            default:
+                break;
+        }
+        //tabbedPane.add(new ManageStoragePanel(), index);
+        tabbedPane.setTitleAt(index, "Place resources");
+        tabbedPane.setSelectedIndex(index);
+    }
+
     public void addStorageAndChestChoicePanel(int inputCoins, int inputShields, int inputServants, int inputStones){
         int index = 0;
         switch (clientGUI.getClientModel().getNumberOfPlayers()) {
@@ -269,6 +292,10 @@ public class GameFrame{
 
     public void enableLeaderButtons(){
         myPunchBoardPanel.enableLeaderButtons();
+    }
+
+    public void setInvisibleMarketButtons(){
+        marketPanel.setInvisiblePositionButtons();
     }
 
 }

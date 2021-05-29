@@ -203,7 +203,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         });
         add(jTextField);
 
-        jTextAreaChat.setDocument(clientGUI.getChatComponent().getChatDoc());
+        jTextAreaChat.setDocument(clientGUI.getChatDocuments().getChatDoc());
         jTextAreaChat.setLineWrap(true);
         jTextAreaChat.setEditable(false);
         jTextAreaChat.setToolTipText("this is the chat log");
@@ -213,7 +213,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         chatScrollPane.setBounds(700,250,250,150);
         add(chatScrollPane);
 
-        jTextAreaLog.setDocument(clientGUI.getChatComponent().getLogDoc());
+        jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
         jTextAreaLog.setLineWrap(true);
         jTextAreaLog.setEditable(false);
         jTextAreaLog.setToolTipText("this is the game events log");
@@ -223,7 +223,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         logScrollPane.setBounds(700,405,250,150);
         add(logScrollPane);
 
-        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatComponent().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
         jTextAreaPlayerInstruction.setLineWrap(true);
         jTextAreaPlayerInstruction.setEditable(false);
         jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");

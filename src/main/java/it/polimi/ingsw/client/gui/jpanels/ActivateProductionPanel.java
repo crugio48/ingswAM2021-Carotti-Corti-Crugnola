@@ -353,7 +353,7 @@ public class ActivateProductionPanel extends JPanel {
         });
         add(jTextField);
 
-        jTextAreaChat.setDocument(clientGUI.getChatComponent().getChatDoc());
+        jTextAreaChat.setDocument(clientGUI.getChatDocuments().getChatDoc());
         jTextAreaChat.setLineWrap(true);
         jTextAreaChat.setEditable(false);
         jTextAreaChat.setToolTipText("this is the chat log");
@@ -363,7 +363,7 @@ public class ActivateProductionPanel extends JPanel {
         chatScrollPane.setBounds(1210,370,250,150);
         add(chatScrollPane);
 
-        jTextAreaLog.setDocument(clientGUI.getChatComponent().getLogDoc());
+        jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
         jTextAreaLog.setLineWrap(true);
         jTextAreaLog.setEditable(false);
         jTextAreaLog.setToolTipText("this is the game events log");
@@ -373,7 +373,7 @@ public class ActivateProductionPanel extends JPanel {
         logScrollPane.setBounds(1210,525,250,150);
         add(logScrollPane);
 
-        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatComponent().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
         jTextAreaPlayerInstruction.setLineWrap(true);
         jTextAreaPlayerInstruction.setEditable(false);
         jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");

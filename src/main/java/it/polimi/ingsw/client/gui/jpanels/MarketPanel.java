@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.jpanels;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
+import it.polimi.ingsw.client.gui.actionListeners.BuyFromMarketAction;
 import it.polimi.ingsw.clientmodel.ClientModelMarket;
 
 import javax.imageio.ImageIO;
@@ -54,11 +55,13 @@ public class MarketPanel extends JPanel implements MyObserver {
         extraMarble.setBounds(5,10,150,40);
         add(extraMarble);
 
-
+        /*
         errorLabel = new JLabel("");
         errorLabel.setVisible(false);
         errorLabel.setBounds(450, 80, 300,20);
         add(errorLabel);
+
+         */
 
         buyFromMarketButton = new JButton("Buy from market");
         buyFromMarketButton.setBounds(450,20, 150, 50);
@@ -73,7 +76,7 @@ public class MarketPanel extends JPanel implements MyObserver {
                 pos6.setVisible(true);
                 pos7.setVisible(true);
                 stopBuyingFromMarket.setVisible(true);
-                errorLabel.setVisible(false);
+                //errorLabel.setVisible(false);
                 clientGUI.getGameFrame().disableAllActionButtons();
             }
         });
@@ -106,6 +109,14 @@ public class MarketPanel extends JPanel implements MyObserver {
         pos5 = new JButton("\u2191");
         pos6 = new JButton("\u2191");
         pos7 = new JButton("\u2191");
+
+        pos1.addActionListener(new BuyFromMarketAction(clientGUI, 1));
+        pos2.addActionListener(new BuyFromMarketAction(clientGUI, 2));
+        pos3.addActionListener(new BuyFromMarketAction(clientGUI, 3));
+        pos4.addActionListener(new BuyFromMarketAction(clientGUI, 4));
+        pos5.addActionListener(new BuyFromMarketAction(clientGUI, 5));
+        pos6.addActionListener(new BuyFromMarketAction(clientGUI, 6));
+        pos7.addActionListener(new BuyFromMarketAction(clientGUI, 7));
 
         pos1.setVisible(false);
         pos2.setVisible(false);
@@ -150,7 +161,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         });
         add(jTextField);
 
-        jTextAreaChat.setDocument(clientGUI.getChatComponent().getChatDoc());
+        jTextAreaChat.setDocument(clientGUI.getChatDocuments().getChatDoc());
         jTextAreaChat.setLineWrap(true);
         jTextAreaChat.setEditable(false);
         jTextAreaChat.setToolTipText("this is the chat log");
@@ -160,7 +171,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         chatScrollPane.setBounds(450,180,250,150);
         add(chatScrollPane);
 
-        jTextAreaLog.setDocument(clientGUI.getChatComponent().getLogDoc());
+        jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
         jTextAreaLog.setLineWrap(true);
         jTextAreaLog.setEditable(false);
         jTextAreaLog.setToolTipText("this is the game events log");
@@ -170,7 +181,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         logScrollPane.setBounds(450,335,250,150);
         add(logScrollPane);
 
-        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatComponent().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
         jTextAreaPlayerInstruction.setLineWrap(true);
         jTextAreaPlayerInstruction.setEditable(false);
         jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
@@ -278,5 +289,16 @@ public class MarketPanel extends JPanel implements MyObserver {
     public void setErrorMessage(String message){
         errorLabel.setText(message);
         errorLabel.setVisible(true);
+    }
+
+    public void setInvisiblePositionButtons(){
+        pos1.setVisible(false);
+        pos2.setVisible(false);
+        pos3.setVisible(false);
+        pos4.setVisible(false);
+        pos5.setVisible(false);
+        pos6.setVisible(false);
+        pos7.setVisible(false);
+        stopBuyingFromMarket.setVisible(false);
     }
 }

@@ -27,7 +27,7 @@ public class ClientGUI extends Client {
         guiInfo = new GuiInfo();
     }
 
-    public ChatDocuments getChatComponent() {
+    public ChatDocuments getChatDocuments() {
         return chatDocuments;
     }
 
@@ -124,11 +124,12 @@ public class ClientGUI extends Client {
             Response response = (Response) gson.fromJson(serverIn, Response.class);
 
             if (response.isCommandWasCorrect()){
-                ////////////////////////////////////
+                chatDocuments.writeInstructionMessage("You successfully bought from market, now you need to place the resources you bought");
+                gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(), response.getShields());
+                gameFrame.setInvisibleMarketButtons();
             } else{
-                //////////////////////////////
+                chatDocuments.writeInstructionMessage("There was an error please try again");
             }
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
