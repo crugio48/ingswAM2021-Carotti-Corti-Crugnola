@@ -24,6 +24,7 @@ public class GameFrame{
     JTabbedPane tabbedPane;
     ActivateProductionPanel activateProductionPanel;
     StorageAndChestChoicePanel storageAndChestChoicePanel;
+    ManageStoragePanel manageStoragePanel;
 
 
     public GameFrame(ClientGUI clientGUI) {
@@ -225,7 +226,8 @@ public class GameFrame{
             default:
                 break;
         }
-        //tabbedPane.add(new ManageStoragePanel(), index);
+        manageStoragePanel = new ManageStoragePanel(clientGUI, coins, stones, shields, servants);
+        tabbedPane.add(manageStoragePanel, index);
         tabbedPane.setTitleAt(index, "Place resources");
         tabbedPane.setSelectedIndex(index);
     }
