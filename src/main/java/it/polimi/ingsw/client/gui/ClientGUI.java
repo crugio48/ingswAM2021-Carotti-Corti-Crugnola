@@ -302,4 +302,42 @@ public class ClientGUI extends Client {
             e.printStackTrace();
         }
     }
+
+    public void sendActivateLeader(int codeLeader, int leaderSlot){
+        Gson gson = new Gson();
+        try {
+            messageSender.sendChosenLeaderToActivate(codeLeader);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+            if (response.isCommandWasCorrect()){
+                chatDocuments.writeInstructionMessage("You correctly activated your leader!");
+                gameFrame.setInvisibleLeaderButton(leaderSlot);
+            }
+            else {
+                chatDocuments.writeInstructionMessage("You can't activate your leader");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void sendDiscardLeader(int codeLeader, int leaderSlot){
+        Gson gson = new Gson();
+        try {
+            messageSender.discardYourActiveLeader(codeLeader);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+            if (response.isCommandWasCorrect()){
+                chatDocuments.writeInstructionMessage("You correctly discarded your leader!");
+                gameFrame.setInvisibleLeaderButton(leaderSlot);
+            }
+            else {
+                chatDocuments.writeInstructionMessage("You can't discard your leader");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

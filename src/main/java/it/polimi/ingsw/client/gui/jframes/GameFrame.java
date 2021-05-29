@@ -319,4 +319,8 @@ public class GameFrame{
         myPunchBoardPanel.setInvisibilePlacingButtons();
     }
 
+    public void setInvisibleLeaderButton(int leaderSlot){
+        myPunchBoardPanel.setInvisibleLeaderButtons(leaderSlot);
+    }
+
 }

@@ -3,6 +3,8 @@ package it.polimi.ingsw.client.gui.jpanels;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
+import it.polimi.ingsw.client.gui.actionListeners.ActivateLeaderAction;
+import it.polimi.ingsw.client.gui.actionListeners.DiscardLeaderAction;
 import it.polimi.ingsw.client.gui.actionListeners.PlaceDevCardAction;
 import it.polimi.ingsw.clientmodel.*;
 
@@ -90,18 +92,23 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
         activateLeader1Button = new JButton("Activate");
         activateLeader1Button.setBounds(1040, 250, 90, 30);
+        activateLeader1Button.addActionListener(new ActivateLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(0).getCode(), 0));
         add(activateLeader1Button);
 
         discardLeader1Button = new JButton("Discard");
         discardLeader1Button.setBounds(1135, 250, 90, 30);
+        discardLeader1Button.addActionListener(new DiscardLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(0).getCode(), 0));
+
         add(discardLeader1Button);
 
         activateLeader2Button = new JButton("Activate");
         activateLeader2Button.setBounds(1290, 250, 90, 30);
+        activateLeader2Button.addActionListener(new ActivateLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(1).getCode(), 1));
         add(activateLeader2Button);
 
         discardLeader2Button = new JButton("Discard");
         discardLeader2Button.setBounds(1385, 250, 90, 30);
+        discardLeader2Button.addActionListener(new DiscardLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(1).getCode(),1));
         add(discardLeader2Button);
 
 
@@ -806,6 +813,17 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         placeInSecondSlotButton.setVisible(false);
         placeInThirdSlotButton.setVisible(false);
         revalidate();
+    }
+
+    public void setInvisibleLeaderButtons(int leaderSlot){
+        if (leaderSlot == 0){
+            activateLeader1Button.setVisible(false);
+            discardLeader1Button.setVisible(false);
+        }
+        else {
+            activateLeader2Button.setVisible(false);
+            discardLeader2Button.setVisible(false);
+        }
     }
 
 }
