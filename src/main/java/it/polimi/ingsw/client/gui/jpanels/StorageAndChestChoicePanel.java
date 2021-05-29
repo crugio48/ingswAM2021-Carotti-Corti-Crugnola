@@ -33,7 +33,18 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
     private int servantsFromChestSelected;
     private int stonesFromChestSelected;
 
-    public StorageAndChestChoicePanel (ClientModelStorage clientModelStorage, ClientModelChest clientModelChest, int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
+    private int fixedCoinsToPay;
+    private int fixedShieldsToPay;
+    private int fixedStonesToPay;
+    private int fixedServantsToPay;
+
+
+    public StorageAndChestChoicePanel (int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
+        fixedCoinsToPay = inputCoins;
+        fixedShieldsToPay = inputShields;
+        fixedServantsToPay = inputServants;
+        fixedStonesToPay = inputStones;
+
         this.coinsLeftToPlace = inputCoins;
         this.shieldsLeftToPlace = inputShields;
         this.servantsLeftToPlace = inputServants;
@@ -319,6 +330,22 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
                 default:break;
             }
         }
+    }
+
+    public void resetResourcesToPay(){
+        stonesLeftToPlace = fixedStonesToPay;
+        shieldsLeftToPlace = fixedShieldsToPay;
+        coinsLeftToPlace = fixedCoinsToPay;
+        servantsLeftToPlace = fixedServantsToPay;
+
+        coinsFromChestSelected = 0;
+        coinsFromStorageSelected = 0;
+        shieldsFromChestSelected = 0;
+        shieldsFromStorageSelected = 0;
+        stonesFromChestSelected = 0;
+        stonesFromStorageSelected = 0;
+        servantsFromChestSelected = 0;
+        servantsFromStorageSelected = 0;
     }
 
 

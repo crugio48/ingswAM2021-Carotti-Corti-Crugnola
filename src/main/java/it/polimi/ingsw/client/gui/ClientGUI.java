@@ -166,9 +166,12 @@ public class ClientGUI extends Client {
             Response response = (Response) gson.fromJson(serverIn, Response.class);
 
             if (response.isCommandWasCorrect()){
-                ///////////////////////////////
+                chatDocuments.writeInstructionMessage("You correctly activated the production, now choose where to get the resources from");
+                gameFrame.removeActivateProductionPanel();
+                gameFrame.addStorageAndChestChoicePanel(response.getCoins(), response.getShields(), response.getServants(), response.getStones());
+
             } else {
-                ///////////////////////////////
+                chatDocuments.writeInstructionMessage("You are poor, you don't have enough resources fot this production ");
             }
 
 
@@ -196,6 +199,7 @@ public class ClientGUI extends Client {
     public void sendResourcesFromChestAndStorageSelected( int coinsFromStorageSelected, int shieldsFromStorageSelected,
              int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
                                                          int servantsFromChestSelected, int stonesFromChestSelected){
+        Gson gson = new Gson();
         try {
             messageSender.chosenResourcesToPayForDevCard(
                     coinsFromChestSelected,
@@ -207,7 +211,15 @@ public class ClientGUI extends Client {
                     shieldsFromStorageSelected,
                     servantsFromStorageSelected);
             String serverIn = stringBuffer.readMessage();
-
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+            if (response.isCommandWasCorrect()){
+                chatDocuments.writeInstructionMessage("You successfully paid");
+                gameFrame.removeStorageAndChestPanel();
+            }
+            else{
+                chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
+                gameFrame.resetStorageAndChestPanel();
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

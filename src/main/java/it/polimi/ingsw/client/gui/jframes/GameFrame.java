@@ -22,6 +22,7 @@ public class GameFrame{
     PunchBoardOtherPlayersPanel p3Panel;
     PunchBoardOtherPlayersPanel p4Panel;
     JTabbedPane tabbedPane;
+    StorageAndChestChoicePanel storageAndChestChoicePanel;
 
 
     public GameFrame(ClientGUI clientGUI) {
@@ -204,6 +205,56 @@ public class GameFrame{
         tabbedPane.setSelectedIndex(2);  //my punchBoard panel
     }
 
+    public void addStorageAndChestChoicePanel(int inputCoins, int inputShields, int inputServants, int inputStones){
+        int index = 0;
+        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
+            case 1:
+                index = 3;
+                break;
+            case 2:
+                index = 4;
+                break;
+            case 3:
+                index = 5;
+                break;
+            case 4:
+                index = 6;
+                break;
+            default:
+                break;
+        }
+        storageAndChestChoicePanel = new StorageAndChestChoicePanel(inputCoins, inputShields, inputServants, inputStones, clientGUI);
+        tabbedPane.add(storageAndChestChoicePanel, index);
+        tabbedPane.setTitleAt(index, "Select payment method");
+        tabbedPane.setSelectedIndex(index);
+    }
+
+    public void resetStorageAndChestPanel(){
+        storageAndChestChoicePanel.resetResourcesToPay();
+    }
+
+    public void removeStorageAndChestPanel(){
+        int index = 0;
+        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
+            case 1:
+                index = 3;
+                break;
+            case 2:
+                index = 4;
+                break;
+            case 3:
+                index = 5;
+                break;
+            case 4:
+                index = 6;
+                break;
+            default:
+                break;
+        }
+        tabbedPane.removeTabAt(index);
+        tabbedPane.setSelectedIndex(2);  //my punchBoard panel
+    }
+
     public void enableAllActionButtons(){
         marketPanel.enableActionButtons();
         devCardSpacePanel.enableActionButtons();
@@ -219,4 +270,5 @@ public class GameFrame{
     public void enableLeaderButtons(){
         myPunchBoardPanel.enableLeaderButtons();
     }
+
 }
