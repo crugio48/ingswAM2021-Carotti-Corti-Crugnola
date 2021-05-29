@@ -276,8 +276,6 @@ public class ClientGUI extends Client {
                 chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
                 gameFrame.resetStorageAndChestPanel();
             }
-
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
