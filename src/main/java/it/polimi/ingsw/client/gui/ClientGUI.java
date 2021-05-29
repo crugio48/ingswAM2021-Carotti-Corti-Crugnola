@@ -169,10 +169,11 @@ public class ClientGUI extends Client {
             if (response.isCommandWasCorrect()){
                 chatDocuments.writeInstructionMessage("You correctly activated the production, now choose where to get the resources from");
                 gameFrame.removeActivateProductionPanel();
-                gameFrame.addStorageAndChestChoicePanel(response.getCoins(), response.getShields(), response.getServants(), response.getStones());
+                gameFrame.addStorageAndChestChoicePanel(true, response.getCoins(), response.getShields(), response.getServants(), response.getStones());
 
             } else {
                 chatDocuments.writeInstructionMessage("You are poor, you don't have enough resources fot this production ");
+                gameFrame.resetActivateProductionPanel();
             }
 
 
@@ -197,7 +198,7 @@ public class ClientGUI extends Client {
         return gameFrame;
     }
 
-    public void sendResourcesFromChestAndStorageSelected( int coinsFromStorageSelected, int shieldsFromStorageSelected,
+    public void sendResourcesFromChestAndStorageSelectedForProduction( int coinsFromStorageSelected, int shieldsFromStorageSelected,
              int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
                                                          int servantsFromChestSelected, int stonesFromChestSelected){
         Gson gson = new Gson();
@@ -214,6 +215,7 @@ public class ClientGUI extends Client {
                     );
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
+
             if (response.isCommandWasCorrect()){
                 chatDocuments.writeInstructionMessage("You successfully paid");
                 gameFrame.removeStorageAndChestPanel();

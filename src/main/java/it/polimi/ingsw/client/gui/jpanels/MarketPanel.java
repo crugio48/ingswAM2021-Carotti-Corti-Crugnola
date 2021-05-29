@@ -39,7 +39,7 @@ public class MarketPanel extends JPanel implements MyObserver {
     private JTextArea jTextAreaPlayerInstruction = new JTextArea();
 
     public MarketPanel (ClientGUI clientGUI) {
-        this.setPreferredSize(new Dimension(1000, 800));
+        this.setPreferredSize(new Dimension(1500, 900));
         this.setBackground(new Color(145,136,115));
 
         this.market = clientGUI.getClientModel().getMarket();
