@@ -348,4 +348,26 @@ public class ClientGUI extends Client {
             e.printStackTrace();
         }
     }
+
+    public void placeResource(String resource, int slot){
+        Gson gson = new Gson();
+        try {
+            messageSender.placeResourceInSlot(resource,slot);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+            if (response.isCommandWasCorrect()){
+                chatDocuments.writeInstructionMessage("Resource placed correctly!");
+
+
+            }
+            else {
+                chatDocuments.writeInstructionMessage("You can't place here!");
+            }
+            gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(),response.getShields(),response.getServants());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 }

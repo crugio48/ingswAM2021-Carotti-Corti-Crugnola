@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.jpanels;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
+import it.polimi.ingsw.client.gui.actionListeners.PlaceResourceAction;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
 import it.polimi.ingsw.client.gui.ChatDocuments;
 
@@ -28,87 +29,178 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     private int stones=0;
     private int shields=0;
     private int servants = 0;
+    private String chooseresource = null;
+
+    private JLabel res;
+    private JLabel res2;
+    private JLabel res3;
+    private JLabel res4;
+    private JLabel act;
+    private JButton act1;
+    private JButton act2;
+    private JButton act3;
+    private JButton act4;
+
+    private JButton but1;
+    private JButton but2;
+    private JButton but3;
+    private JButton but4;
+    private JButton but5;
+    private JButton but6;
+    private JButton but7;
+    private JButton but8;
+    private JButton but9;
+    private JButton but10;
+    private JButton but11;
+    private JButton but12;
+    private JButton but13;
+    private JButton but14;
+    private JButton but15;
+    private JButton but16;
+    private JButton but17;
+    private JButton but18;
+    private JButton but19;
+    private JLabel text;
+    private JLabel text1;
+
+
+
+
+
 
     public ManageStoragePanel(ClientGUI clientGUI, int coins , int stones , int shields , int servants){
         this.clientGUI= clientGUI;
         this.myTurnOrder=clientGUI.getMyTurnOrder();
         this.storage=clientGUI.getClientModel().getPlayerByTurnOrder(myTurnOrder).getStorage();
         storage.addObserver(this);
+        this.coins=coins;
+        this.stones=stones;
+        this.shields=shields;
+        this.servants=servants;
 
         this.setLayout(null);
+        res = new JLabel();
+        res2 = new JLabel();
+        res3 = new JLabel();
+        res4 = new JLabel();
+        res.setText("You have to place these resources:\n");
+        res2.setText(coins + " coins , " + stones+" stones , "+ shields+ " shields , "+ servants +" servants.");
+        res3.setText("Choose resource to place:");
+        res4.setText("Choose the slot to place the resource");
+        res2.setFont(new Font("Consolas", Font.BOLD, 15));
+        res.setFont(new Font("Consolas", Font.BOLD, 15));
+        res3.setFont(new Font("Consolas", Font.BOLD, 15));
+        res4.setFont(new Font("Consolas", Font.BOLD, 15));
+        res.setBounds(10,10,450,20);
+        res2.setBounds(10,50,450,20);
+        res3.setBounds(10,90,450,20);
+        res4.setBounds(10,90,450,20);
+        add(res);
+       // add(res2);
+        add(res3);
+        add(res4);
+        res4.setVisible(false);
+        res3.setVisible(false);
 
-        JLabel text = new JLabel();
+        act = new JLabel();
+        act.setText("Choose Action:");
+        act.setFont(new Font("Consolas", Font.BOLD, 15));
+        act.setBounds(500,140,150,20);
+        add(act);
+        act1 = new JButton("Place Resources");
+        act2 = new JButton("Switch Slots");
+        act3 = new JButton("Move a resource");
+        act4 = new JButton("GO BACK");
+        act1.setBounds(500,220,200,30);
+        act2.setBounds(500,300,200,30);
+        act3.setBounds(500,380,200,30);
+        act4.setBounds(500,500,200,30);
+        act4.setBackground(Color.red);
+        add(act1);
+        add(act2);
+        add(act3);
+        add(act4);
+        act4.setVisible(false);
+
+        text = new JLabel();
         text.setText("Switch between slots:");
         text.setFont(new Font("Consolas", Font.BOLD, 15));
-        text.setBounds(375,20,250,40);
+        text.setBounds(500,80,250,40);
         add(text);
+        text.setVisible(false);
 
-        JButton but1 = new JButton("1<->2");
-        JButton but2 = new JButton("1<->3");
-        JButton but3 = new JButton("2<->3");
+        but1 = new JButton("1<->2");
+        but2 = new JButton("1<->3");
+        but3 = new JButton("2<->3");
 
-        but1.setBounds(415,80,100,20);
+        but1.setBounds(575,140,100,20);
         add(but1);
-        but2.setBounds(415,110,100,20);
+        but2.setBounds(575,170,100,20);
         add(but2);
-        but3.setBounds(415,140,100,20);
+        but3.setBounds(575,200,100,20);
         add(but3);
+        but1.setVisible(false);
+        but2.setVisible(false);
+        but3.setVisible(false);
 
-        JLabel text1 = new JLabel();
+        text1 = new JLabel();
         text1.setText("Move one resource from:    to:");
         text1.setFont(new Font("Consolas", Font.BOLD, 15));
-        text1.setBounds(615,20,250,40);
+        text1.setBounds(500,350,250,40);
         add(text1);
+        text1.setVisible(false);
 
-        JButton but10 = new JButton("1 --> Leader 1 Slot");
-        JButton but11 = new JButton("2 --> Leader 1 Slot");
-        JButton but12 = new JButton("3 --> Leader 1 Slot");
+        but10 = new JButton("1 --> Leader 1 Slot");
+        but11 = new JButton("2 --> Leader 1 Slot");
+        but12 = new JButton("3 --> Leader 1 Slot");
 
-        but10.setBounds(530,80,150,20);
+        but10.setBounds(450,390,150,20);
         add(but10);
-        but11.setBounds(530,110,150,20);
+        but11.setBounds(450,430,150,20);
         add(but11);
-        but12.setBounds(530,140,150,20);
+        but12.setBounds(450,470,150,20);
         add(but12);
+        but13 = new JButton("1 --> Leader 2 Slot");
+        but14 = new JButton("2 --> Leader 2 Slot");
+        but15 = new JButton("3 --> Leader 2 Slot");
 
-        JButton but13 = new JButton("1 --> Leader 2 Slot");
-        JButton but14 = new JButton("2 --> Leader 2 Slot");
-        JButton but15 = new JButton("3 --> Leader 2 Slot");
-
-        but13.setBounds(700,80,150,20);
+        but13.setBounds(650,390,150,20);
         add(but13);
-        but14.setBounds(700,110,150,20);
+        but14.setBounds(650,430,150,20);
         add(but14);
-        but15.setBounds(700,140,150,20);
+        but15.setBounds(650,470,150,20);
         add(but15);
-      /*  but10.setVisible(false);
+        but10.setVisible(false);
         but11.setVisible(false);
         but12.setVisible(false);
         but13.setVisible(false);
         but14.setVisible(false);
-        but15.setVisible(false); */
+        but15.setVisible(false);
 
-        JLabel resources = new JLabel();
-        JLabel resources2 = new JLabel();
-        JLabel resources3 = new JLabel();
-        resources.setText("You have to place these resources:\n");
-        resources2.setText(coins + " coins , 0 stones , 0 shields , 0 servants");
-        resources3.setText("Where do you want to put this : SERVANT");
-        resources2.setFont(new Font("Consolas", Font.BOLD, 15));
-        resources.setFont(new Font("Consolas", Font.BOLD, 15));
-        resources3.setFont(new Font("Consolas", Font.BOLD, 15));
-        resources.setBounds(10,10,350,20);
-        resources2.setBounds(10,50,350,20);
-        resources3.setBounds(10,90,350,20);
-        add(resources);
-        add(resources2);
-        add(resources3);
+        but16 = new JButton("COIN");
+        but17 = new JButton("STONE");
+        but18 = new JButton("SHIELD");
+        but19 = new JButton("SERVANT");
+
+        but16.setBounds(10,130,120,20);
+        add(but16);
+        but17.setBounds(150,130,120,20);
+        add(but17);
+        but18.setBounds(10,170,120,20);
+        add(but18);
+        but19.setBounds(150,170,120,20);
+        add(but19);
+        but16.setVisible(false);
+        but17.setVisible(false);
+        but18.setVisible(false);
+        but19.setVisible(false);
 
 
-        JButton but4 = new JButton("Slot 1");
-        JButton but5 = new JButton("Slot 2");
-        JButton but6 = new JButton("Slot 3");
-        JButton but7 = new JButton("DISCARD");
+
+        but4 = new JButton("Slot 1");
+        but5 = new JButton("Slot 2");
+        but6 = new JButton("Slot 3");
+        but7 = new JButton("DISCARD");
 
         but4.setBounds(10,130,120,20);
         add(but4);
@@ -118,9 +210,13 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         add(but6);
         but7.setBounds(150,170,120,20);
         add(but7);
+        but4.setVisible(false);
+        but5.setVisible(false);
+        but6.setVisible(false);
+        but7.setVisible(false);
 
-        JButton but8 = new JButton("Leader1Slot");
-        JButton but9 = new JButton("Leader2Slot");
+        but8 = new JButton("Leader1Slot");
+        but9 = new JButton("Leader2Slot");
         but8.setBounds(10,210,120,20);
         but9.setBounds(150, 210,120,20);
         add(but8);
@@ -129,12 +225,121 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         but9.setVisible(false);
 
 
-       //CHAT COMPONENTS
+        //button actions
+        act1.addActionListener(new ActionListener() {
+                                   @Override
+                                   public void actionPerformed(ActionEvent e) {
+                                       addResourceComponent();
+                                       removeActComponent();
+                                   }
+                               }
+        );
+
+        act2.addActionListener(new ActionListener() {
+                                   @Override
+                                   public void actionPerformed(ActionEvent e) {
+                                       removeActComponent();
+                                       addSwitchComponent();
+
+                                   }
+                               }
+        );
+        act3.addActionListener(new ActionListener() {
+                                   @Override
+                                   public void actionPerformed(ActionEvent e) {
+                                       removeActComponent();
+                                       addMoveResourceComponent();
+
+                                   }
+                               }
+        );
+        act4.addActionListener(new ActionListener() {
+                                   @Override
+                                   public void actionPerformed(ActionEvent e) {
+                                       addActComponent();
+                                       removeSwitchComponent();
+                                       removeResourceComponent();
+                                       removeMoveResourceComponent();
+
+                                   }
+                               }
+        );
+        but16.addActionListener(new ActionListener() {
+                                   @Override
+                                   public void actionPerformed(ActionEvent e) {
+                                       removeActComponent();
+                                       removeResourceComponent();
+                                       chooseresource = "coin";
+                                        addSlotSelectionComponent();
+                                   }
+                               }
+        );
+        but17.addActionListener(new ActionListener() {
+                                   @Override
+                                   public void actionPerformed(ActionEvent e) {
+                                    removeActComponent();
+                                       removeResourceComponent();
+                                       chooseresource = "stone";
+                                       addSlotSelectionComponent();
+
+
+                                   }
+                               }
+        );
+        but18.addActionListener(new ActionListener() {
+                                   @Override
+                                   public void actionPerformed(ActionEvent e) {
+                                      removeActComponent();
+                                      removeResourceComponent();
+                                       chooseresource = "shield";
+                                       addSlotSelectionComponent();
+
+
+                                   }
+                               }
+        );
+        but19.addActionListener(new ActionListener() {
+                                   @Override
+                                   public void actionPerformed(ActionEvent e) {
+                                     removeActComponent();
+                                     removeResourceComponent();
+                                       chooseresource = "servant";
+                                       addSlotSelectionComponent();
+
+
+
+                                   }
+                               }
+        );
+        but4.addActionListener(   new PlaceResourceAction(clientGUI,chooseresource,1));
+        but5.addActionListener( new PlaceResourceAction(clientGUI,chooseresource,2));
+        but6.addActionListener(new PlaceResourceAction(clientGUI,chooseresource,3));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //CHAT COMPONENTS
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(320,170, 250, 30);
+        jLabel.setBounds(1000,70, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(320,200,250,50);
+        jTextField.setBounds(1000,100,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -153,7 +358,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(320,250,250,150);
+        chatScrollPane.setBounds(1000,150,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -163,7 +368,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(320,405,250,150);
+        logScrollPane.setBounds(1000,305,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -173,7 +378,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
         JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(320,560,250,150);
+        playerInstructionsScrollPane.setBounds(1000,460,250,150);
         add(playerInstructionsScrollPane);
         //END CHAT COMPONETS
 
@@ -182,8 +387,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
 
 
 
-        this.setPreferredSize(new Dimension(900, 900));
-        this.setBackground(new Color(102,255,153));
+        this.setPreferredSize(new Dimension(1280, 720));
+        this.setBackground(new Color(145,136,115));
     }
 
     @Override
@@ -193,8 +398,9 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         drawStorage(g,storage);
-        g.drawLine(370,10,370, 180);
-        g.drawLine(520,10,520, 180);
+        g.drawString(coins + " coins , " + stones+" stones , "+ shields+ " shields , "+ servants +" servants.",10,50);
+       // g.drawLine(370,10,370, 180);
+        // g.drawLine(520,10,520, 180);
 
     }
 
@@ -257,6 +463,104 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             }
         }
 
+
+
+    }
+    private void removeActComponent(){
+
+        act.setVisible(false);
+        act1.setVisible(false);
+        act2.setVisible(false);
+        act3.setVisible(false);
+        act4.setVisible(true);
+
+    }
+    private void addActComponent(){
+
+        act.setVisible(true);
+        act1.setVisible(true);
+        act2.setVisible(true);
+        act3.setVisible(true);
+        act4.setVisible(false);
+
+    }
+
+    private void removeResourceComponent(){
+        res3.setVisible(false);
+        but16.setVisible(false);
+        but17.setVisible(false);
+        but18.setVisible(false);
+        but19.setVisible(false);
+
+    }
+
+    private void addResourceComponent(){
+        res3.setVisible(true);
+        but16.setVisible(true);
+        but17.setVisible(true);
+        but18.setVisible(true);
+        but19.setVisible(true);
+
+    }
+
+    private void addSwitchComponent(){
+        text.setVisible(true);
+        but1.setVisible(true);
+        but2.setVisible(true);
+        but3.setVisible(true);
+
+    }
+
+    private void removeSwitchComponent(){
+        text.setVisible(false);
+        but1.setVisible(false);
+        but2.setVisible(false);
+        but3.setVisible(false);
+
+    }
+
+    private void addMoveResourceComponent(){
+        text1.setVisible(true);
+        but10.setVisible(true);
+        but11.setVisible(true);
+        but12.setVisible(true);
+        but13.setVisible(true);
+        but14.setVisible(true);
+        but15.setVisible(true);
+
+    }
+    private void removeMoveResourceComponent(){
+        text1.setVisible(false);
+        but10.setVisible(false);
+        but11.setVisible(false);
+        but12.setVisible(false);
+        but13.setVisible(false);
+        but14.setVisible(false);
+        but15.setVisible(false);
+
+    }
+
+    private void addSlotSelectionComponent(){
+
+        res4.setVisible(true);
+        but4.setVisible(true);
+        but5.setVisible(true);
+        but6.setVisible(true);
+        but7.setVisible(true);
+
+
+    }
+    public void refresh(int coins, int stones, int shields, int servants){
+        this.coins=coins;
+        this.stones=stones;
+        this.shields=shields;
+        this.servants=servants;
+        removeResourceComponent();
+        removeMoveResourceComponent();
+        removeSwitchComponent();
+        addActComponent();
+        repaint();
+        revalidate();
 
 
     }

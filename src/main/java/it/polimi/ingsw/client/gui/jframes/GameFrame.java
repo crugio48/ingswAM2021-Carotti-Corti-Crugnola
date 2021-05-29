@@ -371,4 +371,9 @@ public class GameFrame{
         myPunchBoardPanel.setInvisibleLeaderButtons(leaderSlot);
     }
 
+    public void refreshManageStoragePanel(int coin, int stone,int shield, int servant){
+        manageStoragePanel.refresh(coin,stone,shield,servant);
+
+    }
+
 }
