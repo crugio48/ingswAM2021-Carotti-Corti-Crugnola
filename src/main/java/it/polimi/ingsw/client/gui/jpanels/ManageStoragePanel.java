@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.gui.jpanels;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
-import it.polimi.ingsw.client.gui.actionListeners.PlaceResourceAction;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
 import it.polimi.ingsw.client.gui.ChatDocuments;
 
@@ -29,7 +28,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     private int stones=0;
     private int shields=0;
     private int servants = 0;
-    private String chooseresource = null;
+    private String resource = null;
 
     private JLabel res;
     private JLabel res2;
@@ -40,6 +39,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     private JButton act2;
     private JButton act3;
     private JButton act4;
+    private JButton act5;
 
     private JButton but1;
     private JButton but2;
@@ -107,19 +107,18 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         act.setFont(new Font("Consolas", Font.BOLD, 15));
         act.setBounds(500,140,150,20);
         add(act);
-        act1 = new JButton("Place Resources");
+        act1 = new JButton("Place/Discard Resources");
         act2 = new JButton("Switch Slots");
         act3 = new JButton("Move a resource");
         act4 = new JButton("GO BACK");
-        act1.setBounds(500,220,200,30);
-        act2.setBounds(500,300,200,30);
-        act3.setBounds(500,380,200,30);
-        act4.setBounds(500,500,200,30);
+        act5 = new JButton("END PLACING");
+        act1.setBounds(500,220,250,30);
+        act2.setBounds(500,300,250,30);
+        act3.setBounds(500,380,250,30);
+        act4.setBounds(500,500,250,30);
+        act5.setBounds(500,500,250,30);
         act4.setBackground(Color.red);
-        add(act1);
-        add(act2);
-        add(act3);
-        add(act4);
+
         act4.setVisible(false);
 
         text = new JLabel();
@@ -129,15 +128,15 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         add(text);
         text.setVisible(false);
 
-        but1 = new JButton("1<->2");
-        but2 = new JButton("1<->3");
-        but3 = new JButton("2<->3");
+        but1 = new JButton("1<--->2");
+        but2 = new JButton("1<--->3");
+        but3 = new JButton("2<--->3");
 
-        but1.setBounds(575,140,100,20);
+        but1.setBounds(575,140,200,20);
         add(but1);
-        but2.setBounds(575,170,100,20);
+        but2.setBounds(575,170,200,20);
         add(but2);
-        but3.setBounds(575,200,100,20);
+        but3.setBounds(575,200,200,20);
         add(but3);
         but1.setVisible(false);
         but2.setVisible(false);
@@ -154,21 +153,21 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         but11 = new JButton("2 --> Leader 1 Slot");
         but12 = new JButton("3 --> Leader 1 Slot");
 
-        but10.setBounds(450,390,150,20);
+        but10.setBounds(400,390,250,20);
         add(but10);
-        but11.setBounds(450,430,150,20);
+        but11.setBounds(400,430,250,20);
         add(but11);
-        but12.setBounds(450,470,150,20);
+        but12.setBounds(400,470,250,20);
         add(but12);
         but13 = new JButton("1 --> Leader 2 Slot");
         but14 = new JButton("2 --> Leader 2 Slot");
         but15 = new JButton("3 --> Leader 2 Slot");
 
-        but13.setBounds(650,390,150,20);
+        but13.setBounds(700,390,250,20);
         add(but13);
-        but14.setBounds(650,430,150,20);
+        but14.setBounds(700,430,250,20);
         add(but14);
-        but15.setBounds(650,470,150,20);
+        but15.setBounds(700,470,250,20);
         add(but15);
         but10.setVisible(false);
         but11.setVisible(false);
@@ -183,7 +182,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         but19 = new JButton("SERVANT");
 
         but16.setBounds(10,130,120,20);
-        add(but16);
+
         but17.setBounds(150,130,120,20);
         add(but17);
         but18.setBounds(10,170,120,20);
@@ -264,13 +263,19 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
                                    }
                                }
         );
+        act5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.endPlacing();
+            }
+        });
         but16.addActionListener(new ActionListener() {
                                    @Override
                                    public void actionPerformed(ActionEvent e) {
                                        removeActComponent();
                                        removeResourceComponent();
-                                       chooseresource = "coin";
-                                        addSlotSelectionComponent();
+                                       addSlotSelectionComponent();
+                                       ManageStoragePanel.this.resource = "coin";
                                    }
                                }
         );
@@ -279,7 +284,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
                                    public void actionPerformed(ActionEvent e) {
                                     removeActComponent();
                                        removeResourceComponent();
-                                       chooseresource = "stone";
+                                       resource = "stone";
                                        addSlotSelectionComponent();
 
 
@@ -291,7 +296,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
                                    public void actionPerformed(ActionEvent e) {
                                       removeActComponent();
                                       removeResourceComponent();
-                                       chooseresource = "shield";
+                                       resource = "shield";
                                        addSlotSelectionComponent();
 
 
@@ -303,7 +308,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
                                    public void actionPerformed(ActionEvent e) {
                                      removeActComponent();
                                      removeResourceComponent();
-                                       chooseresource = "servant";
+                                       resource = "servant";
                                        addSlotSelectionComponent();
 
 
@@ -311,9 +316,88 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
                                    }
                                }
         );
-        but4.addActionListener(   new PlaceResourceAction(clientGUI,chooseresource,1));
-        but5.addActionListener( new PlaceResourceAction(clientGUI,chooseresource,2));
-        but6.addActionListener(new PlaceResourceAction(clientGUI,chooseresource,3));
+        but4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.placeResource(resource,1);
+            }
+        });
+        but5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.placeResource(resource,2);
+            }
+        });
+        but6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.placeResource(resource,3);
+            }
+        });
+        but10.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.moveOneResource(1,4);
+
+            }
+        });
+        but11.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.moveOneResource(2,4);
+
+            }
+        });
+
+        but12.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.moveOneResource(3,4);
+
+            }
+        });
+
+        but13.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.moveOneResource(1,5);
+
+            }
+        });
+
+        but14.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.moveOneResource(2,5);
+
+            }
+        });
+
+        but15.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.moveOneResource(3,5);
+
+            }
+        });
+        but1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.switchResourceSlots(1,2);
+            }
+        });
+        but2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.switchResourceSlots(1,3);
+            }
+        });
+        but3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.switchResourceSlots(2,3);
+            }
+        });
 
 
 
@@ -333,6 +417,14 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
 
 
 
+
+
+        add(act1);
+        add(act2);
+        add(act3);
+        add(act4);
+        add(act5);
+        add(but16);
 
         //CHAT COMPONENTS
         JLabel jLabel = new JLabel("chat: ");
@@ -399,9 +491,6 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         super.paintComponent(g);
         drawStorage(g,storage);
         g.drawString(coins + " coins , " + stones+" stones , "+ shields+ " shields , "+ servants +" servants.",10,50);
-       // g.drawLine(370,10,370, 180);
-        // g.drawLine(520,10,520, 180);
-
     }
 
     private void drawStorage(Graphics g,ClientModelStorage storage){
@@ -472,6 +561,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         act1.setVisible(false);
         act2.setVisible(false);
         act3.setVisible(false);
+        act5.setVisible(false);
         act4.setVisible(true);
 
     }
@@ -481,6 +571,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         act1.setVisible(true);
         act2.setVisible(true);
         act3.setVisible(true);
+        act5.setVisible(true);
         act4.setVisible(false);
 
     }
@@ -550,19 +641,40 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
 
 
     }
+    private void removeSlotSelectionComponent(){
+
+        res4.setVisible(false);
+        but4.setVisible(false);
+        but5.setVisible(false);
+        but6.setVisible(false);
+        but7.setVisible(false);
+
+
+    }
+
     public void refresh(int coins, int stones, int shields, int servants){
         this.coins=coins;
         this.stones=stones;
         this.shields=shields;
         this.servants=servants;
+        this.resource=null;
         removeResourceComponent();
         removeMoveResourceComponent();
         removeSwitchComponent();
         addActComponent();
+        removeSlotSelectionComponent();
         repaint();
         revalidate();
 
+    }
 
+    public void refreshness(){ removeResourceComponent();
+        removeMoveResourceComponent();
+        removeSwitchComponent();
+        addActComponent();
+        removeSlotSelectionComponent();
+        repaint();
+        revalidate();
     }
 
 

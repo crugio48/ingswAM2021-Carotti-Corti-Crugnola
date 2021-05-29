@@ -279,6 +279,28 @@ public class GameFrame{
         tabbedPane.setTitleAt(index, "Place resources");
         tabbedPane.setSelectedIndex(index);
     }
+    public void removeManageStoragePanel() {
+        int index = 0;
+        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
+            case 1:
+                index = 3;
+                break;
+            case 2:
+                index = 4;
+                break;
+            case 3:
+                index = 5;
+                break;
+            case 4:
+                index = 6;
+                break;
+            default:
+                break;
+        }
+
+        tabbedPane.removeTabAt(index);
+        tabbedPane.setSelectedIndex(2);
+    }
 
     public void addStorageAndChestChoicePanel(boolean isProduction, int inputCoins, int inputShields, int inputServants, int inputStones){
         int index = 0;
@@ -373,6 +395,10 @@ public class GameFrame{
 
     public void refreshManageStoragePanel(int coin, int stone,int shield, int servant){
         manageStoragePanel.refresh(coin,stone,shield,servant);
+
+    }
+    public void refreshnessManageStoragePanel(){
+        manageStoragePanel.refreshness();
 
     }
 

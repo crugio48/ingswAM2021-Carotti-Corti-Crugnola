@@ -22,7 +22,7 @@ public class ClientGUI extends Client {
     GuiInfo guiInfo;
 
 
-    public ClientGUI(){
+    public ClientGUI() {
         super();
         guiInfo = new GuiInfo();
     }
@@ -49,21 +49,21 @@ public class ClientGUI extends Client {
             serverIn = stringBuffer.readMessage();  //this is the first message from the server that the game has started
             gameFrame.goToChoosingStartingStuff();
 
-            while (true){  //the choosing starting stuff loop
+            while (true) {  //the choosing starting stuff loop
                 serverIn = stringBuffer.readMessage();  //this is the first message from the server that the game has started
                 response = (Response) gson.fromJson(serverIn, Response.class);
 
                 if (response.getCmd().equals("gameStart")) break; //this signals that all initial setup is done
 
-                switch (response.getCmd()){
-                    case"insertUsername":
+                switch (response.getCmd()) {
+                    case "insertUsername":
                         //if we get here it means that the nickname was already picked by another player
                         gameFrame.nicknameAlreadyChosen();
                         break;
-                    case"leaderDistribution":
+                    case "leaderDistribution":
                         gameFrame.setLeadersDrawn(response.getLeaderCardsDrawn());
                         break;
-                    case"giveInitialResources":
+                    case "giveInitialResources":
                         gameFrame.setInitialResources(response.getNumOfInitialResources());
                         break;
                     case "waitingForOtherPlayersCommunication":
@@ -90,8 +90,7 @@ public class ClientGUI extends Client {
     }
 
 
-
-    private void startGameGUI(){
+    private void startGameGUI() {
         gameFrame = new GameFrame(this);
     }
 
@@ -115,14 +114,14 @@ public class ClientGUI extends Client {
         }
     }
 
-    public void endTurn(){
+    public void endTurn() {
         Gson gson = new Gson();
-        try{
+        try {
             messageSender.endTurn();
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
 
-            if (response.isCommandWasCorrect()){
+            if (response.isCommandWasCorrect()) {
                 chatDocuments.writeInstructionMessage("You ended your turn successfully");
             } else {
                 chatDocuments.writeInstructionMessage("You still have to do your main action");
@@ -133,26 +132,25 @@ public class ClientGUI extends Client {
     }
 
 
-    public void buyFromMarket(int position){
+    public void buyFromMarket(int position) {
         Gson gson = new Gson();
         try {
             messageSender.buyResourceFromMarket(position);
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
 
-            if (response.isCommandWasCorrect()){
+            if (response.isCommandWasCorrect()) {
                 chatDocuments.writeInstructionMessage("You successfully bought from market, now you need to place the resources you bought");
 
-                if (response.getJolly() != 0){
+                if (response.getJolly() != 0) {
                     gameFrame.addActivatingLeaderMarblePowerPanel(response.getJolly(), response.getStones(), response.getShields(), response.getCoins(), response.getServants(), response.getTargetResources());
-                }
-                else{
+                } else {
                     gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(), response.getShields());
                 }
 
                 gameFrame.setInvisibleMarketButtons();
 
-            } else{
+            } else {
                 chatDocuments.writeInstructionMessage("There was an error please try again");
             }
         } catch (InterruptedException e) {
@@ -162,30 +160,30 @@ public class ClientGUI extends Client {
     }
 
 
-    public void buyDevCard(int lvl, char colour){
+    public void buyDevCard(int lvl, char colour) {
         Gson gson = new Gson();
         try {
             messageSender.buyDevelopmentCard(lvl, colour);
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
 
-            if (response.isCommandWasCorrect()){
+            if (response.isCommandWasCorrect()) {
                 chatDocuments.writeInstructionMessage("You bought the card, you now need to choose from where to pay the card cost");
                 gameFrame.addStorageAndChestChoicePanel(false, response.getCoins(), response.getShields(), response.getServants(), response.getStones());
                 gameFrame.setInvisibleDevCardButtons();
-            } else{
+            } else {
                 chatDocuments.writeInstructionMessage("You don't have enough resources for that card");
             }
 
         } catch (InterruptedException e) {
-                e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
     public void activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
                                    boolean baseProdActivation, String baseInput1, String baseInput2, String baseOutput,
                                    boolean leader1Activation, int leader1Code, String leader1ConvertedResource,
-                                   boolean leader2Activation, int leader2Code, String leader2ConvertedResource){
+                                   boolean leader2Activation, int leader2Code, String leader2ConvertedResource) {
         Gson gson = new Gson();
         try {
             messageSender.activateProduction(slot1Activation, slot2Activation, slot3Activation, baseProdActivation, baseInput1,
@@ -193,7 +191,7 @@ public class ClientGUI extends Client {
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
 
-            if (response.isCommandWasCorrect()){
+            if (response.isCommandWasCorrect()) {
                 chatDocuments.writeInstructionMessage("You correctly activated the production, now choose where to get the resources from");
                 gameFrame.removeActivateProductionPanel();
                 gameFrame.addStorageAndChestChoicePanel(true, response.getCoins(), response.getShields(), response.getServants(), response.getStones());
@@ -225,9 +223,9 @@ public class ClientGUI extends Client {
         return gameFrame;
     }
 
-    public void sendResourcesFromChestAndStorageSelectedForProduction( int coinsFromStorageSelected, int shieldsFromStorageSelected,
-             int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
-                                                         int servantsFromChestSelected, int stonesFromChestSelected){
+    public void sendResourcesFromChestAndStorageSelectedForProduction(int coinsFromStorageSelected, int shieldsFromStorageSelected,
+                                                                      int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
+                                                                      int servantsFromChestSelected, int stonesFromChestSelected) {
         Gson gson = new Gson();
         try {
             messageSender.chosenResourcesToPayForProduction(
@@ -239,16 +237,15 @@ public class ClientGUI extends Client {
                     shieldsFromChestSelected,
                     servantsFromChestSelected,
                     stonesFromChestSelected
-                    );
+            );
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
 
-            if (response.isCommandWasCorrect()){
+            if (response.isCommandWasCorrect()) {
                 chatDocuments.writeInstructionMessage("You paid successfully");
                 gameFrame.removeStorageAndChestPanel();
                 gameFrame.enableLeaderButtonsAndEndTurn();
-            }
-            else{
+            } else {
                 chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
                 gameFrame.resetStorageAndChestPanel();
             }
@@ -258,8 +255,8 @@ public class ClientGUI extends Client {
     }
 
     public void sendResourcesToPayFromChestAndStorageSelectedForDevCard(int coinsFromStorageSelected, int shieldsFromStorageSelected,
-    int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
-    int servantsFromChestSelected, int stonesFromChestSelected){
+                                                                        int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
+                                                                        int servantsFromChestSelected, int stonesFromChestSelected) {
         Gson gson = new Gson();
         try {
             messageSender.chosenResourcesToPayForDevCard(
@@ -279,8 +276,7 @@ public class ClientGUI extends Client {
                 chatDocuments.writeInstructionMessage("You paid successfully, now select where to place the card");
                 gameFrame.removeStorageAndChestPanel();
                 gameFrame.enableDevCardPlacement();
-            }
-            else {
+            } else {
                 chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
                 gameFrame.resetStorageAndChestPanel();
             }
@@ -291,18 +287,17 @@ public class ClientGUI extends Client {
     }
 
 
-    public void sendCardPlacement(int slotNumber){
+    public void sendCardPlacement(int slotNumber) {
         Gson gson = new Gson();
         try {
             messageSender.chosenSlotNumberForDevCard(slotNumber);
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()){
+            if (response.isCommandWasCorrect()) {
                 chatDocuments.writeInstructionMessage("You correctly placed the card!");
                 gameFrame.disableCardPlacement();
                 gameFrame.enableLeaderButtonsAndEndTurn();
-            }
-            else {
+            } else {
                 chatDocuments.writeInstructionMessage("You can't place the card here, choose another slot");
             }
 
@@ -311,17 +306,16 @@ public class ClientGUI extends Client {
         }
     }
 
-    public void sendActivateLeader(int codeLeader, int leaderSlot){
+    public void sendActivateLeader(int codeLeader, int leaderSlot) {
         Gson gson = new Gson();
         try {
             messageSender.sendChosenLeaderToActivate(codeLeader);
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()){
+            if (response.isCommandWasCorrect()) {
                 chatDocuments.writeInstructionMessage("You correctly activated your leader!");
                 gameFrame.setInvisibleLeaderButton(leaderSlot);
-            }
-            else {
+            } else {
                 chatDocuments.writeInstructionMessage("You can't activate your leader");
             }
         } catch (InterruptedException e) {
@@ -331,17 +325,16 @@ public class ClientGUI extends Client {
 
     }
 
-    public void sendDiscardLeader(int codeLeader, int leaderSlot){
+    public void sendDiscardLeader(int codeLeader, int leaderSlot) {
         Gson gson = new Gson();
         try {
             messageSender.discardYourActiveLeader(codeLeader);
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()){
+            if (response.isCommandWasCorrect()) {
                 chatDocuments.writeInstructionMessage("You correctly discarded your leader!");
                 gameFrame.setInvisibleLeaderButton(leaderSlot);
-            }
-            else {
+            } else {
                 chatDocuments.writeInstructionMessage("You can't discard your leader");
             }
         } catch (InterruptedException e) {
@@ -349,25 +342,72 @@ public class ClientGUI extends Client {
         }
     }
 
-    public void placeResource(String resource, int slot){
+    public void placeResource(String resource, int slot) {
         Gson gson = new Gson();
         try {
-            messageSender.placeResourceInSlot(resource,slot);
+            messageSender.placeResourceInSlot(resource, slot);
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()){
+            if (response.isCommandWasCorrect()) {
                 chatDocuments.writeInstructionMessage("Resource placed correctly!");
 
 
-            }
-            else {
+            } else {
                 chatDocuments.writeInstructionMessage("You can't place here!");
             }
-            gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(),response.getShields(),response.getServants());
+            gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(), response.getShields(), response.getServants());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
 
     }
+
+    public void moveOneResource(int slot1, int slot2) {
+        Gson gson = new Gson();
+        try {
+            messageSender.moveOneResource(slot1, slot2);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+            if (response.isCommandWasCorrect()) {
+                chatDocuments.writeInstructionMessage("Resource moved correctly");
+
+
+            } else {
+                chatDocuments.writeInstructionMessage("You can't move the resource");
+            }
+            gameFrame.refreshnessManageStoragePanel();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void endPlacing() {
+        messageSender.endPlacing();
+        gameFrame.removeManageStoragePanel();
+    }
+
+    public void switchResourceSlots(int slot1, int slot2) {
+        Gson gson = new Gson();
+        try {
+            messageSender.switchResourceSlot(slot1, slot2);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+            if (response.isCommandWasCorrect()) {
+                chatDocuments.writeInstructionMessage("Slots Switched correctly");
+
+
+            } else {
+                chatDocuments.writeInstructionMessage("You can't switch slots");
+            }
+            gameFrame.refreshnessManageStoragePanel();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 }
