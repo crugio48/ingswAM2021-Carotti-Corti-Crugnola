@@ -346,6 +346,8 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         stonesFromStorageSelected = 0;
         servantsFromChestSelected = 0;
         servantsFromStorageSelected = 0;
+        repaint();
+        revalidate();
     }
 
 

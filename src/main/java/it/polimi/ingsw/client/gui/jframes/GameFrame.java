@@ -113,7 +113,7 @@ public class GameFrame{
                 tabbedPane.setTitleAt(4, clientGUI.getClientModel().getPlayerByTurnOrder(otherPlayersTurnOrders[1]).getNickname() + "'s PunchBoard");
 
                 p4Panel = new PunchBoardOtherPlayersPanel(clientGUI, otherPlayersTurnOrders[2]);
-                tabbedPane.add(p3Panel, 5);
+                tabbedPane.add(p4Panel, 5);
                 tabbedPane.setTitleAt(5, clientGUI.getClientModel().getPlayerByTurnOrder(otherPlayersTurnOrders[2]).getNickname() + "'s PunchBoard");
                 break;
             default:
@@ -246,7 +246,7 @@ public class GameFrame{
             default:
                 break;
         }
-        storageAndChestChoicePanel = new StorageAndChestChoicePanel(inputCoins, inputShields, inputServants, inputStones, clientGUI);
+        storageAndChestChoicePanel = new StorageAndChestChoicePanel(inputCoins, inputStones, inputShields, inputServants, clientGUI);
         tabbedPane.add(storageAndChestChoicePanel, index);
         tabbedPane.setTitleAt(index, "Select payment method");
         tabbedPane.setSelectedIndex(index);
