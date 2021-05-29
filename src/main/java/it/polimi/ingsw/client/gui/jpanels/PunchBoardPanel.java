@@ -545,9 +545,9 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
 
         url1 = cl.getResourceAsStream("components/playerboard.png");
-        url2 = cl.getResourceAsStream("components/firstPapalFavorCard.png");
-        url3 = cl.getResourceAsStream("components/secondPapalFavorCard.png");
-        url4 = cl.getResourceAsStream("components/thirdPapalFavorCard.png");
+        url2 = cl.getResourceAsStream("components/secondPapalFavorCard.png");
+        url3 = cl.getResourceAsStream("components/thirdPapalFavorCard.png");
+        url4 = cl.getResourceAsStream("components/firstPapalFavorCard.png");
         url5 = cl.getResourceAsStream("components/blackCross.png");
         url6 = cl.getResourceAsStream("components/indicator.png");
 
