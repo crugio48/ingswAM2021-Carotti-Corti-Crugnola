@@ -283,4 +283,25 @@ public class ClientGUI extends Client {
         }
 
     }
+
+
+    public void sendCardPlacement(int slotNumber){
+        Gson gson = new Gson();
+        try {
+            messageSender.chosenSlotNumberForDevCard(slotNumber);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+            if (response.isCommandWasCorrect()){
+                chatDocuments.writeInstructionMessage("You correctly placed the card!");
+                gameFrame.disableCardPlacement();
+                gameFrame.enableLeaderButtonsAndEndTurn();
+            }
+            else {
+                chatDocuments.writeInstructionMessage("You can't place the card here, choose another slot");
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }

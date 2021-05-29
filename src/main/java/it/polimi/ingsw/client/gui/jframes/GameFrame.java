@@ -311,8 +311,12 @@ public class GameFrame{
     }
 
     public void enableDevCardPlacement(){
-        ///////////////////////////////
+        myPunchBoardPanel.setVisibilePlacingButtons();
         tabbedPane.setSelectedIndex(2); //myPunchBoard
+    }
+
+    public void disableCardPlacement(){
+        myPunchBoardPanel.setInvisibilePlacingButtons();
     }
 
 }

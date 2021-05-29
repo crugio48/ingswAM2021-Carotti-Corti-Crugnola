@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.gui.jpanels;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
+import it.polimi.ingsw.client.gui.actionListeners.PlaceDevCardAction;
 import it.polimi.ingsw.clientmodel.*;
 
 import javax.imageio.ImageIO;
@@ -73,6 +74,11 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         placeInFirstSlotButton.setVisible(false);
         placeInSecondSlotButton.setVisible(false);
         placeInThirdSlotButton.setVisible(false);
+
+        placeInFirstSlotButton.addActionListener(new PlaceDevCardAction(clientGUI, 1));
+        placeInSecondSlotButton.addActionListener(new PlaceDevCardAction(clientGUI, 2));
+        placeInThirdSlotButton.addActionListener(new PlaceDevCardAction(clientGUI, 3));
+
 
         placeInFirstSlotButton.setBounds(390,750,160,30);
         add(placeInFirstSlotButton);
@@ -788,5 +794,18 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     }
 
 
+    public void setVisibilePlacingButtons(){
+        placeInFirstSlotButton.setVisible(true);
+        placeInSecondSlotButton.setVisible(true);
+        placeInThirdSlotButton.setVisible(true);
+        revalidate();
+    }
+
+    public void setInvisibilePlacingButtons(){
+        placeInThirdSlotButton.setVisible(false);
+        placeInSecondSlotButton.setVisible(false);
+        placeInThirdSlotButton.setVisible(false);
+        revalidate();
+    }
 
 }
