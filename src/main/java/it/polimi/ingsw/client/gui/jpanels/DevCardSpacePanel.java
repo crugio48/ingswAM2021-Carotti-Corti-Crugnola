@@ -45,7 +45,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
 
     public DevCardSpacePanel(ClientGUI clientGUI){
 
-        this.setPreferredSize(new Dimension(1100, 900));
+        this.setPreferredSize(new Dimension(1500, 900));
         this.setBackground(new Color(145,136,115));
 
         this.clientGUI = clientGUI;

@@ -480,4 +480,8 @@ public class ActivateProductionPanel extends JPanel {
     }
 
 
+    public void resetSubmittedVariable(){
+        submitted = false;
+    }
+
 }

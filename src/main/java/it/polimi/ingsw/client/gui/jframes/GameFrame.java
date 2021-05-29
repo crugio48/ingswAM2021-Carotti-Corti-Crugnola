@@ -22,6 +22,7 @@ public class GameFrame{
     PunchBoardOtherPlayersPanel p3Panel;
     PunchBoardOtherPlayersPanel p4Panel;
     JTabbedPane tabbedPane;
+    ActivateProductionPanel activateProductionPanel;
     StorageAndChestChoicePanel storageAndChestChoicePanel;
 
 
@@ -178,7 +179,8 @@ public class GameFrame{
             default:
                 break;
         }
-        tabbedPane.add(new ActivateProductionPanel(clientGUI), index);
+        activateProductionPanel = new ActivateProductionPanel(clientGUI);
+        tabbedPane.add(activateProductionPanel, index);
         tabbedPane.setTitleAt(index, "Activate Production");
         tabbedPane.setSelectedIndex(index);
     }
@@ -228,7 +230,7 @@ public class GameFrame{
         tabbedPane.setSelectedIndex(index);
     }
 
-    public void addStorageAndChestChoicePanel(int inputCoins, int inputShields, int inputServants, int inputStones){
+    public void addStorageAndChestChoicePanel(boolean isProduction, int inputCoins, int inputShields, int inputServants, int inputStones){
         int index = 0;
         switch (clientGUI.getClientModel().getNumberOfPlayers()) {
             case 1:
@@ -246,14 +248,10 @@ public class GameFrame{
             default:
                 break;
         }
-        storageAndChestChoicePanel = new StorageAndChestChoicePanel(inputCoins, inputStones, inputShields, inputServants, clientGUI);
+        storageAndChestChoicePanel = new StorageAndChestChoicePanel(isProduction, inputCoins, inputStones, inputShields, inputServants, clientGUI);
         tabbedPane.add(storageAndChestChoicePanel, index);
         tabbedPane.setTitleAt(index, "Select payment method");
         tabbedPane.setSelectedIndex(index);
-    }
-
-    public void resetStorageAndChestPanel(){
-        storageAndChestChoicePanel.resetResourcesToPay();
     }
 
     public void removeStorageAndChestPanel(){
@@ -296,6 +294,14 @@ public class GameFrame{
 
     public void setInvisibleMarketButtons(){
         marketPanel.setInvisiblePositionButtons();
+    }
+
+    public void resetStorageAndChestPanel(){
+        storageAndChestChoicePanel.resetResourcesToPay();
+    }
+
+    public void resetActivateProductionPanel(){
+        activateProductionPanel.resetSubmittedVariable();
     }
 
 }

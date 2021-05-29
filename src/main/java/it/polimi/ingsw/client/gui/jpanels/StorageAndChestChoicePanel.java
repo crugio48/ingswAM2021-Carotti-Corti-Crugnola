@@ -8,6 +8,7 @@ import it.polimi.ingsw.clientmodel.ClientModelStorage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,8 +39,19 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
     private int fixedStonesToPay;
     private int fixedServantsToPay;
 
+    private boolean isProduction;
 
-    public StorageAndChestChoicePanel (int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
+    private JTextField jTextField = new JTextField();
+    private JTextArea jTextAreaLog = new JTextArea();
+    private JTextArea jTextAreaChat = new JTextArea();
+    private JTextArea jTextAreaPlayerInstruction = new JTextArea();
+
+
+    public StorageAndChestChoicePanel (boolean isProduction, int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
+        this.setPreferredSize(new Dimension(1500, 900));
+        this.setBackground(new Color(145,136,115));
+
+        this.isProduction = isProduction;
         fixedCoinsToPay = inputCoins;
         fixedShieldsToPay = inputShields;
         fixedServantsToPay = inputServants;
@@ -126,13 +138,13 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         });
 
 
-        incrementCoinsFromChestButton.setBounds(160,420,150,30);
+        incrementCoinsFromChestButton.setBounds(450,420,150,30);
         add(incrementCoinsFromChestButton);
-        incrementShieldsFromChestButton.setBounds(160,460,150,30);
+        incrementShieldsFromChestButton.setBounds(450,460,150,30);
         add(incrementShieldsFromChestButton);
-        incrementServantsFromChestButton.setBounds(160,500,150,30);
+        incrementServantsFromChestButton.setBounds(450,500,150,30);
         add(incrementServantsFromChestButton);
-        incrementStonesFromChestButton.setBounds(160,540,150,30);
+        incrementStonesFromChestButton.setBounds(450,540,150,30);
         add(incrementStonesFromChestButton);
 
 
@@ -186,38 +198,87 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        incrementCoinsFromStorageButton.setBounds(450,420,150,30);
+        incrementCoinsFromStorageButton.setBounds(160,420,150,30);
         add(incrementCoinsFromStorageButton);
-        incrementShieldsFromStorageButton.setBounds(450,460,150,30);
+        incrementShieldsFromStorageButton.setBounds(160,460,150,30);
         add(incrementShieldsFromStorageButton);
-        incrementServantsFromStorageButton.setBounds(450,500,150,30);
+        incrementServantsFromStorageButton.setBounds(160,500,150,30);
         add(incrementServantsFromStorageButton);
-        incrementStonesFromStorageButton.setBounds(450,540,150,30);
+        incrementStonesFromStorageButton.setBounds(160,540,150,30);
         add(incrementStonesFromStorageButton);
 
         JButton submitButton = new JButton("SUBMIT");
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clientGUI.sendResourcesFromChestAndStorageSelected(
-                        coinsFromStorageSelected,
-                        shieldsFromStorageSelected,
-                        servantsFromStorageSelected,
-                        stonesFromStorageSelected,
-                        coinsFromChestSelected,
-                        shieldsFromChestSelected,
-                        servantsFromChestSelected,
-                        stonesFromChestSelected
-                        );
-
+                if (isProduction) {
+                    clientGUI.sendResourcesFromChestAndStorageSelectedForProduction(
+                            coinsFromStorageSelected,
+                            shieldsFromStorageSelected,
+                            servantsFromStorageSelected,
+                            stonesFromStorageSelected,
+                            coinsFromChestSelected,
+                            shieldsFromChestSelected,
+                            servantsFromChestSelected,
+                            stonesFromChestSelected
+                    );
+                } else {
+                    //sendResourcesToPayForDevCard
+                }
             }
         });
         submitButton.setBounds(330, 600, 100,40);
         add(submitButton);
 
 
-        this.setPreferredSize(new Dimension(800, 750));
-        this.setBackground(new Color(145,136,115));
+        //here are the chat components
+        JLabel jLabel = new JLabel("chat: ");
+        jLabel.setBounds(800,100, 250, 30);
+        add(jLabel);
+
+        jTextField.setBounds(800,130,250,50);
+        jTextField.setToolTipText("insert here the message and press enter");
+        jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().sendChatMessage(jTextField.getText());
+                jTextField.setText("");
+            }
+        });
+        add(jTextField);
+
+        jTextAreaChat.setDocument(clientGUI.getChatDocuments().getChatDoc());
+        jTextAreaChat.setLineWrap(true);
+        jTextAreaChat.setEditable(false);
+        jTextAreaChat.setToolTipText("this is the chat log");
+        jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaChat.setForeground(Color.blue);
+        JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        chatScrollPane.setBounds(800,180,250,150);
+        add(chatScrollPane);
+
+        jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
+        jTextAreaLog.setLineWrap(true);
+        jTextAreaLog.setEditable(false);
+        jTextAreaLog.setToolTipText("this is the game events log");
+        jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaLog.setForeground(Color.red);
+        JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        logScrollPane.setBounds(800,335,250,150);
+        add(logScrollPane);
+
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setLineWrap(true);
+        jTextAreaPlayerInstruction.setEditable(false);
+        jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
+        jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaPlayerInstruction.setForeground(Color.green);
+        JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        playerInstructionsScrollPane.setBounds(800,490,250,150);
+        add(playerInstructionsScrollPane);
+        //here finish the chat components
+
     }
 
 
