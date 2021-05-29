@@ -202,15 +202,16 @@ public class ClientGUI extends Client {
                                                          int servantsFromChestSelected, int stonesFromChestSelected){
         Gson gson = new Gson();
         try {
-            messageSender.chosenResourcesToPayForDevCard(
+            messageSender.chosenResourcesToPayForProduction(
+                    coinsFromStorageSelected,
+                    shieldsFromStorageSelected,
+                    servantsFromStorageSelected,
+                    stonesFromStorageSelected,
                     coinsFromChestSelected,
-                    stonesFromChestSelected,
                     shieldsFromChestSelected,
                     servantsFromChestSelected,
-                    coinsFromStorageSelected,
-                    stonesFromStorageSelected,
-                    shieldsFromStorageSelected,
-                    servantsFromStorageSelected);
+                    stonesFromChestSelected
+                    );
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
             if (response.isCommandWasCorrect()){

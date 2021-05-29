@@ -76,7 +76,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
 
 
 
-        JButton incrementCoinsFromChestButton = new JButton("coins++");
+        JButton incrementCoinsFromChestButton = new JButton("chestcoins++");
         incrementCoinsFromChestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,7 +88,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        JButton incrementShieldsFromChestButton = new JButton("shields+++");
+        JButton incrementShieldsFromChestButton = new JButton("chestshields++");
         incrementShieldsFromChestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -101,7 +101,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         });
 
 
-        JButton incrementServantsFromChestButton = new JButton("servants++");
+        JButton incrementServantsFromChestButton = new JButton("chestservants++");
         incrementServantsFromChestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,7 +113,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        JButton incrementStonesFromChestButton = new JButton("stones++");
+        JButton incrementStonesFromChestButton = new JButton("cheststones++");
         incrementStonesFromChestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -137,7 +137,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
 
 
 
-        JButton incrementCoinsFromStorageButton = new JButton("coins++");
+        JButton incrementCoinsFromStorageButton = new JButton("storagecoins++");
         incrementCoinsFromStorageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,7 +149,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        JButton incrementShieldsFromStorageButton = new JButton("shields+++");
+        JButton incrementShieldsFromStorageButton = new JButton("storageshields++");
         incrementShieldsFromStorageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -162,7 +162,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         });
 
 
-        JButton incrementServantsFromStorageButton = new JButton("servants++");
+        JButton incrementServantsFromStorageButton = new JButton("storageservants++");
         incrementServantsFromStorageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -174,7 +174,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        JButton incrementStonesFromStorageButton = new JButton("stones++");
+        JButton incrementStonesFromStorageButton = new JButton("storagestones++");
         incrementStonesFromStorageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -216,7 +216,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         add(submitButton);
 
 
-        this.setPreferredSize(new Dimension(800, 700));
+        this.setPreferredSize(new Dimension(800, 750));
         this.setBackground(new Color(145,136,115));
     }
 
