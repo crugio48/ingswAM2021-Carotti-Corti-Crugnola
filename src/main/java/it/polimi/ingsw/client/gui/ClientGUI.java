@@ -142,8 +142,16 @@ public class ClientGUI extends Client {
 
             if (response.isCommandWasCorrect()){
                 chatDocuments.writeInstructionMessage("You successfully bought from market, now you need to place the resources you bought");
-                gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(), response.getShields());
+
+                if (response.getJolly() != 0){
+                    gameFrame.addActivatingLeaderMarblePowerPanel(response.getJolly(), response.getStones(), response.getShields(), response.getCoins(), response.getServants(), response.getTargetResources());
+                }
+                else{
+                    gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(), response.getShields());
+                }
+
                 gameFrame.setInvisibleMarketButtons();
+
             } else{
                 chatDocuments.writeInstructionMessage("There was an error please try again");
             }

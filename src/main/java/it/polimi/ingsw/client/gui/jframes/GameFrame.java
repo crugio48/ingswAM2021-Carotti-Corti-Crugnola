@@ -25,6 +25,7 @@ public class GameFrame{
     ActivateProductionPanel activateProductionPanel;
     StorageAndChestChoicePanel storageAndChestChoicePanel;
     ManageStoragePanel manageStoragePanel;
+    ActivatingLeaderMarblePowerPanel activatingLeaderMarblePowerPanel;
 
 
     public GameFrame(ClientGUI clientGUI) {
@@ -207,6 +208,53 @@ public class GameFrame{
         tabbedPane.removeTabAt(index);
         tabbedPane.setSelectedIndex(2);  //my punchBoard panel
     }
+
+    public void addActivatingLeaderMarblePowerPanel(int jolly, int stones, int shields, int coins, int servants, String[] targetResources){
+        int index = 0;
+        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
+            case 1:
+                index = 3;
+                break;
+            case 2:
+                index = 4;
+                break;
+            case 3:
+                index = 5;
+                break;
+            case 4:
+                index = 6;
+                break;
+            default:
+                break;
+        }
+        activatingLeaderMarblePowerPanel = new ActivatingLeaderMarblePowerPanel(clientGUI, jolly, stones, servants, shields, coins, targetResources);
+        tabbedPane.add(activatingLeaderMarblePowerPanel, index);
+        tabbedPane.setTitleAt(index, "Select marble conversion");
+        tabbedPane.setSelectedIndex(index);
+    }
+
+    public void removeActivatingLeaderMarblePowerPanel(){
+        int index = 0;
+        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
+            case 1:
+                index = 3;
+                break;
+            case 2:
+                index = 4;
+                break;
+            case 3:
+                index = 5;
+                break;
+            case 4:
+                index = 6;
+                break;
+            default:
+                break;
+        }
+        tabbedPane.removeTabAt(index);
+        tabbedPane.setSelectedIndex(2);  //my punchBoard panel
+    }
+
 
     public void addManageStoragePanel(int coins, int servants, int stones, int shields) {
         int index = 0;
