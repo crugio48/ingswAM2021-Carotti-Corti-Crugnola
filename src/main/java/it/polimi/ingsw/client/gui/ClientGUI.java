@@ -115,6 +115,23 @@ public class ClientGUI extends Client {
         }
     }
 
+    public void endTurn(){
+        Gson gson = new Gson();
+        try{
+            messageSender.endTurn();
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+
+            if (response.isCommandWasCorrect()){
+                chatDocuments.writeInstructionMessage("You ended your turn successfully");
+            } else {
+                chatDocuments.writeInstructionMessage("You still have to do your main action");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void buyFromMarket(int position){
         Gson gson = new Gson();

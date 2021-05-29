@@ -32,6 +32,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     private JButton discardLeader2Button;
 
     private JButton activateProductionButton;
+    private JButton endTurnButton;
 
     private JButton placeInFirstSlotButton;
     private JButton placeInSecondSlotButton;
@@ -108,6 +109,16 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             }
         });
         add(activateProductionButton);
+
+
+        endTurnButton = new JButton("End Turn");
+        endTurnButton.setBounds(1010, 700, 150, 100);
+        endTurnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
 
 
 
@@ -719,6 +730,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         discardLeader1Button.setEnabled(true);
         discardLeader2Button.setEnabled(true);
         activateProductionButton.setEnabled(true);
+        endTurnButton.setEnabled(true);
     }
 
     public void disableActionButtons() {
@@ -727,13 +739,15 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         discardLeader1Button.setEnabled(false);
         discardLeader2Button.setEnabled(false);
         activateProductionButton.setEnabled(false);
+        endTurnButton.setEnabled(false);
     }
 
-    public void enableLeaderButtons(){
+    public void enableLeaderButtonsAndEndTurn(){
         activateLeader1Button.setEnabled(true);  //IMPORTANT: enable doesn't mean that it will turn back to be visible
         activateLeader2Button.setEnabled(true);  //this is good for the behaviour
         discardLeader1Button.setEnabled(true);
         discardLeader2Button.setEnabled(true);
+        endTurnButton.setEnabled(true);
     }
 
 

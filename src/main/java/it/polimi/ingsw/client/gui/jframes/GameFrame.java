@@ -123,7 +123,7 @@ public class GameFrame{
 
         cl.show(panelContainer, "gamePanel");
         jFrame.setSize(tabbedPane.getSelectedComponent().getPreferredSize());
-        if (clientGUI.getMyTurnOrder() != clientGUI.getClientModel().getCurrentPlayer()){
+        if (clientGUI.getMyTurnOrder() != 1){
             disableAllActionButtons();
         }
     }
@@ -288,8 +288,8 @@ public class GameFrame{
         myPunchBoardPanel.disableActionButtons();
     }
 
-    public void enableLeaderButtons(){
-        myPunchBoardPanel.enableLeaderButtons();
+    public void enableLeaderButtonsAndEndTurn(){
+        myPunchBoardPanel.enableLeaderButtonsAndEndTurn();
     }
 
     public void setInvisibleMarketButtons(){
