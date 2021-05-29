@@ -53,7 +53,7 @@ public class ActivateProductionPanel extends JPanel {
     public ActivateProductionPanel(ClientGUI clientGUI) {
         myPlayer = clientGUI.getClientModel().getPlayerByNickname(clientGUI.getMyUsername());
         setLayout(null);
-        setPreferredSize(new Dimension(1500, 900));
+        setPreferredSize(new Dimension(1280, 720));
         setBackground(new Color(183,177,142));
 
 
@@ -235,7 +235,7 @@ public class ActivateProductionPanel extends JPanel {
         add(baseOutput);
 
         activateDevCard1Button = new JButton("<html>Activate<br> development card 1</html>");  //html to put text on multiple lines
-        activateDevCard1Button.setBounds(50,680, 150,60);
+        activateDevCard1Button.setBounds(50,655, 150,60);
         activateDevCard1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -246,7 +246,7 @@ public class ActivateProductionPanel extends JPanel {
         add(activateDevCard1Button);
 
         activateDevCard2Button = new JButton("<html>Activate<br> development card 2</html>");  //html to put text on multiple lines
-        activateDevCard2Button.setBounds(250,680, 150,60);
+        activateDevCard2Button.setBounds(250,655, 150,60);
         activateDevCard2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -257,7 +257,7 @@ public class ActivateProductionPanel extends JPanel {
         add(activateDevCard2Button);
 
         activateDevCard3Button = new JButton("<html>Activate<br> development card 3</html>");   //html to put text on multiple lines
-        activateDevCard3Button.setBounds(450,680, 150,60);
+        activateDevCard3Button.setBounds(450,655, 150,60);
         activateDevCard3Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -268,7 +268,7 @@ public class ActivateProductionPanel extends JPanel {
         add(activateDevCard3Button);
 
         activateLeader1Button = new JButton("<html>Activate<br> leader1 production</html>");   //html to put text on multiple lines
-        activateLeader1Button.setBounds(720, 370, 100, 50);
+        activateLeader1Button.setBounds(720, 360, 100, 50);
         activateLeader1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -282,7 +282,7 @@ public class ActivateProductionPanel extends JPanel {
         leader1ConvertedResource = new JTextField();
         leader1ConvertedResource.setText("OutputResource");
         leader1ConvertedResource.setToolTipText("Choose the output resource for the leader production");
-        leader1ConvertedResource.setBounds(825, 380, 100, 30);
+        leader1ConvertedResource.setBounds(825, 370, 100, 30);
         leader1ConvertedResource.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -300,7 +300,7 @@ public class ActivateProductionPanel extends JPanel {
         add(leader1ConvertedResource);
 
         activateLeader2Button = new JButton("<html>Activate<br> leader2 production</html>");   //html to put text on multiple lines
-        activateLeader2Button.setBounds(720, 690, 100, 50);
+        activateLeader2Button.setBounds(720, 660, 100, 50);
         activateLeader2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -314,7 +314,7 @@ public class ActivateProductionPanel extends JPanel {
         leader2ConvertedResource = new JTextField();
         leader2ConvertedResource.setText("OutputResource");
         leader2ConvertedResource.setToolTipText("Choose the output resource for the leader production");
-        leader2ConvertedResource.setBounds(825, 700, 100, 30);
+        leader2ConvertedResource.setBounds(825, 670, 100, 30);
         leader2ConvertedResource.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -338,10 +338,10 @@ public class ActivateProductionPanel extends JPanel {
 
         //here are the chat components
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(1210,290, 250, 30);
+        jLabel.setBounds(1000,170, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(1210,320,250,50);
+        jTextField.setBounds(1000,200,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -360,7 +360,7 @@ public class ActivateProductionPanel extends JPanel {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(1210,370,250,150);
+        chatScrollPane.setBounds(1000,250,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -370,7 +370,7 @@ public class ActivateProductionPanel extends JPanel {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(1210,525,250,150);
+        logScrollPane.setBounds(1000,405,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -380,7 +380,7 @@ public class ActivateProductionPanel extends JPanel {
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
         JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(1210,680,250,150);
+        playerInstructionsScrollPane.setBounds(1000,560,250,150);
         add(playerInstructionsScrollPane);
         //here finish the chat components
     }
@@ -417,12 +417,12 @@ public class ActivateProductionPanel extends JPanel {
             g.drawString("no production leader active", 750, 200);
         }
 
-        g.drawString("LeaderCard2:", 750, 460);
+        g.drawString("LeaderCard2:", 750, 440);
         leaderCard = myPlayer.getLeaderCard(1);
         if (leaderCard.getCode() >= 13 && leaderCard.isActive()) {
-            drawLeaderCard(g, leaderCard.getCode(), 750, 470);
+            drawLeaderCard(g, leaderCard.getCode(), 750, 450);
         } else {
-            g.drawString("no production leader active", 750, 470);
+            g.drawString("no production leader active", 750, 450);
         }
 
 
