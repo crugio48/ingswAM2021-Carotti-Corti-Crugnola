@@ -267,10 +267,11 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
                 observedClientModelFaithTrack.getActiveFirstPapalFavourCard(), observedClientModelFaithTrack.getActiveSecondPapalFavourCard(),
                 observedClientModelFaithTrack.getActiveThirdPapalFavourCard());
         drawStorageResources(g);
-        drawChestResources(g);
+        //drawChestResources(g);
         devCardSlot(g);
         drawLeaders(g);
         drawLastUsedActionCard(g);
+        drawChestResources(g, clientModelPlayer.getChest());
     }
 
     private void devCardSlot(Graphics g){
@@ -323,6 +324,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
     }
 
+    /*
     private void drawChestResources(Graphics g){
 
         ClassLoader cl = this.getClass().getClassLoader();
@@ -341,10 +343,10 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             return;
         }
 
-       /* g.drawImage(coin,40,610,40,40,null);
+        g.drawImage(coin,40,610,40,40,null);
         g.drawImage(stone,120,610,40,40,null);
         g.drawImage(shield,40,680,40,40,null);
-        g.drawImage(servant,120,680,40,40,null);*/
+        g.drawImage(servant,120,680,40,40,null);
 
 
         if(chest.getCoinsQuantity()>=1)g.drawImage(coin,30,600,15,15,null);
@@ -444,11 +446,10 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         quantityservants.setBounds(170,680,40,40);
         quantityservants.setFont(new Font("Consolas", Font.BOLD, 20));
         quantityservants.setForeground(Color.magenta);
-        add(quantityservants);*/
-
-
+        add(quantityservants);
 
     }
+    */
 
     private void drawStorageResources(Graphics g){
         final int myIndicatorWidth = 40;
@@ -711,6 +712,42 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         }
 
     }
+
+    private void drawChestResources(Graphics g, ClientModelChest clientModelChest){
+         int x = 30;
+         int y = 600;
+
+        drawMyImg(g, "components/coin.png", x,y, 30,30);
+        drawMyImg(g, "components/shield.png",x,y+40,30,30);
+        drawMyImg(g, "components/stone.png",x,y+80,30,30);
+        drawMyImg(g, "components/servant.png",x,y+120,30,30);
+
+        drawRemaining(g, clientModelChest.getCoinsQuantity(),x+40,y+20);
+        drawRemaining(g, clientModelChest.getShieldsQuantity(), x+40,y+60);
+        drawRemaining(g,clientModelChest.getStonesQuantity(), x+40,y+100);
+        drawRemaining(g, clientModelChest.getServantsQuantity(), x+40,y+140);
+
+    }
+
+    private void drawMyImg(Graphics g, String path, int x, int y, int width, int height){
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream(path);
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,x,y,width,height,null);
+    }
+
+    private void drawRemaining(Graphics g, int remainingResource, int x, int y){
+        g.setFont(new Font("Consolas", Font.BOLD, 20));
+        g.drawString(String.valueOf(remainingResource), x,y);
+    }
+
+
 
 
     public void enableActionButtons(){
