@@ -23,8 +23,6 @@ public class MarketPanel extends JPanel implements MyObserver {
     private JButton buyFromMarketButton;
     private JButton stopBuyingFromMarket;
 
-    private JLabel errorLabel;
-
     private JButton pos1;
     private JButton pos2;
     private JButton pos3;
@@ -55,13 +53,6 @@ public class MarketPanel extends JPanel implements MyObserver {
         extraMarble.setBounds(355,50,250,40);
         add(extraMarble);
 
-        /*
-        errorLabel = new JLabel("");
-        errorLabel.setVisible(false);
-        errorLabel.setBounds(450, 80, 300,20);
-        add(errorLabel);
-
-         */
 
         buyFromMarketButton = new JButton("Buy from market");
         buyFromMarketButton.setBounds(800,50, 150, 50);
@@ -76,7 +67,6 @@ public class MarketPanel extends JPanel implements MyObserver {
                 pos6.setVisible(true);
                 pos7.setVisible(true);
                 stopBuyingFromMarket.setVisible(true);
-                //errorLabel.setVisible(false);
                 clientGUI.getGameFrame().disableAllActionButtons();
             }
         });
@@ -95,7 +85,6 @@ public class MarketPanel extends JPanel implements MyObserver {
                 pos6.setVisible(false);
                 pos7.setVisible(false);
                 stopBuyingFromMarket.setVisible(false);
-                errorLabel.setVisible(false);
                 clientGUI.getGameFrame().enableAllActionButtons();
             }
         });
@@ -286,10 +275,6 @@ public class MarketPanel extends JPanel implements MyObserver {
         buyFromMarketButton.setEnabled(false);
     }
 
-    public void setErrorMessage(String message){
-        errorLabel.setText(message);
-        errorLabel.setVisible(true);
-    }
 
     public void setInvisiblePositionButtons(){
         pos1.setVisible(false);

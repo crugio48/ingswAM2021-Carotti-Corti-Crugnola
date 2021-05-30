@@ -42,8 +42,6 @@ public class ActivateProductionPanel extends JPanel {
     private JButton activateLeader2Button;
     private JTextField leader2ConvertedResource;
 
-    private JLabel errorLabel;
-
     private JTextField jTextField = new JTextField();
     private JTextArea jTextAreaLog = new JTextArea();
     private JTextArea jTextAreaChat = new JTextArea();
@@ -58,7 +56,7 @@ public class ActivateProductionPanel extends JPanel {
 
 
         goBackButton = new JButton("Stop producing");
-        goBackButton.setBounds(1050, 20, 150, 50);
+        goBackButton.setBounds(1050, 10, 150, 50);
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,7 +67,7 @@ public class ActivateProductionPanel extends JPanel {
         add(goBackButton);
 
         resetButton = new JButton("Reset");
-        resetButton.setBounds(900, 20, 120 , 50);
+        resetButton.setBounds(900, 10, 120 , 50);
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {  //reset all the buttons
@@ -90,13 +88,12 @@ public class ActivateProductionPanel extends JPanel {
                 activateLeader2Button.setEnabled(true);
                 leader2ConvertedResource.setVisible(false);
                 leader2ConvertedResource.setText("OutputResource");
-                errorLabel.setVisible(false);
             }
         });
         add(resetButton);
 
         submitProduction = new JButton("Submit Production");
-        submitProduction.setBounds(950, 100, 200, 50);
+        submitProduction.setBounds(950, 65, 200, 50);
         submitProduction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,34 +109,29 @@ public class ActivateProductionPanel extends JPanel {
                         bIn2 = baseInput2.getText();
                         bOut = baseOutput.getText();
                         if (!bIn1.equals("stone") && !bIn1.equals("shield") && !bIn1.equals("coin") && !bIn1.equals("servant")){
-                            errorLabel.setText("choose a correct resource for base production input 1");
-                            errorLabel.setVisible(true);
+                            clientGUI.getChatDocuments().writeInstructionMessage("Choose a correct resource for base production input 1");
                             return;
                         }
                         if (!bIn2.equals("stone") && !bIn2.equals("shield") && !bIn2.equals("coin") && !bIn2.equals("servant")){
-                            errorLabel.setText("choose a correct resource for base production input 2");
-                            errorLabel.setVisible(true);
+                            clientGUI.getChatDocuments().writeInstructionMessage("Choose a correct resource for base production input 2");
                             return;
                         }
                         if (!bOut.equals("stone") && !bOut.equals("shield") && !bOut.equals("coin") && !bOut.equals("servant")){
-                            errorLabel.setText("choose a correct resource for base production output");
-                            errorLabel.setVisible(true);
+                            clientGUI.getChatDocuments().writeInstructionMessage("Choose a correct resource for base production output");
                             return;
                         }
                     }
                     if (!activateLeader1Button.isEnabled()) {
                         l1Out = leader1ConvertedResource.getText();
                         if (!l1Out.equals("stone") && !l1Out.equals("shield") && !l1Out.equals("coin") && !l1Out.equals("servant")){
-                            errorLabel.setText("choose a correct resource for leader 1 production output");
-                            errorLabel.setVisible(true);
+                            clientGUI.getChatDocuments().writeInstructionMessage("Choose a correct resource for leader 1 production output");
                             return;
                         }
                     }
                     if (!activateLeader2Button.isEnabled()) {
                         l2Out = leader2ConvertedResource.getText();
                         if (!l2Out.equals("stone") && !l2Out.equals("shield") && !l2Out.equals("coin") && !l2Out.equals("servant")){
-                            errorLabel.setText("choose a correct resource for leader 2 production output");
-                            errorLabel.setVisible(true);
+                            clientGUI.getChatDocuments().writeInstructionMessage("Choose a correct resource for leader 2 production output");
                             return;
                         }
                     }
@@ -155,7 +147,7 @@ public class ActivateProductionPanel extends JPanel {
 
 
         activateBaseProdButton = new JButton("<html>Activate<br>Base Production</html>");   //the html tags and br to make text go on two lines
-        activateBaseProdButton.setBounds(10,130, 120, 130);
+        activateBaseProdButton.setBounds(10,100, 120, 130);
         activateBaseProdButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -170,14 +162,14 @@ public class ActivateProductionPanel extends JPanel {
 
         baseProdLabel = new JLabel("Please choose the resources for base production (stone || coin || shield || servant):");
         baseProdLabel.setFont(new Font(Font.SERIF, Font.ITALIC, 12));
-        baseProdLabel.setBounds(305,150, 500, 30);
+        baseProdLabel.setBounds(305,120, 500, 30);
         baseProdLabel.setVisible(false);
         add(baseProdLabel);
 
         baseInput1 = new JTextField();
         baseInput1.setText("InputResource1");
         baseInput1.setToolTipText("Choose the first input resource for base production");
-        baseInput1.setBounds(305, 180, 100, 30);
+        baseInput1.setBounds(305, 150, 100, 30);
         baseInput1.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -197,7 +189,7 @@ public class ActivateProductionPanel extends JPanel {
         baseInput2 = new JTextField();
         baseInput2.setText("InputResource2");
         baseInput2.setToolTipText("Choose the second input resource for base production");
-        baseInput2.setBounds(415, 180, 100, 30);
+        baseInput2.setBounds(415, 150, 100, 30);
         baseInput2.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -217,7 +209,7 @@ public class ActivateProductionPanel extends JPanel {
         baseOutput = new JTextField();
         baseOutput.setText("OutputResource");
         baseOutput.setToolTipText("Choose the output resource for base production");
-        baseOutput.setBounds(525, 180, 100, 30);
+        baseOutput.setBounds(525, 150, 100, 30);
         baseOutput.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -235,7 +227,7 @@ public class ActivateProductionPanel extends JPanel {
         add(baseOutput);
 
         activateDevCard1Button = new JButton("<html>Activate<br> development card 1</html>");  //html to put text on multiple lines
-        activateDevCard1Button.setBounds(50,655, 150,60);
+        activateDevCard1Button.setBounds(50,580, 150,60);
         activateDevCard1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -246,7 +238,7 @@ public class ActivateProductionPanel extends JPanel {
         add(activateDevCard1Button);
 
         activateDevCard2Button = new JButton("<html>Activate<br> development card 2</html>");  //html to put text on multiple lines
-        activateDevCard2Button.setBounds(250,655, 150,60);
+        activateDevCard2Button.setBounds(250,580, 150,60);
         activateDevCard2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -257,7 +249,7 @@ public class ActivateProductionPanel extends JPanel {
         add(activateDevCard2Button);
 
         activateDevCard3Button = new JButton("<html>Activate<br> development card 3</html>");   //html to put text on multiple lines
-        activateDevCard3Button.setBounds(450,655, 150,60);
+        activateDevCard3Button.setBounds(450,580, 150,60);
         activateDevCard3Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -268,7 +260,7 @@ public class ActivateProductionPanel extends JPanel {
         add(activateDevCard3Button);
 
         activateLeader1Button = new JButton("<html>Activate<br> leader1 production</html>");   //html to put text on multiple lines
-        activateLeader1Button.setBounds(720, 360, 100, 50);
+        activateLeader1Button.setBounds(720, 290, 100, 50);
         activateLeader1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -282,7 +274,7 @@ public class ActivateProductionPanel extends JPanel {
         leader1ConvertedResource = new JTextField();
         leader1ConvertedResource.setText("OutputResource");
         leader1ConvertedResource.setToolTipText("Choose the output resource for the leader production");
-        leader1ConvertedResource.setBounds(825, 370, 100, 30);
+        leader1ConvertedResource.setBounds(825, 300, 100, 30);
         leader1ConvertedResource.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -300,7 +292,7 @@ public class ActivateProductionPanel extends JPanel {
         add(leader1ConvertedResource);
 
         activateLeader2Button = new JButton("<html>Activate<br> leader2 production</html>");   //html to put text on multiple lines
-        activateLeader2Button.setBounds(720, 660, 100, 50);
+        activateLeader2Button.setBounds(720, 590, 100, 50);
         activateLeader2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -314,7 +306,7 @@ public class ActivateProductionPanel extends JPanel {
         leader2ConvertedResource = new JTextField();
         leader2ConvertedResource.setText("OutputResource");
         leader2ConvertedResource.setToolTipText("Choose the output resource for the leader production");
-        leader2ConvertedResource.setBounds(825, 670, 100, 30);
+        leader2ConvertedResource.setBounds(825, 600, 100, 30);
         leader2ConvertedResource.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -331,17 +323,13 @@ public class ActivateProductionPanel extends JPanel {
         leader2ConvertedResource.setVisible(false);
         add(leader2ConvertedResource);
 
-        errorLabel = new JLabel("test");
-        errorLabel.setBounds(950, 170, 200,50);
-        errorLabel.setVisible(false);
-        add(errorLabel);
 
         //here are the chat components
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(1000,170, 250, 30);
+        jLabel.setBounds(1000,115, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(1000,200,250,50);
+        jTextField.setBounds(1000,145,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -360,7 +348,7 @@ public class ActivateProductionPanel extends JPanel {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(1000,250,250,150);
+        chatScrollPane.setBounds(1000,195,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -370,7 +358,7 @@ public class ActivateProductionPanel extends JPanel {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(1000,405,250,150);
+        logScrollPane.setBounds(1000,350,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -380,7 +368,7 @@ public class ActivateProductionPanel extends JPanel {
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
         JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(1000,560,250,150);
+        playerInstructionsScrollPane.setBounds(1000,505,250,150);
         add(playerInstructionsScrollPane);
         //here finish the chat components
     }
@@ -402,36 +390,36 @@ public class ActivateProductionPanel extends JPanel {
 
         drawBaseProduction(g);
 
-        g.drawString("Development Slot 1:", 50, 340);
-        drawDevCard(g, myPlayer.getPersonalDevCardSlots().getFirstStackTopCardCode() ,50 , 350);
-        g.drawString("Development Slot 2:", 250, 340);
-        drawDevCard(g, myPlayer.getPersonalDevCardSlots().getSecondStackTopCardCode(), 250, 350);
-        g.drawString("Development Slot 3:", 450, 340);
-        drawDevCard(g, myPlayer.getPersonalDevCardSlots().getThirdStackTopCardCode(), 450, 350);
+        g.drawString("Development Slot 1:", 50, 280);
+        drawDevCard(g, myPlayer.getPersonalDevCardSlots().getFirstStackTopCardCode() ,50 , 290);
+        g.drawString("Development Slot 2:", 250, 280);
+        drawDevCard(g, myPlayer.getPersonalDevCardSlots().getSecondStackTopCardCode(), 250, 290);
+        g.drawString("Development Slot 3:", 450, 280);
+        drawDevCard(g, myPlayer.getPersonalDevCardSlots().getThirdStackTopCardCode(), 450, 290);
 
-        g.drawString("LeaderCard1:", 750, 140);
+        g.drawString("LeaderCard1:", 750, 90);
         ClientModelLeaderCard leaderCard = myPlayer.getLeaderCard(0);
         if (leaderCard.getCode() >= 13 && leaderCard.isActive()) {
-            drawLeaderCard(g, leaderCard.getCode(), 750, 150);
+            drawLeaderCard(g, leaderCard.getCode(), 750, 100);
         } else {
-            g.drawString("no production leader active", 750, 200);
+            g.drawString("no production leader active", 750, 100);
         }
 
-        g.drawString("LeaderCard2:", 750, 440);
+        g.drawString("LeaderCard2:", 750, 380);
         leaderCard = myPlayer.getLeaderCard(1);
         if (leaderCard.getCode() >= 13 && leaderCard.isActive()) {
-            drawLeaderCard(g, leaderCard.getCode(), 750, 450);
+            drawLeaderCard(g, leaderCard.getCode(), 750, 390);
         } else {
-            g.drawString("no production leader active", 750, 450);
+            g.drawString("no production leader active", 750, 390);
         }
 
 
-        g.drawLine(715,800, 715,110);
-        g.drawLine(930,800,930,110);
-        g.drawLine(715, 110, 930, 110);
+        g.drawLine(715,800, 715,70);
+        g.drawLine(930,800,930,70);
+        g.drawLine(715, 70, 930, 70);
 
-        g.drawLine(0,110, 715,110);
-        g.drawLine(0, 300, 715, 300);
+        g.drawLine(0,70, 715,70);
+        g.drawLine(0, 260, 715, 260);
     }
 
     private void drawBaseProduction(Graphics g){
@@ -444,7 +432,7 @@ public class ActivateProductionPanel extends JPanel {
             e.printStackTrace();
             return;
         }
-        g.drawImage(img,150,120,150,150,null);
+        g.drawImage(img,150,90,150,150,null);
     }
 
     private void drawDevCard(Graphics g,int devCardCode, int x, int y){
@@ -462,7 +450,7 @@ public class ActivateProductionPanel extends JPanel {
             e.printStackTrace();
             return;
         }
-        g.drawImage(img,x,y,150,300,null);
+        g.drawImage(img,x,y,160,270,null);
     }
 
 
@@ -476,7 +464,7 @@ public class ActivateProductionPanel extends JPanel {
             e.printStackTrace();
             return;
         }
-        g.drawImage(img,x,y,120,200,null);
+        g.drawImage(img,x,y,130,180,null);
     }
 
 
