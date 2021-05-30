@@ -169,10 +169,10 @@ public class MessageSender {
                 "\"baseInputResource1\" : \"" + baseInputResource1 + "\", " +
                 "\"baseInputResource2\" : \"" + baseInputResource2 + "\", " +
                 "\"baseOutputResource\" : \"" + baseOutputResource + "\", " +
-                "\"leaderSlot1Activation\" : " + leaderSlot1Activation + ", " +
+                "\"leader1SlotActivation\" : " + leaderSlot1Activation + ", " +
                 "\"leader1Code\" : " + leader1Code + ", " +
                 "\"leader1ConvertedResource\" : \"" + leader1ConvertedResource + "\", " +
-                "\"leaderSlot2Activation\" : " + leaderSlot2Activation + ", " +
+                "\"leader2SlotActivation\" : " + leaderSlot2Activation + ", " +
                 "\"leader2Code\" : " + leader2Code + ", " +
                 "\"leader2ConvertedResource\" : \"" + leader2ConvertedResource + "\"}";
         out.println(outMessage);
