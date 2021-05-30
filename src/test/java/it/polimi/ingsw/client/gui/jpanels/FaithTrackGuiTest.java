@@ -32,7 +32,7 @@ public class FaithTrackGuiTest {
 
         punchBoardOtherPlayersPanel = new PunchBoardOtherPlayersPanel(clientGUI, 1);
 
-        //clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate();
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {0,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
 
         int[] playerPositions = new int[4];
         playerPositions[0] = 0;
@@ -52,8 +52,57 @@ public class FaithTrackGuiTest {
                 createAndShowGUI(punchBoardOtherPlayersPanel);
             }
         });
-        Thread.sleep(12 * 1000);
 
+
+        Thread.sleep(5 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {1,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {2,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {3,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {4,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {5,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {6,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {7,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {8,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {9,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {10,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {11,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {12,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {13,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {14,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {15,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {16,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {17,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {18,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {19,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {20,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {21,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {22,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {23,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {24,0,0,0}, 0, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false}, new boolean[] {false, false, false, false});
+        Thread.sleep(1 * 1000);
 
 
 
@@ -62,8 +111,8 @@ public class FaithTrackGuiTest {
     private void createAndShowGUI(PunchBoardOtherPlayersPanel punchBoardOtherPlayersPanel){
         JFrame f = new JFrame();
         JTabbedPane jTabbedPane = new JTabbedPane();
-        jTabbedPane.add(punchBoardOtherPlayersPanel);
-
+        jTabbedPane.add(punchBoardOtherPlayersPanel, 0);
+        jTabbedPane.setTitleAt(0, "prova");
         f.getContentPane().add(jTabbedPane);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.pack();

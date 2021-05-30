@@ -444,24 +444,22 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
                              boolean[] activeSecondPapalFavourCard,
                              boolean[] activeThirdPapalFavourCard ){
         ClassLoader cl = this.getClass().getClassLoader();
-        InputStream url1, url2, url3, url4, url5, url6;
+        InputStream url1, url2, url3, url4, url6;
         BufferedImage playerBoardImg = null;
         BufferedImage firstPapalFavorCard = null;
         BufferedImage secondPapalFavorCard = null;
         BufferedImage thirdPapalFavorCard = null;
-        BufferedImage blackCross = null;
         BufferedImage myIndicator = null;
 
-        final int myIndicatorWidth = 40;
-        final int myIndicatorHeight = 40;
-        final int papalFavourCardDim = 70;
+        final int myIndicatorWidth = 32;
+        final int myIndicatorHeight = 32;
+        final int papalFavourCardDim = 40;
 
 
         url1 = cl.getResourceAsStream("components/playerboard.png");
         url2 = cl.getResourceAsStream("components/secondPapalFavorCard.png");
         url3 = cl.getResourceAsStream("components/thirdPapalFavorCard.png");
         url4 = cl.getResourceAsStream("components/firstPapalFavorCard.png");
-        url5 = cl.getResourceAsStream("components/blackCross.png");
         url6 = cl.getResourceAsStream("components/indicator.png");
 
         int index = myTurnOrder - 1;
@@ -471,7 +469,6 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
             firstPapalFavorCard = ImageIO.read(url2);
             secondPapalFavorCard = ImageIO.read(url3);
             thirdPapalFavorCard = ImageIO.read(url4);
-            blackCross = ImageIO.read(url5);
             myIndicator = ImageIO.read(url6);
 
 
@@ -483,79 +480,79 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
 
         switch(playerPositions[index]){
             case 0:
-                g.drawImage(myIndicator, 40,160, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 35,120, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 1:
-                g.drawImage(myIndicator, 90,160, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 74,120, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 2:
-                g.drawImage(myIndicator, 140,160, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 113,120, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 3:
-                g.drawImage(myIndicator, 140,105, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 113,80, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 4:
-                g.drawImage(myIndicator, 140,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 113,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 5:
-                g.drawImage(myIndicator, 190,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 152,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 6:
-                g.drawImage(myIndicator, 240,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 191,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 7:
-                g.drawImage(myIndicator, 290,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 230,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 8:
-                g.drawImage(myIndicator, 340,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 269,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 9:
-                g.drawImage(myIndicator, 390,55, myIndicatorWidth, myIndicatorHeight, null);
+                g.drawImage(myIndicator, 308,40, myIndicatorWidth, myIndicatorHeight, null);
                 break;
             case 10:
-                g.drawImage(myIndicator, 390,105, myIndicatorWidth, myIndicatorHeight, null);
+                g.drawImage(myIndicator, 308,80, myIndicatorWidth, myIndicatorHeight, null);
                 break;
             case 11:
-                g.drawImage(myIndicator, 390,160, myIndicatorWidth, myIndicatorHeight, null);
+                g.drawImage(myIndicator, 308,120, myIndicatorWidth, myIndicatorHeight, null);
                 break;
             case 12:
-                g.drawImage(myIndicator, 440,160, myIndicatorWidth, myIndicatorHeight, null);
+                g.drawImage(myIndicator, 347,120, myIndicatorWidth, myIndicatorHeight, null);
                 break;
             case 13:
-                g.drawImage(myIndicator, 490,160, myIndicatorWidth, myIndicatorHeight, null);
+                g.drawImage(myIndicator, 386,120, myIndicatorWidth, myIndicatorHeight, null);
                 break;
             case 14:
-                g.drawImage(myIndicator, 540,160, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 425,120, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 15:
-                g.drawImage(myIndicator, 590,160, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 464,120, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 16:
-                g.drawImage(myIndicator, 635,160, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 503,120, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 17:
-                g.drawImage(myIndicator, 635,105, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 503,80, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 18:
-                g.drawImage(myIndicator, 635,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 503,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 19:
-                g.drawImage(myIndicator, 685,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 542,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 20:
-                g.drawImage(myIndicator, 735,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 581,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 21:
-                g.drawImage(myIndicator, 785,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 620,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 22:
-                g.drawImage(myIndicator, 835,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 659,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 23:
-                g.drawImage(myIndicator, 885,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 698,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
             case 24:
-                g.drawImage(myIndicator, 935,55, myIndicatorWidth,myIndicatorHeight, null);
+                g.drawImage(myIndicator, 737,40, myIndicatorWidth,myIndicatorHeight, null);
                 break;
         }
 
