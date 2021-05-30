@@ -17,7 +17,7 @@ public class ChatDocuments {
 
     public void writeLogMessage(String message){
         try {
-            logDoc.insertString(0, message + "\n", null);
+            logDoc.insertString(0, message + "\n\n", null);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
@@ -25,7 +25,7 @@ public class ChatDocuments {
 
     public void writeChatMessage(String message){
         try {
-            chatDoc.insertString(0, message + "\n", null);
+            chatDoc.insertString(0, message + "\n\n", null);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
@@ -33,7 +33,7 @@ public class ChatDocuments {
 
     public void writeInstructionMessage(String message) {
         try {
-            playerInstructionsDoc.insertString(0, message + "\n", null);
+            playerInstructionsDoc.insertString(0, message + "\n\n", null);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
