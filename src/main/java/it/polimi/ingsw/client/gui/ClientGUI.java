@@ -89,6 +89,9 @@ public class ClientGUI extends Client {
         }
     }
 
+    public void setMyTurnOrder(int myTurnOrder) {
+        this.myTurnOrder = myTurnOrder;
+    }
 
     private void startGameGUI() {
         gameFrame = new GameFrame(this);
@@ -260,14 +263,14 @@ public class ClientGUI extends Client {
         Gson gson = new Gson();
         try {
             messageSender.chosenResourcesToPayForDevCard(
-                    coinsFromStorageSelected,
-                    shieldsFromStorageSelected,
-                    servantsFromStorageSelected,
-                    stonesFromStorageSelected,
                     coinsFromChestSelected,
+                    stonesFromChestSelected,
                     shieldsFromChestSelected,
                     servantsFromChestSelected,
-                    stonesFromChestSelected
+                    coinsFromStorageSelected,
+                    stonesFromStorageSelected,
+                    shieldsFromStorageSelected,
+                    servantsFromStorageSelected
             );
             String serverIn = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverIn, Response.class);
@@ -385,9 +388,14 @@ public class ClientGUI extends Client {
     }
 
     public void endPlacing() {
-        messageSender.endPlacing();
-        gameFrame.removeManageStoragePanel();
-        gameFrame.enableLeaderButtonsAndEndTurn();
+        try {
+            messageSender.endPlacing();
+            stringBuffer.readMessage();
+            gameFrame.removeManageStoragePanel();
+            gameFrame.enableLeaderButtonsAndEndTurn();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void switchResourceSlots(int slot1, int slot2) {

@@ -19,6 +19,7 @@ import java.io.InputStream;
 public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
     private ClientModelStorage clientModelStorage;
     private ClientModelChest clientModelChest;
+    private ClientGUI clientGUI;
     private int coinsLeftToPlace;
     private int shieldsLeftToPlace;
     private int servantsLeftToPlace;
@@ -48,6 +49,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
 
 
     public StorageAndChestChoicePanel (boolean isProduction, int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
+        this.clientGUI = clientGUI;
         this.setPreferredSize(new Dimension(1500, 900));
         this.setBackground(new Color(145,136,115));
 
@@ -57,10 +59,10 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         fixedServantsToPay = inputServants;
         fixedStonesToPay = inputStones;
 
-        this.coinsLeftToPlace = inputCoins;
-        this.shieldsLeftToPlace = inputShields;
-        this.servantsLeftToPlace = inputServants;
-        this.stonesLeftToPlace = inputStones;
+        coinsLeftToPlace = inputCoins;
+        shieldsLeftToPlace = inputShields;
+        servantsLeftToPlace = inputServants;
+        stonesLeftToPlace = inputStones;
 
         this.clientModelChest = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getChest();
         //this.clientModelChest = clientModelChest;
@@ -288,6 +290,8 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         add(playerInstructionsScrollPane);
         //here finish the chat components
 
+        revalidate();
+        repaint();
     }
 
 
@@ -298,8 +302,8 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
 
     @Override
     public void paintComponent(Graphics g) {
-        final int dimensionResources = 40;
         super.paintComponent(g);
+        final int dimensionResources = 40;
 
         drawMyImg(g, "components/coin.png", 160,110, dimensionResources,dimensionResources);
         drawMyImg(g, "components/shield.png",270,110,dimensionResources,dimensionResources);
