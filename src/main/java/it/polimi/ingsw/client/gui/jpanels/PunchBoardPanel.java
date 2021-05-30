@@ -477,8 +477,8 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     */
 
     private void drawStorageResources(Graphics g){
-        final int myIndicatorWidth = 40;
-        final int myIndicatorHeight = 40;
+        final int myIndicatorWidth = 30;
+        final int myIndicatorHeight = 30;
 
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url10 = cl.getResourceAsStream("components/coin.png");
@@ -499,28 +499,28 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
         if(storage.getQuantityOfSlot1()!=0){
             switch (storage.getResourceOfSlot1()){
-                case "coins":g.drawImage(coin,110,340,myIndicatorWidth,myIndicatorHeight,null);break;
-                case "stones":g.drawImage(stone,110,340,myIndicatorWidth,myIndicatorHeight,null);break;
-                case "shields":g.drawImage(shield,110,340,myIndicatorWidth,myIndicatorHeight,null);break;
-                case "servants":g.drawImage(servant,110,340,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "coins":g.drawImage(coin,90,260,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "stones":g.drawImage(stone,90,260,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "shields":g.drawImage(shield,90,260,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "servants":g.drawImage(servant,90,260,myIndicatorWidth,myIndicatorHeight,null);break;
                 default:break;
             }
         }
         if(storage.getQuantityOfSlot2()!=0){
             switch (storage.getResourceOfSlot2()){
-                case "coins":g.drawImage(coin,80,420,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,135,420,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "stones":g.drawImage(stone,80,420,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,135,420,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "shields":g.drawImage(shield,80,420,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,135,420,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "servants":g.drawImage(servant,80,420,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,135,420,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "coins":g.drawImage(coin,65,310,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,110,310,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "stones":g.drawImage(stone,65,310,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,110,310,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "shields":g.drawImage(shield,65,310,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,110,310,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "servants":g.drawImage(servant,65,310,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,110,310,myIndicatorWidth,myIndicatorHeight,null);}break;
                 default:break;
             }
         }
         if(storage.getQuantityOfSlot3()!=0){
             switch (storage.getResourceOfSlot3()){
-                case "coins":g.drawImage(coin,60,480,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(coin,110,480,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(coin,160,480,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "stones":g.drawImage(stone,60,480,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(stone,110,480,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(stone,160,480,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "shields":g.drawImage(shield,60,480,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(shield,110,480,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(shield,160,480,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "servants":g.drawImage(servant,60,480,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,110,480,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,160,480,myIndicatorHeight,myIndicatorWidth,null);}break;
+                case "coins":g.drawImage(coin,50,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(coin,90,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(coin,125,370,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "stones":g.drawImage(stone,50,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(stone,90,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(stone,125,370,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "shields":g.drawImage(shield,50,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(shield,90,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(shield,125,370,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "servants":g.drawImage(servant,50,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,90,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,125,370,myIndicatorWidth,myIndicatorHeight,null);}break;
                 default:break;
             }
         }
