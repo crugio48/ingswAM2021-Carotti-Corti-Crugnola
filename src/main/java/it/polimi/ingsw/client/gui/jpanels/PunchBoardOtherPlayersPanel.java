@@ -159,10 +159,10 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
                 return;
             }
             if (clientModelPlayer.getLeaderCard(0).isActive()){
-                g.drawImage(ldr1, 1050,20,130,200,null);
+                g.drawImage(ldr1, 825,20,130,200,null);
             }
             else{
-                g.drawImage(ldrBack, 1050,20,130,200,null);
+                g.drawImage(ldrBack, 825,20,130,200,null);
             }
 
         }
@@ -177,10 +177,10 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
             }
 
             if (clientModelPlayer.getLeaderCard(1).isActive()){
-                g.drawImage(ldr2, 1300,20,130,200,null);
+                g.drawImage(ldr2, 825,340,130,200, null);
             }
             else{
-                g.drawImage(ldrBack, 1300,20,130,200,null);
+                g.drawImage(ldrBack, 825,340,130,200, null);
             }
         }
 
