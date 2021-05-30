@@ -4,6 +4,7 @@ import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelChest;
+import it.polimi.ingsw.clientmodel.ClientModelPlayer;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
 
 import javax.imageio.ImageIO;
@@ -47,11 +48,15 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
     private JTextArea jTextAreaChat = new JTextArea();
     private JTextArea jTextAreaPlayerInstruction = new JTextArea();
 
+    private ClientModelPlayer clientModelPlayer;
+
 
     public StorageAndChestChoicePanel (boolean isProduction, int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
         this.clientGUI = clientGUI;
-        this.setPreferredSize(new Dimension(1500, 900));
+        this.setPreferredSize(new Dimension(1280, 720));
         this.setBackground(new Color(145,136,115));
+
+        clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
 
         this.isProduction = isProduction;
         fixedCoinsToPay = inputCoins;
@@ -404,6 +409,74 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
                 default:break;
             }
         }
+    }
+
+
+    private void drawLeaders(Graphics g){
+        int codeFirstLeader = 0;
+        int codeSecondLeader = 0;
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url1=null;
+        InputStream url2=null;
+        BufferedImage ldr1= null;
+        BufferedImage ldr2= null;
+
+        codeFirstLeader = clientModelPlayer.getLeaderCard(0).getCode();
+        codeSecondLeader = clientModelPlayer.getLeaderCard(1).getCode();
+
+        //in this case we print the leaders side by side
+        if (clientModelPlayer.getLeaderCard(0).isActive() && clientModelPlayer.getLeaderCard(1).isActive() &&
+                clientModelPlayer.getLeaderCard(0).getCode() >= 1 && clientModelPlayer.getLeaderCard(0).getCode() <= 4 &&
+                clientModelPlayer.getLeaderCard(1).getCode() >= 1 && clientModelPlayer.getLeaderCard(1).getCode() <= 4){
+            //if both are active and both are convertWhiteMarbleEffect
+            url1 = cl.getResourceAsStream("cards/leader"+codeFirstLeader+".png");
+            try {
+                ldr1 = ImageIO.read(url1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            //to draw on the left
+            g.drawImage(ldr1, 500,330,130,200,null);
+
+            url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
+            try {
+                ldr2 = ImageIO.read(url2);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            //to draw on the right
+            g.drawImage(ldr2, 660,330,130,200, null);
+        }
+
+        else {
+            //if only one converter white marble leader is active
+            if((clientModelPlayer.getLeaderCard(0).getCode() >= 1 && clientModelPlayer.getLeaderCard(0).getCode() <= 4 && clientModelPlayer.getLeaderCard(0).isActive())){
+                url1 = cl.getResourceAsStream("cards/leader"+codeFirstLeader+".png");
+                try {
+                    ldr1 = ImageIO.read(url1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                //to draw in the middle
+                g.drawImage(ldr1, 500,330,130,200,null);
+            }
+            if(clientModelPlayer.getLeaderCard(0).getCode() >= 1 && clientModelPlayer.getLeaderCard(0).getCode() <= 4 && clientModelPlayer.getLeaderCard(0).isActive()){
+                url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
+                try {
+                    ldr2 = ImageIO.read(url2);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                //to draw in the middle
+                g.drawImage(ldr2, 500,330,130,200, null);
+            }
+        }
+
+
     }
 
     public void resetResourcesToPay(){
