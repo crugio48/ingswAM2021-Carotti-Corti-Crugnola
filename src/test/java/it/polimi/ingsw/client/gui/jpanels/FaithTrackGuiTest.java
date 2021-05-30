@@ -7,6 +7,7 @@ import it.polimi.ingsw.clientmodel.*;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
 public class FaithTrackGuiTest {
@@ -53,16 +54,10 @@ public class FaithTrackGuiTest {
             }
         });
 
-        //punchBoardPanel.setVisibilePlacingButtons();
-        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,1);
-        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,2);
-        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,3);
-        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(35,1);
-        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(35,2);
-        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,3);
-        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(60,1);
-        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(60,2);
-        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(60,3);
+        //try to invert the two variables 3 with 2 and 2 with 3
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).setLeaderCardsUpdate(2,true,3,true);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getStorage().setClientModelStorageUpdate(2,2,1,1,1,"coins","shields","stones", "coins", "shields");
+
 
         Thread.sleep(1000 * 1000);
 
@@ -76,7 +71,7 @@ public class FaithTrackGuiTest {
         JFrame f = new JFrame();
         JTabbedPane jTabbedPane = new JTabbedPane();
         jTabbedPane.add(punchBoardPanel);
-
+        jTabbedPane.setPreferredSize(new Dimension(1280,720));
         f.getContentPane().add(jTabbedPane);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.pack();

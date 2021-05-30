@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
+import it.polimi.ingsw.CardDecoder.CardDecoder;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class PunchBoardPanel extends JPanel implements MyObserver {
+    private CardDecoder cardDecoder = new CardDecoder();
     private ClientGUI clientGUI;
     private ClientModelFaithTrack observedClientModelFaithTrack;
     private ClientModelStorage storage;
@@ -311,10 +313,10 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         drawMyBoard(g, observedClientModelFaithTrack.getPlayerPositions(), observedClientModelFaithTrack.getBlackCrossPosition(),
                 observedClientModelFaithTrack.getActiveFirstPapalFavourCard(), observedClientModelFaithTrack.getActiveSecondPapalFavourCard(),
                 observedClientModelFaithTrack.getActiveThirdPapalFavourCard());
+        drawLeaders(g);
         drawStorageResources(g);
         //drawChestResources(g);
         devCardSlot(g,devCardSlots);
-        drawLeaders(g);
         drawLastUsedActionCard(g);
         drawChestResources(g, clientModelPlayer.getChest());
     }
@@ -549,6 +551,132 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
                 case "servants":g.drawImage(servant,50,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,90,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,125,370,myIndicatorWidth,myIndicatorHeight,null);}break;
                 default:break;
             }
+        }
+        if(storage.getQuantityOfLeaderSlot1()!=0){
+            if (storage.getResourceTypeOfLeaderSlot1().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(0).getCode()))) {
+                switch (storage.getResourceTypeOfLeaderSlot1()) {  //print on above card
+                    case "coins":
+                        g.drawImage(coin, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(coin, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(stone, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(shield, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(servant, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else {
+                switch (storage.getResourceTypeOfLeaderSlot1()) {  //print on lower card
+                    case "coins":
+                        g.drawImage(coin, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(coin, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(stone, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(shield, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(servant, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+        if(storage.getQuantityOfLeaderSlot2()!=0){
+            if (storage.getResourceTypeOfLeaderSlot2().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(0).getCode()))) {
+                switch (storage.getResourceTypeOfLeaderSlot2()) {  //print on above card
+                    case "coins":
+                        g.drawImage(coin, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(coin, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(stone, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(shield, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(servant, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else {
+                switch (storage.getResourceTypeOfLeaderSlot2()) {  //print on lower card
+                    case "coins":
+                        g.drawImage(coin, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(coin, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(stone, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(shield, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(servant, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         }
     }
 
