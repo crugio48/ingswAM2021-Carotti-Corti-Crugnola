@@ -53,7 +53,16 @@ public class FaithTrackGuiTest {
             }
         });
 
-        punchBoardPanel.setVisibilePlacingButtons();
+        //punchBoardPanel.setVisibilePlacingButtons();
+        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,1);
+        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,2);
+        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,3);
+        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(35,1);
+        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(35,2);
+        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(18,3);
+        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(60,1);
+        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(60,2);
+        clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(60,3);
 
         Thread.sleep(1000 * 1000);
 
