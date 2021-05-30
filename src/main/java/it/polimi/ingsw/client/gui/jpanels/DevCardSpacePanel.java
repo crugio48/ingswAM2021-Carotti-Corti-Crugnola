@@ -125,20 +125,20 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         lv2PurpleButton = new JButton("lv2 purple");
         lv3PurpleButton = new JButton("lv3 purple");
 
-        lv3GreenButton.setBounds(45,185,120,30);
-        lv3BlueButton.setBounds(225,185,120,30);
-        lv3YellowButton.setBounds(410,185,120,30);
-        lv3PurpleButton.setBounds(590, 185, 120, 30);
+        lv3GreenButton.setBounds(45,185,120,25);
+        lv3BlueButton.setBounds(225,185,120,25);
+        lv3YellowButton.setBounds(410,185,120,25);
+        lv3PurpleButton.setBounds(590, 185, 120, 25);
 
-        lv2GreenButton.setBounds(45,405,120,30);
-        lv2BlueButton.setBounds(225,405,120,30);
-        lv2YellowButton.setBounds(410,405,120,30);
-        lv2PurpleButton.setBounds(590,405,120,30);
+        lv2GreenButton.setBounds(45,400,120,25);
+        lv2BlueButton.setBounds(225,400,120,25);
+        lv2YellowButton.setBounds(410,400,120,25);
+        lv2PurpleButton.setBounds(590,400,120,25);
 
-        lv1GreenButton.setBounds(45, 625, 120, 30);
-        lv1BlueButton.setBounds(225,625,120,30);
-        lv1YellowButton.setBounds(410,625,120,30);
-        lv1PurpleButton.setBounds(590,625,120,30);
+        lv1GreenButton.setBounds(45, 615, 120, 25);
+        lv1BlueButton.setBounds(225,615,120,25);
+        lv1YellowButton.setBounds(410,615,120,25);
+        lv1PurpleButton.setBounds(590,615,120,25);
 
         lv1BlueButton.setVisible(false);
         lv2BlueButton.setVisible(false);
@@ -188,10 +188,10 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
 
         //here are the chat components
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(1000,115, 250, 30);
+        jLabel.setBounds(1000,105, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(1000,145,250,50);
+        jTextField.setBounds(1000,135,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -210,7 +210,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(1000,195,250,150);
+        chatScrollPane.setBounds(1000,185,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -220,7 +220,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(1000,350,250,150);
+        logScrollPane.setBounds(1000,340,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -230,7 +230,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
         JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(1000,505,250,150);
+        playerInstructionsScrollPane.setBounds(1000,495,250,150);
         add(playerInstructionsScrollPane);
         //here finish the chat components
     }
@@ -262,8 +262,8 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         final int cardHeight = 184;
         final int cardWidth = 115;
         final int firstRowPixelFromTop = 0;
-        final int secondRowPixelFromTop = 220;
-        final int thirdRowPixelFromTop = 440;
+        final int secondRowPixelFromTop = 215;
+        final int thirdRowPixelFromTop = 430;
         final int firstColumnFromLeft = 50;
         final int secondColumnFromLeft = 230;
         final int thirdColumnFromLeft = 410;
