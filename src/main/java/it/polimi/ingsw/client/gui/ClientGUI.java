@@ -387,6 +387,7 @@ public class ClientGUI extends Client {
     public void endPlacing() {
         messageSender.endPlacing();
         gameFrame.removeManageStoragePanel();
+        gameFrame.enableLeaderButtonsAndEndTurn();
     }
 
     public void switchResourceSlots(int slot1, int slot2) {

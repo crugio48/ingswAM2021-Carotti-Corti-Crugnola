@@ -129,9 +129,10 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                clientGUI.endTurn();
             }
         });
+        add(endTurnButton);
 
 
 
