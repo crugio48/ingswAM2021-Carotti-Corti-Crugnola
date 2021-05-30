@@ -21,7 +21,6 @@ public class ActivateProductionPanelTest {
         player = clientGUI.getClientModel().getPlayerByNickname("cru");
         player.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(24,1);
         player.getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(32,3);
-
         player.setLeaderCardsUpdate(15, true, 16, true);
 
         activateProductionPanel = new ActivateProductionPanel(clientGUI);
