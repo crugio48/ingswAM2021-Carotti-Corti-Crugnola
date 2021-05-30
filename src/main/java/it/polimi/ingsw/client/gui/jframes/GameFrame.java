@@ -45,15 +45,10 @@ public class GameFrame{
 
         cl.show(panelContainer, "lobby");
 
-        tabbedPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                jFrame.setSize(tabbedPane.getSelectedComponent().getPreferredSize());
-            }
-        });
-
         jFrame.add(panelContainer);
+
         jFrame.pack();
+        jFrame.setResizable(false);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setVisible(true);
     }

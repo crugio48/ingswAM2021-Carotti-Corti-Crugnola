@@ -38,7 +38,7 @@ public class ChoosingStartingStuffPanel extends JPanel {
 
     public ChoosingStartingStuffPanel(ClientGUI clientGUI) {
         this.clientGUI = clientGUI;
-        setPreferredSize(new Dimension(1000,600));
+        setPreferredSize(new Dimension(1280,720));
         setLayout(null);
 
 
