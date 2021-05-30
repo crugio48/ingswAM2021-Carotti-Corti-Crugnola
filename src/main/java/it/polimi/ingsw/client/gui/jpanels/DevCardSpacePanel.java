@@ -334,6 +334,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
             return;
         }
 
+
         g.drawImage(img1, fourthColumnFromLeft,thirdRowPixelFromTop, cardWidth,cardHeight, null);
         g.drawImage(img2, fourthColumnFromLeft,secondRowPixelFromTop, cardWidth,cardHeight, null);
         g.drawImage(img3, fourthColumnFromLeft,firstRowPixelFromTop, cardWidth,cardHeight, null);

@@ -810,7 +810,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     }
 
     public void setInvisibilePlacingButtons(){
-        placeInThirdSlotButton.setVisible(false);
+        placeInFirstSlotButton.setVisible(false);
         placeInSecondSlotButton.setVisible(false);
         placeInThirdSlotButton.setVisible(false);
         revalidate();
