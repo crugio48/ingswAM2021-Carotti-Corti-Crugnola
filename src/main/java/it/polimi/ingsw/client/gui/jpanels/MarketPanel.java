@@ -38,7 +38,6 @@ public class MarketPanel extends JPanel implements MyObserver {
 
     public MarketPanel (ClientGUI clientGUI) {
         this.setPreferredSize(new Dimension(1280, 720));
-        this.setBackground(new Color(145,136,115));
 
         this.market = clientGUI.getClientModel().getMarket();
         market.addObserver(this);

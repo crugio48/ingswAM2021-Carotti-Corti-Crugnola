@@ -47,7 +47,6 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
 
         this.setPreferredSize(new Dimension(1280, 720));
-        this.setBackground(new Color(145,136,115));
         this.setLayout(null);
 
         remainingJolly = inputJolly;

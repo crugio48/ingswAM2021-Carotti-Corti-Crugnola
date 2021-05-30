@@ -44,8 +44,8 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
         this.myTurnOrder = playerTurnOrder;
         this.observedClientModelFaithTrack = clientGUI.getClientModel().getFaithTrack();
         observedClientModelFaithTrack.addObserver(this);
+
         this.setPreferredSize(new Dimension(1280, 720));
-        this.setBackground(new Color(145,136,115));
 
         //here are the chat components
         JLabel jLabel = new JLabel("chat: ");

@@ -486,7 +486,6 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
 
 
         this.setPreferredSize(new Dimension(1280, 720));
-        this.setBackground(new Color(145,136,115));
     }
 
     @Override

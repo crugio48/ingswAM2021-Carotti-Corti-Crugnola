@@ -51,7 +51,6 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         setLayout(null);
         setOpaque(true);
         this.setPreferredSize(new Dimension(1500, 900));
-        this.setBackground(new Color(145,136,115));
 
         this.clientGUI = clientGUI;
         this.clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());

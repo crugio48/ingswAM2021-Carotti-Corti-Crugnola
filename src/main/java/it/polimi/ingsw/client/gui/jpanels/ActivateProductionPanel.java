@@ -52,7 +52,6 @@ public class ActivateProductionPanel extends JPanel {
         myPlayer = clientGUI.getClientModel().getPlayerByNickname(clientGUI.getMyUsername());
         setLayout(null);
         setPreferredSize(new Dimension(1280, 720));
-        setBackground(new Color(183,177,142));
 
 
         goBackButton = new JButton("Stop producing");

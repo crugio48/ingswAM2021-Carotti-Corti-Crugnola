@@ -54,7 +54,6 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
     public StorageAndChestChoicePanel (boolean isProduction, int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
         this.clientGUI = clientGUI;
         this.setPreferredSize(new Dimension(1280, 720));
-        this.setBackground(new Color(145,136,115));
 
         clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
 
