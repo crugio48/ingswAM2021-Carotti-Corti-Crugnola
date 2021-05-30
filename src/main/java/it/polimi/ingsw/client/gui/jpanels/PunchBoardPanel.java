@@ -81,11 +81,11 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         placeInThirdSlotButton.addActionListener(new PlaceDevCardAction(clientGUI, 3));
 
 
-        placeInFirstSlotButton.setBounds(390,750,160,30);
+        placeInFirstSlotButton.setBounds(305,600,140,30);
         add(placeInFirstSlotButton);
-        placeInSecondSlotButton.setBounds(590,750,160,30);
+        placeInSecondSlotButton.setBounds(460,600,140,30);
         add(placeInSecondSlotButton);
-        placeInThirdSlotButton.setBounds(790,750,160,30);
+        placeInThirdSlotButton.setBounds(620,600,140,30);
         add(placeInThirdSlotButton);
 
 

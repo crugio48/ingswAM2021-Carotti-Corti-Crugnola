@@ -53,6 +53,7 @@ public class FaithTrackGuiTest {
             }
         });
 
+        punchBoardPanel.setVisibilePlacingButtons();
 
         Thread.sleep(1000 * 1000);
 

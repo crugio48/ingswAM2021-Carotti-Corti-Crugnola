@@ -26,6 +26,7 @@ public class GameFrame{
     StorageAndChestChoicePanel storageAndChestChoicePanel;
     ManageStoragePanel manageStoragePanel;
     ActivatingLeaderMarblePowerPanel activatingLeaderMarblePowerPanel;
+    boolean gameEnded = false;
 
 
     public GameFrame(ClientGUI clientGUI) {
@@ -341,6 +342,14 @@ public class GameFrame{
         }
         tabbedPane.removeTabAt(index);
         tabbedPane.setSelectedIndex(2);  //my punchBoard panel
+    }
+
+    public void goToLeaderBoardPanel(){
+        if (gameEnded) return;
+
+        gameEnded = true;
+        panelContainer.add("endPanel", new LeaderBoardPanel(clientGUI));
+        cl.show(panelContainer, "endPanel");
     }
 
     public void enableAllActionButtons(){

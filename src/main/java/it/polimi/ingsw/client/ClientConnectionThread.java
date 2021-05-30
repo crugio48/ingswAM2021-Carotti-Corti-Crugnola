@@ -129,7 +129,7 @@ public class ClientConnectionThread extends Thread {
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("The game ended, input anything and you will se the final scores");
                         } else if (client instanceof ClientGUI){
-                            //PASSARE A SCREEN DEI PUNTI VTTORIA FINALI
+                            ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel();
                         }
                         break;
 
@@ -138,7 +138,7 @@ public class ClientConnectionThread extends Thread {
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("lorenzo has finished the game");
                         } else if (client instanceof ClientGUI){
-                            //PASSARE A SCREEN DEI PUNTI VTTORIA FINALI
+                            ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel();
                         }
                         break;
                     case "chatMessageUpdate":
@@ -164,7 +164,7 @@ public class ClientConnectionThread extends Thread {
                             ((ClientCLI) client).printOutRed("another client has disconnected, closing the game");
                             System.exit(1);
                         } else if (client instanceof ClientGUI){
-                            //PASSARE A SCREEN PUNTI VITTORIA FINALI
+                            ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel();
                             return;
                         }
 
@@ -181,7 +181,7 @@ public class ClientConnectionThread extends Thread {
                         ((ClientCLI) client).printOutRed("the server stopped working, closing the game");
                         System.exit(1);
                     } else if (client instanceof ClientGUI) {
-                        //PASSARE A SCREEN PUNTI VITTORIA FINALI
+                        ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel();
                     }
                 }
             } catch (IOException ioException) {
