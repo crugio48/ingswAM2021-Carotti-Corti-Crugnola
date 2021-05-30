@@ -26,6 +26,7 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
     private JButton addShieldsToConvertButton;
     private JButton addServantsToConvertButton;
     private JButton addStonesToConvertButton;
+    private JButton submitButton;
 
     private int remainingJolly;
     private int stones;
@@ -37,6 +38,7 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
     private int fixedShields;
     private int fixedCoins;
     private int fixedServants;
+    private int fixedJolly;
 
     private ClientModelPlayer clientModelPlayer;
 
@@ -58,6 +60,7 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         fixedShields = inputShields;
         fixedServants = inputServants;
         fixedStones = inputStones;
+        fixedJolly = inputJolly;
 
         instructionLabel = new JLabel();
         instructionLabel.setText("These are the resources you picked from the market");
@@ -87,15 +90,25 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         convertedLabel.setBounds(175,60,600,40);
         add(convertedLabel);
 
-        addCoinsToConvertButton = new JButton("add++");
-        addServantsToConvertButton = new JButton("add++");
-        addShieldsToConvertButton = new JButton("add++");
-        addStonesToConvertButton = new JButton("add++");
+        addCoinsToConvertButton = new JButton("addcoins++");
+        addServantsToConvertButton = new JButton("addservants++");
+        addShieldsToConvertButton = new JButton("addshields++");
+        addStonesToConvertButton = new JButton("addstones++");
+        submitButton = new JButton("Submit");
 
         addCoinsToConvertButton.setBounds(190,630,150,30);
         addShieldsToConvertButton.setBounds(300,630,150,30);
         addServantsToConvertButton.setBounds(410,630,150,30);
         addStonesToConvertButton.setBounds(520,630,150,30);
+        submitButton.setBounds(350,700,150,30);
+
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.sendNewConvertedResources(coins, shields, servants, stones);
+            }
+        });
+
 
         addCoinsToConvertButton.addActionListener(new ActionListener() {
             @Override
@@ -135,6 +148,7 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         add(addStonesToConvertButton);
         add(addShieldsToConvertButton);
         add(addServantsToConvertButton);
+        add(submitButton);
 
 
     }
@@ -261,10 +275,15 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         }
 
 
-
-
     }
 
-
+    public void resetNewResourcesToConvert(){
+        coins = fixedCoins;
+        servants = fixedServants;
+        shields = fixedShields;
+        stones = fixedStones;
+        remainingJolly = fixedJolly;
+        revalidate();
+    }
 
 }

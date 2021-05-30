@@ -440,6 +440,26 @@ public class ClientGUI extends Client {
 
     }
 
+    public void sendNewConvertedResources(int newCoins, int newShields, int newServants, int newStones){
+        Gson gson = new Gson();
+        try {
+            messageSender.chosenResourceToBuy(newCoins, newStones, newShields, newServants);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+            if (response.isCommandWasCorrect()) {
+                chatDocuments.writeInstructionMessage("You correctly submitted the resources");
+                gameFrame.removeActivatingLeaderMarblePowerPanel();
+                gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(),response.getShields());
+            } else {
+                chatDocuments.writeInstructionMessage("You can't convert these marbles!");
+            }
+
+            gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(), response.getShields(), response.getServants());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
