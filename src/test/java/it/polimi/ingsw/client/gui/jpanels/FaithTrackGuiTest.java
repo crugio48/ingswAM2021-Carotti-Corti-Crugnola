@@ -54,7 +54,17 @@ public class FaithTrackGuiTest {
         });
 
         clientGUI.getClientModel().getPlayerByTurnOrder(1).getStorage().setClientModelStorageUpdate(0,0,1,2,3,"coins","stones","shields",null,null);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(20,1);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(20,2);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(20,3);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(30,1);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(30,2);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(30,3);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,1);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,2);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,3);
         Thread.sleep(1000 * 1000);
+
 
 
 

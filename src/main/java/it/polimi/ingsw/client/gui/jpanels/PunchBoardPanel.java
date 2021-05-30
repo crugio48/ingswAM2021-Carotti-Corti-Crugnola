@@ -293,13 +293,13 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
                 observedClientModelFaithTrack.getActiveThirdPapalFavourCard());
         drawStorageResources(g);
         //drawChestResources(g);
-        devCardSlot(g);
+        devCardSlot(g,devCardSlots);
         drawLeaders(g);
         drawLastUsedActionCard(g);
         drawChestResources(g, clientModelPlayer.getChest());
     }
 
-    private void devCardSlot(Graphics g){
+    private void devCardSlot(Graphics g, ClientModelPersonalDevCardSlots devCardSlots){
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url11=null,url21=null,url31=null,url12=null,url22=null,url32=null,url13=null,url23=null,url33=null;
         if(devCardSlots.getFirstStack().size()>0)url11 = cl.getResourceAsStream("cards/"+devCardSlots.getFirstStackCardsCode(1)+".png");
@@ -326,23 +326,23 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             e.printStackTrace();
             return;
         }
-      //  ciaooooooo <3
+        //  ciaooooooo <3
 
 
         if(!devCardSlots.getFirstStack().isEmpty()){
-            g.drawImage(slot11,390,475,170,257,null);
-            if(devCardSlots.getFirstStack().size()>1)g.drawImage(slot12,390,400,170,257,null);
-            if(devCardSlots.getFirstStack().size()>2)g.drawImage(slot13,390,325,170,257,null);
+            g.drawImage(slot11,310,350,140,212,null);
+            if(devCardSlots.getFirstStack().size()>1)g.drawImage(slot12,310,300,140,212,null);
+            if(devCardSlots.getFirstStack().size()>2)g.drawImage(slot13,310,250,140,212,null);
         }
         if(!devCardSlots.getSecondStack().isEmpty()){
-            g.drawImage(slot21,580,475,170,257,null);
-            if(devCardSlots.getSecondStack().size()>1)g.drawImage(slot22,580,400,170,257,null);
-            if(devCardSlots.getSecondStack().size()>2)g.drawImage(slot23,580,325,170,257,null);
+            g.drawImage(slot21,465,350,140,212,null);
+            if(devCardSlots.getSecondStack().size()>1)g.drawImage(slot22,465,300,140,212,null);
+            if(devCardSlots.getSecondStack().size()>2)g.drawImage(slot23,465,250,140,212,null);
         }
         if(!devCardSlots.getThirdStack().isEmpty()){
-            g.drawImage(slot31,780,475,170,257,null);
-            if(devCardSlots.getThirdStack().size()>1)g.drawImage(slot32,780,400,170,257,null);
-            if(devCardSlots.getThirdStack().size()>2)g.drawImage(slot33,780,325,170,257,null);
+            g.drawImage(slot31,620,350,140,212,null);
+            if(devCardSlots.getThirdStack().size()>1)g.drawImage(slot32,620,300,140,212,null);
+            if(devCardSlots.getThirdStack().size()>2)g.drawImage(slot33,620,250,140,212,null);
         }
 
 
