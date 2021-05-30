@@ -9,7 +9,6 @@ import java.awt.event.*;
 public class LobbySetupPanel extends JPanel {
     private int numOfPlayers = 0;
     private boolean randomGame = true;
-    private String password = null;
     private boolean submitted = false;
     private final Object lock = new Object();
     private JLabel firstLabel;
@@ -30,7 +29,7 @@ public class LobbySetupPanel extends JPanel {
         this.clientGUI = clientGUI;
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        setPreferredSize(new Dimension(1000,600));
+        setPreferredSize(new Dimension(1280,720));
 
         gbc.gridy = 0;
         gbc.gridx = 0;
@@ -110,6 +109,7 @@ public class LobbySetupPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 randomGame = false;
                 random.setVisible(false);
+                passwordField.setVisible(true);
             }
         });
         add(friends, gbc);
@@ -131,13 +131,7 @@ public class LobbySetupPanel extends JPanel {
         gbc.gridx = 3;
         passwordField = new JTextField();
         passwordField.setPreferredSize(new Dimension(250,30));
-        passwordField.setText("insert here the password and click enter");
-        passwordField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                password = e.getActionCommand();
-            }
-        });
+        passwordField.setText("insert the password");
         passwordField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -149,6 +143,7 @@ public class LobbySetupPanel extends JPanel {
                 //nada
             }
         });
+        passwordField.setVisible(false);
         add(passwordField, gbc);
 
         gbc.gridy = 2;
@@ -161,14 +156,14 @@ public class LobbySetupPanel extends JPanel {
                     if (numOfPlayers == 0) {
                         errorLabel.setText("please select the number of players");
                         return;
-                    } else if (password == null && !randomGame) {
+                    } else if ((passwordField.getText().equals("insert the password") || passwordField.getText().equals("")) && !randomGame) {
                         errorLabel.setText("please choose a password for the game");
                         return;
                     } else if (submitted) {
                         return;
                     }
                     submitted = true;
-                    clientGUI.openConnection(numOfPlayers, randomGame, password);
+                    clientGUI.openConnection(numOfPlayers, randomGame, passwordField.getText());
                     onePlayerGame.setVisible(false);
                     twoPlayerGame.setVisible(false);
                     threePlayerGame.setVisible(false);
@@ -179,6 +174,7 @@ public class LobbySetupPanel extends JPanel {
                     submit.setVisible(false);
                     selection.setVisible(false);
                     firstLabel.setVisible(false);
+                    passwordField.setVisible(false);
                     errorLabel.setText("you joined a lobby, the game will start once the lobby is complete");
                 }
             }
@@ -198,9 +194,8 @@ public class LobbySetupPanel extends JPanel {
                 selection.setVisible(true);
                 friends.setVisible(true);
                 random.setVisible(true);
-                passwordField.setVisible(true);
-                passwordField.setText("insert here the password and click enter");
-                password = null;
+                passwordField.setVisible(false);
+                passwordField.setText("insert the password");
                 numOfPlayers = 0;
                 randomGame = true;
             }
