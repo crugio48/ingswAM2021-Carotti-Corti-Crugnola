@@ -398,6 +398,12 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
                 clientGUI.switchResourceSlots(2,3);
             }
         });
+        but7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.discardOneResource(resource);
+            }
+        });
 
 
 

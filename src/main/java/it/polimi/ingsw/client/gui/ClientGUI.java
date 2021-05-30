@@ -411,4 +411,27 @@ public class ClientGUI extends Client {
 
     }
 
+    public void discardOneResource(String resource) {
+        Gson gson = new Gson();
+        try {
+            messageSender.discardResource(resource);
+            String serverIn = stringBuffer.readMessage();
+            Response response = (Response) gson.fromJson(serverIn, Response.class);
+            if (response.isCommandWasCorrect()) {
+                chatDocuments.writeInstructionMessage("Resource discarded correctly!");
+
+
+            } else {
+                chatDocuments.writeInstructionMessage("You can't discard this resource");
+            }
+            gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(), response.getShields(), response.getServants());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
 }

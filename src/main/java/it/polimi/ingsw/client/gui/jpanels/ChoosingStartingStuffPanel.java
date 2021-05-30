@@ -85,7 +85,7 @@ public class ChoosingStartingStuffPanel extends JPanel {
                 clientGUI.getMessageSender().sendUsername(temporaryNickname);
             }
         });
-        submitNickname.setBounds(320,150,150,50);
+        submitNickname.setBounds(320,150,250,50);
         add(submitNickname);
 
 
