@@ -332,7 +332,16 @@ public class ChoosingStartingStuffPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("background.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
 
         paintLeaderCard(g, leadersDrawn[0], 50,200,1);
         paintLeaderCard(g, leadersDrawn[1], 250,200, 2);

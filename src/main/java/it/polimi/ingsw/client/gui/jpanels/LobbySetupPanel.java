@@ -2,9 +2,13 @@ package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.client.gui.ClientGUI;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class LobbySetupPanel extends JPanel {
     private int numOfPlayers = 0;
@@ -208,4 +212,19 @@ public class LobbySetupPanel extends JPanel {
         add(errorLabel, gbc);
     }
 
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("background.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
+    }
 }
