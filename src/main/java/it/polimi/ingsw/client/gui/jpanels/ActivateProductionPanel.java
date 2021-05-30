@@ -56,7 +56,7 @@ public class ActivateProductionPanel extends JPanel {
 
 
         goBackButton = new JButton("Stop producing");
-        goBackButton.setBounds(1050, 10, 150, 50);
+        goBackButton.setBounds(1050, 5, 150, 50);
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -67,7 +67,7 @@ public class ActivateProductionPanel extends JPanel {
         add(goBackButton);
 
         resetButton = new JButton("Reset");
-        resetButton.setBounds(900, 10, 120 , 50);
+        resetButton.setBounds(900, 5, 120 , 50);
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {  //reset all the buttons
@@ -93,7 +93,7 @@ public class ActivateProductionPanel extends JPanel {
         add(resetButton);
 
         submitProduction = new JButton("Submit Production");
-        submitProduction.setBounds(950, 65, 200, 50);
+        submitProduction.setBounds(950, 60, 200, 50);
         submitProduction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -326,10 +326,10 @@ public class ActivateProductionPanel extends JPanel {
 
         //here are the chat components
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(1000,115, 250, 30);
+        jLabel.setBounds(1000,105, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(1000,145,250,50);
+        jTextField.setBounds(1000,135,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -348,7 +348,7 @@ public class ActivateProductionPanel extends JPanel {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(1000,195,250,150);
+        chatScrollPane.setBounds(1000,185,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -358,7 +358,7 @@ public class ActivateProductionPanel extends JPanel {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(1000,350,250,150);
+        logScrollPane.setBounds(1000,340,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -368,7 +368,7 @@ public class ActivateProductionPanel extends JPanel {
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
         JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(1000,505,250,150);
+        playerInstructionsScrollPane.setBounds(1000,495,250,150);
         add(playerInstructionsScrollPane);
         //here finish the chat components
     }
