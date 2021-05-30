@@ -202,7 +202,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
                 e.printStackTrace();
                 return;
             }
-            g.drawImage(img, 1050,260,60,60,null);
+            g.drawImage(img, 50,605,40,40,null);
         }
     }
 

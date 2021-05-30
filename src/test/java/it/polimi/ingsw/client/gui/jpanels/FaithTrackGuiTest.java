@@ -65,6 +65,7 @@ public class FaithTrackGuiTest {
         clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,3);
         clientGUI.getClientModel().getPlayerByTurnOrder(1).getLeaderCard(0).setCode(1);
         clientGUI.getClientModel().getPlayerByTurnOrder(1).getLeaderCard(1).setCode(4);
+        clientGUI.getClientModel().setLastUsedActionCardCode(-1);
         Thread.sleep(1000 * 1000);
 
 
