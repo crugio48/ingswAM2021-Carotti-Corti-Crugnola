@@ -307,8 +307,10 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         final int dimensionResources = 40;
+        super.paintComponent(g);
+
+        paintBackGround(g);
 
         drawMyImg(g, "components/coin.png", 160,110, dimensionResources,dimensionResources);
         drawMyImg(g, "components/shield.png",270,110,dimensionResources,dimensionResources);
@@ -327,6 +329,19 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         drawStorageResources(g, clientModelStorage);
 
         drawChestResources(g, clientModelChest);
+    }
+
+    private void paintBackGround(Graphics g) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("backgroundNoTitle.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
     }
 
     private void drawChestResources(Graphics g, ClientModelChest clientModelChest){

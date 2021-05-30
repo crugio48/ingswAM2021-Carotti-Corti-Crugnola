@@ -158,6 +158,7 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
     public void paintComponent(Graphics g) {
         final int dimensionResources = 40;
         super.paintComponent(g);
+        paintBackGround(g);
 
         drawMyImg(g, "components/coin.png", 160,110, dimensionResources,dimensionResources);
         drawMyImg(g, "components/shield.png",270,110,dimensionResources,dimensionResources);
@@ -190,6 +191,19 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         drawRemaining(g, stones, 430,590);
         drawRemaining(g, servants, 540,590);
 
+    }
+
+    private void paintBackGround(Graphics g) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("backgroundNoTitle.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
     }
 
     private void drawMyImg(Graphics g, String path, int x, int y, int width, int height){
