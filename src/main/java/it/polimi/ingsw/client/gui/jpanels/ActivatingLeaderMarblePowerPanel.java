@@ -6,15 +6,17 @@ import it.polimi.ingsw.clientmodel.ClientModelPlayer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 
 public class ActivatingLeaderMarblePowerPanel extends JPanel {
-
+    ClientGUI clientGUI;
     //these are the resources you picked from the market
     //please choose what you want to convert your white marble to
     private JLabel instructionLabel;
@@ -40,15 +42,24 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
     private int fixedServants;
     private int fixedJolly;
 
+    private String[] resources;
+
     private ClientModelPlayer clientModelPlayer;
 
+    private JTextField jTextField = new JTextField();
+    private JTextArea jTextAreaLog = new JTextArea();
+    private JTextArea jTextAreaChat = new JTextArea();
+    private JTextArea jTextAreaPlayerInstruction = new JTextArea();
+
     public ActivatingLeaderMarblePowerPanel(ClientGUI clientGUI, int inputJolly, int inputStones, int inputServants, int inputShields, int inputCoins, String[] targetResources) {
+        this.clientGUI = clientGUI;
 
         clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
 
         this.setPreferredSize(new Dimension(1280, 720));
         this.setLayout(null);
 
+        resources = targetResources;
         remainingJolly = inputJolly;
         coins = inputCoins;
         shields = inputShields;
@@ -62,10 +73,10 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         fixedJolly = inputJolly;
 
         instructionLabel = new JLabel();
-        instructionLabel.setText("These are the resources you picked from the market");
+        instructionLabel.setText("These are the resources you picked from the market:");
         instructionLabel.setFont(new Font("Consolas", Font.BOLD, 18));
         instructionLabel.setForeground(Color.black);
-        instructionLabel.setBounds(175,30,600,40);
+        instructionLabel.setBounds(175,60,600,40);
         add(instructionLabel);
 
         remainingJollyLabel = new JLabel();
@@ -83,10 +94,10 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         add(leaderActiveLabel);
 
         convertedLabel = new JLabel();
-        convertedLabel.setText("These are the converted resources that you want from the market");
+        convertedLabel.setText("Click submit when you have finished or if you don't want to convert the remaining white marbles");
         convertedLabel.setFont(new Font("Consolas", Font.BOLD, 18));
         convertedLabel.setForeground(Color.black);
-        convertedLabel.setBounds(175,60,600,40);
+        convertedLabel.setBounds(175,30,1005,40);
         add(convertedLabel);
 
         addCoinsToConvertButton = new JButton("addcoins++");
@@ -95,11 +106,11 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         addStonesToConvertButton = new JButton("addstones++");
         submitButton = new JButton("Submit");
 
-        addCoinsToConvertButton.setBounds(190,630,150,30);
-        addShieldsToConvertButton.setBounds(300,630,150,30);
-        addServantsToConvertButton.setBounds(410,630,150,30);
-        addStonesToConvertButton.setBounds(520,630,150,30);
-        submitButton.setBounds(350,700,150,30);
+        addCoinsToConvertButton.setBounds(50,610,150,30);
+        addShieldsToConvertButton.setBounds(220,610,150,30);
+        addServantsToConvertButton.setBounds(570,610,150,30);
+        addStonesToConvertButton.setBounds(400,610,150,30);
+        submitButton.setBounds(700,550,150,30);
 
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -112,34 +123,49 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         addCoinsToConvertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (remainingJolly>0)
-                coins++;
-                repaint();
+                if (remainingJolly>0) {
+                    if ((resources[0] != null && resources[0].equals("coins")) || (resources[1] != null && resources[1].equals("coins"))) {
+                        coins++;
+                        remainingJolly--;
+                        repaint();
+                    }
+                }
             }
         });
         addShieldsToConvertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (remainingJolly>0)
-                    shields++;
-                repaint();
+                if (remainingJolly>0) {
+                    if ((resources[0] != null && resources[0].equals("shields")) || (resources[1] != null && resources[1].equals("shields"))) {
+                        shields++;
+                        remainingJolly--;
+                        repaint();
+                    }
+                }
             }
         });
         addServantsToConvertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (remainingJolly>0)
-                    servants++;
-                repaint();
-
+                if (remainingJolly>0) {
+                    if ((resources[0] != null && resources[0].equals("servants")) || (resources[1] != null && resources[1].equals("servants"))) {
+                        servants++;
+                        remainingJolly--;
+                        repaint();
+                    }
+                }
             }
         });
         addStonesToConvertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (remainingJolly>0)
-                    stones++;
-                repaint();
+                if (remainingJolly>0) {
+                    if ((resources[0] != null && resources[0].equals("stones")) || (resources[1] != null && resources[1].equals("stones"))) {
+                        stones++;
+                        remainingJolly--;
+                        repaint();
+                    }
+                }
             }
         });
 
@@ -150,6 +176,54 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         add(submitButton);
 
 
+        //here are the chat components
+        JLabel jLabel = new JLabel("chat: ");
+        jLabel.setBounds(1000,105, 250, 30);
+        add(jLabel);
+
+        jTextField.setBounds(1000,135,250,50);
+        jTextField.setToolTipText("insert here the message and press enter");
+        jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().sendChatMessage(jTextField.getText());
+                jTextField.setText("");
+            }
+        });
+        add(jTextField);
+
+        jTextAreaChat.setDocument(clientGUI.getChatDocuments().getChatDoc());
+        jTextAreaChat.setLineWrap(true);
+        jTextAreaChat.setEditable(false);
+        jTextAreaChat.setToolTipText("this is the chat log");
+        jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaChat.setForeground(Color.blue);
+        JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        chatScrollPane.setBounds(1000,185,250,150);
+        add(chatScrollPane);
+
+        jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
+        jTextAreaLog.setLineWrap(true);
+        jTextAreaLog.setEditable(false);
+        jTextAreaLog.setToolTipText("this is the game events log");
+        jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaLog.setForeground(Color.red);
+        JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        logScrollPane.setBounds(1000,340,250,150);
+        add(logScrollPane);
+
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setLineWrap(true);
+        jTextAreaPlayerInstruction.setEditable(false);
+        jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
+        jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaPlayerInstruction.setForeground(Color.green);
+        JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        playerInstructionsScrollPane.setBounds(1000,495,250,150);
+        add(playerInstructionsScrollPane);
+        //here finish the chat components
+
     }
 
 
@@ -158,6 +232,8 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         final int dimensionResources = 40;
         super.paintComponent(g);
         paintBackGround(g);
+
+        g.drawString("Total converted resources:", 5, 580);
 
         drawMyImg(g, "components/coin.png", 160,110, dimensionResources,dimensionResources);
         drawMyImg(g, "components/shield.png",270,110,dimensionResources,dimensionResources);
@@ -274,7 +350,7 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
                 //to draw in the middle
                 g.drawImage(ldr1, 215,330,130,200,null);
             }
-            if(clientModelPlayer.getLeaderCard(0).getCode() >= 9 && clientModelPlayer.getLeaderCard(0).getCode() <= 12 && clientModelPlayer.getLeaderCard(0).isActive()){
+            if(clientModelPlayer.getLeaderCard(1).getCode() >= 9 && clientModelPlayer.getLeaderCard(1).getCode() <= 12 && clientModelPlayer.getLeaderCard(1).isActive()){
                 url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
                 try {
                     ldr2 = ImageIO.read(url2);

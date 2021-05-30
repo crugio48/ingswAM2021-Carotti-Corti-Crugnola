@@ -406,4 +406,8 @@ public class GameFrame{
 
     }
 
+    public void refreshActivatingLeaderMarblePowerPanel(){
+        activatingLeaderMarblePowerPanel.resetNewResourcesToConvert();
+    }
+
 }

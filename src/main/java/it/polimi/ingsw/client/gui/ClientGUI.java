@@ -452,9 +452,8 @@ public class ClientGUI extends Client {
                 gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(),response.getShields());
             } else {
                 chatDocuments.writeInstructionMessage("You can't convert these marbles!");
+                gameFrame.refreshActivatingLeaderMarblePowerPanel();
             }
-
-            gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(), response.getShields(), response.getServants());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
