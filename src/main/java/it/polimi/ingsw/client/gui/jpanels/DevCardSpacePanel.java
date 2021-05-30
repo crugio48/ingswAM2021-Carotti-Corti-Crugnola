@@ -246,6 +246,8 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        paintBackGround(g);
+
         //myDrawImagePNG(g, observedClientModelDevCardSpace.getCodeBlue1());
         drawDevCardSpace(g,
                 observedClientModelDevCardSpace.getCodePurple1(), observedClientModelDevCardSpace.getCodePurple2(), observedClientModelDevCardSpace.getCodePurple3(),
@@ -253,6 +255,19 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
                 observedClientModelDevCardSpace.getCodeYellow1(), observedClientModelDevCardSpace.getCodeYellow2(), observedClientModelDevCardSpace.getCodeYellow3(),
                 observedClientModelDevCardSpace.getCodeBlue1(), observedClientModelDevCardSpace.getCodeBlue2(), observedClientModelDevCardSpace.getCodeBlue3());
 
+    }
+
+    private void paintBackGround(Graphics g) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("backgroundNoTitle.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
     }
 
 

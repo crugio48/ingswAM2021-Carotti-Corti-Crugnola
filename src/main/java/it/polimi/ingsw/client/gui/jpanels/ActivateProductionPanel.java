@@ -161,7 +161,7 @@ public class ActivateProductionPanel extends JPanel {
         add(activateBaseProdButton);
 
         baseProdLabel = new JLabel("Please choose the resources for base production (stone || coin || shield || servant):");
-        baseProdLabel.setFont(new Font(Font.SERIF, Font.ITALIC, 12));
+        baseProdLabel.setFont(new Font(Font.SERIF, Font.BOLD, 12));
         baseProdLabel.setBounds(305,120, 500, 30);
         baseProdLabel.setVisible(false);
         add(baseProdLabel);
@@ -384,9 +384,16 @@ public class ActivateProductionPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        paintBackGround(g);
+
+        Font f = g.getFont();
+
+        g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
         g.drawString("Tick everything you want to produce then click the 'Submit Production' button", 10, 20);
         g.drawString("If you want to make changes click on the 'Reset' button", 10, 35);
         g.drawString("If instead you don't want to activate production anymore, click on the 'Go Back' button", 10, 50);
+        g.setColor(Color.black);
+        g.setFont(f);
 
         drawBaseProduction(g);
 
@@ -420,6 +427,19 @@ public class ActivateProductionPanel extends JPanel {
 
         g.drawLine(0,70, 715,70);
         g.drawLine(0, 260, 715, 260);
+    }
+
+    private void paintBackGround(Graphics g) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("backgroundNoTitle.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
     }
 
     private void drawBaseProduction(Graphics g){

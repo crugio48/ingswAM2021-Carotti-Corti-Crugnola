@@ -191,8 +191,11 @@ public class MarketPanel extends JPanel implements MyObserver {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        drawMarketInfo(g);
+
+        paintBackGround(g);
+
         drawMarketGrid(g);
+        drawMarketInfo(g);
 
         drawColouredCircle(g, market.getExtramarble(), 400+132+30, 55);
 
@@ -212,6 +215,19 @@ public class MarketPanel extends JPanel implements MyObserver {
         drawColouredCircle(g, market.getRowThreeMatrix()[3], 350+268+21, 314+24);
     }
 
+    private void paintBackGround(Graphics g) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("backgroundNoTitle.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
+    }
+
     private void drawMarketInfo(Graphics g) {
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url = cl.getResourceAsStream("marketInfo.png");
@@ -226,6 +242,9 @@ public class MarketPanel extends JPanel implements MyObserver {
     }
 
     private void drawMarketGrid(Graphics g) {
+        g.setColor(new Color(18,76,90));
+        g.fillRect(290,20,500,450);
+
         g.setColor(Color.white);
         //horizontal lines
         g.drawLine(414,239,686, 239);
