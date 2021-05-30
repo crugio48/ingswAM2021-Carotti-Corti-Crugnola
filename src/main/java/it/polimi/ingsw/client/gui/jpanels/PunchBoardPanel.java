@@ -739,18 +739,25 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     }
 
     private void drawChestResources(Graphics g, ClientModelChest clientModelChest){
-         int x = 30;
-         int y = 600;
+        int x = 20;
+        int y = 450;
 
         drawMyImg(g, "components/coin.png", x,y, 30,30);
-        drawMyImg(g, "components/shield.png",x,y+40,30,30);
-        drawMyImg(g, "components/stone.png",x,y+80,30,30);
-        drawMyImg(g, "components/servant.png",x,y+120,30,30);
+        drawMyImg(g, "components/shield.png",x,y+60,30,30);
+        drawMyImg(g, "components/stone.png",x+80,y,30,30);
+        drawMyImg(g, "components/servant.png",x+80,y+60,30,30);
 
+        g.setColor(Color.white);
+        g.fillRect(x+40,y,30,20);
+        g.fillRect(x+40,y+70,30,20);
+        g.fillRect(x+120,y,30,20);
+        g.fillRect(x+120,y+70,30,20);
+        g.setColor(Color.black);
         drawRemaining(g, clientModelChest.getCoinsQuantity(),x+40,y+20);
-        drawRemaining(g, clientModelChest.getShieldsQuantity(), x+40,y+60);
-        drawRemaining(g,clientModelChest.getStonesQuantity(), x+40,y+100);
-        drawRemaining(g, clientModelChest.getServantsQuantity(), x+40,y+140);
+
+        drawRemaining(g, clientModelChest.getShieldsQuantity(), x+40,y+90);
+        drawRemaining(g,clientModelChest.getStonesQuantity(), x+120,y+20);
+        drawRemaining(g, clientModelChest.getServantsQuantity(), x+120,y+90);
 
     }
 
