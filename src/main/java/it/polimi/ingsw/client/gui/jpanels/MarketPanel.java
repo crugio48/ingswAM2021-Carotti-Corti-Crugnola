@@ -39,7 +39,7 @@ public class MarketPanel extends JPanel implements MyObserver {
     private JTextArea jTextAreaPlayerInstruction = new JTextArea();
 
     public MarketPanel (ClientGUI clientGUI) {
-        this.setPreferredSize(new Dimension(1500, 900));
+        this.setPreferredSize(new Dimension(1280, 720));
         this.setBackground(new Color(145,136,115));
 
         this.market = clientGUI.getClientModel().getMarket();
@@ -52,7 +52,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         extraMarble.setText("Extra marble:");
         extraMarble.setFont(new Font("Consolas", Font.BOLD, 20));
         extraMarble.setForeground(Color.white);
-        extraMarble.setBounds(5,10,150,40);
+        extraMarble.setBounds(355,50,250,40);
         add(extraMarble);
 
         /*
@@ -64,7 +64,7 @@ public class MarketPanel extends JPanel implements MyObserver {
          */
 
         buyFromMarketButton = new JButton("Buy from market");
-        buyFromMarketButton.setBounds(450,20, 150, 50);
+        buyFromMarketButton.setBounds(800,50, 150, 50);
         buyFromMarketButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,7 +83,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         add(buyFromMarketButton);
 
         stopBuyingFromMarket = new JButton("stop buying from market");
-        stopBuyingFromMarket.setBounds(620,20,200,50);
+        stopBuyingFromMarket.setBounds(970,50,200,50);
         stopBuyingFromMarket.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,19 +126,19 @@ public class MarketPanel extends JPanel implements MyObserver {
         pos6.setVisible(false);
         pos7.setVisible(false);
 
-        pos1.setBounds(340,80,55, 40);
+        pos1.setBounds(690,180,55, 40);
         add(pos1);
-        pos2.setBounds(340,155,55,40);
+        pos2.setBounds(690,255,55,40);
         add(pos2);
-        pos3.setBounds(340,230,55,40);
+        pos3.setBounds(690,330,55,40);
         add(pos3);
-        pos4.setBounds(275,295,55,40);
+        pos4.setBounds(625,395,55,40);
         add(pos4);
-        pos5.setBounds(207,295,55,40);
+        pos5.setBounds(557,395,55,40);
         add(pos5);
-        pos6.setBounds(139,295,55,40);
+        pos6.setBounds(489,395,55,40);
         add(pos6);
-        pos7.setBounds(71,295,55,40);
+        pos7.setBounds(421,395,55,40);
         add(pos7);
 
 
@@ -146,10 +146,10 @@ public class MarketPanel extends JPanel implements MyObserver {
 
         //here are the chat components
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(450,100, 250, 30);
+        jLabel.setBounds(1000,115, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(450,130,250,50);
+        jTextField.setBounds(1000,145,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -168,7 +168,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(450,180,250,150);
+        chatScrollPane.setBounds(1000,195,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -178,7 +178,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(450,335,250,150);
+        logScrollPane.setBounds(1000,350,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -188,7 +188,7 @@ public class MarketPanel extends JPanel implements MyObserver {
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
         JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(450,490,250,150);
+        playerInstructionsScrollPane.setBounds(1000,505,250,150);
         add(playerInstructionsScrollPane);
         //here finish the chat components
     }
@@ -205,22 +205,22 @@ public class MarketPanel extends JPanel implements MyObserver {
         drawMarketInfo(g);
         drawMarketGrid(g);
 
-        drawColouredCircle(g, market.getExtramarble(), 132+30, 15);
+        drawColouredCircle(g, market.getExtramarble(), 400+132+30, 55);
 
-        drawColouredCircle(g, market.getRowOneMatrix()[0], 64+21, 64+24);
-        drawColouredCircle(g, market.getRowOneMatrix()[1], 132+21, 64+24);
-        drawColouredCircle(g, market.getRowOneMatrix()[2], 200+21, 64+24);
-        drawColouredCircle(g, market.getRowOneMatrix()[3], 268+21, 64+24);
+        drawColouredCircle(g, market.getRowOneMatrix()[0], 350+64+21, 164+24);
+        drawColouredCircle(g, market.getRowOneMatrix()[1], 350+132+21, 164+24);
+        drawColouredCircle(g, market.getRowOneMatrix()[2], 350+200+21, 164+24);
+        drawColouredCircle(g, market.getRowOneMatrix()[3], 350+268+21, 164+24);
 
-        drawColouredCircle(g, market.getRowTwoMatrix()[0], 64+21, 139+24);
-        drawColouredCircle(g, market.getRowTwoMatrix()[1], 132+21, 139+24);
-        drawColouredCircle(g, market.getRowTwoMatrix()[2], 200+21, 139+24);
-        drawColouredCircle(g, market.getRowTwoMatrix()[3], 268+21, 139+24);
+        drawColouredCircle(g, market.getRowTwoMatrix()[0], 350+64+21, 239+24);
+        drawColouredCircle(g, market.getRowTwoMatrix()[1], 350+132+21, 239+24);
+        drawColouredCircle(g, market.getRowTwoMatrix()[2], 350+200+21, 239+24);
+        drawColouredCircle(g, market.getRowTwoMatrix()[3], 350+268+21, 239+24);
 
-        drawColouredCircle(g, market.getRowThreeMatrix()[0], 64+21, 214+24);
-        drawColouredCircle(g, market.getRowThreeMatrix()[1], 132+21, 214+24);
-        drawColouredCircle(g, market.getRowThreeMatrix()[2], 200+21, 214+24);
-        drawColouredCircle(g, market.getRowThreeMatrix()[3], 268+21, 214+24);
+        drawColouredCircle(g, market.getRowThreeMatrix()[0], 350+64+21, 314+24);
+        drawColouredCircle(g, market.getRowThreeMatrix()[1], 350+132+21, 314+24);
+        drawColouredCircle(g, market.getRowThreeMatrix()[2], 350+200+21, 314+24);
+        drawColouredCircle(g, market.getRowThreeMatrix()[3], 350+268+21, 314+24);
     }
 
     private void drawMarketInfo(Graphics g) {
@@ -233,23 +233,23 @@ public class MarketPanel extends JPanel implements MyObserver {
             e.printStackTrace();
             return;
         }
-        g.drawImage(img,10,367,390,140,null);
+        g.drawImage(img,335,500,390,140,null);
     }
 
     private void drawMarketGrid(Graphics g) {
         g.setColor(Color.white);
         //horizontal lines
-        g.drawLine(64,139,336, 139);
-        g.drawLine(64,214,336,214);
-        g.drawLine(64,64,336,64);
-        g.drawLine(64,290,336,290);
+        g.drawLine(414,239,686, 239);
+        g.drawLine(414,314,686,314);
+        g.drawLine(414,164,686,164);
+        g.drawLine(414,390,686,390);
 
         //vertical lines
-        g.drawLine(132,64,132,290);
-        g.drawLine(200,64,200,290);
-        g.drawLine(268,64,268,290);
-        g.drawLine(64,64,64,290);
-        g.drawLine(336,64,336,290);
+        g.drawLine(482,164,482,390);
+        g.drawLine(550,164,550,390);
+        g.drawLine(618,164,618,390);
+        g.drawLine(414,164,414,390);
+        g.drawLine(686,164,686,390);
     }
 
     private void drawColouredCircle(Graphics g, String marbleColour, int x, int y) {
