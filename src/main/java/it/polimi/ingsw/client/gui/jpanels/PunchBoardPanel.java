@@ -113,7 +113,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
 
         activateProductionButton = new JButton("<html>Activate<br>Production</hmtl>"); //html and br to make text multiline
-        activateProductionButton.setBounds(1130, 20, 110, 80);
+        activateProductionButton.setBounds(1000, 20, 110, 80);
         activateProductionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -125,7 +125,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
 
         endTurnButton = new JButton("End Turn");
-        endTurnButton.setBounds(1000, 20, 110, 80);
+        endTurnButton.setBounds(1130, 20, 110, 80);
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -202,7 +202,9 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
                 e.printStackTrace();
                 return;
             }
-            g.drawImage(img, 50,605,40,40,null);
+            g.drawImage(img, 200,600,45,45,null);
+
+            g.drawString("Last lorenzo's action:", 5,630);
         }
     }
 
@@ -245,6 +247,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         if(clientModelPlayer.getLeaderCard(0).isActive() && codeFirstLeader!= 0){
             g.setColor(Color.GREEN);
             g.drawString("ACTIVE", 835,240);
+            g.setColor(Color.black);
         }
         else if(!clientModelPlayer.getLeaderCard(0).isActive() && codeFirstLeader!= 0) {
             g.setColor(Color.black);
@@ -253,11 +256,13 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         else if(codeFirstLeader == 0){
             g.setColor(Color.RED);
             g.drawString("LEADER DISCARDED", 835, 120);
+            g.setColor(Color.black);
         }
 
         if(clientModelPlayer.getLeaderCard(1).isActive() && codeSecondLeader!= 0){
             g.setColor(Color.GREEN);
             g.drawString("ACTIVE", 835,570);
+            g.setColor(Color.black);
         }
         else if(!clientModelPlayer.getLeaderCard(1).isActive() && codeSecondLeader!= 0) {
             g.setColor(Color.black);
@@ -266,10 +271,25 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         else if(codeFirstLeader == 0){
             g.setColor(Color.RED);
             g.drawString("LEADER DISCARDED", 835, 450);
+            g.setColor(Color.black);
         }
 
 
 
+    }
+
+
+    private void paintBackGround(Graphics g) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("backgroundNoTitle.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
     }
 
 
@@ -284,6 +304,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
     public void paintComponent(Graphics g) {
        int i=0;
         super.paintComponent(g);
+        paintBackGround(g);
 
 
         //myDrawImagePNG(g, observedClientModelDevCardSpace.getCodeBlue1());
@@ -542,13 +563,13 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
         final int myIndicatorWidth = 32;
         final int myIndicatorHeight = 32;
-        final int papalFavourCardDim = 70;
+        final int papalFavourCardDim = 55;
 
 
         url1 = cl.getResourceAsStream("components/playerboard.png");
-        url2 = cl.getResourceAsStream("components/secondPapalFavorCard.png");
-        url3 = cl.getResourceAsStream("components/thirdPapalFavorCard.png");
-        url4 = cl.getResourceAsStream("components/firstPapalFavorCard.png");
+        url2 = cl.getResourceAsStream("components/firstPapalFavorCard.png");
+        url3 = cl.getResourceAsStream("components/secondPapalFavorCard.png");
+        url4 = cl.getResourceAsStream("components/thirdPapalFavorCard.png");
         url5 = cl.getResourceAsStream("components/blackCross.png");
         url6 = cl.getResourceAsStream("components/indicator.png");
 
@@ -648,15 +669,15 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         }
 
         if (activeFirstPapalFavourCard[index]){
-            g.drawImage(firstPapalFavorCard, 240,120, papalFavourCardDim,papalFavourCardDim, null);
+            g.drawImage(firstPapalFavorCard, 195,90, papalFavourCardDim,papalFavourCardDim, null);
         }
 
         if (activeSecondPapalFavourCard[index]) {
-            g.drawImage(secondPapalFavorCard, 490, 60, papalFavourCardDim, papalFavourCardDim, null);
+            g.drawImage(secondPapalFavorCard, 395, 50, papalFavourCardDim, papalFavourCardDim, null);
 
         }
         if (activeThirdPapalFavourCard[index]){
-            g.drawImage(thirdPapalFavorCard, 785,120, papalFavourCardDim,papalFavourCardDim, null);
+            g.drawImage(thirdPapalFavorCard, 630,90, papalFavourCardDim,papalFavourCardDim, null);
         }
 
         if (blackCrossPosition > 0 ){

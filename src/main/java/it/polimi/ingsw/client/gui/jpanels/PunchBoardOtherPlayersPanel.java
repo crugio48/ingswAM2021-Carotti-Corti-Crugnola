@@ -118,28 +118,32 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
 
         if(clientModelPlayer.getLeaderCard(0).isActive() && codeFirstLeader!= 0){
             g.setColor(Color.GREEN);
-            g.drawString("ACTIVE", 1070,240);
+            g.drawString("ACTIVE", 835,240);
+            g.setColor(Color.black);
         }
         else if(!clientModelPlayer.getLeaderCard(0).isActive() && codeFirstLeader!= 0) {
             g.setColor(Color.black);
-            g.drawString("NOT ACTIVE", 1070,240);
+            g.drawString("NOT ACTIVE", 835,240);
         }
         else if(codeFirstLeader == 0){
             g.setColor(Color.RED);
-            g.drawString("LEADER DISCARDED", 1070, 120);
+            g.drawString("LEADER DISCARDED", 835,120);
+            g.setColor(Color.black);
         }
 
         if(clientModelPlayer.getLeaderCard(1).isActive() && codeSecondLeader!= 0){
             g.setColor(Color.GREEN);
-            g.drawString("ACTIVE", 1320,240);
+            g.drawString("ACTIVE", 835,570);
+            g.setColor(Color.black);
         }
         else if(!clientModelPlayer.getLeaderCard(1).isActive() && codeSecondLeader!= 0) {
             g.setColor(Color.black);
-            g.drawString("NOT ACTIVE", 1320,240);
+            g.drawString("NOT ACTIVE", 835,570);
         }
         else if(codeFirstLeader == 0){
             g.setColor(Color.RED);
-            g.drawString("LEADER DISCARDED", 1290, 120);
+            g.drawString("LEADER DISCARDED", 835, 450);
+            g.setColor(Color.black);
         }
         url3 = cl.getResourceAsStream("cards/leaderBack.png");
 
@@ -187,6 +191,19 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
 
     }
 
+    private void paintBackGround(Graphics g) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("backgroundNoTitle.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
+    }
+
 
     @Override
     public void update(MyObservable observable, Object arg) {
@@ -198,7 +215,7 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
     public void paintComponent(Graphics g) {
         int i=0;
         super.paintComponent(g);
-
+        paintBackGround(g);
 
         //myDrawImagePNG(g, observedClientModelDevCardSpace.getCodeBlue1());
         //devo passargli la posizione sul faithtrack
@@ -367,13 +384,13 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
 
         final int myIndicatorWidth = 32;
         final int myIndicatorHeight = 32;
-        final int papalFavourCardDim = 40;
+        final int papalFavourCardDim = 55;
 
 
         url1 = cl.getResourceAsStream("components/playerboard.png");
-        url2 = cl.getResourceAsStream("components/secondPapalFavorCard.png");
-        url3 = cl.getResourceAsStream("components/thirdPapalFavorCard.png");
-        url4 = cl.getResourceAsStream("components/firstPapalFavorCard.png");
+        url2 = cl.getResourceAsStream("components/firstPapalFavorCard.png");
+        url3 = cl.getResourceAsStream("components/secondPapalFavorCard.png");
+        url4 = cl.getResourceAsStream("components/thirdPapalFavorCard.png");
         url6 = cl.getResourceAsStream("components/indicator.png");
 
         int index = myTurnOrder - 1;
@@ -471,15 +488,15 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
         }
 
         if (activeFirstPapalFavourCard[index]){
-            g.drawImage(firstPapalFavorCard, 240,120, papalFavourCardDim,papalFavourCardDim, null);
+            g.drawImage(firstPapalFavorCard, 195,90, papalFavourCardDim,papalFavourCardDim, null);
         }
 
         if (activeSecondPapalFavourCard[index]) {
-            g.drawImage(secondPapalFavorCard, 490, 60, papalFavourCardDim, papalFavourCardDim, null);
+            g.drawImage(secondPapalFavorCard, 395, 50, papalFavourCardDim, papalFavourCardDim, null);
 
         }
         if (activeThirdPapalFavourCard[index]){
-            g.drawImage(thirdPapalFavorCard, 785,120, papalFavourCardDim,papalFavourCardDim, null);
+            g.drawImage(thirdPapalFavorCard, 630,90, papalFavourCardDim,papalFavourCardDim, null);
         }
 
     }

@@ -32,7 +32,7 @@ public class FaithTrackGuiTest {
 
         punchBoardPanel = new PunchBoardPanel(clientGUI);
 
-        //clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate();
+        clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate(new int[] {8,8,8,8}, 0, new boolean[] {true, false, false, false}, new boolean[] {true, false, false, false}, new boolean[] {true, false, false, false} );
 
         int[] playerPositions = new int[4];
         playerPositions[0] = 0;
@@ -53,19 +53,7 @@ public class FaithTrackGuiTest {
             }
         });
 
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getStorage().setClientModelStorageUpdate(0,0,1,2,3,"coins","stones","shields",null,null);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(20,1);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(20,2);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(20,3);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(30,1);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(30,2);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(30,3);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,1);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,2);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,3);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getLeaderCard(0).setCode(1);
-        clientGUI.getClientModel().getPlayerByTurnOrder(1).getLeaderCard(1).setCode(4);
-        clientGUI.getClientModel().setLastUsedActionCardCode(-1);
+
         Thread.sleep(1000 * 1000);
 
 
