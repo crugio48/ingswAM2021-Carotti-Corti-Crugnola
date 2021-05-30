@@ -332,6 +332,16 @@ public class ChoosingStartingStuffPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        paintBackGround(g);
+
+        paintLeaderCard(g, leadersDrawn[0], 50,200,1);
+        paintLeaderCard(g, leadersDrawn[1], 250,200, 2);
+        paintLeaderCard(g, leadersDrawn[2], 450,200, 3);
+        paintLeaderCard(g, leadersDrawn[3], 650,200, 4);
+    }
+
+    private void paintBackGround(Graphics g) {
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url = cl.getResourceAsStream("background.png");
         BufferedImage img= null;
@@ -342,11 +352,6 @@ public class ChoosingStartingStuffPanel extends JPanel {
             return;
         }
         g.drawImage(img,0,0,null);
-
-        paintLeaderCard(g, leadersDrawn[0], 50,200,1);
-        paintLeaderCard(g, leadersDrawn[1], 250,200, 2);
-        paintLeaderCard(g, leadersDrawn[2], 450,200, 3);
-        paintLeaderCard(g, leadersDrawn[3], 650,200, 4);
     }
 
 

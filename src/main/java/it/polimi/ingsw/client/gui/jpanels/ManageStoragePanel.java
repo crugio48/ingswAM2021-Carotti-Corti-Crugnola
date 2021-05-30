@@ -434,10 +434,10 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
 
         //CHAT COMPONENTS
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(1000,70, 250, 30);
+        jLabel.setBounds(1000,105, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(1000,100,250,50);
+        jTextField.setBounds(1000,135,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -456,7 +456,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(1000,150,250,150);
+        chatScrollPane.setBounds(1000,185,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -466,7 +466,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(1000,305,250,150);
+        logScrollPane.setBounds(1000,340,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -476,7 +476,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
         JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(1000,460,250,150);
+        playerInstructionsScrollPane.setBounds(1000,495,250,150);
         add(playerInstructionsScrollPane);
         //END CHAT COMPONETS
 
@@ -495,8 +495,24 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
+
+        paintBackGround(g);
+
         drawStorage(g,storage);
         g.drawString(coins + " coins , " + stones+" stones , "+ shields+ " shields , "+ servants +" servants.",10,50);
+    }
+
+    private void paintBackGround(Graphics g) {
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url = cl.getResourceAsStream("backgroundNoTitle.png");
+        BufferedImage img= null;
+        try {
+            img = ImageIO.read(url);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        g.drawImage(img,0,0,null);
     }
 
     private void drawStorage(Graphics g,ClientModelStorage storage){

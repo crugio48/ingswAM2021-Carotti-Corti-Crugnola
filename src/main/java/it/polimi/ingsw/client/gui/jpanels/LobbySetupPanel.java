@@ -216,6 +216,11 @@ public class LobbySetupPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        paintBackGround(g);
+    }
+
+
+    private void paintBackGround(Graphics g) {
         ClassLoader cl = this.getClass().getClassLoader();
         InputStream url = cl.getResourceAsStream("background.png");
         BufferedImage img= null;
