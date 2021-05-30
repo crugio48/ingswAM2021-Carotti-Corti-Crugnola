@@ -20,7 +20,7 @@ public class FaithTrackGuiTest {
      */
 
     ClientGUI clientGUI = new ClientGUI();
-    PunchBoardOtherPlayersPanel punchBoardOtherPlayersPanel;
+    PunchBoardPanel punchBoardPanel;
 
     @Test
     public void GuiTest() throws InterruptedException, IOException {
@@ -30,7 +30,7 @@ public class FaithTrackGuiTest {
         clientGUI.setMyTurnOrder(1);
         clientGUI.chatDocuments = new ChatDocuments();
 
-        punchBoardOtherPlayersPanel = new PunchBoardOtherPlayersPanel(clientGUI, 1);
+        punchBoardPanel = new PunchBoardPanel(clientGUI);
 
         //clientGUI.getClientModel().getFaithTrack().setFaithTrackUpdate();
 
@@ -49,7 +49,7 @@ public class FaithTrackGuiTest {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowGUI(punchBoardOtherPlayersPanel);
+                createAndShowGUI(punchBoardPanel);
             }
         });
 
@@ -63,6 +63,8 @@ public class FaithTrackGuiTest {
         clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,1);
         clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,2);
         clientGUI.getClientModel().getPlayerByTurnOrder(1).getPersonalDevCardSlots().setPersonalDevCardSlotsUpdate(40,3);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getLeaderCard(0).setCode(1);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getLeaderCard(1).setCode(4);
         Thread.sleep(1000 * 1000);
 
 
@@ -71,10 +73,10 @@ public class FaithTrackGuiTest {
 
     }
 
-    private void createAndShowGUI(PunchBoardOtherPlayersPanel punchBoardOtherPlayersPanel){
+    private void createAndShowGUI(PunchBoardPanel punchBoardPanel){
         JFrame f = new JFrame();
         JTabbedPane jTabbedPane = new JTabbedPane();
-        jTabbedPane.add(punchBoardOtherPlayersPanel);
+        jTabbedPane.add(punchBoardPanel);
 
         f.getContentPane().add(jTabbedPane);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

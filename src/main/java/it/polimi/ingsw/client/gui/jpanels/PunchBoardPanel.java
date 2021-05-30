@@ -91,29 +91,29 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
 
         activateLeader1Button = new JButton("Activate");
-        activateLeader1Button.setBounds(1040, 250, 90, 30);
+        activateLeader1Button.setBounds(835, 260, 90, 30);
         activateLeader1Button.addActionListener(new ActivateLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(0).getCode(), 0));
         add(activateLeader1Button);
 
         discardLeader1Button = new JButton("Discard");
-        discardLeader1Button.setBounds(1135, 250, 90, 30);
+        discardLeader1Button.setBounds(835, 290, 90, 30);
         discardLeader1Button.addActionListener(new DiscardLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(0).getCode(), 0));
 
         add(discardLeader1Button);
 
         activateLeader2Button = new JButton("Activate");
-        activateLeader2Button.setBounds(1290, 250, 90, 30);
+        activateLeader2Button.setBounds(835, 580, 90, 30);
         activateLeader2Button.addActionListener(new ActivateLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(1).getCode(), 1));
         add(activateLeader2Button);
 
         discardLeader2Button = new JButton("Discard");
-        discardLeader2Button.setBounds(1385, 250, 90, 30);
+        discardLeader2Button.setBounds(835, 610, 90, 30);
         discardLeader2Button.addActionListener(new DiscardLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(1).getCode(),1));
         add(discardLeader2Button);
 
 
         activateProductionButton = new JButton("<html>Activate<br>Production</hmtl>"); //html and br to make text multiline
-        activateProductionButton.setBounds(1010, 500, 150, 100);
+        activateProductionButton.setBounds(1130, 20, 110, 80);
         activateProductionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -125,7 +125,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
 
         endTurnButton = new JButton("End Turn");
-        endTurnButton.setBounds(1010, 700, 150, 100);
+        endTurnButton.setBounds(1000, 20, 110, 80);
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -226,7 +226,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
                 e.printStackTrace();
                 return;
             }
-            g.drawImage(ldr1, 1050,20,130,200,null);
+            g.drawImage(ldr1, 825,20,130,200,null);
         }
 
         if (codeSecondLeader!=0){
@@ -237,35 +237,35 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
                 e.printStackTrace();
                 return;
             }
-            g.drawImage(ldr2, 1300,20,130,200, null);
+            g.drawImage(ldr2, 825,340,130,200, null);
         }
 
         g.setFont(new Font("Consolas", Font.BOLD, 16));
 
         if(clientModelPlayer.getLeaderCard(0).isActive() && codeFirstLeader!= 0){
             g.setColor(Color.GREEN);
-            g.drawString("ACTIVE", 1070,240);
+            g.drawString("ACTIVE", 835,240);
         }
         else if(!clientModelPlayer.getLeaderCard(0).isActive() && codeFirstLeader!= 0) {
             g.setColor(Color.black);
-            g.drawString("NOT ACTIVE", 1070,240);
+            g.drawString("NOT ACTIVE", 835,240);
         }
         else if(codeFirstLeader == 0){
             g.setColor(Color.RED);
-            g.drawString("LEADER DISCARDED", 1070, 120);
+            g.drawString("LEADER DISCARDED", 835, 120);
         }
 
         if(clientModelPlayer.getLeaderCard(1).isActive() && codeSecondLeader!= 0){
             g.setColor(Color.GREEN);
-            g.drawString("ACTIVE", 1320,240);
+            g.drawString("ACTIVE", 835,570);
         }
         else if(!clientModelPlayer.getLeaderCard(1).isActive() && codeSecondLeader!= 0) {
             g.setColor(Color.black);
-            g.drawString("NOT ACTIVE", 1320,240);
+            g.drawString("NOT ACTIVE", 835,570);
         }
         else if(codeFirstLeader == 0){
             g.setColor(Color.RED);
-            g.drawString("LEADER DISCARDED", 1290, 120);
+            g.drawString("LEADER DISCARDED", 835, 450);
         }
 
 
