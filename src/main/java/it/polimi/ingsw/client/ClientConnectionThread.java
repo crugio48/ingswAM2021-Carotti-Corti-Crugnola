@@ -96,8 +96,8 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setLastUsedActionCardCode(response.getLastActionCardUsedCode());
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutRed("Lorenzo did his turn");
-                        } else {
-                            //DA FARE gui printout
+                        } else if (client instanceof ClientGUI){
+                            ((ClientGUI) client).getChatDocuments().writeLogMessage("Lorenzo did his turn");
                         }
                         break;
                     case "endTurnUpdate":
@@ -119,8 +119,8 @@ public class ClientConnectionThread extends Thread {
                         if (client.clientModel.isGameEnded()) break;
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("EndGame started reminder, at the end of this turn cycle the game will finish");
-                        } else {
-                            //DA FARE gui printout
+                        } else if (client instanceof ClientGUI){
+                            ((ClientGUI) client).getChatDocuments().writeLogMessage("EndGame started reminder, at the end of this turn cycle the game will finish");
                         }
                         break;
 
@@ -128,8 +128,8 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setGameEnded(true);
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("The game ended, input anything and you will se the final scores");
-                        } else {
-                            //DA FARE gui printout
+                        } else if (client instanceof ClientGUI){
+                            //PASSARE A SCREEN DEI PUNTI VTTORIA FINALI
                         }
                         break;
 
@@ -137,8 +137,8 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setSoloGameLost(true);
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("lorenzo has finished the game");
-                        } else {
-                            //DA FARE gui printout
+                        } else if (client instanceof ClientGUI){
+                            //PASSARE A SCREEN DEI PUNTI VTTORIA FINALI
                         }
                         break;
                     case "chatMessageUpdate":
@@ -158,14 +158,15 @@ public class ClientConnectionThread extends Thread {
                         break;
 
                     case"aClientHasDisconnected":
-                        if (client instanceof ClientCLI) {
-                            ((ClientCLI) client).printOutRed("another client has disconnected, closing the game");
-                        } else {
-                            //DA FARE gui printout (solo messaggio)
-                        }
                         client.messageSender.sendGameEnded();
                         socket.close();
-                        System.exit(1);
+                        if (client instanceof ClientCLI) {
+                            ((ClientCLI) client).printOutRed("another client has disconnected, closing the game");
+                            System.exit(1);
+                        } else if (client instanceof ClientGUI){
+                            //PASSARE A SCREEN PUNTI VITTORIA FINALI
+                            return;
+                        }
 
                     default:
                         client.stringBuffer.addMessage(received);
@@ -173,21 +174,19 @@ public class ClientConnectionThread extends Thread {
                 }
             }
         } catch (SocketException e) {
-            if (!client.clientModel.isGameEnded() && !client.clientModel.isSoloGameLost()) {
-                if (client instanceof ClientCLI) {
-                    ((ClientCLI) client).printOutRed("the server stopped working, closing the game");
-                } else {
-                    //DA FARE gui printout (solo messaggio)
-                }
-            }
-
             try {
                 socket.close();
+                if (!client.clientModel.isGameEnded() && !client.clientModel.isSoloGameLost()) {
+                    if (client instanceof ClientCLI) {
+                        ((ClientCLI) client).printOutRed("the server stopped working, closing the game");
+                        System.exit(1);
+                    } else if (client instanceof ClientGUI) {
+                        //PASSARE A SCREEN PUNTI VITTORIA FINALI
+                    }
+                }
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-
-            System.exit(1);
 
         } catch (IOException e) {
             e.printStackTrace();
