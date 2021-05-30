@@ -45,7 +45,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
 
     public DevCardSpacePanel(ClientGUI clientGUI){
 
-        this.setPreferredSize(new Dimension(1500, 900));
+        this.setPreferredSize(new Dimension(1280, 720));
         this.setBackground(new Color(145,136,115));
 
         this.clientGUI = clientGUI;
@@ -60,7 +60,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         add(errorLabel);
 
         buyDevCardActionButton = new JButton("Buy a development card");
-        buyDevCardActionButton.setBounds(700, 20, 250,50);
+        buyDevCardActionButton.setBounds(725, 20, 250,50);
         buyDevCardActionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,7 +84,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         add(buyDevCardActionButton);
 
         stopBuyingDevCard = new JButton("Stop buying Development card");
-        stopBuyingDevCard.setBounds(700,80, 250, 50);
+        stopBuyingDevCard.setBounds(725,80, 250, 50);
         stopBuyingDevCard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,36 +109,36 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         add(stopBuyingDevCard);
 
 
-        lv1BlueButton = new JButton("buy lv1 blue");
-        lv2BlueButton = new JButton("buy lv2 blue");
-        lv3BlueButton = new JButton("buy lv3 blue");
+        lv1BlueButton = new JButton("lv1 blue");
+        lv2BlueButton = new JButton("lv2 blue");
+        lv3BlueButton = new JButton("lv3 blue");
 
-        lv1YellowButton = new JButton("buy lv1 yellow");
-        lv2YellowButton = new JButton("buy lv2 yellow");
-        lv3YellowButton = new JButton("buy lv3 yellow");
+        lv1YellowButton = new JButton("lv1 yellow");
+        lv2YellowButton = new JButton("lv2 yellow");
+        lv3YellowButton = new JButton("lv3 yellow");
 
-        lv1GreenButton = new JButton("buy lv1 green");
-        lv2GreenButton = new JButton("buy lv2 green");
-        lv3GreenButton = new JButton("buy lv3 green");
+        lv1GreenButton = new JButton("lv1 green");
+        lv2GreenButton = new JButton("lv2 green");
+        lv3GreenButton = new JButton("lv3 green");
 
-        lv1PurpleButton = new JButton("buy lv1 purple");
-        lv2PurpleButton = new JButton("buy lv2 purple");
-        lv3PurpleButton = new JButton("buy lv3 purple");
+        lv1PurpleButton = new JButton("lv1 purple");
+        lv2PurpleButton = new JButton("lv2 purple");
+        lv3PurpleButton = new JButton("lv3 purple");
 
-        lv3GreenButton.setBounds(10,210,120,30);
-        lv3BlueButton.setBounds(190,210,120,30);
-        lv3YellowButton.setBounds(370,210,120,30);
-        lv3PurpleButton.setBounds(550, 210, 120, 30);
+        lv3GreenButton.setBounds(45,185,120,30);
+        lv3BlueButton.setBounds(225,185,120,30);
+        lv3YellowButton.setBounds(410,185,120,30);
+        lv3PurpleButton.setBounds(590, 185, 120, 30);
 
-        lv2GreenButton.setBounds(10,460,120,30);
-        lv2BlueButton.setBounds(190,460,120,30);
-        lv2YellowButton.setBounds(370,460,120,30);
-        lv2PurpleButton.setBounds(550,460,120,30);
+        lv2GreenButton.setBounds(45,405,120,30);
+        lv2BlueButton.setBounds(225,405,120,30);
+        lv2YellowButton.setBounds(410,405,120,30);
+        lv2PurpleButton.setBounds(590,405,120,30);
 
-        lv1GreenButton.setBounds(10, 710, 120, 30);
-        lv1BlueButton.setBounds(190,710,120,30);
-        lv1YellowButton.setBounds(370,710,120,30);
-        lv1PurpleButton.setBounds(550,710,120,30);
+        lv1GreenButton.setBounds(45, 625, 120, 30);
+        lv1BlueButton.setBounds(225,625,120,30);
+        lv1YellowButton.setBounds(410,625,120,30);
+        lv1PurpleButton.setBounds(590,625,120,30);
 
         lv1BlueButton.setVisible(false);
         lv2BlueButton.setVisible(false);
@@ -188,10 +188,10 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
 
         //here are the chat components
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(700,170, 250, 30);
+        jLabel.setBounds(1000,115, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(700,200,250,50);
+        jTextField.setBounds(1000,145,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
@@ -210,7 +210,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(700,250,250,150);
+        chatScrollPane.setBounds(1000,195,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -220,7 +220,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(700,405,250,150);
+        logScrollPane.setBounds(1000,350,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -230,7 +230,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaPlayerInstruction.setForeground(Color.green);
         JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(700,560,250,150);
+        playerInstructionsScrollPane.setBounds(1000,505,250,150);
         add(playerInstructionsScrollPane);
         //here finish the chat components
     }
@@ -259,15 +259,15 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
     private void drawDevCardSpace(Graphics g, int codeLv1Purple, int codeLv2Purple, int codeLv3Purple, int codeLv1Green, int codeLv2Green, int codeLv3Green, int codeLv1Yellow, int codeLv2Yellow, int codeLv3Yellow, int codeLv1Blue, int codeLv2Blue, int codeLv3Blue){
         ClassLoader cl = this.getClass().getClassLoader();
 
-        final int cardHeight = 200;
-        final int cardWidth = 125;
+        final int cardHeight = 184;
+        final int cardWidth = 115;
         final int firstRowPixelFromTop = 0;
-        final int secondRowPixelFromTop = 250;
-        final int thirdRowPixelFromTop = 500;
-        final int firstColumnFromLeft = 0;
-        final int secondColumnFromLeft = 180;
-        final int thirdColumnFromLeft = 360;
-        final int fourthColumnFromLeft = 540;
+        final int secondRowPixelFromTop = 220;
+        final int thirdRowPixelFromTop = 440;
+        final int firstColumnFromLeft = 50;
+        final int secondColumnFromLeft = 230;
+        final int thirdColumnFromLeft = 410;
+        final int fourthColumnFromLeft = 590;
 
 
         String cardUrlToPrintLv1Purple = "cards/" + codeLv1Purple + ".png";
