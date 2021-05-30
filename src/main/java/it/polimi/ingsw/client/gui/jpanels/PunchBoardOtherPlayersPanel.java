@@ -7,7 +7,10 @@ import it.polimi.ingsw.clientmodel.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +22,11 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
     private ClientModelPersonalDevCardSlots devCardSlots;
     private int myTurnOrder;
     private ClientModelPlayer clientModelPlayer;
+
+    private JTextField jTextField = new JTextField();
+    private JTextArea jTextAreaLog = new JTextArea();
+    private JTextArea jTextAreaChat = new JTextArea();
+    private JTextArea jTextAreaPlayerInstruction = new JTextArea();
 
     public PunchBoardOtherPlayersPanel(ClientGUI clientGUI, int playerTurnOrder){
         setLayout(null);
@@ -36,8 +44,56 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
         this.myTurnOrder = playerTurnOrder;
         this.observedClientModelFaithTrack = clientGUI.getClientModel().getFaithTrack();
         observedClientModelFaithTrack.addObserver(this);
-        this.setPreferredSize(new Dimension(1500, 900));
+        this.setPreferredSize(new Dimension(1280, 720));
         this.setBackground(new Color(145,136,115));
+
+        //here are the chat components
+        JLabel jLabel = new JLabel("chat: ");
+        jLabel.setBounds(1000,105, 250, 30);
+        add(jLabel);
+
+        jTextField.setBounds(1000,135,250,50);
+        jTextField.setToolTipText("insert here the message and press enter");
+        jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().sendChatMessage(jTextField.getText());
+                jTextField.setText("");
+            }
+        });
+        add(jTextField);
+
+        jTextAreaChat.setDocument(clientGUI.getChatDocuments().getChatDoc());
+        jTextAreaChat.setLineWrap(true);
+        jTextAreaChat.setEditable(false);
+        jTextAreaChat.setToolTipText("this is the chat log");
+        jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaChat.setForeground(Color.blue);
+        JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        chatScrollPane.setBounds(1000,185,250,150);
+        add(chatScrollPane);
+
+        jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
+        jTextAreaLog.setLineWrap(true);
+        jTextAreaLog.setEditable(false);
+        jTextAreaLog.setToolTipText("this is the game events log");
+        jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaLog.setForeground(Color.red);
+        JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        logScrollPane.setBounds(1000,340,250,150);
+        add(logScrollPane);
+
+        jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
+        jTextAreaPlayerInstruction.setLineWrap(true);
+        jTextAreaPlayerInstruction.setEditable(false);
+        jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
+        jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
+        jTextAreaPlayerInstruction.setForeground(Color.green);
+        JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        playerInstructionsScrollPane.setBounds(1000,495,250,150);
+        add(playerInstructionsScrollPane);
+        //here finish the chat components
     }
 
     private void drawLeaders(Graphics g, ClientModelPlayer clientModelPlayer){
@@ -423,7 +479,7 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
             e.printStackTrace();
             return;
         }
-        g.drawImage(playerBoardImg, 0,0, 1000,800, null);
+        g.drawImage(playerBoardImg, 0,0, 800,600, null);
 
         switch(playerPositions[index]){
             case 0:
