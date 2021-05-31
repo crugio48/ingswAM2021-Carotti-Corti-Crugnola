@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
+import it.polimi.ingsw.CardDecoder.CardDecoder;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
+    CardDecoder cardDecoder = new CardDecoder();
     private ClientModelStorage clientModelStorage;
     private ClientModelChest clientModelChest;
     private ClientGUI clientGUI;
@@ -82,19 +84,19 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         remainlLabel.setText("Number of resources remaining to choose");
         remainlLabel.setFont(new Font("Consolas", Font.BOLD, 18));
         remainlLabel.setForeground(Color.black);
-        remainlLabel.setBounds(175,60,400,40);
+        remainlLabel.setBounds(375,60,400,40);
         add(remainlLabel);
 
         JLabel selectFromWhereLabel = new JLabel();
         selectFromWhereLabel.setText("Select from where you want to get the resources");
         selectFromWhereLabel.setFont(new Font("Consolas", Font.BOLD, 18));
         selectFromWhereLabel.setForeground(Color.black);
-        selectFromWhereLabel.setBounds(150,190,500,40);
+        selectFromWhereLabel.setBounds(350,190,500,40);
         add(selectFromWhereLabel);
 
 
 
-        JButton incrementCoinsFromChestButton = new JButton("chestcoins++");
+        JButton incrementCoinsFromChestButton = new JButton("chest Coins++");
         incrementCoinsFromChestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -106,7 +108,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        JButton incrementShieldsFromChestButton = new JButton("chestshields++");
+        JButton incrementShieldsFromChestButton = new JButton("chest Shields++");
         incrementShieldsFromChestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -119,7 +121,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         });
 
 
-        JButton incrementServantsFromChestButton = new JButton("chestservants++");
+        JButton incrementServantsFromChestButton = new JButton("chest Servants++");
         incrementServantsFromChestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -131,7 +133,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        JButton incrementStonesFromChestButton = new JButton("cheststones++");
+        JButton incrementStonesFromChestButton = new JButton("chest Stones++");
         incrementStonesFromChestButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -144,18 +146,18 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         });
 
 
-        incrementCoinsFromChestButton.setBounds(450,420,150,30);
+        incrementCoinsFromChestButton.setBounds(650,420,150,30);
         add(incrementCoinsFromChestButton);
-        incrementShieldsFromChestButton.setBounds(450,460,150,30);
+        incrementShieldsFromChestButton.setBounds(650,460,150,30);
         add(incrementShieldsFromChestButton);
-        incrementServantsFromChestButton.setBounds(450,500,150,30);
+        incrementServantsFromChestButton.setBounds(650,500,150,30);
         add(incrementServantsFromChestButton);
-        incrementStonesFromChestButton.setBounds(450,540,150,30);
+        incrementStonesFromChestButton.setBounds(650,540,150,30);
         add(incrementStonesFromChestButton);
 
 
 
-        JButton incrementCoinsFromStorageButton = new JButton("storagecoins++");
+        JButton incrementCoinsFromStorageButton = new JButton("storage Coins++");
         incrementCoinsFromStorageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -167,7 +169,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        JButton incrementShieldsFromStorageButton = new JButton("storageshields++");
+        JButton incrementShieldsFromStorageButton = new JButton("storage Shields++");
         incrementShieldsFromStorageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -180,7 +182,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         });
 
 
-        JButton incrementServantsFromStorageButton = new JButton("storageservants++");
+        JButton incrementServantsFromStorageButton = new JButton("storage Servants++");
         incrementServantsFromStorageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -192,7 +194,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        JButton incrementStonesFromStorageButton = new JButton("storagestones++");
+        JButton incrementStonesFromStorageButton = new JButton("storage Stones++");
         incrementStonesFromStorageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,13 +206,13 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        incrementCoinsFromStorageButton.setBounds(160,420,150,30);
+        incrementCoinsFromStorageButton.setBounds(360,420,150,30);
         add(incrementCoinsFromStorageButton);
-        incrementShieldsFromStorageButton.setBounds(160,460,150,30);
+        incrementShieldsFromStorageButton.setBounds(360,460,150,30);
         add(incrementShieldsFromStorageButton);
-        incrementServantsFromStorageButton.setBounds(160,500,150,30);
+        incrementServantsFromStorageButton.setBounds(360,500,150,30);
         add(incrementServantsFromStorageButton);
-        incrementStonesFromStorageButton.setBounds(160,540,150,30);
+        incrementStonesFromStorageButton.setBounds(360,540,150,30);
         add(incrementStonesFromStorageButton);
 
         JButton submitButton = new JButton("SUBMIT");
@@ -242,7 +244,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
                 }
             }
         });
-        submitButton.setBounds(330, 600, 100,40);
+        submitButton.setBounds(530, 600, 100,40);
         add(submitButton);
 
 
@@ -311,19 +313,31 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
 
         paintBackGround(g);
 
-        drawMyImg(g, "components/coin.png", 160,110, dimensionResources,dimensionResources);
-        drawMyImg(g, "components/shield.png",270,110,dimensionResources,dimensionResources);
-        drawMyImg(g, "components/stone.png",380,110,dimensionResources,dimensionResources);
-        drawMyImg(g, "components/servant.png",490,110,dimensionResources,dimensionResources);
+        drawMyImg(g, "components/coin.png", 360,110, dimensionResources,dimensionResources);
+        drawMyImg(g, "components/shield.png",470,110,dimensionResources,dimensionResources);
+        drawMyImg(g, "components/stone.png",580,110,dimensionResources,dimensionResources);
+        drawMyImg(g, "components/servant.png",690,110,dimensionResources,dimensionResources);
 
-        drawMyImg(g, "components/storage.png", 160,260,150,150);
-        drawMyImg(g, "components/chest.png", 450,260,150,150);
+        drawMyImg(g, "components/storage.png", 360,260,150,150);
+        drawMyImg(g, "components/chest.png", 650,260,150,150);
 
 
-        drawRemaining(g, coinsLeftToPlace,210,140);
-        drawRemaining(g, shieldsLeftToPlace, 320,140);
-        drawRemaining(g,stonesLeftToPlace, 430,140);
-        drawRemaining(g, servantsLeftToPlace, 540,140);
+        drawRemaining(g, coinsFromChestSelected,810,440);
+        drawRemaining(g, shieldsFromChestSelected, 810, 480);
+        drawRemaining(g, servantsFromChestSelected, 810, 520);
+        drawRemaining(g, stonesFromChestSelected, 810, 560);
+
+        drawRemaining(g, coinsFromStorageSelected, 520, 440);
+        drawRemaining(g, shieldsFromStorageSelected, 520, 480);
+        drawRemaining(g, servantsFromStorageSelected, 520, 520);
+        drawRemaining(g, stonesFromStorageSelected, 520, 560);
+
+        drawRemaining(g, coinsLeftToPlace,410,140);
+        drawRemaining(g, shieldsLeftToPlace, 520,140);
+        drawRemaining(g,stonesLeftToPlace, 630,140);
+        drawRemaining(g, servantsLeftToPlace, 740,140);
+
+        drawLeaders(g, clientModelStorage);
 
         drawStorageResources(g, clientModelStorage);
 
@@ -345,15 +359,22 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
 
     private void drawChestResources(Graphics g, ClientModelChest clientModelChest){
 
-        drawMyImg(g, "components/coin.png", 610,260, 30,30);
-        drawMyImg(g, "components/shield.png",610,300,30,30);
-        drawMyImg(g, "components/stone.png",610,340,30,30);
-        drawMyImg(g, "components/servant.png",610,380,30,30);
+        drawMyImg(g, "components/coin.png", 660,290, 30,30);
+        drawMyImg(g, "components/shield.png",730,290,30,30);
+        drawMyImg(g, "components/stone.png",660,350,30,30);
+        drawMyImg(g, "components/servant.png",730,350,30,30);
 
-        drawRemaining(g, clientModelChest.getCoinsQuantity(),650,285);
-        drawRemaining(g, clientModelChest.getShieldsQuantity(), 650,325);
-        drawRemaining(g,clientModelChest.getStonesQuantity(), 650,365);
-        drawRemaining(g, clientModelChest.getServantsQuantity(), 650,405);
+        g.setColor(Color.white);
+        g.fillRect(690,290,35,30);
+        g.fillRect(760,290,35,30);
+        g.fillRect(690,350,35,30);
+        g.fillRect(760,350,35,30);
+        g.setColor(Color.black);
+
+        drawRemaining(g, clientModelChest.getCoinsQuantity(),695,310);
+        drawRemaining(g, clientModelChest.getShieldsQuantity(), 765,310);
+        drawRemaining(g,clientModelChest.getStonesQuantity(), 695,370);
+        drawRemaining(g, clientModelChest.getServantsQuantity(), 765,370);
 
     }
 
@@ -398,35 +419,160 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
 
         if(storage.getQuantityOfSlot1()!=0){
             switch (storage.getResourceOfSlot1()){
-                case "coins":g.drawImage(coin,230,300,myIndicatorWidth,myIndicatorHeight,null);break;
-                case "stones":g.drawImage(stone,230,300,myIndicatorWidth,myIndicatorHeight,null);break;
-                case "shields":g.drawImage(shield,230,300,myIndicatorWidth,myIndicatorHeight,null);break;
-                case "servants":g.drawImage(servant,230,300,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "coins":g.drawImage(coin,430,300,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "stones":g.drawImage(stone,430,300,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "shields":g.drawImage(shield,430,300,myIndicatorWidth,myIndicatorHeight,null);break;
+                case "servants":g.drawImage(servant,430,300,myIndicatorWidth,myIndicatorHeight,null);break;
                 default:break;
             }
         }
         if(storage.getQuantityOfSlot2()!=0){
             switch (storage.getResourceOfSlot2()){
-                case "coins":g.drawImage(coin,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,245,340,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "stones":g.drawImage(stone,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,245,340,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "shields":g.drawImage(shield,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,245,340,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "servants":g.drawImage(servant,210,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,245,340,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "coins":g.drawImage(coin,410,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(coin,445,340,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "stones":g.drawImage(stone,410,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(stone,445,340,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "shields":g.drawImage(shield,410,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(shield,445,340,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "servants":g.drawImage(servant,410,340,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot2()==2){g.drawImage(servant,445,340,myIndicatorWidth,myIndicatorHeight,null);}break;
                 default:break;
             }
         }
         if(storage.getQuantityOfSlot3()!=0){
             switch (storage.getResourceOfSlot3()){
-                case "coins":g.drawImage(coin,200,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(coin,225,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(coin,255,370,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "stones":g.drawImage(stone,200,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(stone,225,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(stone,255,370,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "shields":g.drawImage(shield,200,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(shield,225,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(shield,255,370,myIndicatorWidth,myIndicatorHeight,null);}break;
-                case "servants":g.drawImage(servant,200,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,225,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,255,370,myIndicatorHeight,myIndicatorWidth,null);}break;
+                case "coins":g.drawImage(coin,400,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(coin,425,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(coin,455,370,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "stones":g.drawImage(stone,400,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(stone,425,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(stone,455,370,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "shields":g.drawImage(shield,400,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(shield,425,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(shield,455,370,myIndicatorWidth,myIndicatorHeight,null);}break;
+                case "servants":g.drawImage(servant,400,370,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,425,370,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,455,370,myIndicatorHeight,myIndicatorWidth,null);}break;
                 default:break;
+            }
+        }
+        if(storage.getQuantityOfLeaderSlot1()!=0){
+            if (storage.getResourceTypeOfLeaderSlot1().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(0).getCode()))) {
+                switch (storage.getResourceTypeOfLeaderSlot1()) {  //print on above card
+                    case "coins":
+                        g.drawImage(coin, 220, 325, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(coin, 260, 325, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 220, 325, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(stone, 260, 325, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 220, 325, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(shield, 260, 325, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 220, 325, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(servant, 260, 325, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else {
+
+                switch (storage.getResourceTypeOfLeaderSlot1()) {  //print on lower card
+                    case "coins":
+                        g.drawImage(coin, 220, 525, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(coin, 260, 525, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 220, 525, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(stone, 260, 525, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 220, 525, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(shield, 260, 525, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 220, 525, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(servant, 260, 525, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+        if(storage.getQuantityOfLeaderSlot2()!=0) {
+            if (storage.getResourceTypeOfLeaderSlot2().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(0).getCode()))) {
+                switch (storage.getResourceTypeOfLeaderSlot2()) {  //print on above card
+                    case "coins":
+                        g.drawImage(coin, 220, 325, myIndicatorWidth, myIndicatorHeight, null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2) {
+                            g.drawImage(coin, 260, 325, myIndicatorWidth, myIndicatorHeight, null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 220, 325, myIndicatorWidth, myIndicatorHeight, null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2) {
+                            g.drawImage(stone, 260, 325, myIndicatorWidth, myIndicatorHeight, null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 220, 325, myIndicatorWidth, myIndicatorHeight, null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2) {
+                            g.drawImage(shield, 260, 325, myIndicatorWidth, myIndicatorHeight, null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 220, 325, myIndicatorWidth, myIndicatorHeight, null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2) {
+                            g.drawImage(servant, 260, 325, myIndicatorWidth, myIndicatorHeight, null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+
+                switch (storage.getResourceTypeOfLeaderSlot2()) {  //print on lower card
+                    case "coins":
+                        g.drawImage(coin, 220, 525, myIndicatorWidth, myIndicatorHeight, null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2) {
+                            g.drawImage(coin, 260, 525, myIndicatorWidth, myIndicatorHeight, null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 220, 525, myIndicatorWidth, myIndicatorHeight, null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2) {
+                            g.drawImage(stone, 260, 525, myIndicatorWidth, myIndicatorHeight, null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 220, 525, myIndicatorWidth, myIndicatorHeight, null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2) {
+                            g.drawImage(shield, 260, 525, myIndicatorWidth, myIndicatorHeight, null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 220, 525, myIndicatorWidth, myIndicatorHeight, null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2) {
+                            g.drawImage(servant, 260, 525, myIndicatorWidth, myIndicatorHeight, null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
 
-
-    private void drawLeaders(Graphics g){
+    private void drawLeaders(Graphics g, ClientModelStorage storage){
         int codeFirstLeader = 0;
         int codeSecondLeader = 0;
         ClassLoader cl = this.getClass().getClassLoader();
@@ -438,11 +584,8 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         codeFirstLeader = clientModelPlayer.getLeaderCard(0).getCode();
         codeSecondLeader = clientModelPlayer.getLeaderCard(1).getCode();
 
-        //in this case we print the leaders side by side
-        if (clientModelPlayer.getLeaderCard(0).isActive() && clientModelPlayer.getLeaderCard(1).isActive() &&
-                clientModelPlayer.getLeaderCard(0).getCode() >= 1 && clientModelPlayer.getLeaderCard(0).getCode() <= 4 &&
-                clientModelPlayer.getLeaderCard(1).getCode() >= 1 && clientModelPlayer.getLeaderCard(1).getCode() <= 4){
-            //if both are active and both are convertWhiteMarbleEffect
+
+        if (codeFirstLeader!=0&&codeFirstLeader<5&&clientModelPlayer.getLeaderCard(0).isActive()){
             url1 = cl.getResourceAsStream("cards/leader"+codeFirstLeader+".png");
             try {
                 ldr1 = ImageIO.read(url1);
@@ -450,9 +593,10 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
                 e.printStackTrace();
                 return;
             }
-            //to draw on the left
-            g.drawImage(ldr1, 500,330,130,200,null);
+            g.drawImage(ldr1, 200,200,100,160,null);
+        }
 
+        if (codeSecondLeader!=0&&codeSecondLeader<5&&clientModelPlayer.getLeaderCard(1).isActive()){
             url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
             try {
                 ldr2 = ImageIO.read(url2);
@@ -460,38 +604,11 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
                 e.printStackTrace();
                 return;
             }
-            //to draw on the right
-            g.drawImage(ldr2, 660,330,130,200, null);
-        }
-
-        else {
-            //if only one converter white marble leader is active
-            if((clientModelPlayer.getLeaderCard(0).getCode() >= 1 && clientModelPlayer.getLeaderCard(0).getCode() <= 4 && clientModelPlayer.getLeaderCard(0).isActive())){
-                url1 = cl.getResourceAsStream("cards/leader"+codeFirstLeader+".png");
-                try {
-                    ldr1 = ImageIO.read(url1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
-                }
-                //to draw in the middle
-                g.drawImage(ldr1, 500,330,130,200,null);
-            }
-            if(clientModelPlayer.getLeaderCard(0).getCode() >= 1 && clientModelPlayer.getLeaderCard(0).getCode() <= 4 && clientModelPlayer.getLeaderCard(0).isActive()){
-                url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
-                try {
-                    ldr2 = ImageIO.read(url2);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return;
-                }
-                //to draw in the middle
-                g.drawImage(ldr2, 500,330,130,200, null);
-            }
-        }
+            g.drawImage(ldr2, 200,400,100,160, null);
+        }}
 
 
-    }
+
 
     public void resetResourcesToPay(){
         stonesLeftToPlace = fixedStonesToPay;

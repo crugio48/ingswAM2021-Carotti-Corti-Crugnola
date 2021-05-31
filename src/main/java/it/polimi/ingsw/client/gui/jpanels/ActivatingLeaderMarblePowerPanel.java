@@ -229,8 +229,8 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
 
     @Override
     public void paintComponent(Graphics g) {
-        final int dimensionResources = 40;
         super.paintComponent(g);
+        final int dimensionResources = 40;
         paintBackGround(g);
 
         g.drawString("Total converted resources:", 5, 580);

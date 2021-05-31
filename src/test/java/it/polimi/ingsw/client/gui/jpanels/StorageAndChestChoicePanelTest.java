@@ -12,8 +12,6 @@ import java.io.IOException;
 
 public class StorageAndChestChoicePanelTest {
     ClientGUI clientGUI = new ClientGUI();
-    ClientModelStorage clientModelStorage = new ClientModelStorage();
-    ClientModelChest clientModelChest = new ClientModelChest();
     StorageAndChestChoicePanel storageAndChestChoicePanel;
 
 
@@ -23,9 +21,13 @@ public class StorageAndChestChoicePanelTest {
         clientGUI.setMyUsername("cru");
         clientGUI.setMyTurnOrder(1);
         clientGUI.chatDocuments = new ChatDocuments();
+
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).setLeaderCardsUpdate(3,true,2,true);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getStorage().setClientModelStorageUpdate(2,2,1,1,1,"coins","shields","stones", "shields", "coins");
+
+
         storageAndChestChoicePanel = new StorageAndChestChoicePanel(true, 3,3,3,3, clientGUI);
-        clientModelStorage.setClientModelStorageUpdate(0,0,1,2,3,"stones","coins","stones","","");
-        clientModelChest.setClientModelChestUpdate(4,3,5,2);
+
 
 
         SwingUtilities.invokeLater(new Runnable() {
@@ -38,10 +40,8 @@ public class StorageAndChestChoicePanelTest {
 
 
         Thread.sleep(4 * 1000);
-        clientModelStorage.setClientModelStorageUpdate(0,0,1,2,3,"coins","stones","shields","","");
-        clientModelChest.setClientModelChestUpdate(1,14,9,11);
-        Thread.sleep(12 * 1000);
 
+        Thread.sleep(12 * 1000);
 
     }
 
