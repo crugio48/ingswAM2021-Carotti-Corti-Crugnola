@@ -206,7 +206,10 @@ public class DevCardSpace {
 
         if (topCard == null) return false;  //check if selected stack is empty
 
-        ResourceBox cost = topCard.getCost();
+        ResourceBox cost = new ResourceBox();
+
+        cost.addResourceBox(topCard.getCost());
+
 
         for (int i = 1; i <= 2; i++) {
             LeaderCard card = p.getLeaderCard(i);

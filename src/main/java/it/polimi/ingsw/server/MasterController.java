@@ -818,7 +818,9 @@ public class MasterController {
             return false;
         }
 
-        ResourceBox cardCost = game.getDevCardSpace().peekTopCard(devCardLevel, devCardColour).getCost();
+        ResourceBox cardCost = new ResourceBox();
+
+        cardCost.addResourceBox(game.getDevCardSpace().peekTopCard(devCardLevel, devCardColour).getCost());
 
         for (int i = 1; i <= 2; i++) {
             LeaderCard card = p.getLeaderCard(i);
