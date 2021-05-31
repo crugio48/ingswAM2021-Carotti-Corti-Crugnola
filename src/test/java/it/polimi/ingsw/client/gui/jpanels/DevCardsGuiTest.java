@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
+import it.polimi.ingsw.client.gui.ChatDocuments;
+import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.gui.jpanels.DevCardSpacePanel;
 import it.polimi.ingsw.clientmodel.ClientModelDevCardSpace;
 import org.junit.jupiter.api.Test;
@@ -7,17 +9,23 @@ import org.junit.jupiter.api.Test;
 import javax.swing.*;
 import java.io.IOException;
 
-/*
+
 public class DevCardsGuiTest {
-    ClientModelDevCardSpace clientModelDevCardSpace = new ClientModelDevCardSpace();
-    DevCardSpacePanel devCardSpacePanel = new DevCardSpacePanel(clientModelDevCardSpace);
+    ClientGUI clientGUI = new ClientGUI();
+    DevCardSpacePanel devCardSpacePanel;
 
     @Test
     public void GuiTest() throws InterruptedException, IOException {
+        clientGUI.getClientModel().setSetupUpdate(new String[] {"cru", null, null, null});
+        clientGUI.setMyUsername("cru");
+        clientGUI.setMyTurnOrder(1);
+        clientGUI.chatDocuments = new ChatDocuments();
 
-        clientModelDevCardSpace.setDevCardSpaceUpdate(
-                18,19,20,21,22,23,
-                24,25,26,26,27,28);
+        clientGUI.getClientModel().getDevCardSpace().setDevCardSpaceUpdate(20,20,20,20,20,20,20,20,20,20,20,20);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).setLeaderCardsUpdate(5,true,7,true);
+
+        devCardSpacePanel = new DevCardSpacePanel(clientGUI);
+
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
@@ -29,9 +37,7 @@ public class DevCardsGuiTest {
         Thread.sleep(4 * 1000);
 
 
-        clientModelDevCardSpace.setDevCardSpaceUpdate(
-                30,31,32,33,34,35,
-                36,36,38,39,40,41);
+
 
         Thread.sleep(4 * 1000);
 
@@ -46,4 +52,3 @@ public class DevCardsGuiTest {
     }
 }
 
- */

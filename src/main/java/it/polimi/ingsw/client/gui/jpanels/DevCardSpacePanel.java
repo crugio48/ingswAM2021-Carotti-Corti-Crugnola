@@ -5,6 +5,7 @@ import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.gui.actionListeners.BuyDevCardAction;
 import it.polimi.ingsw.clientmodel.ClientModelDevCardSpace;
+import it.polimi.ingsw.clientmodel.ClientModelLeaderCard;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -247,6 +248,8 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
 
         paintBackGround(g);
 
+        drawDiscountLeadersActive(g);
+
         //myDrawImagePNG(g, observedClientModelDevCardSpace.getCodeBlue1());
         drawDevCardSpace(g,
                 observedClientModelDevCardSpace.getCodePurple1(), observedClientModelDevCardSpace.getCodePurple2(), observedClientModelDevCardSpace.getCodePurple3(),
@@ -267,6 +270,68 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
             return;
         }
         g.drawImage(img,0,0,null);
+    }
+
+    private void drawDiscountLeadersActive(Graphics g){
+        ClientModelLeaderCard leader0 = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getLeaderCard(0);
+        ClientModelLeaderCard leader1 = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getLeaderCard(1);
+
+        if ((leader0.isActive() && leader0.getCode() >= 5 && leader0.getCode() <= 8) || (leader1.isActive() && leader1.getCode() >= 5 && leader1.getCode() <= 8)){
+
+            g.drawString("Active discount effects:", 780,200);
+
+            //both leaders active with discount
+            if ((leader0.isActive() && leader0.getCode() >= 5 && leader0.getCode() <= 8) && (leader1.isActive() && leader1.getCode() >= 5 && leader1.getCode() <= 8)) {
+                ClassLoader cl = this.getClass().getClassLoader();
+                InputStream url = cl.getResourceAsStream("cards/leader" + leader0.getCode() + ".png");
+                BufferedImage img= null;
+                try {
+                    img = ImageIO.read(url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                g.drawImage(img,780,210,110,180,null);
+
+                url = cl.getResourceAsStream("cards/leader" + leader1.getCode() + ".png");
+                img= null;
+                try {
+                    img = ImageIO.read(url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                g.drawImage(img,780,400,110,180,null);
+            }
+            //only first leader with active discount
+            else if (leader0.isActive() && leader0.getCode() >= 5 && leader0.getCode() <= 8) {
+                ClassLoader cl = this.getClass().getClassLoader();
+                InputStream url = cl.getResourceAsStream("cards/leader" + leader0.getCode() + ".png");
+                BufferedImage img= null;
+                try {
+                    img = ImageIO.read(url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                g.drawImage(img,780,210,110,180,null);
+            }
+            //only second leader with active discount
+            else {
+                ClassLoader cl = this.getClass().getClassLoader();
+                InputStream url = cl.getResourceAsStream("cards/leader" + leader1.getCode() + ".png");
+                BufferedImage img= null;
+                try {
+                    img = ImageIO.read(url);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                g.drawImage(img,780,210,110,180,null);
+            }
+        }
+
+
     }
 
 
