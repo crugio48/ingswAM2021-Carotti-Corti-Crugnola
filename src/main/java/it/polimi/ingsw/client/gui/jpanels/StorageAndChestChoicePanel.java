@@ -248,15 +248,16 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
 
         //here are the chat components
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(800,100, 250, 30);
+        jLabel.setBounds(1000,155, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(800,130,250,50);
+        jTextField.setBounds(1000,185,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(jTextField.getText().equals("")) return;
                 clientGUI.getMessageSender().sendChatMessage(jTextField.getText());
                 jTextField.setText("");
             }
@@ -270,7 +271,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(800,180,250,150);
+        chatScrollPane.setBounds(1000,235,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -280,7 +281,7 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(800,335,250,150);
+        logScrollPane.setBounds(1000,390,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -288,10 +289,9 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         jTextAreaPlayerInstruction.setEditable(false);
         jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        jTextAreaPlayerInstruction.setForeground(Color.green);
-        JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(800,490,250,150);
-        add(playerInstructionsScrollPane);
+        jTextAreaPlayerInstruction.setForeground(new Color(10,90,50));
+        jTextAreaPlayerInstruction.setBounds(1000,545,250,100);
+        add(jTextAreaPlayerInstruction);
         //here finish the chat components
 
         revalidate();

@@ -33,7 +33,8 @@ public class ChatDocuments {
 
     public void writeInstructionMessage(String message) {
         try {
-            playerInstructionsDoc.insertString(0, message + "\n\n", null);
+            playerInstructionsDoc.remove(0,playerInstructionsDoc.getLength());
+            playerInstructionsDoc.insertString(0, message,null);
         } catch (BadLocationException e) {
             e.printStackTrace();
         }
