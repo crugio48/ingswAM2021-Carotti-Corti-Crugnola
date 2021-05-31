@@ -78,7 +78,7 @@ public class MessageSender {
     }
 
     public void chosenResourceToBuy(int coins , int stones , int shields , int servants){
-        String outMessage = "{\"cmd\" : \"chosenResourceToBuy\"" +
+        String outMessage = "{\"cmd\" : \"chosenResourcesToBuy\"" +
                 ",\"coins\" : " + coins +
                 ",\"stones\" : " + stones +
                 ",\"shields\" : " + shields +
