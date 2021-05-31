@@ -320,127 +320,151 @@ public class MasterController {
                     servants - turnInfo.getServants() < 0 ||
                     coins - turnInfo.getCoins() < 0) return false; //first check that player hasn't cheated by removing some bought resources
 
-            String[] activeMarketEffects = game.getPlayerByTurnOrder(playerTurnOrder).getActiveMarketEffectResourceNames();
+            String[] activeMarketEffects = turnInfo.getTargetResources();
             int spentJollys = 0;
-            switch(activeMarketEffects[0]) {
-                case"shields":
-                    spentJollys += shields - turnInfo.getShields();
-                    switch (activeMarketEffects[1]) {
-                        case"stones":
-                            spentJollys += stones - turnInfo.getStones();
+
+            if (activeMarketEffects[0] != null) {
+                switch (activeMarketEffects[0]) {
+                    case "shields":
+                        spentJollys += shields - turnInfo.getShields();
+                        if (activeMarketEffects[1] != null) {
+                            switch (activeMarketEffects[1]) {
+                                case "stones":
+                                    spentJollys += stones - turnInfo.getStones();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            servants != turnInfo.getServants() ||
+                                            coins != turnInfo.getCoins()) return false;
+                                    break;
+                                case "servants":
+                                    spentJollys += servants - turnInfo.getServants();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            stones != turnInfo.getStones() ||
+                                            coins != turnInfo.getCoins()) return false;
+                                    break;
+                                case "coins":
+                                    spentJollys += coins - turnInfo.getCoins();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            servants != turnInfo.getServants() ||
+                                            stones != turnInfo.getStones()) return false;
+                                    break;
+                                default:
+                                    //should never get here
+                                    break;
+                            }
+                        }
+                        else {
                             if (spentJollys > jollyResourcesThatWereToChoose ||
                                     servants != turnInfo.getServants() ||
-                                    coins != turnInfo.getCoins()) return false;
-                            break;
-                        case"servants":
-                            spentJollys += servants - turnInfo.getServants();
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
                                     stones != turnInfo.getStones() ||
                                     coins != turnInfo.getCoins()) return false;
-                            break;
-                        case"coins":
-                            spentJollys += coins - turnInfo.getCoins();
+                        }
+                        break;
+                    case "stones":
+                        spentJollys += stones - turnInfo.getStones();
+                        if (activeMarketEffects[1] != null) {
+                            switch (activeMarketEffects[1]) {
+                                case "shields":
+                                    spentJollys += shields - turnInfo.getShields();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            servants != turnInfo.getServants() ||
+                                            coins != turnInfo.getCoins()) return false;
+                                    break;
+                                case "servants":
+                                    spentJollys += servants - turnInfo.getServants();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            shields != turnInfo.getShields() ||
+                                            coins != turnInfo.getCoins()) return false;
+                                    break;
+                                case "coins":
+                                    spentJollys += coins - turnInfo.getCoins();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            servants != turnInfo.getServants() ||
+                                            shields != turnInfo.getShields()) return false;
+                                    break;
+                                default:
+                                    //should never get here
+                                    break;
+                            }
+                        }
+                        else {
                             if (spentJollys > jollyResourcesThatWereToChoose ||
                                     servants != turnInfo.getServants() ||
-                                    stones != turnInfo.getStones()) return false;
-                            break;
-                        default:
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    servants != turnInfo.getServants() ||
-                                    stones != turnInfo.getStones() ||
-                                    coins != turnInfo.getCoins()) return false;
-                            break;
-                    }
-                    break;
-                case"stones":
-                    spentJollys += stones - turnInfo.getStones();
-                    switch (activeMarketEffects[1]) {
-                        case"shields":
-                            spentJollys += shields - turnInfo.getShields();
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    servants != turnInfo.getServants() ||
-                                    coins != turnInfo.getCoins()) return false;
-                            break;
-                        case"servants":
-                            spentJollys += servants - turnInfo.getServants();
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
                                     shields != turnInfo.getShields() ||
                                     coins != turnInfo.getCoins()) return false;
-                            break;
-                        case"coins":
-                            spentJollys += coins - turnInfo.getCoins();
+                        }
+                        break;
+                    case "servants":
+                        spentJollys += servants - turnInfo.getServants();
+                        if (activeMarketEffects[1] != null) {
+                            switch (activeMarketEffects[1]) {
+                                case "stones":
+                                    spentJollys += stones - turnInfo.getStones();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            shields != turnInfo.getShields() ||
+                                            coins != turnInfo.getCoins()) return false;
+                                    break;
+                                case "shields":
+                                    spentJollys += shields - turnInfo.getShields();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            stones != turnInfo.getStones() ||
+                                            coins != turnInfo.getCoins()) return false;
+                                    break;
+                                case "coins":
+                                    spentJollys += coins - turnInfo.getCoins();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            shields != turnInfo.getShields() ||
+                                            stones != turnInfo.getStones()) return false;
+                                    break;
+                                default:
+                                    //shoould never get here
+                                    break;
+                            }
+                        }
+                        else {
+                            if (spentJollys > jollyResourcesThatWereToChoose ||
+                                    shields != turnInfo.getShields() ||
+                                    stones != turnInfo.getStones() ||
+                                    coins != turnInfo.getCoins()) return false;
+                        }
+                        break;
+                    case "coins":
+                        spentJollys += coins - turnInfo.getCoins();
+                        if (activeMarketEffects[1] != null) {
+                            switch (activeMarketEffects[1]) {
+                                case "stones":
+                                    spentJollys += stones - turnInfo.getStones();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            servants != turnInfo.getServants() ||
+                                            shields != turnInfo.getShields()) return false;
+                                    break;
+                                case "servants":
+                                    spentJollys += servants - turnInfo.getServants();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            stones != turnInfo.getStones() ||
+                                            shields != turnInfo.getShields()) return false;
+                                    break;
+                                case "shields":
+                                    spentJollys += shields - turnInfo.getShields();
+                                    if (spentJollys > jollyResourcesThatWereToChoose ||
+                                            servants != turnInfo.getServants() ||
+                                            stones != turnInfo.getStones()) return false;
+                                    break;
+                                default:
+                                    //should never get here
+                                    break;
+                            }
+                        }
+                        else {
                             if (spentJollys > jollyResourcesThatWereToChoose ||
                                     servants != turnInfo.getServants() ||
+                                    stones != turnInfo.getStones() ||
                                     shields != turnInfo.getShields()) return false;
-                            break;
-                        default:
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    servants != turnInfo.getServants() ||
-                                    shields != turnInfo.getShields() ||
-                                    coins != turnInfo.getCoins()) return false;
-                            break;
-                    }
-                    break;
-                case"servants":
-                    spentJollys += servants - turnInfo.getServants();
-                    switch (activeMarketEffects[1]) {
-                        case"stones":
-                            spentJollys += stones - turnInfo.getStones();
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    shields != turnInfo.getShields() ||
-                                    coins != turnInfo.getCoins()) return false;
-                            break;
-                        case"shields":
-                            spentJollys += shields - turnInfo.getShields();
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    stones != turnInfo.getStones() ||
-                                    coins != turnInfo.getCoins()) return false;
-                            break;
-                        case"coins":
-                            spentJollys += coins - turnInfo.getCoins();
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    shields != turnInfo.getShields() ||
-                                    stones != turnInfo.getStones()) return false;
-                            break;
-                        default:
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    shields != turnInfo.getShields() ||
-                                    stones != turnInfo.getStones() ||
-                                    coins != turnInfo.getCoins()) return false;
-                            break;
-                    }
-                    break;
-                case"coins":
-                    spentJollys += coins - turnInfo.getCoins();
-                    switch (activeMarketEffects[1]) {
-                        case"stones":
-                            spentJollys += stones - turnInfo.getStones();
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    servants != turnInfo.getServants() ||
-                                    shields != turnInfo.getShields()) return false;
-                            break;
-                        case"servants":
-                            spentJollys += servants - turnInfo.getServants();
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    stones != turnInfo.getStones() ||
-                                    shields != turnInfo.getShields()) return false;
-                            break;
-                        case"shields":
-                            spentJollys += shields - turnInfo.getShields();
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    servants != turnInfo.getServants() ||
-                                    stones != turnInfo.getStones()) return false;
-                            break;
-                        default:
-                            if (spentJollys > jollyResourcesThatWereToChoose ||
-                                    servants != turnInfo.getServants() ||
-                                    stones != turnInfo.getStones() ||
-                                    shields != turnInfo.getShields()) return false;
-                            break;
-                    }
-                    break;
-                default:
-                    return false;
+                        }
+                        break;
+                    default:
+                        //should never get here
+                        return false;
+                }
             }
             //if we get here then the quantities were correct
             turnInfo.setJolly(0);
@@ -630,13 +654,30 @@ public class MasterController {
                                       String baseOutputResource, boolean leaderSlot1Activation, int leader1Code,
                                       String leader1ConvertedResource, boolean leaderSlot2Activation, int leader2Code,
                                       String leader2ConvertedResource, int playerTurnOrder) {
+        //check for null production
+        if (!slot1Activation && !slot2Activation && !slot3Activation && !baseProductionActivation && !leaderSlot1Activation && !leaderSlot2Activation){
+            return false;
+        }
 
-        //this is the viability check
+        //this is the viability check (it check also the baseInputResource1 and baseInputResource2
         if (!game.getPlayerByTurnOrder(playerTurnOrder).checkIfProductionRequestedIsViable(slot1Activation,
                 slot2Activation, slot3Activation, baseProductionActivation, baseInputResource1, baseInputResource2,
                 leaderSlot1Activation, leader1Code, leaderSlot2Activation, leader2Code)) {
             return false;
         }
+        //check valid string for base production output
+        if (baseProductionActivation && !baseOutputResource.equals("coin") && !baseOutputResource.equals("stone") && !baseOutputResource.equals("servant") && !baseOutputResource.equals("shield")){
+            return false;
+        }
+        //check valid string for leader 1 production output
+        if (leaderSlot1Activation && !leader1ConvertedResource.equals("coin") && !leader1ConvertedResource.equals("stone") && !leader1ConvertedResource.equals("servant") && !leader1ConvertedResource.equals("shield")){
+            return false;
+        }
+        //check valid string for leader 2 production output
+        if (leaderSlot2Activation && !leader2ConvertedResource.equals("coin") && !leader2ConvertedResource.equals("stone") && !leader2ConvertedResource.equals("servant") && !leader2ConvertedResource.equals("shield")){
+            return false;
+        }
+
         //if we get here then the production requested is viable and we can just save all information in the TurnInfo object and then return true
         ResourceBox totalCost = new ResourceBox();
 
