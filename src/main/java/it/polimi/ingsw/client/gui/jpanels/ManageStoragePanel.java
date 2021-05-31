@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.gui.jpanels;
 
+import it.polimi.ingsw.CardDecoder.CardDecoder;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
+import it.polimi.ingsw.clientmodel.ClientModelPlayer;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
 import it.polimi.ingsw.client.gui.ChatDocuments;
 
@@ -17,7 +19,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class ManageStoragePanel extends JPanel implements MyObserver {
+    private CardDecoder cardDecoder = new CardDecoder();
     private ClientModelStorage storage;
+    private ClientModelPlayer clientModelPlayer;
     private ClientGUI clientGUI;
     private JTextField jTextField = new JTextField();
     private JTextArea jTextAreaLog = new JTextArea();
@@ -71,6 +75,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     public ManageStoragePanel(ClientGUI clientGUI, int coins , int stones , int shields , int servants){
         this.clientGUI= clientGUI;
         this.myTurnOrder=clientGUI.getMyTurnOrder();
+        this.clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(myTurnOrder);
+        clientModelPlayer.addObserver(this);
         this.storage=clientGUI.getClientModel().getPlayerByTurnOrder(myTurnOrder).getStorage();
         storage.addObserver(this);
         this.coins=coins;
@@ -145,7 +151,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         text1 = new JLabel();
         text1.setText("Move one resource from:    to:");
         text1.setFont(new Font("Consolas", Font.BOLD, 15));
-        text1.setBounds(500,350,250,40);
+        text1.setBounds(500,200,250,40);
         add(text1);
         text1.setVisible(false);
 
@@ -153,21 +159,21 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         but11 = new JButton("2 --> Leader 1 Slot");
         but12 = new JButton("3 --> Leader 1 Slot");
 
-        but10.setBounds(400,390,250,20);
+        but10.setBounds(400,250,250,20);
         add(but10);
-        but11.setBounds(400,430,250,20);
+        but11.setBounds(400,290,250,20);
         add(but11);
-        but12.setBounds(400,470,250,20);
+        but12.setBounds(400,330,250,20);
         add(but12);
         but13 = new JButton("1 --> Leader 2 Slot");
         but14 = new JButton("2 --> Leader 2 Slot");
         but15 = new JButton("3 --> Leader 2 Slot");
 
-        but13.setBounds(700,390,250,20);
+        but13.setBounds(400,390,250,20);
         add(but13);
-        but14.setBounds(700,430,250,20);
+        but14.setBounds(400,430,250,20);
         add(but14);
-        but15.setBounds(700,470,250,20);
+        but15.setBounds(400,470,250,20);
         add(but15);
         but10.setVisible(false);
         but11.setVisible(false);
@@ -259,6 +265,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
                                        removeSwitchComponent();
                                        removeResourceComponent();
                                        removeMoveResourceComponent();
+                                       removeSlotSelectionComponent();
 
                                    }
                                }
@@ -332,6 +339,18 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clientGUI.placeResource(resource,3);
+            }
+        });
+        but8.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.placeResource(resource,4);
+            }
+        });
+        but9.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.placeResource(resource,5);
             }
         });
         but10.addActionListener(new ActionListener() {
@@ -434,15 +453,16 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
 
         //CHAT COMPONENTS
         JLabel jLabel = new JLabel("chat: ");
-        jLabel.setBounds(1000,105, 250, 30);
+        jLabel.setBounds(1000,155, 250, 30);
         add(jLabel);
 
-        jTextField.setBounds(1000,135,250,50);
+        jTextField.setBounds(1000,185,250,50);
         jTextField.setToolTipText("insert here the message and press enter");
         jTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(jTextField.getText().equals("")) return;
                 clientGUI.getMessageSender().sendChatMessage(jTextField.getText());
                 jTextField.setText("");
             }
@@ -456,7 +476,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         jTextAreaChat.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaChat.setForeground(Color.blue);
         JScrollPane chatScrollPane = new JScrollPane(jTextAreaChat, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        chatScrollPane.setBounds(1000,185,250,150);
+        chatScrollPane.setBounds(1000,235,250,150);
         add(chatScrollPane);
 
         jTextAreaLog.setDocument(clientGUI.getChatDocuments().getLogDoc());
@@ -466,7 +486,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         jTextAreaLog.setBorder(new BevelBorder(BevelBorder.LOWERED));
         jTextAreaLog.setForeground(Color.red);
         JScrollPane logScrollPane = new JScrollPane(jTextAreaLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        logScrollPane.setBounds(1000,340,250,150);
+        logScrollPane.setBounds(1000,390,250,150);
         add(logScrollPane);
 
         jTextAreaPlayerInstruction.setDocument(clientGUI.getChatDocuments().getPlayerInstructionsDoc());
@@ -474,10 +494,9 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         jTextAreaPlayerInstruction.setEditable(false);
         jTextAreaPlayerInstruction.setToolTipText("this is your personal log for instructions");
         jTextAreaPlayerInstruction.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        jTextAreaPlayerInstruction.setForeground(Color.green);
-        JScrollPane playerInstructionsScrollPane = new JScrollPane(jTextAreaPlayerInstruction, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        playerInstructionsScrollPane.setBounds(1000,495,250,150);
-        add(playerInstructionsScrollPane);
+        jTextAreaPlayerInstruction.setForeground(new Color(10,90,50));
+        jTextAreaPlayerInstruction.setBounds(1000,545,250,100);
+        add(jTextAreaPlayerInstruction);
         //END CHAT COMPONETS
 
 
@@ -496,8 +515,9 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         super.paintComponent(g);
 
         paintBackGround(g);
-
+        drawLeaders(g);
         drawStorage(g,storage);
+
         g.drawString(coins + " coins , " + stones+" stones , "+ shields+ " shields , "+ servants +" servants.",10,50);
     }
 
@@ -513,6 +533,59 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         }
         g.drawImage(img,0,0,null);
     }
+    private void drawLeaders(Graphics g){
+        int codeFirstLeader = 0;
+        int codeSecondLeader = 0;
+        ClassLoader cl = this.getClass().getClassLoader();
+        InputStream url1=null;
+        InputStream url2=null;
+        BufferedImage ldr1= null;
+        BufferedImage ldr2= null;
+
+        codeFirstLeader = clientModelPlayer.getLeaderCard(0).getCode();
+        codeSecondLeader = clientModelPlayer.getLeaderCard(1).getCode();
+
+        if(codeFirstLeader!=0&&codeFirstLeader<5&&clientModelPlayer.getLeaderCard(0).isActive()){
+            if (storage.getResourceTypeOfLeaderSlot1().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(0).getCode()))){
+                g.drawString("Leader Slot 1:",825,12);
+            }
+            else{
+                g.drawString("Leader Slot 2:",825,12);
+
+            }
+        }
+        if(codeSecondLeader!=0&&codeSecondLeader<5&&clientModelPlayer.getLeaderCard(1).isActive()){
+            if (storage.getResourceTypeOfLeaderSlot1().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(1).getCode()))){
+                g.drawString("Leader Slot 1:",825,320);
+            }
+            else{
+                g.drawString("Leader Slot 2:",825,320);
+
+            }
+        }
+
+
+        if (codeFirstLeader!=0&&codeFirstLeader<5&&clientModelPlayer.getLeaderCard(0).isActive()){
+            url1 = cl.getResourceAsStream("cards/leader"+codeFirstLeader+".png");
+            try {
+                ldr1 = ImageIO.read(url1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            g.drawImage(ldr1, 825,20,130,200,null);
+        }
+
+        if (codeSecondLeader!=0&&codeSecondLeader<5&&clientModelPlayer.getLeaderCard(1).isActive()){
+            url2 = cl.getResourceAsStream("cards/leader"+codeSecondLeader+".png");
+            try {
+                ldr2 = ImageIO.read(url2);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            g.drawImage(ldr2, 825,340,130,200, null);
+        }}
 
     private void drawStorage(Graphics g,ClientModelStorage storage){
         ClassLoader cl = this.getClass().getClassLoader();
@@ -571,6 +644,135 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
                 case "servants":g.drawImage(servant,85,510,myIndicatorWidth,myIndicatorHeight,null); if(storage.getQuantityOfSlot3()>1){g.drawImage(servant,135,510,myIndicatorWidth,myIndicatorHeight,null);}if(storage.getQuantityOfSlot3()==3){g.drawImage(servant,185,510,myIndicatorHeight,myIndicatorWidth,null);}break;
                 default:break;
             }
+        }
+
+        if(storage.getQuantityOfLeaderSlot1()!=0){
+            if (storage.getResourceTypeOfLeaderSlot1().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(0).getCode()))) {
+                switch (storage.getResourceTypeOfLeaderSlot1()) {  //print on above card
+                    case "coins":
+                        g.drawImage(coin, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(coin, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(stone, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(shield, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(servant, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else {
+
+                switch (storage.getResourceTypeOfLeaderSlot1()) {  //print on lower card
+                    case "coins":
+                        g.drawImage(coin, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(coin, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(stone, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(shield, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot1() == 2){
+                            g.drawImage(servant, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+        }
+        if(storage.getQuantityOfLeaderSlot2()!=0){
+            if (storage.getResourceTypeOfLeaderSlot2().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(0).getCode()))) {
+                switch (storage.getResourceTypeOfLeaderSlot2()) {  //print on above card
+                    case "coins":
+                        g.drawImage(coin, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(coin, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(stone, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(shield, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 850, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(servant, 900, 170, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else {
+
+                switch (storage.getResourceTypeOfLeaderSlot2()) {  //print on lower card
+                    case "coins":
+                        g.drawImage(coin, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(coin, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "stones":
+                        g.drawImage(stone, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(stone, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "shields":
+                        g.drawImage(shield, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(shield, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    case "servants":
+                        g.drawImage(servant, 850, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        if (storage.getQuantityOfLeaderSlot2() == 2){
+                            g.drawImage(servant, 900, 490, myIndicatorWidth, myIndicatorHeight,null);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
         }
 
 
@@ -632,13 +834,50 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     }
 
     private void addMoveResourceComponent(){
+       int codeFirstLeader = clientModelPlayer.getLeaderCard(0).getCode();
+       int codeSecondLeader = clientModelPlayer.getLeaderCard(1).getCode();
+
+
+
+        if(codeFirstLeader!=0&&codeFirstLeader<5&&clientModelPlayer.getLeaderCard(0).isActive()){
+            if (storage.getResourceTypeOfLeaderSlot1().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(0).getCode()))){
+                but10.setVisible(true);
+                but11.setVisible(true);
+                but12.setVisible(true);
+            }
+            else{
+                but13.setVisible(true);
+                but14.setVisible(true);
+                but15.setVisible(true);
+
+            }
+        }
+        if(codeSecondLeader!=0&&codeSecondLeader<5&&clientModelPlayer.getLeaderCard(1).isActive()){
+            if (storage.getResourceTypeOfLeaderSlot1().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(1).getCode()))){
+                but10.setVisible(true);
+                but11.setVisible(true);
+                but12.setVisible(true);
+            }
+            else{
+                but13.setVisible(true);
+                but14.setVisible(true);
+                but15.setVisible(true);
+
+            }
+        }
+
+
+
+
         text1.setVisible(true);
+      /*  if(clientModelPlayer.getLeaderCard(0).isActive()) {
         but10.setVisible(true);
         but11.setVisible(true);
-        but12.setVisible(true);
+        but12.setVisible(true);}
+        if(clientModelPlayer.getLeaderCard(1).isActive()) {
         but13.setVisible(true);
         but14.setVisible(true);
-        but15.setVisible(true);
+        but15.setVisible(true);}*/
 
     }
     private void removeMoveResourceComponent(){
@@ -646,6 +885,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         but10.setVisible(false);
         but11.setVisible(false);
         but12.setVisible(false);
+
         but13.setVisible(false);
         but14.setVisible(false);
         but15.setVisible(false);
@@ -653,12 +893,35 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     }
 
     private void addSlotSelectionComponent(){
+        int codeFirstLeader = clientModelPlayer.getLeaderCard(0).getCode();
+        int codeSecondLeader = clientModelPlayer.getLeaderCard(1).getCode();
+
 
         res4.setVisible(true);
         but4.setVisible(true);
         but5.setVisible(true);
         but6.setVisible(true);
         but7.setVisible(true);
+
+        if(codeFirstLeader!=0&&codeFirstLeader<5&&clientModelPlayer.getLeaderCard(0).isActive()){
+            if (storage.getResourceTypeOfLeaderSlot1().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(0).getCode()))){
+                but8.setVisible(true);
+            }
+            else{
+              but9.setVisible(true);
+
+            }
+        }
+        if(codeSecondLeader!=0&&codeSecondLeader<5&&clientModelPlayer.getLeaderCard(1).isActive()){
+            if (storage.getResourceTypeOfLeaderSlot1().equals(cardDecoder.getResourceTypeOfStorageLeader(clientModelPlayer.getLeaderCard(1).getCode()))){
+                but8.setVisible(true);
+            }
+            else{
+                but9.setVisible(true);
+
+            }
+        }
+
 
 
     }
@@ -669,6 +932,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
         but5.setVisible(false);
         but6.setVisible(false);
         but7.setVisible(false);
+        but8.setVisible(false);
+        but9.setVisible(false);
 
 
     }

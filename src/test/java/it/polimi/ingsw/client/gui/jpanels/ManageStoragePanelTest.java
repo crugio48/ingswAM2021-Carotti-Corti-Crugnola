@@ -1,5 +1,5 @@
 package it.polimi.ingsw.client.gui.jpanels;
-/*
+
 import it.polimi.ingsw.client.gui.ChatDocuments;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
@@ -9,26 +9,29 @@ import javax.swing.*;
 
 class ManageStoragePanelTest {
         ClientGUI clientGUI = new ClientGUI();
-        ClientModelStorage storage = new ClientModelStorage();
-         ChatDocuments chat = new ChatDocuments();
-        ManageStoragePanel panel = new ManageStoragePanel(clientGUI,0,1,1,1);
+        ManageStoragePanel panel ;
 
 
     @Test
     void name() throws InterruptedException {
-        this.storage=clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder()).getStorage();
-        storage.setClientModelStorageUpdate(0,0,1,2,3,"coins","stones","servants","","");
+        clientGUI.getClientModel().setSetupUpdate(new String[] {"cru", null, null, null});
+        clientGUI.setMyUsername("cru");
+        clientGUI.setMyTurnOrder(1);
+        clientGUI.chatDocuments = new ChatDocuments();
+
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).setLeaderCardsUpdate(2,true,3,true);
+        clientGUI.getClientModel().getPlayerByTurnOrder(1).getStorage().setClientModelStorageUpdate(0,0,1,1,1,"coins","shields","stones", "shields", "coins");
+
+
+        panel = new ManageStoragePanel(clientGUI,1,1,1,0);
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI(panel);
             }
         });
-        Thread.sleep(4 * 1000);
-        storage.setClientModelStorageUpdate(0,0,1,2,3,"shields","coins","servants","","");
-        Thread.sleep(4 * 1000);
-        storage.setClientModelStorageUpdate(0,0,1,2,3,"shields","stones","coins","","");
-        Thread.sleep(20 * 1000);
+
+        Thread.sleep(2000 * 1000);
     }
 
     private void createAndShowGUI(ManageStoragePanel panel){
@@ -43,4 +46,4 @@ class ManageStoragePanelTest {
 
 
 
-}*/
+}
