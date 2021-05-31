@@ -11,6 +11,7 @@ public class ResourceBox {
 
     public void addResource(Resource resource) {
         if (resource == null) return;  //if null do nothing
+        if (resource.getQuantity() == 0) return;
 
         for (Resource resourceIterator : box) {
             if (resourceIterator.getName().equals(resource.getName())) {   //if resource already present, update the resource quantity
