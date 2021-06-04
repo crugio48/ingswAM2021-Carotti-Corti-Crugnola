@@ -14,6 +14,7 @@ import java.net.Socket;
 public class ClientGUI extends Client {
     private String myUsername;
     private int myTurnOrder;
+    private GuiInfo guiInfo;
     public ChatDocuments chatDocuments;
     GameFrame gameFrame;
     Socket socket;
@@ -23,6 +24,7 @@ public class ClientGUI extends Client {
 
     public ClientGUI() {
         super();
+        this.guiInfo = new GuiInfo();
     }
 
     public ChatDocuments getChatDocuments() {
@@ -88,7 +90,7 @@ public class ClientGUI extends Client {
                 serverIn = stringBuffer.readMessage();  //this is the first message from the server that the game has started
                 response = (Response) gson.fromJson(serverIn, Response.class);
 
-                switch (response.getCmd()){
+                switch (guiInfo.getCurrentAction()){
                     case "marketBuyResponse":
 
                 }
@@ -101,6 +103,10 @@ public class ClientGUI extends Client {
         } catch (InterruptedException e) {
 
         }
+    }
+
+    public GuiInfo getGuiInfo() {
+        return guiInfo;
     }
 
     public void setMyTurnOrder(int myTurnOrder) {
