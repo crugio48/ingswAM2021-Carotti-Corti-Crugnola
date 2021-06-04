@@ -127,7 +127,7 @@ public class ClientGUI extends Client {
                         leaderDiscardResponse(response);
                         break;
 
-                    case "placeResourceInsSlot":
+                    case "placeResourceInSlot":
                         placeResourceResponse(response);
                         break;
 
