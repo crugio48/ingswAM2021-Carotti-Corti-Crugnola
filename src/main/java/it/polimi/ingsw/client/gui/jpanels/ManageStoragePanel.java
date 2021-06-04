@@ -329,48 +329,48 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.placeResource(resource,1);
-                clientGUI.getMessageSender().placeResourceInSlot(resource, 1);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().placeResourceInSlot(resource, 1);
             }
         });
         but5.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.placeResource(resource,2);
-                clientGUI.getMessageSender().placeResourceInSlot(resource, 2);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().placeResourceInSlot(resource, 2);
             }
         });
         but6.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.placeResource(resource,3);
-                clientGUI.getMessageSender().placeResourceInSlot(resource,3);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().placeResourceInSlot(resource,3);
             }
         });
         but8.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.placeResource(resource,4);
-                clientGUI.getMessageSender().placeResourceInSlot(resource, 4);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().placeResourceInSlot(resource, 4);
             }
         });
         but9.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.placeResource(resource,5);
-                clientGUI.getMessageSender().placeResourceInSlot(resource, 5);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().placeResourceInSlot(resource, 5);
             }
         });
         but10.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.moveOneResource(1,4);
-                clientGUI.getMessageSender().moveOneResource(1,4);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().moveOneResource(1,4);
 
 
             }
@@ -379,8 +379,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.moveOneResource(2,4);
-                clientGUI.getMessageSender().moveOneResource(2,4);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().moveOneResource(2,4);
 
             }
         });
@@ -389,8 +389,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.moveOneResource(3,4);
-                clientGUI.getMessageSender().moveOneResource(3,4);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().moveOneResource(3,4);
 
             }
         });
@@ -399,8 +399,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.moveOneResource(1,5);
-                clientGUI.getMessageSender().moveOneResource(1,5);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().moveOneResource(1,5);
 
             }
         });
@@ -409,8 +409,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.moveOneResource(2,5);
-                clientGUI.getMessageSender().moveOneResource(2,5);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().moveOneResource(2,5);
 
             }
         });
@@ -419,8 +419,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.moveOneResource(3,5);
-                clientGUI.getMessageSender().moveOneResource(3,5);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().moveOneResource(3,5);
 
             }
         });
@@ -428,32 +428,32 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.switchResourceSlots(1,2);
-                clientGUI.getMessageSender().switchResourceSlot(1,2);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().switchResourceSlot(1,2);
             }
         });
         but2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.switchResourceSlots(1,3);
-                clientGUI.getMessageSender().switchResourceSlot(1,3);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().switchResourceSlot(1,3);
             }
         });
         but3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.switchResourceSlots(2,3);
-                clientGUI.getMessageSender().switchResourceSlot(2,3);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().switchResourceSlot(2,3);
             }
         });
         but7.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.discardOneResource(resource);
-                clientGUI.getMessageSender().discardResource(resource);
                 clientGUI.getGuiInfo().setCurrentAction("");
+                clientGUI.getMessageSender().discardResource(resource);
             }
         });
 
