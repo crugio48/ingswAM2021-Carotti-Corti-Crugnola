@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.gui.jpanels;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
-import it.polimi.ingsw.client.gui.actionListeners.BuyFromMarketAction;
 import it.polimi.ingsw.clientmodel.ClientModelMarket;
 
 import javax.imageio.ImageIO;

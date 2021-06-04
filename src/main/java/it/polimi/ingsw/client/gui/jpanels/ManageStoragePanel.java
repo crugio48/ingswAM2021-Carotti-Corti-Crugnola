@@ -6,7 +6,6 @@ import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.clientmodel.ClientModelPlayer;
 import it.polimi.ingsw.clientmodel.ClientModelStorage;
-import it.polimi.ingsw.client.gui.ChatDocuments;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -274,6 +273,7 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //clientGUI.endPlacing();
+                clientGUI.getGuiInfo().setCurrentAction("endPlacing");
                 clientGUI.getMessageSender().endPlacing();
 
             }

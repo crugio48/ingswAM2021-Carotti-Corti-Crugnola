@@ -4,9 +4,6 @@ import it.polimi.ingsw.CardDecoder.CardDecoder;
 import it.polimi.ingsw.MyObservable;
 import it.polimi.ingsw.MyObserver;
 import it.polimi.ingsw.client.gui.ClientGUI;
-import it.polimi.ingsw.client.gui.actionListeners.ActivateLeaderAction;
-import it.polimi.ingsw.client.gui.actionListeners.DiscardLeaderAction;
-import it.polimi.ingsw.client.gui.actionListeners.PlaceDevCardAction;
 import it.polimi.ingsw.clientmodel.*;
 
 import javax.imageio.ImageIO;
@@ -115,6 +112,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
+                clientGUI.getGuiInfo().setLeaderSlot(0);
                 clientGUI.getMessageSender().sendChosenLeaderToActivate(0);
             }
         });
@@ -126,6 +124,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToDiscard");
+                clientGUI.getGuiInfo().setLeaderSlot(0);
                 clientGUI.getMessageSender().discardYourActiveLeader(0);
             }
         });
@@ -138,6 +137,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
+                clientGUI.getGuiInfo().setLeaderSlot(1);
                 clientGUI.getMessageSender().sendChosenLeaderToActivate(1);
             }
         });
@@ -149,6 +149,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToDiscard");
+                clientGUI.getGuiInfo().setLeaderSlot(1);
                 clientGUI.getMessageSender().discardYourActiveLeader(1);
             }
         });
@@ -172,7 +173,8 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clientGUI.endTurn();
+                clientGUI.getGuiInfo().setCurrentAction("endTurn");
+                clientGUI.getMessageSender().endTurn();
             }
         });
         add(endTurnButton);

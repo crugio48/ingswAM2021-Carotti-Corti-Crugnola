@@ -91,26 +91,73 @@ public class ClientGUI extends Client {
                 response = (Response) gson.fromJson(serverIn, Response.class);
 
                 switch (guiInfo.getCurrentAction()){
+                    case "marketBuy":
+                        buyFromMarketResponse(response);
+                        break;
+
                     case "chooseSlotDevCard":
-
-                        break;
-                    case "ola":
-                        break;
-                    case "":
-                        break;
-                    case "   ":
+                        devCardPlacementResponse(response);
                         break;
 
+                    case "chooseLeaderToActivate":
+                        activateLeaderResponse(response);
+                        break;
 
+                    case "payForProduction":
+                        productionPaymentResponse(response);
+                        break;
+
+                    case "payForDevCard":
+                        devCardPaymentResponse(response);
+                        break;
+
+                    case "activateProduction":
+                        activateProductionResponse(response);
+                        break;
+
+                    case "leaderMarblePower":
+                        leaderMarblePowerResponse(response);
+                        break;
+
+                    case "buyDevCard":
+                        buyDevCardResponse(response);
+                        break;
+
+                    case "chooseLeaderToDiscard":
+                        leaderDiscardResponse(response);
+                        break;
+
+                    case "placeResourceInsSlot":
+                        placeResourceResponse(response);
+                        break;
+
+                    case "moveResource":
+                        moveOneResourceResponse(response);
+                        break;
+
+                    case "switchResourceSlot":
+                        switchResourceSlotsResponse(response);
+                        break;
+
+                    case "discardResource":
+                        discardOneResourceResponse(response);
+                        break;
+
+                    case "endPlacing":
+                        endPlacingResponse();
+                        break;
+
+                    case "endTurn":
+                        endTurnResponse(response);
+                        break;
+
+                    default:
+                        //should never get here
+                        break;
                 }
-
-
             }
-
-
-
         } catch (InterruptedException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -126,6 +173,21 @@ public class ClientGUI extends Client {
         gameFrame = new GameFrame(this);
     }
 
+    public void setMyUsername(String myUsername) {
+        this.myUsername = myUsername;
+    }
+
+    public int getMyTurnOrder() {
+        return myTurnOrder;
+    }
+
+    public String getMyUsername() {
+        return myUsername;
+    }
+
+    public GameFrame getGameFrame() {
+        return gameFrame;
+    }
 
     public void openConnection(int numOfPLayers, boolean randomGame, String password) {
         try {
@@ -146,345 +208,166 @@ public class ClientGUI extends Client {
         }
     }
 
-    public void endTurn() {
-        Gson gson = new Gson();
-        try {
-            messageSender.endTurn();
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You ended your turn successfully");
-            } else {
-                chatDocuments.writeInstructionMessage("You still have to do your main action");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void buyFromMarket(int position) {
-        Gson gson = new Gson();
-        try {
-            messageSender.buyResourceFromMarket(position);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You successfully bought from market, now you need to place the resources you bought");
-
-                if (response.getJolly() != 0) {
-                    gameFrame.addActivatingLeaderMarblePowerPanel(response.getJolly(), response.getStones(), response.getShields(), response.getCoins(), response.getServants(), response.getTargetResources());
-                } else {
-                    gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(), response.getShields());
-                }
-
-                gameFrame.setInvisibleMarketButtons();
-
-            } else {
-                chatDocuments.writeInstructionMessage("There was an error please try again");
-            }
-        } catch (InterruptedException e) {
-            gameFrame.goToLeaderBoardPanel();
+    private void endTurnResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You ended your turn successfully");
+        } else {
+            chatDocuments.writeInstructionMessage("You still have to do your main action");
         }
 
     }
 
 
-    public void buyDevCard(int lvl, char colour) {
-        Gson gson = new Gson();
-        try {
-            messageSender.buyDevelopmentCard(lvl, colour);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
+    private void buyFromMarketResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You successfully bought from market, now you need to place the resources you bought");
 
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You bought the card, you now need to choose from where to pay the card cost");
-                gameFrame.addStorageAndChestChoicePanel(false, response.getCoins(), response.getShields(), response.getServants(), response.getStones());
-                gameFrame.setInvisibleDevCardButtons();
+            if (response.getJolly() != 0) {
+                gameFrame.addActivatingLeaderMarblePowerPanel(response.getJolly(), response.getStones(), response.getShields(), response.getCoins(), response.getServants(), response.getTargetResources());
             } else {
-                chatDocuments.writeInstructionMessage("You don't have enough resources for that card");
+                gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(), response.getShields());
             }
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            gameFrame.setInvisibleMarketButtons();
+
+        } else {
+            chatDocuments.writeInstructionMessage("There was an error please try again");
         }
     }
 
-    public void activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
-                                   boolean baseProdActivation, String baseInput1, String baseInput2, String baseOutput,
-                                   boolean leader1Activation, int leader1Code, String leader1ConvertedResource,
-                                   boolean leader2Activation, int leader2Code, String leader2ConvertedResource) {
-        Gson gson = new Gson();
-        try {
-            messageSender.activateProduction(slot1Activation, slot2Activation, slot3Activation, baseProdActivation, baseInput1,
-                    baseInput2, baseOutput, leader1Activation, leader1Code, leader1ConvertedResource, leader2Activation, leader2Code, leader2ConvertedResource);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
 
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You correctly activated the production, now choose where to get the resources from");
-                gameFrame.removeActivateProductionPanel();
-                gameFrame.addStorageAndChestChoicePanel(true, response.getCoins(), response.getShields(), response.getServants(), response.getStones());
-
-            } else {
-                chatDocuments.writeInstructionMessage("You are poor, you don't have enough resources fot this production ");
-                gameFrame.resetActivateProductionPanel();
-            }
-
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void buyDevCardResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You bought the card, you now need to choose from where to pay the card cost");
+            gameFrame.addStorageAndChestChoicePanel(false, response.getCoins(), response.getShields(), response.getServants(), response.getStones());
+            gameFrame.setInvisibleDevCardButtons();
+        } else {
+            chatDocuments.writeInstructionMessage("You don't have enough resources for that card");
         }
     }
 
-    public void setMyUsername(String myUsername) {
-        this.myUsername = myUsername;
-    }
+    private void activateProductionResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You correctly activated the production, now choose where to get the resources from");
+            gameFrame.removeActivateProductionPanel();
+            gameFrame.addStorageAndChestChoicePanel(true, response.getCoins(), response.getShields(), response.getServants(), response.getStones());
 
-    public int getMyTurnOrder() {
-        return myTurnOrder;
-    }
-
-    public String getMyUsername() {
-        return myUsername;
-    }
-
-    public GameFrame getGameFrame() {
-        return gameFrame;
-    }
-
-    public void sendResourcesFromChestAndStorageSelectedForProduction(int coinsFromStorageSelected, int shieldsFromStorageSelected,
-                                                                      int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
-                                                                      int servantsFromChestSelected, int stonesFromChestSelected) {
-        Gson gson = new Gson();
-        try {
-            messageSender.chosenResourcesToPayForProduction(
-                    coinsFromStorageSelected,
-                    shieldsFromStorageSelected,
-                    servantsFromStorageSelected,
-                    stonesFromStorageSelected,
-                    coinsFromChestSelected,
-                    shieldsFromChestSelected,
-                    servantsFromChestSelected,
-                    stonesFromChestSelected
-            );
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You paid successfully");
-                gameFrame.removeStorageAndChestPanel();
-                gameFrame.enableLeaderButtonsAndEndTurn();
-            } else {
-                chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
-                gameFrame.resetStorageAndChestPanel();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sendResourcesToPayFromChestAndStorageSelectedForDevCard(int coinsFromStorageSelected, int shieldsFromStorageSelected,
-                                                                        int servantsFromStorageSelected, int stonesFromStorageSelected, int coinsFromChestSelected, int shieldsFromChestSelected,
-                                                                        int servantsFromChestSelected, int stonesFromChestSelected) {
-        Gson gson = new Gson();
-        try {
-            messageSender.chosenResourcesToPayForDevCard(
-                    coinsFromChestSelected,
-                    stonesFromChestSelected,
-                    shieldsFromChestSelected,
-                    servantsFromChestSelected,
-                    coinsFromStorageSelected,
-                    stonesFromStorageSelected,
-                    shieldsFromStorageSelected,
-                    servantsFromStorageSelected
-            );
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You paid successfully, now select where to place the card");
-                gameFrame.removeStorageAndChestPanel();
-                gameFrame.enableDevCardPlacement();
-            } else {
-                chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
-                gameFrame.resetStorageAndChestPanel();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } else {
+            chatDocuments.writeInstructionMessage("You are poor, you don't have enough resources fot this production ");
+            gameFrame.resetActivateProductionPanel();
         }
 
     }
 
-
-    public void sendCardPlacement(int slotNumber) {
-        Gson gson = new Gson();
-        try {
-            messageSender.chosenSlotNumberForDevCard(slotNumber);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You correctly placed the card!");
-                gameFrame.disableCardPlacement();
-                gameFrame.enableLeaderButtonsAndEndTurn();
-            } else {
-                chatDocuments.writeInstructionMessage("You can't place the card here, choose another slot");
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sendActivateLeader(int codeLeader, int leaderSlot) {
-        Gson gson = new Gson();
-        try {
-            messageSender.sendChosenLeaderToActivate(codeLeader);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You correctly activated your leader!");
-                gameFrame.setInvisibleLeaderButton(leaderSlot);
-            } else {
-                chatDocuments.writeInstructionMessage("You can't activate your leader");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public void sendDiscardLeader(int codeLeader, int leaderSlot) {
-        Gson gson = new Gson();
-        try {
-            messageSender.discardYourActiveLeader(codeLeader);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You correctly discarded your leader!");
-                gameFrame.setInvisibleLeaderButton(leaderSlot);
-            } else {
-                chatDocuments.writeInstructionMessage("You can't discard your leader");
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void placeResource(String resource, int slot) {
-        Gson gson = new Gson();
-        try {
-            messageSender.placeResourceInSlot(resource, slot);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("Resource placed correctly!");
-
-
-            } else {
-                chatDocuments.writeInstructionMessage("You can't place here!");
-            }
-            gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(), response.getShields(), response.getServants());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public void moveOneResource(int slot1, int slot2) {
-        Gson gson = new Gson();
-        try {
-            messageSender.moveOneResource(slot1, slot2);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("Resource moved correctly");
-
-
-            } else {
-                chatDocuments.writeInstructionMessage("You can't move the resource");
-            }
-            gameFrame.refreshnessManageStoragePanel();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    public void endPlacing() {
-        try {
-            messageSender.endPlacing();
-            stringBuffer.readMessage();
-            gameFrame.removeManageStoragePanel();
+    private void productionPaymentResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You paid successfully");
+            gameFrame.removeStorageAndChestPanel();
             gameFrame.enableLeaderButtonsAndEndTurn();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } else {
+            chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
+            gameFrame.resetStorageAndChestPanel();
         }
     }
 
-    public void switchResourceSlots(int slot1, int slot2) {
-        Gson gson = new Gson();
-        try {
-            messageSender.switchResourceSlot(slot1, slot2);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("Slots Switched correctly");
-
-
-            } else {
-                chatDocuments.writeInstructionMessage("You can't switch slots");
-            }
-            gameFrame.refreshnessManageStoragePanel();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void devCardPaymentResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You paid successfully, now select where to place the card");
+            gameFrame.removeStorageAndChestPanel();
+            gameFrame.enableDevCardPlacement();
+        } else {
+            chatDocuments.writeInstructionMessage("You don't have the specified resources, try again and select the correct payment");
+            gameFrame.resetStorageAndChestPanel();
         }
-
 
     }
 
-    public void discardOneResource(String resource) {
-        Gson gson = new Gson();
-        try {
-            messageSender.discardResource(resource);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("Resource discarded correctly!");
 
-
-            } else {
-                chatDocuments.writeInstructionMessage("You can't discard this resource");
-            }
-            gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(), response.getShields(), response.getServants());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void devCardPlacementResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You correctly placed the card!");
+            gameFrame.disableCardPlacement();
+            gameFrame.enableLeaderButtonsAndEndTurn();
+        } else {
+            chatDocuments.writeInstructionMessage("You can't place the card here, choose another slot");
         }
+    }
 
+    private void activateLeaderResponse(Response response) {
+
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You correctly activated your leader!");
+            gameFrame.setInvisibleLeaderButton(guiInfo.getLeaderSlot());
+        } else {
+            chatDocuments.writeInstructionMessage("You can't activate your leader");
+        }
+    }
+
+    private void leaderDiscardResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You correctly discarded your leader!");
+            gameFrame.setInvisibleLeaderButton(guiInfo.getLeaderSlot());
+        } else {
+            chatDocuments.writeInstructionMessage("You can't discard your leader");
+        }
 
     }
 
-    public void sendNewConvertedResources(int newCoins, int newShields, int newServants, int newStones){
-        Gson gson = new Gson();
-        try {
-            messageSender.chosenResourceToBuy(newCoins, newStones, newShields, newServants);
-            String serverIn = stringBuffer.readMessage();
-            Response response = (Response) gson.fromJson(serverIn, Response.class);
-            if (response.isCommandWasCorrect()) {
-                chatDocuments.writeInstructionMessage("You correctly submitted the resources");
-                gameFrame.removeActivatingLeaderMarblePowerPanel();
-                gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(),response.getShields());
-            } else {
-                chatDocuments.writeInstructionMessage("You can't convert these marbles!");
-                gameFrame.refreshActivatingLeaderMarblePowerPanel();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    private void placeResourceResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("Resource placed correctly!");
+
+        } else {
+            chatDocuments.writeInstructionMessage("You can't place here!");
+        }
+        gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(), response.getShields(), response.getServants());
+
+    }
+
+    private void moveOneResourceResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("Resource moved correctly");
+
+        } else {
+            chatDocuments.writeInstructionMessage("You can't move the resource");
+        }
+        gameFrame.refreshnessManageStoragePanel();
+    }
+
+    private void endPlacingResponse() {
+        gameFrame.removeManageStoragePanel();
+        gameFrame.enableLeaderButtonsAndEndTurn();
+
+    }
+
+    private void switchResourceSlotsResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("Slots Switched correctly");
+
+        } else {
+            chatDocuments.writeInstructionMessage("You can't switch those slots");
+        }
+        gameFrame.refreshnessManageStoragePanel();
+    }
+
+    private void discardOneResourceResponse(Response response) {
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("Resource discarded correctly!");
+
+        } else {
+            chatDocuments.writeInstructionMessage("You can't discard this resource");
+        }
+        gameFrame.refreshManageStoragePanel(response.getCoins(), response.getStones(), response.getShields(), response.getServants());
+    }
+
+    private void leaderMarblePowerResponse(Response response){
+        if (response.isCommandWasCorrect()) {
+            chatDocuments.writeInstructionMessage("You correctly submitted the resources");
+            gameFrame.removeActivatingLeaderMarblePowerPanel();
+            gameFrame.addManageStoragePanel(response.getCoins(), response.getServants(), response.getStones(),response.getShields());
+        } else {
+            chatDocuments.writeInstructionMessage("You can't convert these marbles!");
+            gameFrame.refreshActivatingLeaderMarblePowerPanel();
         }
     }
 

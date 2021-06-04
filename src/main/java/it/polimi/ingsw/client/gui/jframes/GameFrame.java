@@ -4,8 +4,6 @@ import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.gui.jpanels.*;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 
 public class GameFrame{
