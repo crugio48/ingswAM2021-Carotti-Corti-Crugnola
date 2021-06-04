@@ -39,6 +39,7 @@ public class MarketPanel extends JPanel implements MyObserver {
     public MarketPanel (ClientGUI clientGUI) {
         this.setPreferredSize(new Dimension(1280, 720));
 
+        this.clientGUI = clientGUI;
         this.market = clientGUI.getClientModel().getMarket();
         market.addObserver(this);
 
@@ -101,15 +102,52 @@ public class MarketPanel extends JPanel implements MyObserver {
         pos1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("marketBuy");
                 clientGUI.getMessageSender().buyResourceFromMarket(1);
             }
         });
-        pos2.addActionListener(new BuyFromMarketAction(clientGUI, 2));
-        pos3.addActionListener(new BuyFromMarketAction(clientGUI, 3));
-        pos4.addActionListener(new BuyFromMarketAction(clientGUI, 4));
-        pos5.addActionListener(new BuyFromMarketAction(clientGUI, 5));
-        pos6.addActionListener(new BuyFromMarketAction(clientGUI, 6));
-        pos7.addActionListener(new BuyFromMarketAction(clientGUI, 7));
+        pos2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("marketBuy");
+                clientGUI.getMessageSender().buyResourceFromMarket(2);
+            }
+        });
+        pos3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("marketBuy");
+                clientGUI.getMessageSender().buyResourceFromMarket(3);
+            }
+        });
+        pos4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("marketBuy");
+                clientGUI.getMessageSender().buyResourceFromMarket(4);
+            }
+        });
+        pos5.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("marketBuy");
+                clientGUI.getMessageSender().buyResourceFromMarket(5);
+            }
+        });
+        pos6.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("marketBuy");
+                clientGUI.getMessageSender().buyResourceFromMarket(6);
+            }
+        });
+        pos7.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("marketBuy");
+                clientGUI.getMessageSender().buyResourceFromMarket(7);
+            }
+        });
 
         pos1.setVisible(false);
         pos2.setVisible(false);
