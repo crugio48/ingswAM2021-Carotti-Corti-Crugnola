@@ -153,21 +153,81 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         lv2PurpleButton.setVisible(false);
         lv3PurpleButton.setVisible(false);
 
-        lv1BlueButton.addActionListener(new BuyDevCardAction(clientGUI, 1, 'b'));
-        lv2BlueButton.addActionListener(new BuyDevCardAction(clientGUI, 2, 'b'));
-        lv3BlueButton.addActionListener(new BuyDevCardAction(clientGUI, 3, 'b'));
+        lv1BlueButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(1,'b');
+            }
+        });
+        lv2BlueButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(2,'b');
+            }
+        });
+        lv3BlueButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(3,'b');
+            }
+        });
 
-        lv1YellowButton.addActionListener(new BuyDevCardAction(clientGUI, 1, 'y'));
-        lv2YellowButton.addActionListener(new BuyDevCardAction(clientGUI, 2, 'y'));
-        lv3YellowButton.addActionListener(new BuyDevCardAction(clientGUI, 3, 'y'));
+        lv1YellowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(1,'y');
+            }
+        });
+        lv2YellowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(2,'y');
+            }
+        });
+        lv3YellowButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(3,'y');
+            }
+        });
 
-        lv1GreenButton.addActionListener(new BuyDevCardAction(clientGUI, 1, 'g'));
-        lv2GreenButton.addActionListener(new BuyDevCardAction(clientGUI, 2, 'g'));
-        lv3GreenButton.addActionListener(new BuyDevCardAction(clientGUI, 3, 'g'));
+        lv1GreenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(1,'g');
+            }
+        });
+        lv2GreenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(2,'g');
+            }
+        });
+        lv3GreenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(3,'g');
+            }
+        });
 
-        lv1PurpleButton.addActionListener(new BuyDevCardAction(clientGUI, 1, 'p'));
-        lv2PurpleButton.addActionListener(new BuyDevCardAction(clientGUI, 2, 'p'));
-        lv3PurpleButton.addActionListener(new BuyDevCardAction(clientGUI, 3, 'p'));
+        lv1PurpleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(1,'p');
+            }
+        });
+        lv2PurpleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(2,'p');
+            }
+        });
+        lv3PurpleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyDevelopmentCard(3,'p');
+            }
+        });
 
         add(lv1BlueButton);
         add(lv2BlueButton);

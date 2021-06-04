@@ -78,9 +78,27 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         placeInSecondSlotButton.setVisible(false);
         placeInThirdSlotButton.setVisible(false);
 
-        placeInFirstSlotButton.addActionListener(new PlaceDevCardAction(clientGUI, 1));
-        placeInSecondSlotButton.addActionListener(new PlaceDevCardAction(clientGUI, 2));
-        placeInThirdSlotButton.addActionListener(new PlaceDevCardAction(clientGUI, 3));
+        placeInFirstSlotButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("chooseSlotDevCard");
+                clientGUI.getMessageSender().chosenSlotNumberForDevCard(1);
+            }
+        });
+        placeInSecondSlotButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("chooseSlotDevCard");
+                clientGUI.getMessageSender().chosenSlotNumberForDevCard(2);
+            }
+        });
+        placeInThirdSlotButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("chooseSlotDevCard");
+                clientGUI.getMessageSender().chosenSlotNumberForDevCard(3);
+            }
+        });
 
 
         placeInFirstSlotButton.setBounds(305,600,140,30);
@@ -93,23 +111,47 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
         activateLeader1Button = new JButton("Activate");
         activateLeader1Button.setBounds(825, 260, 120, 30);
-        activateLeader1Button.addActionListener(new ActivateLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(0).getCode(), 0));
+        activateLeader1Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
+                clientGUI.getMessageSender().sendChosenLeaderToActivate(0);
+            }
+        });
         add(activateLeader1Button);
 
         discardLeader1Button = new JButton("Discard");
         discardLeader1Button.setBounds(825, 290, 120, 30);
-        discardLeader1Button.addActionListener(new DiscardLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(0).getCode(), 0));
+        discardLeader1Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
+                clientGUI.getMessageSender().discardYourActiveLeader(0);
+            }
+        });
 
         add(discardLeader1Button);
 
         activateLeader2Button = new JButton("Activate");
         activateLeader2Button.setBounds(825, 580, 120, 30);
-        activateLeader2Button.addActionListener(new ActivateLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(1).getCode(), 1));
+        activateLeader2Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
+                clientGUI.getMessageSender().sendChosenLeaderToActivate(1);
+            }
+        });
         add(activateLeader2Button);
 
         discardLeader2Button = new JButton("Discard");
         discardLeader2Button.setBounds(825, 610, 120, 30);
-        discardLeader2Button.addActionListener(new DiscardLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(1).getCode(),1));
+        discardLeader2Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
+                clientGUI.getMessageSender().discardYourActiveLeader(1);
+            }
+        });
         add(discardLeader2Button);
 
 
