@@ -98,7 +98,12 @@ public class MarketPanel extends JPanel implements MyObserver {
         pos6 = new JButton("\u2191");
         pos7 = new JButton("\u2191");
 
-        pos1.addActionListener(new BuyFromMarketAction(clientGUI, 1));
+        pos1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clientGUI.getMessageSender().buyResourceFromMarket(1);
+            }
+        });
         pos2.addActionListener(new BuyFromMarketAction(clientGUI, 2));
         pos3.addActionListener(new BuyFromMarketAction(clientGUI, 3));
         pos4.addActionListener(new BuyFromMarketAction(clientGUI, 4));

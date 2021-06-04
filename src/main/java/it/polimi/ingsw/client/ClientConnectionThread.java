@@ -173,7 +173,7 @@ public class ClientConnectionThread extends Thread {
                         break;
                 }
             }
-        } catch (SocketException e) {
+        } catch (SocketException | NullPointerException e) {
             try {
                 socket.close();
                 if (!client.clientModel.isGameEnded() && !client.clientModel.isSoloGameLost()) {

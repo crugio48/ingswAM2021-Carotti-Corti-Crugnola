@@ -82,8 +82,24 @@ public class ClientGUI extends Client {
             chatDocuments = new ChatDocuments();
             gameFrame.goToGamePanel();
 
+
+
+            while(true) {
+                serverIn = stringBuffer.readMessage();  //this is the first message from the server that the game has started
+                response = (Response) gson.fromJson(serverIn, Response.class);
+
+                switch (response.getCmd()){
+                    case "marketBuyResponse":
+
+                }
+
+
+            }
+
+
+
         } catch (InterruptedException e) {
-            e.printStackTrace();
+
         }
     }
 
@@ -155,7 +171,7 @@ public class ClientGUI extends Client {
                 chatDocuments.writeInstructionMessage("There was an error please try again");
             }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            gameFrame.goToLeaderBoardPanel();
         }
 
     }

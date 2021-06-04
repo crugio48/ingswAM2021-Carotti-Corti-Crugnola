@@ -83,9 +83,8 @@ public class LeaderBoardPanel extends JPanel {
            g.drawString("Lorenzo has won :(",500,300);
 
        }
-       else if(numOfPlayer>1&&!gameended) {
+       else {
            g.drawString("THE GAME ENDED UNEXPECTEDLY",500,100);
-
        }
 
 
