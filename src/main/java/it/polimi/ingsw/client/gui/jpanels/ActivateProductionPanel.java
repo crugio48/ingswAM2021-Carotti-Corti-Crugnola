@@ -135,6 +135,7 @@ public class ActivateProductionPanel extends JPanel {
                         }
                     }
                     submitted = true;
+                    clientGUI.getGuiInfo().setCurrentAction("activateProduction");
                     clientGUI.getMessageSender().activateProduction(!activateDevCard1Button.isEnabled(), !activateDevCard2Button.isEnabled(), !activateDevCard3Button.isEnabled(),
                             !activateBaseProdButton.isEnabled(), bIn1, bIn2, bOut,
                             !activateLeader1Button.isEnabled(), myPlayer.getLeaderCard(0).getCode(), l1Out,

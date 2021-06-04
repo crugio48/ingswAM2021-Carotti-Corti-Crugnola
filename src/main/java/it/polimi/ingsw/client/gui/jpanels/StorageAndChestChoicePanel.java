@@ -220,7 +220,8 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isProduction) {
-                    clientGUI.sendResourcesFromChestAndStorageSelectedForProduction(
+                    clientGUI.getGuiInfo().setCurrentAction("payForProduction");
+                    clientGUI.getMessageSender().chosenResourcesToPayForProduction(
                             coinsFromStorageSelected,
                             shieldsFromStorageSelected,
                             servantsFromStorageSelected,
@@ -231,7 +232,8 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
                             stonesFromChestSelected
                     );
                 } else {
-                    clientGUI.sendResourcesToPayFromChestAndStorageSelectedForDevCard(
+                    clientGUI.getGuiInfo().setCurrentAction("payForDevCard");
+                    clientGUI.getMessageSender().chosenResourcesToPayForDevCard(
                             coinsFromStorageSelected,
                             shieldsFromStorageSelected,
                             servantsFromStorageSelected,
