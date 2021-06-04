@@ -11,39 +11,32 @@ import java.net.Socket;
 import java.util.*;
 
 public class UpdateBroadcaster {
-    private HashMap<Integer, PrintWriter> clientsSocketsOut;
+    private HashSet<PrintWriter> clientsSocketsOut;
     private Game game;
 
     public UpdateBroadcaster(Game game) {
-        this.clientsSocketsOut = new HashMap<>();
+        this.clientsSocketsOut = new HashSet<>();
         this.game = game;
     }
 
-    public synchronized void registerClient(Socket socket, int clientTurnOrder) {
+    public synchronized void registerClient(Socket socket) {
         try {
             PrintWriter out = new PrintWriter(socket.getOutputStream());
 
-            clientsSocketsOut.put(clientTurnOrder,out);
+            clientsSocketsOut.add(out);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public synchronized void removeMySocket(int myClientTurnOrder){
-        clientsSocketsOut.remove(myClientTurnOrder);
-    }
 
     private void broadcastMessage(String message) {
         //for each printWriter in the hashmap (so for each client registered in the hashmap) we
         //send the message passed in the out: each server will send a message to the corresponding client
-        PrintWriter out;
-        for(int i = 1; i<=4; i++) {
-            out = clientsSocketsOut.get(i);
-            if (out != null) {
-                out.println(message);
-                out.flush();
-            }
+        for (PrintWriter out : clientsSocketsOut){
+            out.println(message);
+            out.flush();
         }
     }
 

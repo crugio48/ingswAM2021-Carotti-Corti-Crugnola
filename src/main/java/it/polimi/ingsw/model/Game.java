@@ -163,11 +163,7 @@ public class Game {
      * @return false ff the player already exists
      * @return false and if the limit of player is already reached
      */
-    public boolean addPlayerToGame(Player p) throws GameAlreadyFullException {
-        if (players.size() >= this.numOfPlayers) {
-            throw new GameAlreadyFullException("we are sorry but the game is already full," +
-                    " disconnecting from server");
-        }
+    public boolean addPlayerToGame(Player p) {
         if(this.getPlayerByNickname(p.getUsername()) != null) return false;
 
         p.setTurnOrder(players.size() + 1);

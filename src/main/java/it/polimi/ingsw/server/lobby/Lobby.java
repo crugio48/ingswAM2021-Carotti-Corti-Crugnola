@@ -42,6 +42,10 @@ public class Lobby {
         masterController.createGame(gameNumOfPlayers);
         UpdateBroadcaster updateBroadcaster = new UpdateBroadcaster(masterController.getGame());
 
+        for (int i = 0; i < gameNumOfPlayers; i++){
+            updateBroadcaster.registerClient(players.get(i).getSocket());
+        }
+
         for (int i = 0; i < gameNumOfPlayers; i++) {
             ServerThread serverThread = new ServerThread(players.get(i), masterController, updateBroadcaster);
             serverThread.setDaemon(true);

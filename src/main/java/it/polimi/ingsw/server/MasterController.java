@@ -65,8 +65,7 @@ public class MasterController {
         return game;
     }
 
-    public synchronized boolean addPlayerToGame(String username) throws GameAlreadyFullException, GameStillNotInitialized {
-        if (game == null) throw new GameStillNotInitialized("we are sorry but the game still hasn't been initialized, please try again");
+    public synchronized boolean addPlayerToGame(String username) {
 
         Player newPlayer = new Player(username);
 

@@ -24,8 +24,6 @@ public class ClientMain {
 
         Scanner stdIn = new Scanner(System.in);
 
-        System.out.println("\u001B[34m" + "Welcome to Maestri del Rinascimento,\n" + "\u001B[0m");
-
         String input;
         while (true) {
             if (mode.equals("cli")) {

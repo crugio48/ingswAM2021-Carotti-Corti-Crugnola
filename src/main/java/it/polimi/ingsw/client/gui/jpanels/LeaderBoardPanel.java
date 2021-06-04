@@ -35,10 +35,10 @@ public class LeaderBoardPanel extends JPanel {
 
 
         this.numOfPlayer= clientGUI.getClientModel().getNumberOfPlayers();
-        this.point1 = clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(1);
+        if (numOfPlayer>=1) this.point1 = clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(1);
         if(numOfPlayer>=2) this.point2 = clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(2);
-        if(numOfPlayer>=3)this.point3 = clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(3);
-        if(numOfPlayer>=4)this.point4 = clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(4);
+        if(numOfPlayer>=3) this.point3 = clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(3);
+        if(numOfPlayer>=4) this.point4 = clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(4);
         this.lorenzowin= clientGUI.getClientModel().isSoloGameLost();
         this.gameended = clientGUI.getClientModel().isGameEnded();
         this.clientModel= clientGUI.getClientModel();

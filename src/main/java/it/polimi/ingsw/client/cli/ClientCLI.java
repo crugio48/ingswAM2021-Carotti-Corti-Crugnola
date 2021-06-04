@@ -33,6 +33,7 @@ public class ClientCLI extends Client {
 
     public void beginning(String hostName, int portNumber) {
         try {
+            System.out.println("\u001B[34m" + "Welcome to Maestri del Rinascimento,\n" + "\u001B[0m");
             // setups the lobby on the server
             askLobbySetup(hostName, portNumber);
 

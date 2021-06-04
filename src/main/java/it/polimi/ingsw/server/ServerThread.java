@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.beans.Command;
 import it.polimi.ingsw.exceptions.GameAlreadyFullException;
 import it.polimi.ingsw.exceptions.GameStillNotInitialized;
@@ -36,11 +37,8 @@ public class ServerThread extends Thread {
             //here the initial setup starts with the server leading the flow
 
             //inserting username, trying to register to game, if game is full then notify and close connection
-            try {
-                askForUsername();
-            } catch (GameStillNotInitialized | GameAlreadyFullException e) {
-                // it should never throw this anymore
-            }
+
+            askForUsername();
 
             //distribution of leaderCards
             handOutLeaderCards();
@@ -63,7 +61,6 @@ public class ServerThread extends Thread {
             while (true) {
                 clientInput = in.readLine();
                 if (clientInput == null || clientInput.equals("closeConnection")) {
-                    updateBroadcaster.removeMySocket(virtualClient.getTurnOrder());
                     updateBroadcaster.aClientHasDisconnected();
                     break;
                 }
@@ -170,8 +167,7 @@ public class ServerThread extends Thread {
             }
 
             virtualClient.getSocket().close();
-        } catch (IOException | NullPointerException e) {
-            updateBroadcaster.removeMySocket(virtualClient.getTurnOrder());
+        } catch (IOException | NullPointerException | JsonSyntaxException e) {
             updateBroadcaster.aClientHasDisconnected();
 
             try {
@@ -186,25 +182,8 @@ public class ServerThread extends Thread {
     }
 
 
-    /*
-    private void askForInitialNumberOfPlayers() throws IOException {
-        messageSenderToMyClient.askForInitialNumberOfPLayers(null);
-        while (true) {
-            String clientInput = in.readLine();
-            Command command = (Command) gson.fromJson(clientInput, Command.class);
-            if (masterController.createGame(command.getNumOfPlayers())) {
-                updateBroadcaster.setGame(masterController.getGame()); //only here we use the get game
-                break;
-            }
-            else {
-                messageSenderToMyClient.askForInitialNumberOfPLayers("there was an error receiving the number, please insert again");
-            }
-        }
 
-    }
-     */
-
-    private void askForUsername() throws IOException, GameAlreadyFullException, GameStillNotInitialized {
+    private void askForUsername() throws IOException, NullPointerException, JsonSyntaxException {
         messageSenderToMyClient.askForInitialUsername(null);
         while (true) {
             String clientInput = in.readLine();
@@ -213,7 +192,6 @@ public class ServerThread extends Thread {
             if (masterController.addPlayerToGame(command.getUsername())) {
                 this.virtualClient.setNickname(command.getUsername());
                 this.virtualClient.setTurnOrder(masterController.getPlayerTurnOrder(virtualClient.getNickname()));
-                this.updateBroadcaster.registerClient(virtualClient.getSocket(), virtualClient.getTurnOrder()); //registering the client socket to the broadcaster
                 break;
             }
             else {
@@ -223,7 +201,7 @@ public class ServerThread extends Thread {
         }
     }
 
-    private void handOutLeaderCards() throws IOException {
+    private void handOutLeaderCards() throws IOException, NullPointerException, JsonSyntaxException {
         int[] leaderCardsDrawn = masterController.drawFourLeaderCards();
         messageSenderToMyClient.distributionOfInitialLeaderCards(leaderCardsDrawn, null);
         while (true) {
@@ -240,7 +218,7 @@ public class ServerThread extends Thread {
         }
     }
 
-    private void handOutInitialResources() throws IOException {
+    private void handOutInitialResources() throws IOException, NullPointerException, JsonSyntaxException {
         switch (virtualClient.getTurnOrder()) {
             case 2:
             case 3:
