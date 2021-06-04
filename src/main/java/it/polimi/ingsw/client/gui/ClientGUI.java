@@ -19,12 +19,10 @@ public class ClientGUI extends Client {
     Socket socket;
     String hostName;
     int portNumber;
-    GuiInfo guiInfo;
 
 
     public ClientGUI() {
         super();
-        guiInfo = new GuiInfo();
     }
 
     public ChatDocuments getChatDocuments() {
