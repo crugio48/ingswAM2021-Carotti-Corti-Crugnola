@@ -92,23 +92,23 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
 
 
         activateLeader1Button = new JButton("Activate");
-        activateLeader1Button.setBounds(835, 260, 90, 30);
+        activateLeader1Button.setBounds(825, 260, 120, 30);
         activateLeader1Button.addActionListener(new ActivateLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(0).getCode(), 0));
         add(activateLeader1Button);
 
         discardLeader1Button = new JButton("Discard");
-        discardLeader1Button.setBounds(835, 290, 90, 30);
+        discardLeader1Button.setBounds(825, 290, 120, 30);
         discardLeader1Button.addActionListener(new DiscardLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(0).getCode(), 0));
 
         add(discardLeader1Button);
 
         activateLeader2Button = new JButton("Activate");
-        activateLeader2Button.setBounds(835, 580, 90, 30);
+        activateLeader2Button.setBounds(825, 580, 120, 30);
         activateLeader2Button.addActionListener(new ActivateLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(1).getCode(), 1));
         add(activateLeader2Button);
 
         discardLeader2Button = new JButton("Discard");
-        discardLeader2Button.setBounds(835, 610, 90, 30);
+        discardLeader2Button.setBounds(825, 610, 120, 30);
         discardLeader2Button.addActionListener(new DiscardLeaderAction(clientGUI, clientModelPlayer.getLeaderCard(1).getCode(),1));
         add(discardLeader2Button);
 

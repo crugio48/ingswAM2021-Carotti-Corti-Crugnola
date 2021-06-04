@@ -106,11 +106,11 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         addStonesToConvertButton = new JButton("addstones++");
         submitButton = new JButton("Submit");
 
-        addCoinsToConvertButton.setBounds(50,610,150,30);
-        addShieldsToConvertButton.setBounds(220,610,150,30);
-        addServantsToConvertButton.setBounds(570,610,150,30);
-        addStonesToConvertButton.setBounds(400,610,150,30);
-        submitButton.setBounds(700,550,150,30);
+        addCoinsToConvertButton.setBounds(100,610,150,30);
+        addShieldsToConvertButton.setBounds(270,610,150,30);
+        addServantsToConvertButton.setBounds(610,610,150,30);
+        addStonesToConvertButton.setBounds(440,610,150,30);
+        submitButton.setBounds(800,550,150,30);
 
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -250,21 +250,21 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         drawRemaining(g, fixedServants, 540,140);
 
         //this is for drawing the white marbles left to convert
-        drawRemaining(g, remainingJolly, 650,220);
+        drawRemaining(g, remainingJolly, 660,250);
 
         //this is for drawing the leaders side by side or in the middle according on whether they are active
         drawLeaders(g);
 
-        drawMyImg(g, "components/coin.png", 160,560, dimensionResources,dimensionResources);
-        drawMyImg(g, "components/shield.png",270,560,dimensionResources,dimensionResources);
-        drawMyImg(g, "components/stone.png",380,560,dimensionResources,dimensionResources);
-        drawMyImg(g, "components/servant.png",490,560,dimensionResources,dimensionResources);
+        drawMyImg(g, "components/coin.png", 180,560, dimensionResources,dimensionResources);
+        drawMyImg(g, "components/shield.png",330,560,dimensionResources,dimensionResources);
+        drawMyImg(g, "components/stone.png",500,560,dimensionResources,dimensionResources);
+        drawMyImg(g, "components/servant.png",680,560,dimensionResources,dimensionResources);
 
         //this is for drawing the resources we want to send to the server
-        drawRemaining(g, coins,210,590);
-        drawRemaining(g, shields, 320,590);
-        drawRemaining(g, stones, 430,590);
-        drawRemaining(g, servants, 540,590);
+        drawRemaining(g, coins,230,590);
+        drawRemaining(g, shields, 380,590);
+        drawRemaining(g, stones, 550,590);
+        drawRemaining(g, servants, 730,590);
 
     }
 

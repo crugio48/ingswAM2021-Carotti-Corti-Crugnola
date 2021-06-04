@@ -60,7 +60,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         add(errorLabel);
 
         buyDevCardActionButton = new JButton("Buy a development card");
-        buyDevCardActionButton.setBounds(725, 20, 250,50);
+        buyDevCardActionButton.setBounds(725, 20, 280,50);
         buyDevCardActionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -84,7 +84,7 @@ public class DevCardSpacePanel extends JPanel implements MyObserver {
         add(buyDevCardActionButton);
 
         stopBuyingDevCard = new JButton("Stop buying Development card");
-        stopBuyingDevCard.setBounds(725,80, 250, 50);
+        stopBuyingDevCard.setBounds(725,80, 280, 50);
         stopBuyingDevCard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

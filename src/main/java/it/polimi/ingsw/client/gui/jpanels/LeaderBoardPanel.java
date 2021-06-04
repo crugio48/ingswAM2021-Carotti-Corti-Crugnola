@@ -134,10 +134,10 @@ public class LeaderBoardPanel extends JPanel {
                 leaderList.add(p1);
                 leaderList.add(p2);
                 orderLeaderBoard(leaderList);
-                g.drawString("1) player " + leaderList.get(0).getNickName() + " with " + leaderList.get(0).getVictoryPoints() + " victory points and " + leaderList.get(0).getTotalResources() + " current resources",500,250);
-                g.drawString("2) player " + leaderList.get(1).getNickName() + " with " + leaderList.get(1).getVictoryPoints() + " victory points and " + leaderList.get(1).getTotalResources() + " current resources",500,300);
+                g.drawString("1) player " + leaderList.get(0).getNickName() + " with " + leaderList.get(0).getVictoryPoints() + " victory points and " + leaderList.get(0).getTotalResources() + " current resources",250,250);
+                g.drawString("2) player " + leaderList.get(1).getNickName() + " with " + leaderList.get(1).getVictoryPoints() + " victory points and " + leaderList.get(1).getTotalResources() + " current resources",250,300);
                 if (leaderList.get(0).isEqualsNext()){
-                    g.drawString("It's a total tie!",500,300);
+                    g.drawString("It's a total tie!",400,300);
                 }
                 break;
 
@@ -155,18 +155,18 @@ public class LeaderBoardPanel extends JPanel {
                 leaderList.add(p2);
                 leaderList.add(p3);
                 orderLeaderBoard(leaderList);
-                g.drawString("1) player " + leaderList.get(0).getNickName() + " with " + leaderList.get(0).getVictoryPoints() + " victory points and " + leaderList.get(0).getTotalResources() + " current resources",500,250);
-                g.drawString("2) player " + leaderList.get(1).getNickName() + " with " + leaderList.get(1).getVictoryPoints() + " victory points and " + leaderList.get(1).getTotalResources() + " current resources",500,300);
-                g.drawString("3) player " + leaderList.get(2).getNickName() + " with " + leaderList.get(2).getVictoryPoints() + " victory points and " + leaderList.get(2).getTotalResources() + " current resources",500,350);
+                g.drawString("1) player " + leaderList.get(0).getNickName() + " with " + leaderList.get(0).getVictoryPoints() + " victory points and " + leaderList.get(0).getTotalResources() + " current resources",250,250);
+                g.drawString("2) player " + leaderList.get(1).getNickName() + " with " + leaderList.get(1).getVictoryPoints() + " victory points and " + leaderList.get(1).getTotalResources() + " current resources",250,300);
+                g.drawString("3) player " + leaderList.get(2).getNickName() + " with " + leaderList.get(2).getVictoryPoints() + " victory points and " + leaderList.get(2).getTotalResources() + " current resources",250,350);
 
                 if (leaderList.get(0).isEqualsNext()){
-                    g.drawString("There is a tie between " + leaderList.get(0).getNickName() + " and " + leaderList.get(1).getNickName(),500,300);
+                    g.drawString("There is a tie between " + leaderList.get(0).getNickName() + " and " + leaderList.get(1).getNickName(),350,300);
                 }
                 if (leaderList.get(1).isEqualsNext()){
-                    g.drawString("There is a tie between " + leaderList.get(1).getNickName() + " and " + leaderList.get(2).getNickName(),500,300);
+                    g.drawString("There is a tie between " + leaderList.get(1).getNickName() + " and " + leaderList.get(2).getNickName(),350,300);
                 }
                 if (leaderList.get(0).isEqualsNext() && leaderList.get(1).isEqualsNext()){
-                    g.drawString("It is a total tie",500,300);
+                    g.drawString("It is a total tie",400,300);
                 }
                 break;
 
@@ -193,23 +193,23 @@ public class LeaderBoardPanel extends JPanel {
                 leaderList.add(p4);
 
                 orderLeaderBoard(leaderList);
-                g.drawString("1) player " + leaderList.get(0).getNickName() + " with " + leaderList.get(0).getVictoryPoints() + " victory points and " + leaderList.get(0).getTotalResources() + " current resources",500,250);
-                g.drawString("2) player " + leaderList.get(1).getNickName() + " with " + leaderList.get(1).getVictoryPoints() + " victory points and " + leaderList.get(1).getTotalResources() + " current resources",500,300);
-                g.drawString("3) player " + leaderList.get(2).getNickName() + " with " + leaderList.get(2).getVictoryPoints() + " victory points and " + leaderList.get(2).getTotalResources() + " current resources",500,350);
-                g.drawString("4) player " + leaderList.get(3).getNickName() + " with " + leaderList.get(3).getVictoryPoints() + " victory points and " + leaderList.get(3).getTotalResources() + " current resources",500,400);
+                g.drawString("1) player " + leaderList.get(0).getNickName() + " with " + leaderList.get(0).getVictoryPoints() + " victory points and " + leaderList.get(0).getTotalResources() + " current resources",250,250);
+                g.drawString("2) player " + leaderList.get(1).getNickName() + " with " + leaderList.get(1).getVictoryPoints() + " victory points and " + leaderList.get(1).getTotalResources() + " current resources",250,300);
+                g.drawString("3) player " + leaderList.get(2).getNickName() + " with " + leaderList.get(2).getVictoryPoints() + " victory points and " + leaderList.get(2).getTotalResources() + " current resources",250,350);
+                g.drawString("4) player " + leaderList.get(3).getNickName() + " with " + leaderList.get(3).getVictoryPoints() + " victory points and " + leaderList.get(3).getTotalResources() + " current resources",250,400);
 
                 if (leaderList.get(0).isEqualsNext()){
-                    g.drawString("There is a tie between " + leaderList.get(0).getNickName() + " and " + leaderList.get(1).getNickName(),500,300);
+                    g.drawString("There is a tie between " + leaderList.get(0).getNickName() + " and " + leaderList.get(1).getNickName(),350,300);
                 }
                 if (leaderList.get(1).isEqualsNext()){
-                    g.drawString("There is a tie between " + leaderList.get(1).getNickName() + " and " + leaderList.get(2).getNickName(),500,300);
+                    g.drawString("There is a tie between " + leaderList.get(1).getNickName() + " and " + leaderList.get(2).getNickName(),350,300);
                 }
                 if (leaderList.get(2).isEqualsNext()){
-                    g.drawString("There is a tie between " + leaderList.get(2).getNickName() + " and " + leaderList.get(3).getNickName(),500,300);
+                    g.drawString("There is a tie between " + leaderList.get(2).getNickName() + " and " + leaderList.get(3).getNickName(),350,300);
                 }
 
                 if (leaderList.get(0).isEqualsNext() && leaderList.get(1).isEqualsNext() && leaderList.get(2).isEqualsNext()){
-                    g.drawString("It is a total tie",500,300);
+                    g.drawString("It is a total tie",400,300);
                 }
                 break;
 

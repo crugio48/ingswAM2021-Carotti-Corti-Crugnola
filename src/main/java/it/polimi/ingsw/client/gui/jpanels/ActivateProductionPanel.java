@@ -159,9 +159,9 @@ public class ActivateProductionPanel extends JPanel {
         });
         add(activateBaseProdButton);
 
-        baseProdLabel = new JLabel("Please choose the resources for base production (stone || coin || shield || servant):");
+        baseProdLabel = new JLabel("<html>Please choose the resources for base production <br>(stone || coin || shield || servant):</html>");
         baseProdLabel.setFont(new Font(Font.SERIF, Font.BOLD, 12));
-        baseProdLabel.setBounds(305,120, 500, 30);
+        baseProdLabel.setBounds(315,80, 500, 30);
         baseProdLabel.setVisible(false);
         add(baseProdLabel);
 

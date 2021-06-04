@@ -146,13 +146,13 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         });
 
 
-        incrementCoinsFromChestButton.setBounds(650,420,150,30);
+        incrementCoinsFromChestButton.setBounds(640,420,180,30);
         add(incrementCoinsFromChestButton);
-        incrementShieldsFromChestButton.setBounds(650,460,150,30);
+        incrementShieldsFromChestButton.setBounds(640,460,180,30);
         add(incrementShieldsFromChestButton);
-        incrementServantsFromChestButton.setBounds(650,500,150,30);
+        incrementServantsFromChestButton.setBounds(640,500,180,30);
         add(incrementServantsFromChestButton);
-        incrementStonesFromChestButton.setBounds(650,540,150,30);
+        incrementStonesFromChestButton.setBounds(640,540,180,30);
         add(incrementStonesFromChestButton);
 
 
@@ -206,13 +206,13 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
             }
         });
 
-        incrementCoinsFromStorageButton.setBounds(360,420,150,30);
+        incrementCoinsFromStorageButton.setBounds(350,420,180,30);
         add(incrementCoinsFromStorageButton);
-        incrementShieldsFromStorageButton.setBounds(360,460,150,30);
+        incrementShieldsFromStorageButton.setBounds(350,460,180,30);
         add(incrementShieldsFromStorageButton);
-        incrementServantsFromStorageButton.setBounds(360,500,150,30);
+        incrementServantsFromStorageButton.setBounds(350,500,180,30);
         add(incrementServantsFromStorageButton);
-        incrementStonesFromStorageButton.setBounds(360,540,150,30);
+        incrementStonesFromStorageButton.setBounds(350,540,180,30);
         add(incrementStonesFromStorageButton);
 
         JButton submitButton = new JButton("SUBMIT");
@@ -322,15 +322,15 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         drawMyImg(g, "components/chest.png", 650,260,150,150);
 
 
-        drawRemaining(g, coinsFromChestSelected,810,440);
-        drawRemaining(g, shieldsFromChestSelected, 810, 480);
-        drawRemaining(g, servantsFromChestSelected, 810, 520);
-        drawRemaining(g, stonesFromChestSelected, 810, 560);
+        drawRemaining(g, coinsFromChestSelected,825,440);
+        drawRemaining(g, shieldsFromChestSelected, 825, 480);
+        drawRemaining(g, servantsFromChestSelected, 825, 520);
+        drawRemaining(g, stonesFromChestSelected, 825, 560);
 
-        drawRemaining(g, coinsFromStorageSelected, 520, 440);
-        drawRemaining(g, shieldsFromStorageSelected, 520, 480);
-        drawRemaining(g, servantsFromStorageSelected, 520, 520);
-        drawRemaining(g, stonesFromStorageSelected, 520, 560);
+        drawRemaining(g, coinsFromStorageSelected, 535, 440);
+        drawRemaining(g, shieldsFromStorageSelected, 535, 480);
+        drawRemaining(g, servantsFromStorageSelected, 535, 520);
+        drawRemaining(g, stonesFromStorageSelected, 535, 560);
 
         drawRemaining(g, coinsLeftToPlace,410,140);
         drawRemaining(g, shieldsLeftToPlace, 520,140);
