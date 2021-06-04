@@ -170,7 +170,7 @@ public class ServerThread extends Thread {
             }
 
             virtualClient.getSocket().close();
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             updateBroadcaster.removeMySocket(virtualClient.getTurnOrder());
             updateBroadcaster.aClientHasDisconnected();
 
