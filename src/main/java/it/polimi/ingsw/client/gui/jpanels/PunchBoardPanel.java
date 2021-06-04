@@ -125,7 +125,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         discardLeader1Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
+                clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToDiscard");
                 clientGUI.getMessageSender().discardYourActiveLeader(0);
             }
         });
@@ -148,7 +148,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
         discardLeader2Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
+                clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToDiscard");
                 clientGUI.getMessageSender().discardYourActiveLeader(1);
             }
         });
