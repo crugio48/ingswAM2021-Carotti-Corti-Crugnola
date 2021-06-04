@@ -91,7 +91,16 @@ public class ClientGUI extends Client {
                 response = (Response) gson.fromJson(serverIn, Response.class);
 
                 switch (guiInfo.getCurrentAction()){
-                    case "marketBuyResponse":
+                    case "chooseSlotDevCard":
+
+                        break;
+                    case "ola":
+                        break;
+                    case "":
+                        break;
+                    case "   ":
+                        break;
+
 
                 }
 
