@@ -116,7 +116,7 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 clientGUI.getGuiInfo().setCurrentAction("leaderMarblePower");
-                clientGUI.getMessageSender().chosenResourceToBuy(coins, shields, servants, stones);
+                clientGUI.getMessageSender().chosenResourceToBuy(coins, stones, shields, servants);
             }
         });
 
