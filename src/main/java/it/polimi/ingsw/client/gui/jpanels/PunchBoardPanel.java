@@ -113,7 +113,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             public void actionPerformed(ActionEvent e) {
                 clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
                 clientGUI.getGuiInfo().setLeaderSlot(0);
-                clientGUI.getMessageSender().sendChosenLeaderToActivate(0);
+                clientGUI.getMessageSender().sendChosenLeaderToActivate(clientModelPlayer.getLeaderCard(0).getCode());
             }
         });
         add(activateLeader1Button);
@@ -125,7 +125,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             public void actionPerformed(ActionEvent e) {
                 clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToDiscard");
                 clientGUI.getGuiInfo().setLeaderSlot(0);
-                clientGUI.getMessageSender().discardYourActiveLeader(0);
+                clientGUI.getMessageSender().discardYourActiveLeader(clientModelPlayer.getLeaderCard(0).getCode());
             }
         });
 
@@ -138,7 +138,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             public void actionPerformed(ActionEvent e) {
                 clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToActivate");
                 clientGUI.getGuiInfo().setLeaderSlot(1);
-                clientGUI.getMessageSender().sendChosenLeaderToActivate(1);
+                clientGUI.getMessageSender().sendChosenLeaderToActivate(clientModelPlayer.getLeaderCard(1).getCode());
             }
         });
         add(activateLeader2Button);
@@ -150,7 +150,7 @@ public class PunchBoardPanel extends JPanel implements MyObserver {
             public void actionPerformed(ActionEvent e) {
                 clientGUI.getGuiInfo().setCurrentAction("chooseLeaderToDiscard");
                 clientGUI.getGuiInfo().setLeaderSlot(1);
-                clientGUI.getMessageSender().discardYourActiveLeader(1);
+                clientGUI.getMessageSender().discardYourActiveLeader(clientModelPlayer.getLeaderCard(1).getCode());
             }
         });
         add(discardLeader2Button);
