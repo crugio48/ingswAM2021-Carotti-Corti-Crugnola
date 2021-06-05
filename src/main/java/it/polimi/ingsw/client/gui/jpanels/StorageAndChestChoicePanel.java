@@ -234,14 +234,14 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
                 } else {
                     clientGUI.getGuiInfo().setCurrentAction("payForDevCard");
                     clientGUI.getMessageSender().chosenResourcesToPayForDevCard(
-                            coinsFromStorageSelected,
-                            shieldsFromStorageSelected,
-                            servantsFromStorageSelected,
-                            stonesFromStorageSelected,
                             coinsFromChestSelected,
+                            stonesFromChestSelected,
                             shieldsFromChestSelected,
                             servantsFromChestSelected,
-                            stonesFromChestSelected
+                            coinsFromStorageSelected,
+                            stonesFromStorageSelected,
+                            shieldsFromStorageSelected,
+                            servantsFromStorageSelected
                     );
                 }
             }
