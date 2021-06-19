@@ -65,6 +65,11 @@ public class MasterController {
         return game;
     }
 
+    /**
+     * this method adds a player to the game with the username, if username was already selected return false and does not register
+     * @param username
+     * @return
+     */
     public synchronized boolean addPlayerToGame(String username) {
 
         Player newPlayer = new Player(username);
@@ -76,6 +81,12 @@ public class MasterController {
         return game.getPlayerByNickname(username).getTurnOrder();
     }
 
+    /**
+     * this method returns an array of 4 integers that are drawn randomly from a limited pool of values from 1 to 16 and cannot be drawn
+     * multiple times with subsequent calls (once drawn they are removed from the pool)
+     * this is to assure that two players don't draw the same initial leader card
+     * @return
+     */
     public synchronized int[] drawFourLeaderCards() {
         int[] toReturn = new int[4];
         int max = 16;
@@ -92,6 +103,7 @@ public class MasterController {
         }
         return toReturn;
     }
+
 
     public synchronized boolean giveLeaderCardsToPLayer(int cardCode1, int cardCode2, String username) {
         return game.giveInitialLeaderCardsToPlayer(cardCode1, cardCode2, username);
@@ -180,10 +192,18 @@ public class MasterController {
         return game.getNumOfPlayers();
     }
 
+    /**
+     * FIRST ONE OF TWO NEEDED SYNCHRONIZED METHODS FOR THE GAME
+     * @return
+     */
     public synchronized int getCurrentTurnOrder() {
         return turnInfo.getCurrentPlayer();
     }
 
+    /**
+     * SECOND ONE OF TWO NEEDED SYNCHRONIZED METHODS FOR THE GAME
+     * @return
+     */
     public synchronized int endTurnAndGetNewCurrentPlayer() {
         turnInfo.endTurn();
         return turnInfo.getCurrentPlayer();
@@ -241,10 +261,20 @@ public class MasterController {
         }
     }
 
+    /**
+     * this method is called by the server threads to do some checks and to send back some info to the client
+     * @return
+     */
     public TurnInfo getTurnInfo() {
         return turnInfo;
     }
 
+    /**
+     * this method tries to buy from the market and if correct saves everything in the turnInfo and returns true
+     * @param marketPosition
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean buyFromMarket(int marketPosition, int playerTurnOrder) {
         ResourceBox bought = game.getMarket().insertMarbleSlideAndGetResourceBox(marketPosition);
 
@@ -268,6 +298,7 @@ public class MasterController {
         }
         return true;
     }
+
 
     public void giveFaithPointsToOnePlayer(int numberOfPoints, int playerTurnOrder) throws EndGameException {
         for (int i = numberOfPoints; i > 0; i--) {
@@ -475,6 +506,13 @@ public class MasterController {
         }
     }
 
+    /**
+     * this method tries to place a bought resource and if correct saves everything in the turnInfo and returns true
+     * @param slotNumber
+     * @param resourceType
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean placeResourceOfPlayerInSlot(int slotNumber, String resourceType, int playerTurnOrder) {
         //initial check
         switch (resourceType) {
@@ -517,6 +555,12 @@ public class MasterController {
         return true;
     }
 
+    /**
+     * this method tries discard a bought resource and if correct saves everything in the turnInfo and returns true
+     * @param resourceType
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean discardOneResourceAndGiveFaithPoints(String resourceType, int playerTurnOrder) {
         switch(resourceType) {
             case"shield":
@@ -584,14 +628,32 @@ public class MasterController {
         return true;
     }
 
+    /**
+     * this method tries to move one resource in the storage and if correct saves everything in the turnInfo and returns true
+     * @param fromSlotNumber
+     * @param toSlotNumber
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean moveOneResourceOfPlayer(int fromSlotNumber, int toSlotNumber, int playerTurnOrder) {
         return game.getPlayerByTurnOrder(playerTurnOrder).getStorage().moveOneResource(fromSlotNumber,toSlotNumber);
     }
 
+    /**
+     * this method tries to switch two slots of a storage and if correct saves everything in the turnInfo and returns true
+     * @param fromSlotNumber
+     * @param toSlotNumber
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean switchResourceSlotsOfPlayer(int fromSlotNumber, int toSlotNumber, int playerTurnOrder) {
         return game.getPlayerByTurnOrder(playerTurnOrder).getStorage().switchResources(fromSlotNumber, toSlotNumber);
     }
 
+    /**
+     * this method discards all remaining bought resources and saves everything in the turnInfo
+     * @param playerTurnOrder
+     */
     public void discardAllRemainingResourcesAndGiveFaithPoints(int playerTurnOrder) {
         int totalRemainingResources = turnInfo.getCoins() + turnInfo.getServants() + turnInfo.getStones() + turnInfo.getShields();
         turnInfo.setCoins(0);
@@ -648,6 +710,24 @@ public class MasterController {
     }
 
 
+    /**
+     * this method checks if the requested production is viable and if correct saves the cost of the production in the turnInfo and returns true
+     * @param slot1Activation
+     * @param slot2Activation
+     * @param slot3Activation
+     * @param baseProductionActivation
+     * @param baseInputResource1
+     * @param baseInputResource2
+     * @param baseOutputResource
+     * @param leaderSlot1Activation
+     * @param leader1Code
+     * @param leader1ConvertedResource
+     * @param leaderSlot2Activation
+     * @param leader2Code
+     * @param leader2ConvertedResource
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
                                       boolean baseProductionActivation, String baseInputResource1, String baseInputResource2,
                                       String baseOutputResource, boolean leaderSlot1Activation, int leader1Code,
@@ -717,6 +797,19 @@ public class MasterController {
     }
 
 
+    /**
+     * this method checks and executes if the player selected the correct amount of resources to pay from storage or from chest and if correct saves everything in the turnInfo and returns true
+     * @param chestCoins
+     * @param chestStones
+     * @param chestServants
+     * @param chestShields
+     * @param storageCoins
+     * @param storageStones
+     * @param storageServants
+     * @param storageShields
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean executeProductionIfPlayerPayedTheCorrectAmountOfResources(int chestCoins, int chestStones, int chestServants,
                                                                              int chestShields, int storageCoins, int storageStones,
                                                                              int storageServants, int storageShields, int playerTurnOrder) {
@@ -806,6 +899,13 @@ public class MasterController {
     }
 
 
+    /**
+     * this method checks if requested card is buyable from the player and if correct saves the cost in the turnInfo and returns true
+     * @param devCardColour
+     * @param devCardLevel
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean buyDevCard(char devCardColour, int devCardLevel, int playerTurnOrder) {
         Player p = game.getPlayerByTurnOrder(playerTurnOrder);
 
@@ -854,6 +954,19 @@ public class MasterController {
         return true;
     }
 
+    /**
+     * this method checks and executes if the player selected the correct amount of resources to pay from storage or from chest and if correct saves everything in the turnInfo and returns true
+     * @param chestCoins
+     * @param chestStones
+     * @param chestServants
+     * @param chestShields
+     * @param storageCoins
+     * @param storageStones
+     * @param storageServants
+     * @param storageShields
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean buyDevCardIfPlayerPayedTheCorrectAmountOfResources(int chestCoins, int chestStones, int chestServants,
                                                                       int chestShields, int storageCoins, int storageStones,
                                                                       int storageServants, int storageShields, int playerTurnOrder) {
@@ -900,6 +1013,12 @@ public class MasterController {
         return true;
     }
 
+    /**
+     * this method checks if player selected the correct slot to place the bought dev card and if correct saves everything in the turnInfo and returns true
+     * @param slotNumber
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean placeDevCard(int slotNumber, int playerTurnOrder) {
 
         if (!turnInfo.hasAlreadyPayedForTheDevCard()) {
@@ -929,6 +1048,12 @@ public class MasterController {
         return true;
     }
 
+    /**
+     * this method checks if the player can activate his leader and if correct activates it and returns true
+     * @param leaderCode
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean activateLeader(int leaderCode, int playerTurnOrder) {
         Player p = game.getPlayerByTurnOrder(playerTurnOrder);
 
@@ -963,6 +1088,12 @@ public class MasterController {
         }
     }
 
+    /**
+     * this method checks if the player can discard his leader and if correct discards it and returns true
+     * @param leaderCode
+     * @param playerTurnOrder
+     * @return
+     */
     public boolean discardLeader(int leaderCode, int playerTurnOrder) {
         Player p = game.getPlayerByTurnOrder(playerTurnOrder);
 

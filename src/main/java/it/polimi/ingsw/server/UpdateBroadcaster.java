@@ -10,6 +10,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 
+
+/**
+ * this class is used to send messages to all the players of a game in json format
+ * typically for update messages and for chat messages
+ * this class has a reference to the game/model because the json format of the messages is created in this class (outside of the model)
+ */
 public class UpdateBroadcaster {
     private HashSet<PrintWriter> clientsSocketsOut;
     private Game game;

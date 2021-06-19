@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 
+/**
+ * this class purpose is to receive the game information about who the client want's to play with and to register him to a lobby
+ */
 public class LobbyAdder implements Runnable {
     private LobbyManager lobbyManager;
     private VirtualClient virtualClient;

@@ -9,6 +9,10 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
+/**
+ * this is the server class with main() method that starts the server components
+ */
 public class MultiEchoServer {
     private int port;
 
@@ -16,6 +20,12 @@ public class MultiEchoServer {
     public MultiEchoServer(int port) {
         this.port = port;
     }
+
+    /**
+     * this method has 2 purposes:
+     * 1) create and run the lobbyManager thread
+     * 2) receive the client connections and dispatch them to a new lobbyAdder thread created from a thread pool
+     */
     public void startServer() {
         LobbyManager lobbyManager = new LobbyManager();
         lobbyManager.setDaemon(true);
@@ -26,10 +36,11 @@ public class MultiEchoServer {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            System.err.println(e.getMessage()); // Porta non disponibile
+            System.err.println(e.getMessage()); // port not available
             return;
         }
         System.out.println("Server ready");
+
         //server starts listening:
         while (true) {
             try {
@@ -38,11 +49,17 @@ public class MultiEchoServer {
                 executor.submit(new LobbyAdder(lobbyManager, socket));
                 System.out.println("Client joined");
             } catch(IOException e) {
-                break; // Entrerei qui se serverSocket venisse chiuso
+                System.err.println(e.getMessage());
+                break;
             }
         }
         executor.shutdown();
     }
+
+    /**
+     * creates an instance of MultiEchoServer and runs the startServer() method
+     * @param args
+     */
     public static void main(String[] args) {
         MultiEchoServer echoServer = new MultiEchoServer(1234);
 

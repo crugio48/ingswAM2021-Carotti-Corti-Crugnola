@@ -65,12 +65,6 @@ public class TurnInfo {
         this.gameNumOfPlayers = gameNumOfPlayers;
     }
 
-    /*  //this method should not be needed
-    public void setCurrentPlayer(int currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-     */
-
     public void setCurrentMainAction(String currentMainAction) {
         this.currentMainAction = currentMainAction;
     }

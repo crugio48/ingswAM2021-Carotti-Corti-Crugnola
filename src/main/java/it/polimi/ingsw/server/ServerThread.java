@@ -3,13 +3,15 @@ package it.polimi.ingsw.server;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import it.polimi.ingsw.beans.Command;
-import it.polimi.ingsw.exceptions.GameAlreadyFullException;
-import it.polimi.ingsw.exceptions.GameStillNotInitialized;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+
+/**
+ * this is the thread that interacts with the assigned client during the game
+ */
 public class ServerThread extends Thread {
     private VirtualClient virtualClient;
     private MasterController masterController;
@@ -29,15 +31,13 @@ public class ServerThread extends Thread {
 
     @Override
     public void run() {
-        Gson gson = new Gson();
         try {
             String clientInput;
             Command command;
 
             //here the initial setup starts with the server leading the flow
 
-            //inserting username, trying to register to game, if game is full then notify and close connection
-
+            //inserting username, trying to register to game
             askForUsername();
 
             //distribution of leaderCards
@@ -57,7 +57,7 @@ public class ServerThread extends Thread {
                 sendInitialUpdates();
             }
 
-            //now the game can start
+            //now the game can start and the client leads
             while (true) {
                 clientInput = in.readLine();
                 if (clientInput == null || clientInput.equals("closeConnection")) {
@@ -71,24 +71,11 @@ public class ServerThread extends Thread {
 
                 command = (Command) gson.fromJson(clientInput, Command.class);
 
-                //this switch is for current turn player and non current turn players
-                switch (command.getCmd()){
-                    case"sendChatMessage":
-                        updateBroadcaster.sendChatMessageOfPlayer(virtualClient.getNickname(), command.getChatMessage());
-                        continue;
-
-                    case"moveOneResource":
-                        moveOneResource(command);
-                        continue;
-
-                    case"switchResourceSlots":
-                        switchResourceSlots(command);
-                        continue;
-
-                    default:
-                        break;
+                //this is for current turn player and non current turn players to send chat messages
+                if (command.getCmd().equals("sendChatMessage")) {
+                    updateBroadcaster.sendChatMessageOfPlayer(virtualClient.getNickname(), command.getChatMessage());
+                    continue;
                 }
-
 
                 //check if it is this player current turn
                 if (masterController.getCurrentTurnOrder() != virtualClient.getTurnOrder()) {
@@ -134,6 +121,14 @@ public class ServerThread extends Thread {
                     case"discardResource":
                         discardResource(command);
                         break;
+
+                    case"moveOneResource":
+                        moveOneResource(command);
+                        continue;
+
+                    case"switchResourceSlots":
+                        switchResourceSlots(command);
+                        continue;
 
                     case"endPlacing":
                         endPlacing();
@@ -182,7 +177,12 @@ public class ServerThread extends Thread {
     }
 
 
-
+    /**
+     * this method is used to receive the username from the client and to check if username is available (if no other player in this game already chose it)
+     * @throws IOException
+     * @throws NullPointerException
+     * @throws JsonSyntaxException
+     */
     private void askForUsername() throws IOException, NullPointerException, JsonSyntaxException {
         messageSenderToMyClient.askForInitialUsername(null);
         while (true) {
@@ -201,6 +201,12 @@ public class ServerThread extends Thread {
         }
     }
 
+    /**
+     * this method draws 4 random int via the masterController that represent the initial leaderCards drawn
+     * @throws IOException
+     * @throws NullPointerException
+     * @throws JsonSyntaxException
+     */
     private void handOutLeaderCards() throws IOException, NullPointerException, JsonSyntaxException {
         int[] leaderCardsDrawn = masterController.drawFourLeaderCards();
         messageSenderToMyClient.distributionOfInitialLeaderCards(leaderCardsDrawn, null);
@@ -218,6 +224,12 @@ public class ServerThread extends Thread {
         }
     }
 
+    /**
+     * this method is used to receive from the client the initial bonus resources
+     * @throws IOException
+     * @throws NullPointerException
+     * @throws JsonSyntaxException
+     */
     private void handOutInitialResources() throws IOException, NullPointerException, JsonSyntaxException {
         switch (virtualClient.getTurnOrder()) {
             case 2:
@@ -258,6 +270,10 @@ public class ServerThread extends Thread {
         }
     }
 
+    /**
+     * with this method only the serverThread assigned to the player with turn order = 1 sends all initial updates about the game status
+     * @throws InterruptedException
+     */
     private void sendInitialUpdates() throws InterruptedException {
         masterController.hasConfigurationEnded(); //this is a blocking method that unlocks when all clients have ended configuration
         masterController.setInitialFaithPointsToEveryone();
@@ -281,6 +297,7 @@ public class ServerThread extends Thread {
         Thread.sleep(200);
         updateBroadcaster.sendPrintOutUpdate(virtualClient.getNickname() + " is the first player"); //to print the state of the game for non starting players
     }
+
 
     private void buyFromMarket(Command command) {
         //checks if action requested is valid

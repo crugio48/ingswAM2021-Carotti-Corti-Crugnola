@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 /**
  * this is the object to use to send messages only to your client (NOT IN BROADCAST)
+ * it creates json format strings with the passed variables in the methods
  */
 public class MessageSenderToMyClient {
     private PrintWriter out;

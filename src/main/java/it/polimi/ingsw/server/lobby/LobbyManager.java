@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server.lobby;
 
 import it.polimi.ingsw.server.VirtualClient;
-import it.polimi.ingsw.server.lobby.Lobby;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * this class purpose is to manage the lobbies array and to start the game lobbies that are full/ready
+ */
 public class LobbyManager extends Thread {
     private ArrayList<Lobby> twoPlayersLobbies;
     private ArrayList<Lobby> threePlayersLobbies;
@@ -17,6 +19,13 @@ public class LobbyManager extends Thread {
         this.fourPlayersLobbies = new ArrayList<>();
     }
 
+    /**
+     * this method is the one called by the lobbyAdder threads to register a player to the match
+     * @param virtualClient
+     * @param gameNumOfPlayers
+     * @param password
+     * @throws IOException
+     */
     public synchronized void addPlayer(VirtualClient virtualClient, int gameNumOfPlayers, String password) throws IOException {
         boolean loop = true;
         Lobby lobby;
@@ -127,6 +136,11 @@ public class LobbyManager extends Thread {
         }
     }
 
+    /**
+     * this method is called by the lobbyManager every tot seconds on a different array of lobbies to check and start the ready ones
+     * @param numOfPLayers
+     * @throws IOException
+     */
     private synchronized void startLobbies(int numOfPLayers) throws IOException {
         Lobby lobby;
         switch (numOfPLayers) {
@@ -178,6 +192,9 @@ public class LobbyManager extends Thread {
     }
 
 
+    /**
+     * main infinite cycle of lobbyManager thread
+     */
     @Override
     public void run() {
         try {

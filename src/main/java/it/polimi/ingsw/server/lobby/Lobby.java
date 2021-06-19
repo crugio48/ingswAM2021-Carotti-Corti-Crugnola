@@ -8,6 +8,9 @@ import it.polimi.ingsw.server.VirtualClient;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * this class is the lobby representation and is used to populate a lobby and then to start a match
+ */
 public class Lobby {
     private ArrayList<VirtualClient> players;
     private int gameNumOfPlayers;
@@ -20,7 +23,11 @@ public class Lobby {
     }
 
 
-
+    /**
+     * registering a player to this lobby
+     * @param newPlayer
+     * @return
+     */
     public boolean addPlayer(VirtualClient newPlayer) {
         if (players.size() == gameNumOfPlayers) return false;
         else {
@@ -37,6 +44,11 @@ public class Lobby {
         return (players.size() == gameNumOfPlayers);
     }
 
+    /**
+     * this is the method called by the lobbyManager thread as soon as he finds out that the lobby is full
+     * this method creates a serverThread for each player that will interact with that player and with the model(MasterController) together with the other serverTreads
+     * @throws IOException
+     */
     public void startGame() throws IOException {
         MasterController masterController = new MasterController();
         masterController.createGame(gameNumOfPlayers);

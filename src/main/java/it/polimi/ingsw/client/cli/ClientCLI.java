@@ -52,14 +52,13 @@ public class ClientCLI extends Client {
                 }
                 printOut("3 for looking at the development card piles\n" +
                         "4 for looking at the market\n" +
-                        "5 for managing your storage resources\n" +
-                        "6 for sending a chat message\n" +
-                        "7 to activate a leader card\n" +
-                        "8 to discard a leader card that hasn't been activated\n" +
-                        "9 to buy resources from the market\n" +
-                        "10 to buy a development card from a pile\n" +
-                        "11 to activate the production of your development cards\n" +
-                        "12 to end your turn");
+                        "5 for sending a chat message\n" +
+                        "6 to activate a leader card\n" +
+                        "7 to discard a leader card that hasn't been activated\n" +
+                        "8 to buy resources from the market\n" +
+                        "9 to buy a development card from a pile\n" +
+                        "10 to activate the production of your development cards\n" +
+                        "11 to end your turn");
                 userInput = stdIn.nextLine();
 
                 if (clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
@@ -115,13 +114,11 @@ public class ClientCLI extends Client {
                     case 4:
                         showMarket();
                         break;
+
                     case 5:
-                        manageResourcesOfStorage();
-                        break;
-                    case 6:
                         sendChatMessage();
                         break;
-                    case 7:
+                    case 6:
                         if(clientModel.getCurrentPlayer()==myTurnOrder){
                             activateLeaderCard();
                         }
@@ -129,7 +126,7 @@ public class ClientCLI extends Client {
                             printOutBlue("There's a time and place for everything but not now!");
                         }
                         break;
-                    case 8:
+                    case 7:
                         if(clientModel.getCurrentPlayer()==myTurnOrder){
                             discardYourNonActiveLeader();
                         }
@@ -137,7 +134,7 @@ public class ClientCLI extends Client {
                             printOutBlue("There's a time and place for everything but not now!");
                         }
                         break;
-                    case 9:
+                    case 8:
                         if(clientModel.getCurrentPlayer()==myTurnOrder){
                             buyResourceFromMarket();
                         }
@@ -145,7 +142,7 @@ public class ClientCLI extends Client {
                             printOutBlue("There's a time and place for everything but not now!");
                         }
                         break;
-                    case 10:
+                    case 9:
                         if(clientModel.getCurrentPlayer()==myTurnOrder){
                             buyDevelopmentCard();
                         }
@@ -153,7 +150,7 @@ public class ClientCLI extends Client {
                             printOutBlue("There's a time and place for everything but not now!");
                         }
                         break;
-                    case 11:
+                    case 10:
                         if(clientModel.getCurrentPlayer()==myTurnOrder){
                             activateProduction();
                         }
@@ -161,7 +158,7 @@ public class ClientCLI extends Client {
                             printOutBlue("There's a time and place for everything but not now!");
                         }
                         break;
-                    case 12:
+                    case 11:
                         if(clientModel.getCurrentPlayer()==myTurnOrder){
                             askForEndTurn();
                         }
@@ -397,147 +394,6 @@ public class ClientCLI extends Client {
         printMarket();
     }
 
-
-    private void manageResourcesOfStorage() throws InterruptedException {
-        int selectedSlot;
-        String serverResp;
-        Response response;
-        String userInput;
-        boolean loop = true;
-        while(loop) {
-            printOut("this is your storage:");
-            printStorageOfPlayer(myTurnOrder);
-            printOut("this is your chest:");
-            printChestOfPlayer(myTurnOrder);
-            printOut("choose what you want to do(or enter \"stop\" to go back to main menu): \n" +
-                    "1 to move a resource from a slot to another\n" +
-                    "2 to switch the resources of two normal storage slots");
-            userInput = stdIn.nextLine();
-            switch (userInput) {
-                case "1":
-                    printOut("Choose from which slot you want to move: (1, 2, 3, leaderSlot1, leaderSlot2)");
-                    while (true) {
-                        userInput = stdIn.nextLine();
-                        switch (userInput) {
-                            case "1":
-                                selectedSlot = 1;
-                                break;
-                            case "2":
-                                selectedSlot = 2;
-                                break;
-                            case "3":
-                                selectedSlot = 3;
-                                break;
-                            case "leaderSlot1":
-                                selectedSlot = 4;
-                                break;
-                            case "leaderSlot2":
-                                selectedSlot = 5;
-                                break;
-                            default:
-                                printOut("please input a valid slot");
-                                continue;
-                        }
-                        break;
-                    }
-                    printOut("Choose to which slot you want to move: (1, 2, 3, leaderSlot1, leaderSlot2)");
-                    while (true) {
-                        userInput = stdIn.nextLine();
-                        switch (userInput) {
-                            case "1":
-                                if (selectedSlot >= 4) {
-                                    messageSender.moveOneResource(selectedSlot, 1);
-                                } else {
-                                    messageSender.switchResourceSlot(selectedSlot, 1);
-                                }
-                                break;
-                            case "2":
-                                if (selectedSlot >= 4) {
-                                    messageSender.moveOneResource(selectedSlot, 2);
-                                } else {
-                                    messageSender.switchResourceSlot(selectedSlot, 2);
-                                }
-                                break;
-                            case "3":
-                                if (selectedSlot >= 4) {
-                                    messageSender.moveOneResource(selectedSlot, 3);
-                                } else {
-                                    messageSender.switchResourceSlot(selectedSlot, 3);
-                                }
-                                break;
-                            case "leaderSlot1":
-                                messageSender.moveOneResource(selectedSlot, 4);
-                                break;
-                            case "leaderSlot2":
-                                messageSender.moveOneResource(selectedSlot, 5);
-                                break;
-                            default:
-                                printOut("please input a valid slot");
-                                continue;
-                        }
-                        break;
-                    }
-
-                    serverResp = stringBuffer.readMessage();
-                    response = (Response) gson.fromJson(serverResp, Response.class);
-                    if (!response.isCommandWasCorrect()) printOut("Command was incorrect");
-                    break;
-
-
-                case "2":
-                    printOut("Switch the resources of two normal slots:");
-                    printOut("Choose first slot (1, 2, 3)");
-                    while (true) {
-                        userInput = stdIn.nextLine();
-                        switch (userInput) {
-                            case "1":
-                                selectedSlot = 1;
-                                break;
-                            case "2":
-                                selectedSlot = 2;
-                                break;
-                            case "3":
-                                selectedSlot = 3;
-                                break;
-                            default:
-                                printOut("please choose a valid slot");
-                                continue;
-                        }
-                        break;
-                    }
-                    printOut("Choose second slot: (1, 2, 3)");
-                    while (true) {
-                        userInput = stdIn.nextLine();
-                        switch (userInput) {
-                            case "1":
-                                messageSender.switchResourceSlot(selectedSlot, 1);
-                                break;
-                            case "2":
-                                messageSender.switchResourceSlot(selectedSlot, 2);
-                                break;
-                            case "3":
-                                messageSender.switchResourceSlot(selectedSlot, 3);
-                                break;
-                            default:
-                                printOut("please choose a valid slot");
-                                continue;
-                        }
-                        break;
-                    }
-                    serverResp = stringBuffer.readMessage();
-                    response = (Response) gson.fromJson(serverResp, Response.class);
-                    if (!response.isCommandWasCorrect()) printOut("Command was incorrect");
-                    break;
-
-                case "stop":
-                    loop = false;
-                    break;
-                default:
-                    printOut("wrong input\n");
-                    break;
-            }
-        }
-    }
 
     private void sendChatMessage() {
         printOut("please enter the message you want to send: ");
@@ -1799,124 +1655,5 @@ public class ClientCLI extends Client {
             }});
     }
 
-    /*
-    public void printLeaderBoardDeprecated(){
-    int player1Points, player2Points, player3Points, player4Points;
-        int player1ResourceQuantity, player2ResourceQuantity, player3ResourceQuantity, player4ResourceQuantity;
 
-        switch (clientModel.getNumberOfPlayers()){
-            case 1:
-                player1Points = clientModel.getTotalVictoryPointsOfPlayer(myTurnOrder);
-                printOutYellow("congrats, you won the game with a total score of: " + player1Points + " victory points");
-                break;
-            case 2:
-                printOutYellow("here is the scoreboard: ");
-                player1Points = clientModel.getTotalVictoryPointsOfPlayer(1);
-                player2Points = clientModel.getTotalVictoryPointsOfPlayer(2);
-                if (player1Points < player2Points) {
-                    printOutYellow("1) player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points");
-                    printOutYellow("2) player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points");
-                }
-                else if (player1Points > player2Points) {
-                    printOutYellow("1) player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points");
-                    printOutYellow("2) player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points");
-                }
-                else {  //the two players have the same amount of victory points
-                    player1ResourceQuantity = clientModel.getPlayerByTurnOrder(1).getTotalResourcesQuantity();
-                    player2ResourceQuantity = clientModel.getPlayerByTurnOrder(2).getTotalResourcesQuantity();
-                    if (player1ResourceQuantity < player2ResourceQuantity) {
-                        printOutYellow("1) player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points and " + player2ResourceQuantity + " current resources");
-                        printOutYellow("2) player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points and " + player1ResourceQuantity + " current resources");
-                    }
-                    else if (player1ResourceQuantity > player2ResourceQuantity){
-                        printOutYellow("1) player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points and " + player1ResourceQuantity + " current resources");
-                        printOutYellow("2) player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points and " + player2ResourceQuantity + " current resources");
-                    }
-                    else { //its a tie
-                        printOut("it is a total tie: ");
-                        printOutYellow("- player 2 " + clientModel.getPlayerByTurnOrder(2).getNickname() + " with " + player2Points + " victory points and " + player2ResourceQuantity + " current resources");
-                        printOutYellow("- player 1 " + clientModel.getPlayerByTurnOrder(1).getNickname() + " with " + player1Points + " victory points and " + player1ResourceQuantity + " current resources");
-                    }
-                }
-                break;
-            case 3:
-
-                p1.setVictoryPoints(clientModel.getTotalVictoryPointsOfPlayer(1));
-                p2.setVictoryPoints(clientModel.getTotalVictoryPointsOfPlayer(2));
-                p3.setVictoryPoints(clientModel.getTotalVictoryPointsOfPlayer(3));
-                p1.setTotalResources(clientModel.getPlayerByTurnOrder(1).getTotalResourcesQuantity());
-                p2.setTotalResources(clientModel.getPlayerByTurnOrder(2).getTotalResourcesQuantity());
-                p3.setTotalResources(clientModel.getPlayerByTurnOrder(3).getTotalResourcesQuantity());
-                p1.setNickName(clientModel.getPlayerByTurnOrder(1).getNickname());
-                p2.setNickName(clientModel.getPlayerByTurnOrder(2).getNickname());
-                p3.setNickName(clientModel.getPlayerByTurnOrder(3).getNickname());
-
-
-                leaderList.add(p1);
-                leaderList.add(p2);
-                leaderList.add(p3);
-                orderLeaderBoard(leaderList);
-                printOutYellow("1) player " + leaderList.get(0).getNickName() + " with " + leaderList.get(0).getVictoryPoints() + " victory points and " + leaderList.get(0).getTotalResources() + " current resources");
-                printOutYellow("2) player " + leaderList.get(1).getNickName() + " with " + leaderList.get(1).getVictoryPoints() + " victory points and " + leaderList.get(1).getTotalResources() + " current resources");
-                printOutYellow("3) player " + leaderList.get(2).getNickName() + " with " + leaderList.get(2).getVictoryPoints() + " victory points and " + leaderList.get(2).getTotalResources() + " current resources");
-
-                    if (leaderList.get(0).isEqualsNext()){
-                        printOutYellow("There is a tie between " + leaderList.get(0).getNickName() + " and " + leaderList.get(1).getNickName());
-                    }
-                    if (leaderList.get(1).isEqualsNext()){
-                        printOutYellow("There is a tie between " + leaderList.get(1).getNickName() + " and " + leaderList.get(2).getNickName());
-                    }
-                    if (leaderList.get(0).isEqualsNext() && leaderList.get(1).isEqualsNext()){
-                        printOutYellow("It is a total tie");
-                    }
-
-                break;
-            case 4:
-
-                p1.setVictoryPoints(clientModel.getTotalVictoryPointsOfPlayer(1));
-                p2.setVictoryPoints(clientModel.getTotalVictoryPointsOfPlayer(2));
-                p3.setVictoryPoints(clientModel.getTotalVictoryPointsOfPlayer(3));
-                p4.setVictoryPoints(clientModel.getTotalVictoryPointsOfPlayer(4));
-
-                p1.setTotalResources(clientModel.getPlayerByTurnOrder(1).getTotalResourcesQuantity());
-                p2.setTotalResources(clientModel.getPlayerByTurnOrder(2).getTotalResourcesQuantity());
-                p3.setTotalResources(clientModel.getPlayerByTurnOrder(3).getTotalResourcesQuantity());
-                p4.setTotalResources(clientModel.getPlayerByTurnOrder(3).getTotalResourcesQuantity());
-
-                p1.setNickName(clientModel.getPlayerByTurnOrder(1).getNickname());
-                p2.setNickName(clientModel.getPlayerByTurnOrder(2).getNickname());
-                p3.setNickName(clientModel.getPlayerByTurnOrder(3).getNickname());
-                p4.setNickName(clientModel.getPlayerByTurnOrder(3).getNickname());
-
-                leaderList.add(p1);
-                leaderList.add(p2);
-                leaderList.add(p3);
-                leaderList.add(p4);
-
-                orderLeaderBoard(leaderList);
-                printOutYellow("1) player " + leaderList.get(0).getNickName() + " with " + leaderList.get(0).getVictoryPoints() + " victory points and " + leaderList.get(0).getTotalResources() + " current resources");
-                printOutYellow("2) player " + leaderList.get(1).getNickName() + " with " + leaderList.get(1).getVictoryPoints() + " victory points and " + leaderList.get(1).getTotalResources() + " current resources");
-                printOutYellow("3) player " + leaderList.get(2).getNickName() + " with " + leaderList.get(2).getVictoryPoints() + " victory points and " + leaderList.get(2).getTotalResources() + " current resources");
-                printOutYellow("4) player " + leaderList.get(3).getNickName() + " with " + leaderList.get(3).getVictoryPoints() + " victory points and " + leaderList.get(3).getTotalResources() + " current resources");
-
-                if (leaderList.get(0).isEqualsNext()){
-                    printOutYellow("There is a tie between " + leaderList.get(0).getNickName() + " and " + leaderList.get(1).getNickName());
-                }
-                if (leaderList.get(1).isEqualsNext()){
-                    printOutYellow("There is a tie between " + leaderList.get(1).getNickName() + " and " + leaderList.get(2).getNickName());
-                }
-                if (leaderList.get(2).isEqualsNext()){
-                    printOutYellow("There is a tie between " + leaderList.get(2).getNickName() + " and " + leaderList.get(3).getNickName());
-                }
-
-                if (leaderList.get(0).isEqualsNext() && leaderList.get(1).isEqualsNext() && leaderList.get(2).isEqualsNext()){
-                    printOutYellow("It is a total tie");
-                }
-
-                break;
-            default:
-                break;
-        }
-    }
-     */
 }
