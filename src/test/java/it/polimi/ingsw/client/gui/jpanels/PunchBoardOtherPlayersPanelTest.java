@@ -1,3 +1,4 @@
+/*
 package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.client.gui.ChatDocuments;
@@ -10,14 +11,7 @@ import javax.swing.*;
 import java.io.IOException;
 
 public class PunchBoardOtherPlayersPanelTest {
-    /*
-    ClientModelFaithTrack clientModelFaithTrack = new ClientModelFaithTrack();
-    ClientModelStorage storage = new ClientModelStorage();
-    ClientModelChest chest = new ClientModelChest();
-    ClientModelPersonalDevCardSlots devCardSlots = new ClientModelPersonalDevCardSlots();
-    ClientModelPlayer clientModelPlayer = new ClientModelPlayer("andi", 1);
 
-     */
 
     ClientGUI clientGUI = new ClientGUI();
     PunchBoardOtherPlayersPanel punchBoardOtherPlayersPanel;
@@ -86,3 +80,5 @@ public class PunchBoardOtherPlayersPanelTest {
 
     }
 }
+
+ */

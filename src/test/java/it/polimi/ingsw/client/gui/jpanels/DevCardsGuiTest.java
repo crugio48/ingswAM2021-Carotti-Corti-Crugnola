@@ -1,3 +1,4 @@
+/*
 package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.client.gui.ChatDocuments;
@@ -52,3 +53,5 @@ public class DevCardsGuiTest {
     }
 }
 
+
+ */

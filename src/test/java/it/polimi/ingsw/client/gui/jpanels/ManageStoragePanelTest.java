@@ -1,3 +1,4 @@
+/*
 package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.client.gui.ChatDocuments;
@@ -47,3 +48,5 @@ class ManageStoragePanelTest {
 
 
 }
+
+ */

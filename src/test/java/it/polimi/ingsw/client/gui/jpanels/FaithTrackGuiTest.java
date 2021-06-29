@@ -1,3 +1,5 @@
+/*
+
 package it.polimi.ingsw.client.gui.jpanels;
 
 import it.polimi.ingsw.client.gui.ChatDocuments;
@@ -11,14 +13,6 @@ import java.awt.*;
 import java.io.IOException;
 
 public class FaithTrackGuiTest {
-    /*
-    ClientModelFaithTrack clientModelFaithTrack = new ClientModelFaithTrack();
-    ClientModelStorage storage = new ClientModelStorage();
-    ClientModelChest chest = new ClientModelChest();
-    ClientModelPersonalDevCardSlots devCardSlots = new ClientModelPersonalDevCardSlots();
-    ClientModelPlayer clientModelPlayer = new ClientModelPlayer("andi", 1);
-
-     */
 
     ClientGUI clientGUI = new ClientGUI();
     PunchBoardPanel punchBoardPanel;
@@ -80,3 +74,5 @@ public class FaithTrackGuiTest {
 
     }
 }
+
+ */

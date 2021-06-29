@@ -1,5 +1,6 @@
-package it.polimi.ingsw.client.gui.jpanels;
 /*
+package it.polimi.ingsw.client.gui.jpanels;
+
 import it.polimi.ingsw.client.gui.ClientGUI;
 import it.polimi.ingsw.client.gui.jpanels.PunchBoardPanel;
 import it.polimi.ingsw.clientmodel.*;
