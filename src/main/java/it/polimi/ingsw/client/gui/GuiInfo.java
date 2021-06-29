@@ -1,5 +1,10 @@
 package it.polimi.ingsw.client.gui;
 
+
+/**
+ * this class is used to keep the knowledge of what the user is doing
+ * it is used to decide which method to call to evolve the GUI state
+ */
 public class GuiInfo {
     private String currentAction;
     private int leaderSlot;

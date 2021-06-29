@@ -6,6 +6,12 @@ import it.polimi.ingsw.MyObservable;
 
 import java.util.ArrayList;
 
+/**
+ * this is the main class of the view on the client
+ * both clientGUI and ClientCLI read the info saved in these classes to shoe to the user the state of the game
+ * these values get updated with update messages coming from the server
+ * some of these classes extend the MyObservable class because we use observer observable to repaint the Jpanels of the GUI
+ */
 public class ClientModel extends MyObservable {
     private int currentPlayer;
     private int numberOfPlayers;

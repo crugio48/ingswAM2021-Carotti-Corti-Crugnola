@@ -3,6 +3,10 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.clientmodel.ClientModel;
 
+
+/**
+ * abstract class of client that is extended by both clientCLI and clientGUI
+ */
 public abstract class Client {
 
     //the stringBuffer contains all the messages meant to be read

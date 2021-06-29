@@ -31,6 +31,11 @@ public class ClientCLI extends Client {
     }
 
 
+    /**
+     * this is the main method of the clientCLI that reads the input from the user and acts accordingly
+     * @param hostName
+     * @param portNumber
+     */
     public void beginning(String hostName, int portNumber) {
         try {
             System.out.println("\u001B[34m" + "Welcome to Maestri del Rinascimento,\n" + "\u001B[0m");
@@ -185,6 +190,9 @@ public class ClientCLI extends Client {
     }
 
 
+    /**
+     * this method prints the final leaderboard once the game has ended
+     */
     private void printLeaderBoards() {
         PlayerPoints p1 = new PlayerPoints();
         PlayerPoints p2 = new PlayerPoints();
@@ -452,7 +460,7 @@ public class ClientCLI extends Client {
                 printOut("Please enter a valid number");
                 continue;
             }
-            messageSender.discardYourActiveLeader(selectedLeaderCode);
+            messageSender.discardYourNonActiveLeader(selectedLeaderCode);
             serverResp = stringBuffer.readMessage();
             Response response = (Response) gson.fromJson(serverResp, Response.class);
             if(response.isCommandWasCorrect()) break;
@@ -464,6 +472,10 @@ public class ClientCLI extends Client {
 
     }
 
+    /**
+     * this method interacts with the client to send to the server the correct information for the whole action of buying from the market
+     * @throws InterruptedException
+     */
     private void buyResourceFromMarket() throws InterruptedException {
         String userInput;
         String serverResp;
@@ -792,6 +804,10 @@ public class ClientCLI extends Client {
         }
     }
 
+    /**
+     * this method interacts with the client to send to the server the correct information for the whole action of buying a development card
+     * @throws InterruptedException
+     */
     private void buyDevelopmentCard() throws InterruptedException{
         String userInput;
         String serverResp;
@@ -973,6 +989,10 @@ public class ClientCLI extends Client {
         }
     }
 
+    /**
+     * this method interacts with the client to send to the server the correct information for the whole action of activating the production
+     * @throws InterruptedException
+     */
     private void activateProduction() throws InterruptedException {
         String userInput;
         String serverIn;
@@ -1342,6 +1362,10 @@ public class ClientCLI extends Client {
         printOut(response.getResp());
     }
 
+    /**
+     * this method interacts with the client to send to the server the lobby specifications of the game the client intends to play
+     * @throws InterruptedException
+     */
     private void askLobbySetup(String hostName, int portNumber) throws IOException {
         String userInput;
         int numOfPlayers;
@@ -1408,6 +1432,9 @@ public class ClientCLI extends Client {
         }
     }
 
+    /**
+     * this method interacts with the client and the server to setup the game once the lobby on the server is complete
+     */
     private void initialSetup() throws InterruptedException, IOException {
         String userInput;
         String serverResp;

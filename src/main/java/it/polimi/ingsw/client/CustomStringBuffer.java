@@ -3,6 +3,9 @@ package it.polimi.ingsw.client;
 
 import java.util.LinkedList;
 
+/**
+ * this class is used to forward some server response messages from the clientConnectionThread to the main execution of clientCLI or ClientGUI
+ */
 public class CustomStringBuffer {
     private LinkedList<String> buffer;
 

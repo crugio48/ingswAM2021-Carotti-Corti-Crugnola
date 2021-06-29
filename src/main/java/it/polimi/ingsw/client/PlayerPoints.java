@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client;
 
+/**
+ * this class is used to facilitate the calculation of the final leaderboard
+ */
 public class PlayerPoints {
     private int victoryPoints;
     private int totalResources;

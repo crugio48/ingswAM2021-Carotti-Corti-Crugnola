@@ -64,7 +64,7 @@ public class MessageSender {
         out.flush();
     }
 
-    public void discardYourActiveLeader(int codeLeaderChosen){
+    public void discardYourNonActiveLeader(int codeLeaderChosen){
         String outMessage = "{\"cmd\" : \"discardLeader\"" +  ",\"leaderCode\" : " + codeLeaderChosen + "}";
         out.println(outMessage);
         out.flush();

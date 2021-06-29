@@ -15,6 +15,7 @@ import java.net.SocketException;
 /**
  * this class can be used both by clientCLI and clientGUI
  * this class only purpose is to read updates messages and update the view
+ * if this class receives another type of message from the server then it forwards the message to clientCLI or ClientGUI
  */
 public class ClientConnectionThread extends Thread {
 

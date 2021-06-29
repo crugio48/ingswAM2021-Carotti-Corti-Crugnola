@@ -6,6 +6,10 @@ import it.polimi.ingsw.client.gui.jpanels.*;
 import javax.swing.*;
 import java.awt.*;
 
+
+/**
+ * this class is the frame of the all game that evolves with different panels during the execution
+ */
 public class GameFrame{
     ClientGUI clientGUI;
     JFrame jFrame;
@@ -158,23 +162,7 @@ public class GameFrame{
     }
 
     public void addActivateProductionPanel(){
-        int index = 0;
-        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
-            case 1:
-                index = 3;
-                break;
-            case 2:
-                index = 4;
-                break;
-            case 3:
-                index = 5;
-                break;
-            case 4:
-                index = 6;
-                break;
-            default:
-                break;
-        }
+        int index = getIndex();
         activateProductionPanel = new ActivateProductionPanel(clientGUI);
         tabbedPane.add(activateProductionPanel, index);
         tabbedPane.setTitleAt(index, "Activate Production");
@@ -182,45 +170,13 @@ public class GameFrame{
     }
 
     public void removeActivateProductionPanel(){
-        int index = 0;
-        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
-            case 1:
-                index = 3;
-                break;
-            case 2:
-                index = 4;
-                break;
-            case 3:
-                index = 5;
-                break;
-            case 4:
-                index = 6;
-                break;
-            default:
-                break;
-        }
+        int index = getIndex();
         tabbedPane.removeTabAt(index);
         tabbedPane.setSelectedIndex(2);  //my punchBoard panel
     }
 
     public void addActivatingLeaderMarblePowerPanel(int jolly, int stones, int shields, int coins, int servants, String[] targetResources){
-        int index = 0;
-        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
-            case 1:
-                index = 3;
-                break;
-            case 2:
-                index = 4;
-                break;
-            case 3:
-                index = 5;
-                break;
-            case 4:
-                index = 6;
-                break;
-            default:
-                break;
-        }
+        int index = getIndex();
         activatingLeaderMarblePowerPanel = new ActivatingLeaderMarblePowerPanel(clientGUI, jolly, stones, servants, shields, coins, targetResources);
         tabbedPane.add(activatingLeaderMarblePowerPanel, index);
         tabbedPane.setTitleAt(index, "Select marble conversion");
@@ -228,92 +184,27 @@ public class GameFrame{
     }
 
     public void removeActivatingLeaderMarblePowerPanel(){
-        int index = 0;
-        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
-            case 1:
-                index = 3;
-                break;
-            case 2:
-                index = 4;
-                break;
-            case 3:
-                index = 5;
-                break;
-            case 4:
-                index = 6;
-                break;
-            default:
-                break;
-        }
+        int index = getIndex();
         tabbedPane.removeTabAt(index);
         tabbedPane.setSelectedIndex(2);  //my punchBoard panel
     }
 
 
     public void addManageStoragePanel(int coins, int servants, int stones, int shields) {
-        int index = 0;
-        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
-            case 1:
-                index = 3;
-                break;
-            case 2:
-                index = 4;
-                break;
-            case 3:
-                index = 5;
-                break;
-            case 4:
-                index = 6;
-                break;
-            default:
-                break;
-        }
+        int index = getIndex();
         manageStoragePanel = new ManageStoragePanel(clientGUI, coins, stones, shields, servants);
         tabbedPane.add(manageStoragePanel, index);
         tabbedPane.setTitleAt(index, "Place resources");
         tabbedPane.setSelectedIndex(index);
     }
     public void removeManageStoragePanel() {
-        int index = 0;
-        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
-            case 1:
-                index = 3;
-                break;
-            case 2:
-                index = 4;
-                break;
-            case 3:
-                index = 5;
-                break;
-            case 4:
-                index = 6;
-                break;
-            default:
-                break;
-        }
-
+        int index = getIndex();
         tabbedPane.removeTabAt(index);
         tabbedPane.setSelectedIndex(2);
     }
 
     public void addStorageAndChestChoicePanel(boolean isProduction, int inputCoins, int inputShields, int inputServants, int inputStones){
-        int index = 0;
-        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
-            case 1:
-                index = 3;
-                break;
-            case 2:
-                index = 4;
-                break;
-            case 3:
-                index = 5;
-                break;
-            case 4:
-                index = 6;
-                break;
-            default:
-                break;
-        }
+        int index = getIndex();
         storageAndChestChoicePanel = new StorageAndChestChoicePanel(isProduction, inputCoins, inputStones, inputShields, inputServants, clientGUI);
         tabbedPane.add(storageAndChestChoicePanel, index);
         tabbedPane.setTitleAt(index, "Select payment method");
@@ -321,23 +212,7 @@ public class GameFrame{
     }
 
     public void removeStorageAndChestPanel(){
-        int index = 0;
-        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
-            case 1:
-                index = 3;
-                break;
-            case 2:
-                index = 4;
-                break;
-            case 3:
-                index = 5;
-                break;
-            case 4:
-                index = 6;
-                break;
-            default:
-                break;
-        }
+        int index = getIndex();
         tabbedPane.removeTabAt(index);
         tabbedPane.setSelectedIndex(2);  //my punchBoard panel
     }
@@ -406,6 +281,22 @@ public class GameFrame{
 
     public void refreshActivatingLeaderMarblePowerPanel(){
         activatingLeaderMarblePowerPanel.resetNewResourcesToConvert();
+    }
+
+    private int getIndex(){
+        switch (clientGUI.getClientModel().getNumberOfPlayers()) {
+            case 1:
+                return 3;
+            case 2:
+                return 4;
+            case 3:
+                return 5;
+            case 4:
+                return 6;
+            default:
+                //should never get here
+                return 0;
+        }
     }
 
 }

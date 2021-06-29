@@ -4,6 +4,10 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 
 
+/**
+ * this class contains the documents that are displayed on all gui panels
+ * it is necessary to update all textBoxes of all panels at once
+ */
 public class ChatDocuments {
     private DefaultStyledDocument chatDoc;
     private DefaultStyledDocument logDoc;

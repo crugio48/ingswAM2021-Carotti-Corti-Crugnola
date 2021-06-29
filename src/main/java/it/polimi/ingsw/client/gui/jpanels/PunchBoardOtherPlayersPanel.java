@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
+    private ClientGUI clientGUI;
     private CardDecoder cardDecoder = new CardDecoder();
     private ClientModelFaithTrack observedClientModelFaithTrack;
     private ClientModelStorage storage;
@@ -33,6 +34,8 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
     public PunchBoardOtherPlayersPanel(ClientGUI clientGUI, int playerTurnOrder){
         setLayout(null);
         setOpaque(true);
+
+        this.clientGUI = clientGUI;
 
         this.clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(playerTurnOrder);
         clientModelPlayer.addObserver(this);
@@ -215,7 +218,6 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
 
     @Override
     public void paintComponent(Graphics g) {
-        int i=0;
         super.paintComponent(g);
         paintBackGround(g);
 
@@ -228,6 +230,10 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
         drawStorageResources(g);
         drawChestResources(g);
         devCardSlot(g);
+
+        g.setColor(Color.black);
+        g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
+        g.drawString("Current victory points: " + clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(clientGUI.getMyTurnOrder()),1000, 120);
     }
 
     private void devCardSlot(Graphics g){

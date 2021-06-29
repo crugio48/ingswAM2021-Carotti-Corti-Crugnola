@@ -31,6 +31,14 @@ public class ClientGUI extends Client {
         return chatDocuments;
     }
 
+    /**
+     * this one of the main executions of the gui
+     * this method first starts the swing gui and the clientConnectionThread thread
+     * then this method becomes a reader of the servers responses to user actions
+     * based on the type of response different methods are called on the gui to evolve its state
+     * @param hostName
+     * @param portNumber
+     */
     public void beginning(String hostName, int portNumber) {
         this.hostName = hostName;
         this.portNumber = portNumber;
