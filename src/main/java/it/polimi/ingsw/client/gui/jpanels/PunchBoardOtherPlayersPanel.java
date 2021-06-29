@@ -233,7 +233,7 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
 
         g.setColor(Color.black);
         g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 15));
-        g.drawString("Current victory points: " + clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(clientGUI.getMyTurnOrder()),1000, 120);
+        g.drawString("Current victory points: " + clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(clientModelPlayer.getTurnOrder()),1000, 120);
     }
 
     private void devCardSlot(Graphics g){
