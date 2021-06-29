@@ -43,9 +43,9 @@
 
     <!-- JSON simple -->
     <dependency>
-          <groupId>com.googlecode.json-simple</groupId>
-          <artifactId>json-simple</artifactId>
-          <version>1.1.1</version>
+      <groupId>com.googlecode.json-simple</groupId>
+      <artifactId>json-simple</artifactId>
+      <version>1.1.1</version>
     </dependency>
 
   </dependencies>
@@ -63,51 +63,60 @@
     </resources>
 
     <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-shade-plugin</artifactId>
-      <version>3.2.0</version>
-      <executions>
-        <execution>
-          <id>server</id>
-          <phase>package</phase>
-          <goals>
-            <goal>shade</goal>
-          </goals>
-          <configuration>
-            <shadedArtifactAttached>true</shadedArtifactAttached>
-            <shadedClassifierName>project-classifier</shadedClassifierName>
-            <outputFile>target/server.jar</outputFile>
-            <transformers>
-              <transformer implementation=
-                                   "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>it.polimi.ingsw.server.MultiEchoServer</mainClass>
-              </transformer>
-            </transformers>
-          </configuration>
-        </execution>
-        <execution>
-          <id>client</id>
-          <phase>package</phase>
-          <goals>
-            <goal>shade</goal>
-          </goals>
-          <configuration>
-            <shadedArtifactAttached>true</shadedArtifactAttached>
-            <shadedClassifierName>project-classifier</shadedClassifierName>
-            <outputFile>target/client.jar</outputFile>
-            <transformers>
-              <transformer implementation=
-                                   "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                <mainClass>it.polimi.ingsw.client.ClientMain</mainClass>
-              </transformer>
-            </transformers>
-          </configuration>
-        </execution>
-      </executions>
-    </plugin>
-    <!-- end of added
-   -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <id>server</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>project-classifier</shadedClassifierName>
+              <outputFile>target/server.jar</outputFile>
+              <transformers>
+                <transformer implementation=
+                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>it.polimi.ingsw.server.MultiEchoServer</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+          <execution>
+            <id>client</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>project-classifier</shadedClassifierName>
+              <outputFile>target/client.jar</outputFile>
+              <transformers>
+                <transformer implementation=
+                                     "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>it.polimi.ingsw.client.ClientMain</mainClass>
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12.4</version>
+        <configuration>
+          <skipTests>true</skipTests>
+        </configuration>
+      </plugin>
+
+      <!-- end of added
+     -->
     </plugins>
   </build>
 </project>
