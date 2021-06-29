@@ -263,7 +263,6 @@ public class PunchBoardOtherPlayersPanel extends JPanel implements MyObserver {
             e.printStackTrace();
             return;
         }
-        //  ciaooooooo <3
 
 
         if(!devCardSlots.getFirstStack().isEmpty()){

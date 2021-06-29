@@ -179,7 +179,6 @@ public class MasterController {
 
     /**
      * this method is used by thread of the client with turnOrder 1 to check when they can broadcast the initial updates for the views
-     * @return
      */
     public synchronized void hasConfigurationEnded() throws InterruptedException {
         while (numOfClientsThatHaveEndedInitialConfiguration < game.getNumOfPlayers()){
