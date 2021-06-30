@@ -1417,7 +1417,12 @@ public class ClientCLI extends Client {
             password = null;
         }
 
-        this.socket = new Socket(hostName, portNumber);
+        try {
+            this.socket = new Socket(hostName, portNumber);
+        } catch (Exception e) {
+            printOut("THERE WAS A PROBLEM CONNECTING TO THE SERVER, PLEASE CHECK THE PARAMETERS");
+            System.exit(1);
+        }
 
         this.messageSender = new MessageSender(socket); //this is the object to use to send messages to the server
 

@@ -36,7 +36,7 @@ public class MultiEchoServer {
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            System.err.println(e.getMessage()); // port not available
+            System.out.println("Port number not available, please select another port");
             return;
         }
         System.out.println("Server ready");
@@ -61,7 +61,19 @@ public class MultiEchoServer {
      * @param args
      */
     public static void main(String[] args) {
-        MultiEchoServer echoServer = new MultiEchoServer(1234);
+        int portNumber = 0;
+        try {
+            portNumber = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            System.out.println("Port number must be a number");
+            return;
+        }
+        if (portNumber < 1024 || portNumber > 49151 || portNumber == 3306){
+            System.out.println("Port number must be between 1024 and 49151");
+            return;
+        }
+
+        MultiEchoServer echoServer = new MultiEchoServer(portNumber);
 
         echoServer.startServer();
     }

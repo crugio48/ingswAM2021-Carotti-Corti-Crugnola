@@ -217,11 +217,11 @@ public class GameFrame{
         tabbedPane.setSelectedIndex(2);  //my punchBoard panel
     }
 
-    public void goToLeaderBoardPanel(){
+    public void goToLeaderBoardPanel(boolean setupConnectionError){
         if (gameEnded) return;
 
         gameEnded = true;
-        panelContainer.add("endPanel", new LeaderBoardPanel(clientGUI));
+        panelContainer.add("endPanel", new LeaderBoardPanel(clientGUI, setupConnectionError));
         cl.show(panelContainer, "endPanel");
     }
 

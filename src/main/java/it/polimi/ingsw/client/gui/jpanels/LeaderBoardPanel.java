@@ -26,14 +26,18 @@ public class LeaderBoardPanel extends JPanel {
     private int point4;
     private boolean lorenzowin = false;
     private boolean gameended= false;
+    private boolean connectionError = false;
+
 
     private ClientModel clientModel;
 
-    public LeaderBoardPanel(ClientGUI clientGUI){
+    public LeaderBoardPanel(ClientGUI clientGUI, boolean setupConnectionError){
         this.setPreferredSize(new Dimension(1280, 720));
         this.setLayout(null);
 
-
+        if (setupConnectionError){
+            this.connectionError = true;
+        }
         this.numOfPlayer= clientGUI.getClientModel().getNumberOfPlayers();
         if (numOfPlayer>=1) this.point1 = clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(1);
         if(numOfPlayer>=2) this.point2 = clientGUI.getClientModel().getTotalVictoryPointsOfPlayer(2);
@@ -67,7 +71,10 @@ public class LeaderBoardPanel extends JPanel {
         paintBackGround(g);
         g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
 
-       if(numOfPlayer>1&&gameended){
+        if (connectionError){
+            g.drawString("THERE WAS A PROBLEM CONNECTING TO THE SERVER, PLEASE CHECK THE PARAMETERS",500,100);
+        }
+       else if(numOfPlayer>1&&gameended){
         g.drawString("THE GAME HAS ENDED",500,100);
         paintLeaderBoard(g);}
        else if (numOfPlayer==1&&gameended&&lorenzowin){

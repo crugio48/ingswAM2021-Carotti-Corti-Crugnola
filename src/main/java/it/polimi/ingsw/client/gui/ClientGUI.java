@@ -211,8 +211,8 @@ public class ClientGUI extends Client {
             } else {
                 messageSender.sendInitialLobbyMessage(numOfPLayers, password);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            gameFrame.goToLeaderBoardPanel(true);
         }
     }
 

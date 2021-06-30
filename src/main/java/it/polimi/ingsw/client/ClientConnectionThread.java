@@ -120,7 +120,7 @@ public class ClientConnectionThread extends Thread {
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("The game ended, input anything and you will se the final scores");
                         } else if (client instanceof ClientGUI){
-                            ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel();
+                            ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                         }
                         break;
 
@@ -129,7 +129,7 @@ public class ClientConnectionThread extends Thread {
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("lorenzo has finished the game");
                         } else if (client instanceof ClientGUI){
-                            ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel();
+                            ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                         }
                         break;
                     case "chatMessageUpdate":
@@ -155,7 +155,7 @@ public class ClientConnectionThread extends Thread {
                             ((ClientCLI) client).printOutRed("another client has disconnected, closing the game");
                             System.exit(1);
                         } else if (client instanceof ClientGUI){
-                            ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel();
+                            ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                             return;
                         }
 
@@ -172,7 +172,7 @@ public class ClientConnectionThread extends Thread {
                         ((ClientCLI) client).printOutRed("the server stopped working, closing the game");
                         System.exit(1);
                     } else if (client instanceof ClientGUI) {
-                        ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel();
+                        ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                     }
                 }
             } catch (IOException ioException) {
