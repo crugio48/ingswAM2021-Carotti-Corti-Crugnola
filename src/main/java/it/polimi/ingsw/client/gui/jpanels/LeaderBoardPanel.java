@@ -72,7 +72,7 @@ public class LeaderBoardPanel extends JPanel {
         g.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
 
         if (connectionError){
-            g.drawString("THERE WAS A PROBLEM CONNECTING TO THE SERVER, PLEASE CHECK THE PARAMETERS",500,100);
+            g.drawString("THERE WAS A PROBLEM CONNECTING TO THE SERVER, PLEASE CHECK THE PARAMETERS",200,100);
         }
        else if(numOfPlayer>1&&gameended){
         g.drawString("THE GAME HAS ENDED",500,100);
