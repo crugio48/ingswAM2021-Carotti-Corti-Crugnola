@@ -18,7 +18,7 @@ In order to start our application you should follow these few upcoming steps:
 To run the program is necessary to use the two files jar:
 - client.jar
 - server.jar
-- 
+
 First run the server.jar with the port number where the server will receive connections
 
 Then run the client.jar with the IP Address of the server, port number and type of graphics as arguments.
@@ -38,6 +38,7 @@ Game event logs and instrutions are printed to the players so they can keep trac
 
 ## **GUI**
 #Components
+
 3 Panels + 1 for each other player
 - Your Punchboard: here the player can see its Faith Track, Activate the production, see the number of resources at his disposal, his development cards and his leader cards
 - Market: here are placed the market marbles and the player can buy resources from here
