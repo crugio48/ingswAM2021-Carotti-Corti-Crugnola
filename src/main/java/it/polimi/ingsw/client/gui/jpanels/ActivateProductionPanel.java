@@ -499,6 +499,7 @@ public class ActivateProductionPanel extends JPanel {
         if (myPlayer.getLeaderCard(0).isActive() && myPlayer.getLeaderCard(0).getCode() >= 13) activateLeader1Button.setVisible(true);
         if (myPlayer.getLeaderCard(1).isActive() && myPlayer.getLeaderCard(1).getCode() >= 13) activateLeader2Button.setVisible(true);
         resetButton.doClick();
+        resetSubmittedVariable();
         revalidate();
     }
 
