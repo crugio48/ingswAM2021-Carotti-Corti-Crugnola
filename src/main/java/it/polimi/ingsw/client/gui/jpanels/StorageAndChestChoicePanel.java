@@ -53,13 +53,13 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
     private ClientModelPlayer clientModelPlayer;
 
 
-    public StorageAndChestChoicePanel (boolean isProduction, int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
+    public StorageAndChestChoicePanel (boolean isProd, int inputCoins, int inputStones, int inputShields, int inputServants, ClientGUI clientGUI) {
         this.clientGUI = clientGUI;
         this.setPreferredSize(new Dimension(1280, 720));
 
         clientModelPlayer = clientGUI.getClientModel().getPlayerByTurnOrder(clientGUI.getMyTurnOrder());
 
-        this.isProduction = isProduction;
+        isProduction = isProd;
         fixedCoinsToPay = inputCoins;
         fixedShieldsToPay = inputShields;
         fixedServantsToPay = inputServants;
@@ -630,5 +630,28 @@ public class StorageAndChestChoicePanel extends JPanel implements MyObserver {
         revalidate();
     }
 
+    public void reInitPanel(boolean isProduction, int inputCoins, int inputStones, int inputShields, int inputServants){
+        this.isProduction = isProduction;
+        fixedCoinsToPay = inputCoins;
+        fixedShieldsToPay = inputShields;
+        fixedServantsToPay = inputServants;
+        fixedStonesToPay = inputStones;
+
+        coinsLeftToPlace = inputCoins;
+        shieldsLeftToPlace = inputShields;
+        servantsLeftToPlace = inputServants;
+        stonesLeftToPlace = inputStones;
+
+        coinsFromChestSelected = 0;
+        coinsFromStorageSelected = 0;
+        shieldsFromChestSelected = 0;
+        shieldsFromStorageSelected = 0;
+        stonesFromChestSelected = 0;
+        stonesFromStorageSelected = 0;
+        servantsFromChestSelected = 0;
+        servantsFromStorageSelected = 0;
+        repaint();
+        revalidate();
+    }
 
 }

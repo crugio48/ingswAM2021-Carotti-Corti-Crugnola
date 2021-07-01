@@ -987,7 +987,8 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
 
     }
 
-    public void refreshness(){ removeResourceComponent();
+    public void refreshness(){
+        removeResourceComponent();
         removeMoveResourceComponent();
         removeSwitchComponent();
         addActComponent();
@@ -997,8 +998,9 @@ public class ManageStoragePanel extends JPanel implements MyObserver {
     }
 
 
-
-
+    public void reInitPanel(int coins , int stones , int shields , int servants){
+        refresh(coins, stones, shields, servants);
+    }
 
 
 

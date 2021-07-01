@@ -492,4 +492,14 @@ public class ActivateProductionPanel extends JPanel {
         submitted = false;
     }
 
+    public void reInitPanel(){
+        if (myPlayer.getPersonalDevCardSlots().getFirstStackTopCardCode() != 0) activateDevCard1Button.setVisible(true);
+        if (myPlayer.getPersonalDevCardSlots().getSecondStackTopCardCode() != 0) activateDevCard2Button.setVisible(true);
+        if (myPlayer.getPersonalDevCardSlots().getThirdStackTopCardCode() != 0) activateDevCard3Button.setVisible(true);
+        if (myPlayer.getLeaderCard(0).isActive() && myPlayer.getLeaderCard(0).getCode() >= 13) activateLeader1Button.setVisible(true);
+        if (myPlayer.getLeaderCard(1).isActive() && myPlayer.getLeaderCard(1).getCode() >= 13) activateLeader2Button.setVisible(true);
+        resetButton.doClick();
+        revalidate();
+    }
+
 }

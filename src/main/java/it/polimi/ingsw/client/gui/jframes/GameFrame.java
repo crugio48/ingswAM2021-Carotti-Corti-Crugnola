@@ -126,6 +126,12 @@ public class GameFrame{
         if (clientGUI.getMyTurnOrder() != 1){
             disableAllActionButtons();
         }
+
+        //initializing the modal panels
+        activateProductionPanel = new ActivateProductionPanel(clientGUI);
+        activatingLeaderMarblePowerPanel = new ActivatingLeaderMarblePowerPanel(clientGUI,0,0,0,0,0, new String[] {null,null});
+        manageStoragePanel = new ManageStoragePanel(clientGUI,0,0,0,0);
+        storageAndChestChoicePanel = new StorageAndChestChoicePanel(false,0,0,0,0,clientGUI);
     }
 
     private int[] getAllOtherPlayersTurnOrders(int numOfPlayers) {
@@ -163,7 +169,7 @@ public class GameFrame{
 
     public void addActivateProductionPanel(){
         int index = getIndex();
-        activateProductionPanel = new ActivateProductionPanel(clientGUI);
+        activateProductionPanel.reInitPanel();
         tabbedPane.add(activateProductionPanel, index);
         tabbedPane.setTitleAt(index, "Activate Production");
         tabbedPane.setSelectedIndex(index);
@@ -177,7 +183,7 @@ public class GameFrame{
 
     public void addActivatingLeaderMarblePowerPanel(int jolly, int stones, int shields, int coins, int servants, String[] targetResources){
         int index = getIndex();
-        activatingLeaderMarblePowerPanel = new ActivatingLeaderMarblePowerPanel(clientGUI, jolly, stones, servants, shields, coins, targetResources);
+        activatingLeaderMarblePowerPanel.reInitPanel(jolly, stones, servants, shields, coins, targetResources);
         tabbedPane.add(activatingLeaderMarblePowerPanel, index);
         tabbedPane.setTitleAt(index, "Select marble conversion");
         tabbedPane.setSelectedIndex(index);
@@ -192,11 +198,12 @@ public class GameFrame{
 
     public void addManageStoragePanel(int coins, int servants, int stones, int shields) {
         int index = getIndex();
-        manageStoragePanel = new ManageStoragePanel(clientGUI, coins, stones, shields, servants);
+        manageStoragePanel.reInitPanel(coins, stones, shields, servants);
         tabbedPane.add(manageStoragePanel, index);
         tabbedPane.setTitleAt(index, "Place resources");
         tabbedPane.setSelectedIndex(index);
     }
+
     public void removeManageStoragePanel() {
         int index = getIndex();
         tabbedPane.removeTabAt(index);
@@ -205,7 +212,7 @@ public class GameFrame{
 
     public void addStorageAndChestChoicePanel(boolean isProduction, int inputCoins, int inputShields, int inputServants, int inputStones){
         int index = getIndex();
-        storageAndChestChoicePanel = new StorageAndChestChoicePanel(isProduction, inputCoins, inputStones, inputShields, inputServants, clientGUI);
+        storageAndChestChoicePanel.reInitPanel(isProduction, inputCoins, inputStones, inputShields, inputServants);
         tabbedPane.add(storageAndChestChoicePanel, index);
         tabbedPane.setTitleAt(index, "Select payment method");
         tabbedPane.setSelectedIndex(index);

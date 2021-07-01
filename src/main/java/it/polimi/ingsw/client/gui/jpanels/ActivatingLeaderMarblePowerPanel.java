@@ -376,4 +376,21 @@ public class ActivatingLeaderMarblePowerPanel extends JPanel {
         revalidate();
     }
 
+    public void reInitPanel(int inputJolly, int inputStones, int inputServants, int inputShields, int inputCoins, String[] targetResources){
+        resources = targetResources;
+        remainingJolly = inputJolly;
+        coins = inputCoins;
+        shields = inputShields;
+        servants = inputServants;
+        stones = inputStones;
+
+        fixedCoins = inputCoins;
+        fixedShields = inputShields;
+        fixedServants = inputServants;
+        fixedStones = inputStones;
+        fixedJolly = inputJolly;
+
+        revalidate();
+    }
+
 }
