@@ -7,7 +7,6 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
 import it.polimi.ingsw.client.MessageSender;
 import it.polimi.ingsw.client.PlayerPoints;
-import it.polimi.ingsw.client.gui.ClientGUI;
 
 import java.io.*;
 import java.net.Socket;
