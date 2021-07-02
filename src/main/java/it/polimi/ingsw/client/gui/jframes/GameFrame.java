@@ -206,8 +206,12 @@ public class GameFrame{
 
     public void removeManageStoragePanel() {
         int index = getIndex();
-        tabbedPane.removeTabAt(index);
-        tabbedPane.setSelectedIndex(2);
+        try {
+            tabbedPane.removeTabAt(index);
+            tabbedPane.setSelectedIndex(2);
+        } catch (IndexOutOfBoundsException e) {
+            //do Nothing (there was a double click on the end placing button)
+        }
     }
 
     public void addStorageAndChestChoicePanel(boolean isProduction, int inputCoins, int inputShields, int inputServants, int inputStones){
