@@ -175,7 +175,7 @@ public class ClientGUI extends Client {
         TimerTask repeatedping = new TimerTask() {
             @Override
             public void run() {
-                if (clientModel.getPingCounter() > 2) {
+                if (clientModel.getPingCounter() > 5) {
                     try {
                         socket.close();
                     } catch (IOException e) {
@@ -183,6 +183,7 @@ public class ClientGUI extends Client {
                     }
                     if (!clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
                         getGameFrame().goToLeaderBoardPanel(false);
+                        System.exit(999);
                     }
                 }
                 messageSender.ping();

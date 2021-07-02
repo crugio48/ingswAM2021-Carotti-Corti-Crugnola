@@ -195,7 +195,7 @@ public class ClientCLI extends Client {
         TimerTask repeatedping = new TimerTask() {
             @Override
             public void run() {
-                if(clientModel.getPingCounter()>2){
+                if(clientModel.getPingCounter()>5){
                     try {
                         socket.close();
                     } catch (IOException e) {
@@ -203,7 +203,7 @@ public class ClientCLI extends Client {
                     }
                     if (!clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
                             printOutRed("the server stopped working, closing the game");
-                            System.exit(1);
+                            System.exit(999);
 
                     }}
                 messageSender.ping();
