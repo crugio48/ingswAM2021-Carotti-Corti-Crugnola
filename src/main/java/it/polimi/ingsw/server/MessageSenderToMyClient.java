@@ -16,17 +16,17 @@ public class MessageSenderToMyClient {
         this.out = new PrintWriter(socket.getOutputStream());
     }
 
-    public void ping(){
+    public synchronized void ping(){
         out.println("ping");
         out.flush();
     }
 
-    public void pong(){
+    public synchronized void pong(){
         out.println("pong");
         out.flush();
     }
 
-    public void askForInitialNumberOfPLayers(String customResponse) {
+    public synchronized void askForInitialNumberOfPLayers(String customResponse) {
         String outMessage;
         if (customResponse == null) {
             outMessage = "{\"cmd\" : \"defineNumberOfPlayers\"}";
@@ -38,7 +38,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void askForInitialUsername(String customResponse) {
+    public synchronized void askForInitialUsername(String customResponse) {
         String outMessage;
         if (customResponse == null) {
             outMessage = "{\"cmd\" : \"insertUsername\"}";
@@ -55,7 +55,7 @@ public class MessageSenderToMyClient {
      * this is used to stop both client thread and main and to close the printWriter out
      * @param customResponse
      */
-    public void tellGameIsAlreadyFull(String customResponse) {
+    public synchronized void tellGameIsAlreadyFull(String customResponse) {
         String outMessage = "{\"cmd\" : \"sorryGameAlreadyFull\", \"resp\" : \"" + customResponse + "\"}"; //to stop client main
         out.println(outMessage);
         out.flush();
@@ -67,13 +67,13 @@ public class MessageSenderToMyClient {
     /**
      * this is the second way of closing connection after the request from the client, here we just need to stop the client thread
      */
-    public void closeConnection() {
+    public synchronized void closeConnection() {
         out.println("closing connection"); //to stop client thread
         out.flush();
         out.close(); //closing
     }
 
-    public void distributionOfInitialLeaderCards(int[] leaderCardsDrawn, String customResponse) {
+    public synchronized void distributionOfInitialLeaderCards(int[] leaderCardsDrawn, String customResponse) {
         String outMessage;
         if (customResponse == null) {
             outMessage = "{\"cmd\" : \"leaderDistribution\", \"leaderCardsDrawn\" : " + Arrays.toString(leaderCardsDrawn) + "}";
@@ -86,7 +86,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void distributionOfInitialResources(int numOfInitialResources, String customResponse) {
+    public synchronized void distributionOfInitialResources(int numOfInitialResources, String customResponse) {
         String outMessage;
         if (customResponse == null) {
             outMessage = "{\"cmd\" : \"giveInitialResources\", \"numOfInitialResources\" : " + numOfInitialResources + "}";
@@ -99,7 +99,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void communicateThatInitialSetupIsFinishing(int numOfPlayers) {
+    public synchronized void communicateThatInitialSetupIsFinishing(int numOfPlayers) {
         String outMessage;
         if (numOfPlayers == 1) {
             outMessage = "{\"cmd\" : \"waitingForSinglePlayerGameCommunication\"}";
@@ -111,7 +111,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void badCommand(String customResponse) {
+    public synchronized void badCommand(String customResponse) {
         String outMessage;
         if (customResponse == null) {
             outMessage = "{\"commandWasCorrect\" : false}";
@@ -123,7 +123,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void goodBuyFromMarket(int stones, int servants, int shields, int coins, int jolly, String[] targetResources) {
+    public synchronized void goodBuyFromMarket(int stones, int servants, int shields, int coins, int jolly, String[] targetResources) {
         String outMessage = "{\"commandWasCorrect\" : true, " +
                 "\"stones\" : " + stones + ", " +
                 "\"servants\" : " + servants + ", " +
@@ -142,7 +142,7 @@ public class MessageSenderToMyClient {
      * @param shields
      * @param coins
      */
-    public void goodMarketBuyActionMidTurn(int stones, int servants, int shields, int coins) {
+    public synchronized void goodMarketBuyActionMidTurn(int stones, int servants, int shields, int coins) {
         String outMessage = "{\"commandWasCorrect\" : true, " +
                 "\"stones\" : " + stones + ", " +
                 "\"servants\" : " + servants + ", " +
@@ -160,7 +160,7 @@ public class MessageSenderToMyClient {
      * @param coins
      * @param jolly set != 0 only if the request was the one of activating leader effects
      */
-    public void badMarketBuyActionMidTurn(int stones, int servants, int shields, int coins, int jolly) {
+    public synchronized void badMarketBuyActionMidTurn(int stones, int servants, int shields, int coins, int jolly) {
         String outMessage = "{\"commandWasCorrect\" : false, " +
                 "\"stones\" : " + stones + ", " +
                 "\"servants\" : " + servants + ", " +
@@ -171,7 +171,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void goodCommand(String customResponse) {
+    public synchronized void goodCommand(String customResponse) {
         String outMessage;
         if (customResponse == null) {
             outMessage = "{\"commandWasCorrect\" : true}";
@@ -183,7 +183,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void goodProductionActivation(int stones, int shields, int coins, int servants) {
+    public synchronized void goodProductionActivation(int stones, int shields, int coins, int servants) {
         String outMessage = "{\"commandWasCorrect\" : true, " +
                 "\"stones\" : " + stones + ", " +
                 "\"servants\" : " + servants + ", " +
@@ -193,7 +193,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void badProductionExecution(int stones, int shields, int coins, int servants) {
+    public synchronized void badProductionExecution(int stones, int shields, int coins, int servants) {
         String outMessage = "{\"commandWasCorrect\" : false, " +
                 "\"stones\" : " + stones + ", " +
                 "\"servants\" : " + servants + ", " +
@@ -203,7 +203,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void goodDevCardBuyAction(int stones, int shields, int coins, int servants) {
+    public synchronized void goodDevCardBuyAction(int stones, int shields, int coins, int servants) {
         String outMessage = "{\"commandWasCorrect\" : true, " +
                 "\"stones\" : " + stones + ", " +
                 "\"servants\" : " + servants + ", " +
@@ -213,7 +213,7 @@ public class MessageSenderToMyClient {
         out.flush();
     }
 
-    public void badDevCardBuyChoosingPayement(int stones, int shields, int coins, int servants) {
+    public synchronized void badDevCardBuyChoosingPayement(int stones, int shields, int coins, int servants) {
         String outMessage = "{\"commandWasCorrect\" : false, " +
                 "\"stones\" : " + stones + ", " +
                 "\"servants\" : " + servants + ", " +

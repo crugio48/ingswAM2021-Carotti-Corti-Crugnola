@@ -16,42 +16,42 @@ public class MessageSender {
 
     //here we write all methods to send messages to the server
 
-    public void ping(){
+    public synchronized void ping(){
         out.println("ping");
         out.flush();
     }
 
-    public void pong(){
+    public synchronized void pong(){
         out.println("pong");
         out.flush();
     }
 
-    public void sendInitialLobbyMessage(int numOfPlayers, String password) {
+    public synchronized void sendInitialLobbyMessage(int numOfPlayers, String password) {
         String outMessage = "{\"numOfPlayers\" : " + numOfPlayers + ", " +
                 "\"password\" : \"" + password + "\"}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void sendInitialNumOfPlayers(int numOfPlayers) {
+    public synchronized void sendInitialNumOfPlayers(int numOfPlayers) {
         String outMessage = "{\"numOfPlayers\" : " + numOfPlayers + "}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void sendUsername(String username) {
+    public synchronized void sendUsername(String username) {
         String outMessage = "{\"username\" : \"" + username +"\"}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void sendInitialChosenLeaderCards(int leaderCode1, int leaderCode2) {
+    public synchronized void sendInitialChosenLeaderCards(int leaderCode1, int leaderCode2) {
         String outMessage = "{\"chosenLeader1\" : " + leaderCode1 + ",\"chosenLeader2\" : " + leaderCode2 + "}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void sendInitialChosenResources(String resource1, String resource2) {
+    public synchronized void sendInitialChosenResources(String resource1, String resource2) {
         String outMessage;
         if (resource2 == null) {
             outMessage = "{\"chosenResource1\" : \"" + resource1 + "\"}";
@@ -63,31 +63,31 @@ public class MessageSender {
         out.flush();
     }
 
-    public void sendDisconnectRequest() {
+    public synchronized void sendDisconnectRequest() {
         out.println("closeConnection");
         out.flush();
     }
 
-    public void sendChosenLeaderToActivate(int codeLeaderChosen){
+    public synchronized void sendChosenLeaderToActivate(int codeLeaderChosen){
         String outMessage = "{\"cmd\" : \"activateLeader\"" +  ",\"leaderCode\" : " + codeLeaderChosen + "}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void discardYourNonActiveLeader(int codeLeaderChosen){
+    public synchronized void discardYourNonActiveLeader(int codeLeaderChosen){
         String outMessage = "{\"cmd\" : \"discardLeader\"" +  ",\"leaderCode\" : " + codeLeaderChosen + "}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void buyResourceFromMarket(int position) {
+    public synchronized void buyResourceFromMarket(int position) {
         String outMessage = "{\"cmd\" : \"buyFromMarket\"" +
                 ",\"marketPosition\" : " + position + "}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void chosenResourceToBuy(int coins , int stones , int shields , int servants){
+    public synchronized void chosenResourceToBuy(int coins , int stones , int shields , int servants){
         String outMessage = "{\"cmd\" : \"chosenResourcesToBuy\"" +
                 ",\"coins\" : " + coins +
                 ",\"stones\" : " + stones +
@@ -97,7 +97,7 @@ public class MessageSender {
         out.flush();
     }
 
-    public void placeResourceInSlot (String resource, int slot){
+    public synchronized void placeResourceInSlot (String resource, int slot){
         String outMessage = "{\"cmd\" : \"placeResourceInSlot\"" +
                 ",\"resourceType\" : \"" + resource +
                 "\" ,\"slotNumber\" : " + slot +"}";
@@ -105,13 +105,13 @@ public class MessageSender {
         out.flush();
     }
 
-    public void discardResource (String resource){
+    public synchronized void discardResource (String resource){
         String outMessage = "{\"cmd\" : \"discardResource\"" +
                 ",\"resourceType\" : \"" + resource +"\"}";
         out.println(outMessage);
         out.flush();
     }
-    public void moveOneResource (int slot1, int slot2){
+    public synchronized void moveOneResource (int slot1, int slot2){
         String outMessage = "{\"cmd\" : \"moveOneResource\"" +
                 ",\"fromSlotNumber\" : " + slot1 + "," +
                 "\"toSlotNumber\" : " + slot2 +"}";
@@ -119,20 +119,20 @@ public class MessageSender {
         out.flush();
     }
 
-    public void switchResourceSlot (int slot1, int slot2){
+    public synchronized void switchResourceSlot (int slot1, int slot2){
         String outMessage = "{\"cmd\" : \"switchResourceSlots\"" +
                 ",\"fromSlotNumber\" : " + slot1 + "," +
                 "\"toSlotNumber\" : " + slot2 +"}";
         out.println(outMessage);
         out.flush();
     }
-    public void endPlacing(){
+    public synchronized void endPlacing(){
         String outMessage = "{\"cmd\" : \"endPlacing\"}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void buyDevelopmentCard(int level, char colour){
+    public synchronized void buyDevelopmentCard(int level, char colour){
         String outMessage = "{\"cmd\" : \"buyDevCard\"" +
                 ",\"devCardColour\" : " + colour +
                 ",\"devCardLevel\" : " + level +"}";
@@ -140,13 +140,13 @@ public class MessageSender {
         out.flush();
     }
 
-    public void endTurn() {
+    public synchronized void endTurn() {
         String outMessage = "{\"cmd\" : \"endTurn\"}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void chosenResourcesToPayForDevCard (int chestcoins, int cheststones, int chestshields, int chestservants, int storagecoins, int storagestones, int storageshields, int storageservants){
+    public synchronized void chosenResourcesToPayForDevCard (int chestcoins, int cheststones, int chestshields, int chestservants, int storagecoins, int storagestones, int storageshields, int storageservants){
         String outMessage = "{\"cmd\" : \"chosenResourcesToPayForDevCard\"" +
                 ",\"chestCoins\" : " + chestcoins +
                 ",\"chestStones\" : " + cheststones +
@@ -161,13 +161,13 @@ public class MessageSender {
 
     }
 
-    public void chosenSlotNumberForDevCard (int selectslot){
+    public synchronized void chosenSlotNumberForDevCard (int selectslot){
         String outMessage = "{\"cmd\" : \"chosenSlotNumberForDevCard\"" + ",\"slotNumber\" : " + selectslot + "}";
         out.println(outMessage);
         out.flush();
     }
 
-    public void activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
+    public synchronized void activateProduction(boolean slot1Activation, boolean slot2Activation, boolean slot3Activation,
                                    boolean baseProductionActivation, String baseInputResource1, String baseInputResource2, String baseOutputResource,
                                    boolean leaderSlot1Activation, int leader1Code, String leader1ConvertedResource,
                                    boolean leaderSlot2Activation, int leader2Code, String leader2ConvertedResource) {
@@ -189,7 +189,7 @@ public class MessageSender {
         out.flush();
     }
 
-    public void chosenResourcesToPayForProduction(int storageCoins, int storageShields, int storageServants, int storageStones,
+    public synchronized void chosenResourcesToPayForProduction(int storageCoins, int storageShields, int storageServants, int storageStones,
                                                   int chestCoins, int chestShields, int chestServants, int chestStones) {
 
         String outMessage = "{\"cmd\" : \"chosenResourcesToPayForProduction\", " +
@@ -207,14 +207,14 @@ public class MessageSender {
     }
 
 
-    public void sendChatMessage(String message){
+    public synchronized void sendChatMessage(String message){
         String outMessage = "{\"cmd\" : \"sendChatMessage\"" + ",\"chatMessage\" : \"" + message + "\"}";
         out.println(outMessage);
         out.flush();
     }
 
 
-    public void sendGameEnded(){
+    public synchronized void sendGameEnded(){
         String outMessage = "gameEnded";
         out.println(outMessage);
         out.flush();

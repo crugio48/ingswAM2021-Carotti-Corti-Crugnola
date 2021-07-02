@@ -209,7 +209,9 @@ public class ClientConnectionThread extends Thread {
         TimerTask repeatedping = new TimerTask() {
             @Override
             public void run() {
+
                 if (pingCounter.getCounter() >= 5) {
+
                     try {
                         socket.close();
                     } catch (IOException e) {
