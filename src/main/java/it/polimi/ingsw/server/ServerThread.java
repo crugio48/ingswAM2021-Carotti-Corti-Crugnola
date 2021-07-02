@@ -70,10 +70,12 @@ public class ServerThread extends Thread {
                 clientInput = in.readLine();
                 if (clientInput == null || clientInput.equals("closeConnection")) {
                     updateBroadcaster.aClientHasDisconnected();
+                    timer.cancel();
                     break;
                 }
 
                 if(clientInput.equals("gameEnded")){
+                    timer.cancel();
                     break;
                 }
 
@@ -182,6 +184,7 @@ public class ServerThread extends Thread {
             virtualClient.getSocket().close();
         } catch (IOException | NullPointerException | JsonSyntaxException e) {
             updateBroadcaster.aClientHasDisconnected();
+            timer.cancel();
 
             try {
                 virtualClient.getSocket().close();

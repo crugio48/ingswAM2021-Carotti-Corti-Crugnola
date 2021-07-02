@@ -137,6 +137,7 @@ public class ClientConnectionThread extends Thread {
                         } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                         }
+                        timer.cancel();
                         break;
 
                     case "soloGameLostUpdate":
@@ -146,6 +147,7 @@ public class ClientConnectionThread extends Thread {
                         } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                         }
+                        timer.cancel();
                         break;
                     case "chatMessageUpdate":
                         if (client instanceof ClientCLI) {
@@ -171,6 +173,7 @@ public class ClientConnectionThread extends Thread {
                             System.exit(1);
                         } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
+                            timer.cancel();
                             return;
                         }
                         break;
@@ -196,6 +199,7 @@ public class ClientConnectionThread extends Thread {
                     } else if (client instanceof ClientGUI) {
                         ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                     }
+                    timer.cancel();
                 }
             } catch (IOException ioException) {
                 ioException.printStackTrace();
