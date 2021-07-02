@@ -31,6 +31,7 @@ public class ServerThread extends Thread {
         this.messageSenderToMyClient = new MessageSenderToMyClient(virtualClient.getSocket()); //used to send messages only to our client
         this.gson = new Gson();
         this.in = new BufferedReader(new InputStreamReader(virtualClient.getSocket().getInputStream()));
+        pingCounter = new PingCounter();
     }
 
     @Override
