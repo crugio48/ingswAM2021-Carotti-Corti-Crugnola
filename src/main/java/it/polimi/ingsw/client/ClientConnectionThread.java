@@ -229,7 +229,7 @@ public class ClientConnectionThread extends Thread {
                 }
                 pingCounter.increaseCounter();
                 client.messageSender.sendPing();
-                System.out.println(pingCounter.getCounter());
+                //System.out.println(pingCounter.getCounter());
             }
         };
 
