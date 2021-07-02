@@ -6,8 +6,8 @@
 
 ## **List of Requirements Implemented**
 - single player mode (full rules)
-- multyplayer mode (2-4)
-- CLI (linux or macOS are needed because windows doesn't recognise colours and ANSI escape codes)
+- multiplayer mode (2-4)
+- CLI (linux or macOS terminals are needed because windows doesn't recognise colours and ANSI escape codes)
 - GUI
 - advanced feature of Multiple cuncurrent games
 - extra feature we added of the live chat between players
