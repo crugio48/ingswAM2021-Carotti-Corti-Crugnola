@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.ClientConnectionThread;
 import it.polimi.ingsw.client.MessageSender;
 import it.polimi.ingsw.client.PlayerPoints;
+import it.polimi.ingsw.client.gui.ClientGUI;
 
 import java.io.*;
 import java.net.Socket;
@@ -21,6 +22,7 @@ public class ClientCLI extends Client {
     private String myUsername;
     private int myTurnOrder;
     private Gson gson;
+    private Timer timer;
 
 
 
@@ -48,6 +50,7 @@ public class ClientCLI extends Client {
             String userInput;
             //now the game has started and the client leads the communication
             while (true) {
+                ping();
                 printOut("\n\nPlease choose what you want to do, type(actions from 7 to 12 are valid only during your turn):\n" +
                         "1 for looking at your personal board");
                 if (clientModel.getNumberOfPlayers() > 1) {
@@ -187,6 +190,32 @@ public class ClientCLI extends Client {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private void ping(){
+        TimerTask repeatedping = new TimerTask() {
+            @Override
+            public void run() {
+                if(clientModel.getPingCounter()>2){
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (!clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
+                            printOutRed("the server stopped working, closing the game");
+                            System.exit(1);
+
+                    }}
+                messageSender.ping();
+                clientModel.increasePingCounter();
+            }
+        };
+
+        Timer timer = new Timer("Timer");
+        timer.scheduleAtFixedRate(repeatedping, 0, 5000);
+
+
     }
 
 

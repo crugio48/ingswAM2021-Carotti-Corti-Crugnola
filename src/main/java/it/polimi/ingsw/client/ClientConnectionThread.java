@@ -22,7 +22,6 @@ public class ClientConnectionThread extends Thread {
     private Client client;
     private Socket socket;
     private BufferedReader serverIn;
-    private int cont;
 
     public ClientConnectionThread(Client client, Socket socket) throws IOException {
         this.client = client;
@@ -39,6 +38,7 @@ public class ClientConnectionThread extends Thread {
             while (true) {
                 received = serverIn.readLine();
                 if (received.equals("closing connection")) break;
+                if(received.equalsIgnoreCase("pong"))  {client.getClientModel().decreasePingCounter();continue;}
 
                 Response response = (Response) gson.fromJson(received, Response.class);
 

@@ -69,6 +69,11 @@ public class ServerThread extends Thread {
                     break;
                 }
 
+                if(clientInput.equalsIgnoreCase("ping")){
+                    messageSenderToMyClient.pong();
+                    continue;
+                }
+
                 command = (Command) gson.fromJson(clientInput, Command.class);
 
                 //this is for current turn player and non current turn players to send chat messages

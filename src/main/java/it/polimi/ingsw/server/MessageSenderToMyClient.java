@@ -16,6 +16,11 @@ public class MessageSenderToMyClient {
         this.out = new PrintWriter(socket.getOutputStream());
     }
 
+    public void pong(){
+        out.println("pong");
+        out.flush();
+    }
+
     public void askForInitialNumberOfPLayers(String customResponse) {
         String outMessage;
         if (customResponse == null) {
