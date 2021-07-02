@@ -49,7 +49,6 @@ public class ClientCLI extends Client {
             String userInput;
             //now the game has started and the client leads the communication
             while (true) {
-                ping();
                 printOut("\n\nPlease choose what you want to do, type(actions from 7 to 12 are valid only during your turn):\n" +
                         "1 for looking at your personal board");
                 if (clientModel.getNumberOfPlayers() > 1) {
@@ -190,33 +189,6 @@ public class ClientCLI extends Client {
             e.printStackTrace();
         }
     }
-
-    private void ping(){
-        TimerTask repeatedping = new TimerTask() {
-            @Override
-            public void run() {
-                if(clientModel.getPingCounter()>5){
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (!clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
-                            printOutRed("the server stopped working, closing the game");
-                            System.exit(1);
-
-                    }}
-                messageSender.ping();
-                clientModel.increasePingCounter();
-            }
-        };
-
-        timer = new Timer("Timer");
-        timer.scheduleAtFixedRate(repeatedping, 1000, 9000);
-
-
-    }
-
 
     /**
      * this method prints the final leaderboard once the game has ended

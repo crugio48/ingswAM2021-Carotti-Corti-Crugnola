@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -22,6 +24,7 @@ public class ClientConnectionThread extends Thread {
     private Client client;
     private Socket socket;
     private BufferedReader serverIn;
+    private Timer timer;
 
     public ClientConnectionThread(Client client, Socket socket) throws IOException {
         this.client = client;
@@ -35,10 +38,14 @@ public class ClientConnectionThread extends Thread {
         Gson gson = new Gson();
         try {
             String received;
+            ping();
             while (true) {
                 received = serverIn.readLine();
                 if (received.equals("closing connection")) break;
-                if(received.equalsIgnoreCase("pong"))  {client.getClientModel().decreasePingCounter();continue;}
+                if (received.equalsIgnoreCase("pong")) {
+                    client.getClientModel().decreasePingCounter();
+                    continue;
+                }
 
                 Response response = (Response) gson.fromJson(received, Response.class);
 
@@ -87,7 +94,7 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setLastUsedActionCardCode(response.getLastActionCardUsedCode());
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutRed("Lorenzo did his turn");
-                        } else if (client instanceof ClientGUI){
+                        } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getChatDocuments().writeLogMessage("Lorenzo did his turn");
                         }
                         break;
@@ -95,11 +102,10 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setCurrentPlayer(response.getNewCurrentPlayer());
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutRed("it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnOrder(response.getNewCurrentPlayer()).getNickname());
-                        }
-                        else if (client instanceof ClientGUI){
+                        } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getChatDocuments().writeLogMessage("it is now the turn of player " + response.getNewCurrentPlayer() + " " + client.clientModel.getPlayerByTurnOrder(response.getNewCurrentPlayer()).getNickname());
 
-                            if (((ClientGUI) client).getMyTurnOrder() == response.getNewCurrentPlayer()){
+                            if (((ClientGUI) client).getMyTurnOrder() == response.getNewCurrentPlayer()) {
                                 ((ClientGUI) client).getGameFrame().enableAllActionButtons();
                             } else {
                                 ((ClientGUI) client).getGameFrame().disableAllActionButtons();
@@ -110,7 +116,7 @@ public class ClientConnectionThread extends Thread {
                         if (client.clientModel.isGameEnded()) break;
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("EndGame started reminder, at the end of this turn cycle the game will finish");
-                        } else if (client instanceof ClientGUI){
+                        } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getChatDocuments().writeLogMessage("EndGame started reminder, at the end of this turn cycle the game will finish");
                         }
                         break;
@@ -119,7 +125,7 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setGameEnded(true);
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("The game ended, input anything and you will se the final scores");
-                        } else if (client instanceof ClientGUI){
+                        } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                         }
                         break;
@@ -128,14 +134,14 @@ public class ClientConnectionThread extends Thread {
                         client.clientModel.setSoloGameLost(true);
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutYellow("lorenzo has finished the game");
-                        } else if (client instanceof ClientGUI){
+                        } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                         }
                         break;
                     case "chatMessageUpdate":
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutBlue(response.getPlayerUsername() + ": " + response.getResp());
-                        } else if (client instanceof ClientGUI){
+                        } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getChatDocuments().writeChatMessage(response.getPlayerUsername() + ": " + response.getResp());
                         }
                         break;
@@ -143,18 +149,18 @@ public class ClientConnectionThread extends Thread {
                     case "printOutUpdate":
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutRed(response.getResp());
-                        } else if (client instanceof ClientGUI){
+                        } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getChatDocuments().writeLogMessage(response.getResp());
                         }
                         break;
 
-                    case"aClientHasDisconnected":
+                    case "aClientHasDisconnected":
                         client.messageSender.sendGameEnded();
                         socket.close();
                         if (client instanceof ClientCLI) {
                             ((ClientCLI) client).printOutRed("another client has disconnected, closing the game");
                             System.exit(1);
-                        } else if (client instanceof ClientGUI){
+                        } else if (client instanceof ClientGUI) {
                             ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                             return;
                         }
@@ -164,6 +170,7 @@ public class ClientConnectionThread extends Thread {
                         break;
                 }
             }
+
         } catch (SocketException | NullPointerException e) {
             try {
                 socket.close();
@@ -182,5 +189,33 @@ public class ClientConnectionThread extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void ping() {
+        TimerTask repeatedping = new TimerTask() {
+            @Override
+            public void run() {
+                if (client.clientModel.getPingCounter() > 5) {
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (client instanceof ClientCLI) {
+                        ((ClientCLI) client).printOutRed("the server stopped working, closing the game");
+                        System.exit(1);
+                    } else if (client instanceof ClientGUI) {
+                        ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
+                    }
+                }
+                client.messageSender.ping();
+                client.clientModel.increasePingCounter();
+            }
+        };
+
+
+        timer = new Timer("Timer");
+        timer.scheduleAtFixedRate(repeatedping, 1000, 9000);
+
     }
 }

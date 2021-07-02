@@ -98,7 +98,6 @@ public class ClientGUI extends Client {
 
 
             while(true) {
-                ping();
                 serverIn = stringBuffer.readMessage();  //this is the first message from the server that the game has started
                 response = (Response) gson.fromJson(serverIn, Response.class);
 
@@ -171,30 +170,6 @@ public class ClientGUI extends Client {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-    private void ping() {
-        TimerTask repeatedping = new TimerTask() {
-            @Override
-            public void run() {
-                if (clientModel.getPingCounter() > 5) {
-                    try {
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (!clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
-                        getGameFrame().goToLeaderBoardPanel(false);
-                    }
-                }
-                messageSender.ping();
-                clientModel.increasePingCounter();
-                System.out.println(clientModel.getPingCounter());
-            }
-        };
-
-
-        timer = new Timer("Timer");
-        timer.scheduleAtFixedRate(repeatedping, 1000, 9000);
     }
 
     public GuiInfo getGuiInfo() {
