@@ -16,12 +16,12 @@ public class MessageSenderToMyClient {
         this.out = new PrintWriter(socket.getOutputStream());
     }
 
-    public synchronized void ping(){
+    public synchronized void sendPing(){
         out.println("ping");
         out.flush();
     }
 
-    public synchronized void pong(){
+    public synchronized void sendPong(){
         out.println("pong");
         out.flush();
     }

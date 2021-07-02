@@ -23,6 +23,7 @@ public class ServerThread extends Thread {
     private BufferedReader in;
     private Gson gson;
     private PingCounter pingCounter;
+    private Timer timer;
 
     public ServerThread(VirtualClient virtualClient, MasterController masterController, UpdateBroadcaster updateBroadcaster) throws IOException {
         this.virtualClient = virtualClient;
@@ -41,8 +42,6 @@ public class ServerThread extends Thread {
             Command command;
 
             //here the initial setup starts with the server leading the flow
-
-            ping();
 
             //inserting username, trying to register to game
             askForUsername();
@@ -64,6 +63,8 @@ public class ServerThread extends Thread {
                 sendInitialUpdates();
             }
 
+            ping();
+
             //now the game can start and the client leads
             while (true) {
                 clientInput = in.readLine();
@@ -77,7 +78,7 @@ public class ServerThread extends Thread {
                 }
 
                 if(clientInput.equalsIgnoreCase("ping")){
-                    messageSenderToMyClient.pong();
+                    messageSenderToMyClient.sendPong();
                     continue;
                 }
 
@@ -641,15 +642,17 @@ public class ServerThread extends Thread {
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
+                    timer.cancel();
+                    return;
                 }
 
                 pingCounter.increaseCounter();
-                messageSenderToMyClient.ping();
+                messageSenderToMyClient.sendPing();
                 System.out.println(virtualClient.getNickname() + "   " + pingCounter.getCounter());
             }
         };
 
-        Timer timer = new Timer("Timer");
+        timer = new Timer("Timer");
         timer.scheduleAtFixedRate(repeatedPing, 1000, 9000);
     }
 }

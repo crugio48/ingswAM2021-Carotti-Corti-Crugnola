@@ -52,7 +52,7 @@ public class ClientConnectionThread extends Thread {
                 }
 
                 if (received.equalsIgnoreCase("ping")) {
-                    client.messageSender.pong();
+                    client.messageSender.sendPong();
                     continue;
                 }
 
@@ -173,6 +173,7 @@ public class ClientConnectionThread extends Thread {
                             ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                             return;
                         }
+                        break;
 
                     case"gameStart":
                         ping();
@@ -223,9 +224,11 @@ public class ClientConnectionThread extends Thread {
                     } else if (client instanceof ClientGUI) {
                         ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                     }
+                    timer.cancel();
+                    return;
                 }
                 pingCounter.increaseCounter();
-                client.messageSender.ping();
+                client.messageSender.sendPing();
                 System.out.println(client.clientModel.getPingCounter());
             }
         };
