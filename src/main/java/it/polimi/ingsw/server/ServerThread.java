@@ -645,6 +645,7 @@ public class ServerThread extends Thread {
 
                 pingCounter.increaseCounter();
                 messageSenderToMyClient.ping();
+                System.out.println(virtualClient.getNickname() + "   " + pingCounter.getCounter());
             }
         };
 
