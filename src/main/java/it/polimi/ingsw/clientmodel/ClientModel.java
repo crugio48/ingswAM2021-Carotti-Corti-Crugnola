@@ -22,7 +22,6 @@ public class ClientModel extends MyObservable {
     private ArrayList<ClientModelPlayer> players;
     private boolean gameEnded;
     private boolean soloGameLost;
-    private int pingCounter;
 
 
     public ClientModel(){
@@ -35,14 +34,8 @@ public class ClientModel extends MyObservable {
         this.players = new ArrayList<>();
         this.gameEnded = false;
         this.soloGameLost = false;
-        this.pingCounter=0;
     }
 
-    public int getPingCounter(){ return pingCounter; }
-
-    public void increasePingCounter(){pingCounter++;}
-
-    public void decreasePingCounter(){pingCounter--;}
 
     public synchronized void setGameEnded(boolean gameEnded) {
         this.gameEnded = gameEnded;
