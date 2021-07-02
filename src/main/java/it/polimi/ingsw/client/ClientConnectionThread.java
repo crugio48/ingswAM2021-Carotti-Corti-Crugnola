@@ -208,8 +208,8 @@ public class ClientConnectionThread extends Thread {
                         ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                     }
                 }
-                client.messageSender.ping();
                 client.clientModel.increasePingCounter();
+                client.messageSender.ping();
                 System.out.println(client.clientModel.getPingCounter());
             }
         };
