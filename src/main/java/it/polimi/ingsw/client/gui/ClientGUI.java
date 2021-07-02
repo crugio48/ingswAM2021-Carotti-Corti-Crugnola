@@ -22,6 +22,7 @@ public class ClientGUI extends Client {
     Socket socket;
     String hostName;
     int portNumber;
+    Timer timer;
 
 
     public ClientGUI() {
@@ -183,7 +184,6 @@ public class ClientGUI extends Client {
                     }
                     if (!clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
                         getGameFrame().goToLeaderBoardPanel(false);
-                        System.exit(999);
                     }
                 }
                 messageSender.ping();
@@ -193,8 +193,8 @@ public class ClientGUI extends Client {
         };
 
 
-        java.util.Timer timer = new Timer("Timer");
-        timer.scheduleAtFixedRate(repeatedping, 0, 5000);
+        timer = new Timer("Timer");
+        timer.scheduleAtFixedRate(repeatedping, 1000, 9000);
     }
 
     public GuiInfo getGuiInfo() {

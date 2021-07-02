@@ -203,7 +203,7 @@ public class ClientCLI extends Client {
                     }
                     if (!clientModel.isGameEnded() && clientModel.isSoloGameLost()) {
                             printOutRed("the server stopped working, closing the game");
-                            System.exit(999);
+                            System.exit(1);
 
                     }}
                 messageSender.ping();
@@ -211,8 +211,8 @@ public class ClientCLI extends Client {
             }
         };
 
-        Timer timer = new Timer("Timer");
-        timer.scheduleAtFixedRate(repeatedping, 0, 5000);
+        timer = new Timer("Timer");
+        timer.scheduleAtFixedRate(repeatedping, 1000, 9000);
 
 
     }
