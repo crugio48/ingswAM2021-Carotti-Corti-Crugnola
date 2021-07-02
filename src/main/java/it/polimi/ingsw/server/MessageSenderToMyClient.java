@@ -16,6 +16,11 @@ public class MessageSenderToMyClient {
         this.out = new PrintWriter(socket.getOutputStream());
     }
 
+    public void ping(){
+        out.println("ping");
+        out.flush();
+    }
+
     public void pong(){
         out.println("pong");
         out.flush();

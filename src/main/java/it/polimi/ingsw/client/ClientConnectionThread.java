@@ -42,8 +42,14 @@ public class ClientConnectionThread extends Thread {
             while (true) {
                 received = serverIn.readLine();
                 if (received.equals("closing connection")) break;
+
                 if (received.equalsIgnoreCase("pong")) {
                     client.clientModel.decreasePingCounter();
+                    continue;
+                }
+
+                if (received.equalsIgnoreCase("ping")) {
+                    client.messageSender.pong();
                     continue;
                 }
 

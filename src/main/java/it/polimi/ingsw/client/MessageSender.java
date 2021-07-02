@@ -21,6 +21,11 @@ public class MessageSender {
         out.flush();
     }
 
+    public void pong(){
+        out.println("pong");
+        out.flush();
+    }
+
     public void sendInitialLobbyMessage(int numOfPlayers, String password) {
         String outMessage = "{\"numOfPlayers\" : " + numOfPlayers + ", " +
                 "\"password\" : \"" + password + "\"}";

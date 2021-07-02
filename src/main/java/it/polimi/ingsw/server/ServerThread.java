@@ -7,6 +7,8 @@ import it.polimi.ingsw.beans.Command;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
@@ -19,6 +21,7 @@ public class ServerThread extends Thread {
     private MessageSenderToMyClient messageSenderToMyClient;
     private BufferedReader in;
     private Gson gson;
+    private PingCounter pingCounter;
 
     public ServerThread(VirtualClient virtualClient, MasterController masterController, UpdateBroadcaster updateBroadcaster) throws IOException {
         this.virtualClient = virtualClient;
@@ -36,6 +39,8 @@ public class ServerThread extends Thread {
             Command command;
 
             //here the initial setup starts with the server leading the flow
+
+            ping();
 
             //inserting username, trying to register to game
             askForUsername();
@@ -71,6 +76,11 @@ public class ServerThread extends Thread {
 
                 if(clientInput.equalsIgnoreCase("ping")){
                     messageSenderToMyClient.pong();
+                    continue;
+                }
+
+                if (clientInput.equalsIgnoreCase("pong")){
+                    pingCounter.resetCounter();
                     continue;
                 }
 
@@ -613,5 +623,30 @@ public class ServerThread extends Thread {
         else {// if false
             messageSenderToMyClient.badCommand("it wasn't possible to place the card in that slot");
         }
+    }
+
+
+    private void ping() {
+        TimerTask repeatedPing = new TimerTask() {
+            @Override
+            public void run() {
+
+                if (pingCounter.getCounter() >= 5){
+                    updateBroadcaster.aClientHasDisconnected();
+
+                    try {
+                        virtualClient.getSocket().close();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+
+                pingCounter.increaseCounter();
+                messageSenderToMyClient.ping();
+            }
+        };
+
+        Timer timer = new Timer("Timer");
+        timer.scheduleAtFixedRate(repeatedPing, 1000, 9000);
     }
 }
