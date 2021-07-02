@@ -188,6 +188,7 @@ public class ClientGUI extends Client {
                 }
                 messageSender.ping();
                 clientModel.increasePingCounter();
+                System.out.println(clientModel.getPingCounter());
             }
         };
 
