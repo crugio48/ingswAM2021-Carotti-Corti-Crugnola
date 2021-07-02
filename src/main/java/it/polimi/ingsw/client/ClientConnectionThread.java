@@ -38,7 +38,7 @@ public class ClientConnectionThread extends Thread {
         Gson gson = new Gson();
         try {
             String received;
-            ping();
+
             while (true) {
                 received = serverIn.readLine();
                 if (received.equals("closing connection")) break;
@@ -170,6 +170,11 @@ public class ClientConnectionThread extends Thread {
                             ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                             return;
                         }
+
+                    case"gameStart":
+                        ping();
+                        client.stringBuffer.addMessage(received);
+                        break;
 
                     default:
                         client.stringBuffer.addMessage(received);
