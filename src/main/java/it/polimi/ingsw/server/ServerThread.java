@@ -144,11 +144,11 @@ public class ServerThread extends Thread {
 
                     case"moveOneResource":
                         moveOneResource(command);
-                        continue;
+                        break;
 
                     case"switchResourceSlots":
                         switchResourceSlots(command);
-                        continue;
+                        break;
 
                     case"endPlacing":
                         endPlacing();
