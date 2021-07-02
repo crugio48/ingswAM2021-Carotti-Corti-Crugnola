@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import it.polimi.ingsw.PingCounter;
 import it.polimi.ingsw.beans.Command;
 
 import java.io.BufferedReader;

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.beans.Response;
 import it.polimi.ingsw.client.cli.ClientCLI;
 import it.polimi.ingsw.client.gui.ClientGUI;
+import it.polimi.ingsw.PingCounter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,11 +26,13 @@ public class ClientConnectionThread extends Thread {
     private Socket socket;
     private BufferedReader serverIn;
     private Timer timer;
+    private PingCounter pingCounter;
 
     public ClientConnectionThread(Client client, Socket socket) throws IOException {
         this.client = client;
         this.socket = socket;
         this.serverIn = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+        this.pingCounter= new PingCounter();
     }
 
 
@@ -44,7 +47,7 @@ public class ClientConnectionThread extends Thread {
                 if (received.equals("closing connection")) break;
 
                 if (received.equalsIgnoreCase("pong")) {
-                    client.clientModel.decreasePingCounter();
+                    pingCounter.resetCounter();
                     continue;
                 }
 
@@ -206,7 +209,7 @@ public class ClientConnectionThread extends Thread {
         TimerTask repeatedping = new TimerTask() {
             @Override
             public void run() {
-                if (client.clientModel.getPingCounter() > 5) {
+                if (pingCounter.getCounter() >= 5) {
                     try {
                         socket.close();
                     } catch (IOException e) {
@@ -219,7 +222,7 @@ public class ClientConnectionThread extends Thread {
                         ((ClientGUI) client).getGameFrame().goToLeaderBoardPanel(false);
                     }
                 }
-                client.clientModel.increasePingCounter();
+                pingCounter.increaseCounter();
                 client.messageSender.ping();
                 System.out.println(client.clientModel.getPingCounter());
             }
