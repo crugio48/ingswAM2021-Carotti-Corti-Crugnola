@@ -43,7 +43,7 @@ public class ClientConnectionThread extends Thread {
                 received = serverIn.readLine();
                 if (received.equals("closing connection")) break;
                 if (received.equalsIgnoreCase("pong")) {
-                    client.getClientModel().decreasePingCounter();
+                    client.clientModel.decreasePingCounter();
                     continue;
                 }
 
